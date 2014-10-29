@@ -1,6 +1,10 @@
 package cz.kubaspatny.opendayapp.dao;
 
+import cz.kubaspatny.opendayapp.bo.AbstractBusinessObject;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Author: Kuba Spatny
@@ -26,5 +30,48 @@ import org.springframework.stereotype.Component;
 public class Dao implements GenericDao {
 
 
+    @Override
+    public <ENTITY extends AbstractBusinessObject> ENTITY saveOrUpdate(ENTITY o) {
+        return null;
+    }
 
+    @Override
+    public <ENTITY extends AbstractBusinessObject> void remove(ENTITY o) {
+
+    }
+
+    @Override
+    public <ENTITY extends AbstractBusinessObject> void removeById(long id, Class<ENTITY> entity_class) {
+
+    }
+
+    @Override
+    public <ENTITY> ENTITY getById(Long id, Class<ENTITY> entity_class) {
+        return null;
+    }
+
+    @Override
+    public <ENTITY> List<ENTITY> getAll(Class<ENTITY> entity_class) {
+        return null;
+    }
+
+    @Override
+    public <ENTITY> List<ENTITY> getPage(int offset, int pageSize, Class<ENTITY> entity_class) {
+        return null;
+    }
+
+    @Override
+    public <ENTITY> List<ENTITY> getPage(int offset, int pageSize, String sortBy, boolean ascending, Class<ENTITY> entity_class) {
+        return null;
+    }
+
+    @Override
+    public <ENTITY> List<ENTITY> getPage(int offset, int pageSize, Map<String, Object> parameters, String sortBy, boolean ascending, Class<ENTITY> entity_class) {
+        return null;
+    }
+
+    @Override
+    public <ENTITY> List<ENTITY> searchByProperty(Map<String, Object> properties, Class<ENTITY> entity_class) {
+        return null;
+    }
 }
