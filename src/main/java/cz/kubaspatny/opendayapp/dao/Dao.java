@@ -25,4 +25,6 @@ import org.springframework.stereotype.Component;
 @Component("genericDao")
 public class Dao implements GenericDao {
 
+
+
 }
