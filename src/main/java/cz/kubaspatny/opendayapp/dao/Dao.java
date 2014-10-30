@@ -1,8 +1,17 @@
 package cz.kubaspatny.opendayapp.dao;
 
 import cz.kubaspatny.opendayapp.bo.AbstractBusinessObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Map;
 
@@ -30,43 +39,72 @@ import java.util.Map;
 public class Dao implements GenericDao {
 
 
+    @Autowired
+    protected EntityManagerFactory entityManagerfactory;
+
+    protected EntityManager getEntityManager() {
+        return EntityManagerFactoryUtils.getTransactionalEntityManager(entityManagerfactory); //entity manager with @Transactional support
+    }
+
     @Override
     public <ENTITY extends AbstractBusinessObject> ENTITY saveOrUpdate(ENTITY o) {
-        return null;
+
+        if (o.getId() == null) {
+            getEntityManager().persist(o);
+        } else {
+            getEntityManager().merge(o);
+        }
+        return o;
+
     }
 
     @Override
     public <ENTITY extends AbstractBusinessObject> void remove(ENTITY o) {
-
+        getEntityManager().remove(o);
     }
 
     @Override
     public <ENTITY extends AbstractBusinessObject> void removeById(long id, Class<ENTITY> entity_class) {
-
+        ENTITY e = getEntityManager().find(entity_class, id);
+        if (e != null) {
+            getEntityManager().remove(e);
+        } else {
+            // TODO: throw exception
+        }
     }
 
     @Override
     public <ENTITY> ENTITY getById(Long id, Class<ENTITY> entity_class) {
-        return null;
+        return getEntityManager().find(entity_class, id);
+        //TODO: what does it return for non-existing ID?
     }
 
     @Override
     public <ENTITY> List<ENTITY> getAll(Class<ENTITY> entity_class) {
-        return null;
+        return getEntityManager().createQuery("SELECT e FROM " + entity_class.getSimpleName() + " e order by e.id").getResultList();
     }
 
     @Override
-    public <ENTITY> List<ENTITY> getPage(int offset, int pageSize, Class<ENTITY> entity_class) {
-        return null;
+    public <ENTITY> List<ENTITY> getPage(int page, int pageSize, Class<ENTITY> entity_class) {
+
+        String queryString = "SELECT e FROM " + entity_class.getSimpleName() + " e order by e.id";
+        return getEntityManager().createQuery(queryString)
+                .setFirstResult(page*pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
     }
 
     @Override
-    public <ENTITY> List<ENTITY> getPage(int offset, int pageSize, String sortBy, boolean ascending, Class<ENTITY> entity_class) {
-        return null;
+    public <ENTITY> List<ENTITY> getPage(int page, int pageSize, String sortBy, boolean ascending, Class<ENTITY> entity_class) {
+        String queryString = "SELECT e FROM " + entity_class.getSimpleName() + " e order by e." + sortBy + (ascending ? " asc" : " desc");
+        return getEntityManager().createQuery(queryString)
+                .setFirstResult(page*pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
     }
 
     @Override
-    public <ENTITY> List<ENTITY> getPage(int offset, int pageSize, Map<String, Object> parameters, String sortBy, boolean ascending, Class<ENTITY> entity_class) {
+    public <ENTITY> List<ENTITY> getPage(int page, int pageSize, Map<String, Object> parameters, String sortBy, boolean ascending, Class<ENTITY> entity_class) {
         return null;
     }
 

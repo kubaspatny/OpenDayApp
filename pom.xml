@@ -98,6 +98,12 @@
             <version>${org.springframework.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
         <!--
             Support for testing Spring applications with tools such as JUnit and TestNG
             This artifact is generally always defined with a 'test' scope for the integration testing framework and unit testing stubs
@@ -272,19 +278,24 @@
     <build>
 
         <testResources>
-            <testResource>
-                <directory>src/test/resources</directory>
-                <filtering>true</filtering>
-            </testResource>
 
-            <testResource> <!-- Copy context and properties files in order to be available for tests-->
-                <directory>src/main/java</directory>
+            <testResource>
+                <directory>src/main/webapp/WEB-INF/context</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>**/context/applicationContext*.xml</include>
-                    <include>**/properties/*.properties</include>
+                    <include>applicationContext*.xml</include>
                 </includes>
             </testResource>
+
+            <testResource>
+                <directory>src/main/webapp/WEB-INF/properties</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>jdbc.properties</include>
+                    <include>jpa.properties</include>
+                </includes>
+            </testResource>
+
         </testResources>
 
         <plugins>
@@ -358,6 +369,16 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 

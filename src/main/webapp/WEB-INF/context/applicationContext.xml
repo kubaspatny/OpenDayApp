@@ -21,15 +21,7 @@
     <task:executor id="myExecutorService" pool-size="5-10" queue-capacity="10"></task:executor>
     <task:scheduler id="mySchedulerService" pool-size="10"></task:scheduler>
 
-    <!-- Property files -->
-    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations">
-            <list>
-                <value>/WEB-INF/properties/jdbc.properties</value>
-                <value>/WEB-INF/properties/jpa.properties</value>
-            </list>
-        </property>
-    </bean>
+    <context:property-placeholder location="classpath:db.properties" />
 
     <!-- Connection pool -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">

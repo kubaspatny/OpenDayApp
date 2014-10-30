@@ -27,7 +27,7 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-expression:4.0.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-orm:3.1.2.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:3.1.2.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-tx:3.1.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.0.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:4.0.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-web:4.0.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.security:facelets-taglib-jsf20-spring-3:0.5" />

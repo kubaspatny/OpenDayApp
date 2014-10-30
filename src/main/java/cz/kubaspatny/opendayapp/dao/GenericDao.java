@@ -69,7 +69,7 @@ public interface GenericDao {   // TODO: Add exceptions!!!
      * @param pageSize  Page size
      * @return  List of entities
      */
-    public <ENTITY> List<ENTITY> getPage(int offset, int pageSize, Class<ENTITY> entity_class);
+    public <ENTITY> List<ENTITY> getPage(int page, int pageSize, Class<ENTITY> entity_class);
 
     /**
      * Method supporting pagination. Returns a sorted page of entities.
@@ -77,7 +77,7 @@ public interface GenericDao {   // TODO: Add exceptions!!!
      * @param pageSize  Page size
      * @return  List of entities
      */
-    public <ENTITY> List<ENTITY> getPage(int offset, int pageSize, String sortBy, boolean ascending, Class<ENTITY> entity_class);
+    public <ENTITY> List<ENTITY> getPage(int page, int pageSize, String sortBy, boolean ascending, Class<ENTITY> entity_class);
 
     /**
      * Method supporting pagination. Returns a sorted page of entities filtered by @parameters.
@@ -90,7 +90,7 @@ public interface GenericDao {   // TODO: Add exceptions!!!
      * @param <ENTITY>
      * @return
      */
-    public <ENTITY> List<ENTITY> getPage(int offset, int pageSize, Map<String, Object> parameters, String sortBy, boolean ascending, Class<ENTITY> entity_class);
+    public <ENTITY> List<ENTITY> getPage(int page, int pageSize, Map<String, Object> parameters, String sortBy, boolean ascending, Class<ENTITY> entity_class);
 
     /**
      * Returns a list of filtered entities based on @properties.
