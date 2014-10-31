@@ -1,13 +1,17 @@
-package cz.kubaspatny.opendayapp.bo;
+package cz.kubaspatny.opendayapp.test;
 
-import javax.persistence.Entity;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Author: Kuba Spatny
  * Web: kubaspatny.cz
  * E-mail: kuba.spatny@gmail.com
  * Date: 30/10/2014
- * Time: 20:49
+ * Time: 21:55
  * Copyright 2014 Jakub Spatny
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,26 +27,12 @@ import javax.persistence.Entity;
  * limitations under the License.
  */
 
-@Entity
-public class MockBusinessObject extends AbstractBusinessObject {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
+@TransactionConfiguration(defaultRollback=true, transactionManager="txManager")
+@Transactional
+public abstract class AbstractTest {
 
-    String text;
-
-    public MockBusinessObject(String text) {
-        this.text = text;
+    protected AbstractTest() {
     }
-
-    public MockBusinessObject(Long id, String text) {
-        this.id = id;
-        this.text = text;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
 }

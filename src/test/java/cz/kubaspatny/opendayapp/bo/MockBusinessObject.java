@@ -1,15 +1,13 @@
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
+package cz.kubaspatny.opendayapp.bo;
+
+import javax.persistence.Entity;
 
 /**
  * Author: Kuba Spatny
  * Web: kubaspatny.cz
  * E-mail: kuba.spatny@gmail.com
  * Date: 30/10/2014
- * Time: 21:55
+ * Time: 20:49
  * Copyright 2014 Jakub Spatny
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,12 +23,29 @@ import org.springframework.transaction.annotation.Transactional;
  * limitations under the License.
  */
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
-@TransactionConfiguration(defaultRollback=true, transactionManager="txManager")
-@Transactional
-public abstract class AbstractTest {
+@Entity
+public class MockBusinessObject extends AbstractBusinessObject {
 
-    protected AbstractTest() {
+    String text;
+
+    public MockBusinessObject() {
     }
+
+    public MockBusinessObject(String text) {
+        this.text = text;
+    }
+
+    public MockBusinessObject(Long id, String text) {
+        this.id = id;
+        this.text = text;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
 }
