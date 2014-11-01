@@ -27,6 +27,7 @@ import javax.persistence.Entity;
 public class MockBusinessObject extends AbstractBusinessObject {
 
     String text;
+    int category;
 
     public MockBusinessObject() {
     }
@@ -35,9 +36,20 @@ public class MockBusinessObject extends AbstractBusinessObject {
         this.text = text;
     }
 
+    public MockBusinessObject(String text, int category) {
+        this.text = text;
+        this.category = category;
+    }
+
     public MockBusinessObject(Long id, String text) {
         this.id = id;
         this.text = text;
+    }
+
+    public MockBusinessObject(Long id, String text, int category) {
+        this.id = id;
+        this.text = text;
+        this.category = category;
     }
 
     public String getText() {
@@ -48,4 +60,20 @@ public class MockBusinessObject extends AbstractBusinessObject {
         this.text = text;
     }
 
+    public int getCategory() {
+        return category;
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return "MockBusinessObject {" +
+                "id='" + id + '\'' +
+                "text='" + text + '\'' +
+                ", category=" + category +
+                '}';
+    }
 }

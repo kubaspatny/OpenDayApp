@@ -1,7 +1,9 @@
 package cz.kubaspatny.opendayapp.dao;
 
 import cz.kubaspatny.opendayapp.bo.AbstractBusinessObject;
+import cz.kubaspatny.opendayapp.exception.DaoException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.stereotype.Component;
 
@@ -47,7 +49,11 @@ public class Dao implements GenericDao {
     }
 
     @Override
-    public <ENTITY extends AbstractBusinessObject> ENTITY saveOrUpdate(ENTITY o) {
+    public <ENTITY extends AbstractBusinessObject> ENTITY saveOrUpdate(ENTITY o) throws DaoException {
+
+        if(o == null){
+            throw new DaoException("Passed object is null!", DaoException.DaoErrorCode.ILLEGAL_ARGUMENT);
+        }
 
         if (o.getId() == null) {
             getEntityManager().persist(o);
@@ -59,33 +65,47 @@ public class Dao implements GenericDao {
     }
 
     @Override
-    public <ENTITY extends AbstractBusinessObject> void remove(ENTITY o) {
-        getEntityManager().remove(o);
+    public <ENTITY extends AbstractBusinessObject> void remove(ENTITY o) throws DaoException {
+
+        try {
+            getEntityManager().remove(o);
+        } catch(InvalidDataAccessApiUsageException e){
+            throw new DaoException("Couldn't remove object!", DaoException.DaoErrorCode.ILLEGAL_ARGUMENT);
+        }
+
     }
 
     @Override
-    public <ENTITY extends AbstractBusinessObject> void removeById(long id, Class<ENTITY> entity_class) {
+    public <ENTITY extends AbstractBusinessObject> void removeById(Long id, Class<ENTITY> entity_class) throws DaoException {
+
+        if(id == null){
+            throw new DaoException("ID cannot be null!", DaoException.DaoErrorCode.ILLEGAL_ARGUMENT);
+        }
+
         ENTITY e = getEntityManager().find(entity_class, id);
         if (e != null) {
             getEntityManager().remove(e);
         } else {
-            // TODO: throw exception
+            throw new DaoException("Object with id: " + id + " doesn't exist!", DaoException.DaoErrorCode.INVALID_ID);
         }
     }
 
     @Override
-    public <ENTITY> ENTITY getById(Long id, Class<ENTITY> entity_class) {
+    public <ENTITY extends AbstractBusinessObject> ENTITY getById(Long id, Class<ENTITY> entity_class) throws DaoException {
+        if(id == null){
+            throw new DaoException("ID cannot be null!", DaoException.DaoErrorCode.ILLEGAL_ARGUMENT);
+        }
+
         return getEntityManager().find(entity_class, id);
-        //TODO: what does it return for non-existing ID?
     }
 
     @Override
-    public <ENTITY> List<ENTITY> getAll(Class<ENTITY> entity_class) {
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getAll(Class<ENTITY> entity_class) {
         return getEntityManager().createQuery("SELECT e FROM " + entity_class.getSimpleName() + " e order by e.id").getResultList();
     }
 
     @Override
-    public <ENTITY> List<ENTITY> getPage(int page, int pageSize, Class<ENTITY> entity_class) {
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, Class<ENTITY> entity_class) {
 
         String queryString = "SELECT e FROM " + entity_class.getSimpleName() + " e order by e.id";
         return getEntityManager().createQuery(queryString)
@@ -95,7 +115,7 @@ public class Dao implements GenericDao {
     }
 
     @Override
-    public <ENTITY> List<ENTITY> getPage(int page, int pageSize, String sortBy, boolean ascending, Class<ENTITY> entity_class) {
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, String sortBy, boolean ascending, Class<ENTITY> entity_class) {
         String queryString = "SELECT e FROM " + entity_class.getSimpleName() + " e order by e." + sortBy + (ascending ? " asc" : " desc");
         return getEntityManager().createQuery(queryString)
                 .setFirstResult(page*pageSize)
@@ -104,12 +124,12 @@ public class Dao implements GenericDao {
     }
 
     @Override
-    public <ENTITY> List<ENTITY> getPage(int page, int pageSize, Map<String, Object> parameters, String sortBy, boolean ascending, Class<ENTITY> entity_class) {
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, Map<String, Object> parameters, String sortBy, boolean ascending, Class<ENTITY> entity_class) {
         return null;
     }
 
     @Override
-    public <ENTITY> List<ENTITY> searchByProperty(Map<String, Object> properties, Class<ENTITY> entity_class) {
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> searchByProperty(Map<String, Object> properties, Class<ENTITY> entity_class) {
         return null;
     }
 }

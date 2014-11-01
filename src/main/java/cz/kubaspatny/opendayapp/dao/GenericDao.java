@@ -1,6 +1,7 @@
 package cz.kubaspatny.opendayapp.dao;
 
 import cz.kubaspatny.opendayapp.bo.AbstractBusinessObject;
+import cz.kubaspatny.opendayapp.exception.DaoException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,24 +30,24 @@ import java.util.Map;
 public interface GenericDao {   // TODO: Add exceptions!!!
 
     /**
-     * Saves or updated object to the database. If o has assigned ID, then it's merged, otherwise it is persisted.
+     * Saves or updates object to the database. If o has assigned ID, then it's merged, otherwise it is persisted.
      * @param o   Entity to be saved
      * @return    Saved Entity
      */
-    public <ENTITY extends AbstractBusinessObject> ENTITY saveOrUpdate(ENTITY o);
+    public <ENTITY extends AbstractBusinessObject> ENTITY saveOrUpdate(ENTITY o) throws DaoException;
 
     /**
      * Removes an existing Entity.
      * @param o  Entity to be removed
      */
-    public <ENTITY extends AbstractBusinessObject> void remove(ENTITY o);
+    public <ENTITY extends AbstractBusinessObject> void remove(ENTITY o) throws DaoException;
 
     /**
      * Removes an entity based on its ID.
      * @param id    ID
      * @param entity_class  Class object of the entity to be removed
      */
-    public <ENTITY extends AbstractBusinessObject> void removeById(long id, Class<ENTITY> entity_class);
+    public <ENTITY extends AbstractBusinessObject> void removeById(Long id, Class<ENTITY> entity_class) throws DaoException;
 
     /**
      * Gets entity from database based on its ID.
@@ -54,34 +55,34 @@ public interface GenericDao {   // TODO: Add exceptions!!!
      * @param entity_class  Class object of the entity to be returned
      * @return  Entity from database
      */
-    public <ENTITY> ENTITY getById(Long id, Class<ENTITY> entity_class);
+    public <ENTITY extends AbstractBusinessObject> ENTITY getById(Long id, Class<ENTITY> entity_class) throws DaoException;
 
     /**
      * Gets all entities of type @entity_class.
      * @param entity_class  Class object of entities to be returned
      * @return  List of entities
      */
-    public <ENTITY> List<ENTITY> getAll(Class<ENTITY> entity_class);
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getAll(Class<ENTITY> entity_class);
 
     /**
      * Method supporting pagination. Returns a page of entities.
-     * @param offset    Page offset
+     * @param page    Page offset
      * @param pageSize  Page size
      * @return  List of entities
      */
-    public <ENTITY> List<ENTITY> getPage(int page, int pageSize, Class<ENTITY> entity_class);
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, Class<ENTITY> entity_class);
 
     /**
      * Method supporting pagination. Returns a sorted page of entities.
-     * @param offset    Page offset
+     * @param page    Page offset
      * @param pageSize  Page size
      * @return  List of entities
      */
-    public <ENTITY> List<ENTITY> getPage(int page, int pageSize, String sortBy, boolean ascending, Class<ENTITY> entity_class);
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, String sortBy, boolean ascending, Class<ENTITY> entity_class);
 
     /**
      * Method supporting pagination. Returns a sorted page of entities filtered by @parameters.
-     * @param offset    Page offset
+     * @param page    Page offset
      * @param pageSize  Page size
      * @param parameters    Key-Value pairs used for filtering, such as "where key == value"
      * @param sortBy    Column name used for sort ordering
@@ -90,13 +91,13 @@ public interface GenericDao {   // TODO: Add exceptions!!!
      * @param <ENTITY>
      * @return
      */
-    public <ENTITY> List<ENTITY> getPage(int page, int pageSize, Map<String, Object> parameters, String sortBy, boolean ascending, Class<ENTITY> entity_class);
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, Map<String, Object> parameters, String sortBy, boolean ascending, Class<ENTITY> entity_class);
 
     /**
      * Returns a list of filtered entities based on @properties.
      * @param properties    Key-Value pairs of property names and values.
      * @return  List of filtered entities.
      */
-    public <ENTITY> List<ENTITY> searchByProperty(Map<String, Object> properties, Class<ENTITY> entity_class);
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> searchByProperty(Map<String, Object> properties, Class<ENTITY> entity_class);
 
 }
