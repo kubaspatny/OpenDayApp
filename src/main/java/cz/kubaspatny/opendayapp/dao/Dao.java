@@ -14,6 +14,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -105,13 +106,22 @@ public class Dao implements GenericDao {
     }
 
     @Override
-    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, Class<ENTITY> entity_class) {
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, Class<ENTITY> entity_class) throws DaoException {
+
+        if(page < 0){
+            throw new DaoException("Negative page number!", DaoException.DaoErrorCode.ILLEGAL_ARGUMENT);
+        }
+
+        if(pageSize <= 0) {
+            throw new DaoException("Non-positive pageSize!", DaoException.DaoErrorCode.ILLEGAL_ARGUMENT);
+        }
 
         String queryString = "SELECT e FROM " + entity_class.getSimpleName() + " e order by e.id";
         return getEntityManager().createQuery(queryString)
                 .setFirstResult(page*pageSize)
                 .setMaxResults(pageSize)
                 .getResultList();
+
     }
 
     @Override
@@ -125,7 +135,29 @@ public class Dao implements GenericDao {
 
     @Override
     public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, Map<String, Object> parameters, String sortBy, boolean ascending, Class<ENTITY> entity_class) {
-        return null;
+
+        StringBuilder s = new StringBuilder();
+        Iterator<Map.Entry<String, Object>> it = parameters.entrySet().iterator();
+        while(it.hasNext()){
+            String key = it.next().getKey();
+            s.append("e.").append(key).append(" = :").append(key);
+            if(it.hasNext()) s.append(" and ");
+        }
+
+        String queryString = "SELECT e FROM " + entity_class.getSimpleName() + " e WHERE " + s.toString() + " order by e." + sortBy + (ascending ? " asc" : " desc");
+        Query q = getEntityManager().createQuery(queryString)
+                .setFirstResult(page * pageSize)
+                .setMaxResults(pageSize);
+
+        it = parameters.entrySet().iterator();
+        while(it.hasNext()){
+            Map.Entry<String, Object> e = it.next();
+            q.setParameter(e.getKey(), e.getValue());
+        }
+
+        return q.getResultList();
+
+
     }
 
     @Override

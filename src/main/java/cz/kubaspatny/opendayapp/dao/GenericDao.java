@@ -66,15 +66,15 @@ public interface GenericDao {   // TODO: Add exceptions!!!
 
     /**
      * Method supporting pagination. Returns a page of entities.
-     * @param page    Page offset
+     * @param page    Page offset, where 0 is first page
      * @param pageSize  Page size
      * @return  List of entities
      */
-    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, Class<ENTITY> entity_class);
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, Class<ENTITY> entity_class) throws DaoException;
 
     /**
      * Method supporting pagination. Returns a sorted page of entities.
-     * @param page    Page offset
+     * @param page    Page offset, where 0 is first page
      * @param pageSize  Page size
      * @return  List of entities
      */
@@ -82,7 +82,7 @@ public interface GenericDao {   // TODO: Add exceptions!!!
 
     /**
      * Method supporting pagination. Returns a sorted page of entities filtered by @parameters.
-     * @param page    Page offset
+     * @param page    Page offset, where 0 is first page
      * @param pageSize  Page size
      * @param parameters    Key-Value pairs used for filtering, such as "where key == value"
      * @param sortBy    Column name used for sort ordering

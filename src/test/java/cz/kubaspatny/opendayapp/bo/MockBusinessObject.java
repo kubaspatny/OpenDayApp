@@ -28,6 +28,8 @@ public class MockBusinessObject extends AbstractBusinessObject {
 
     String text;
     int category;
+    String color;
+    String type;
 
     public MockBusinessObject() {
     }
@@ -36,9 +38,11 @@ public class MockBusinessObject extends AbstractBusinessObject {
         this.text = text;
     }
 
-    public MockBusinessObject(String text, int category) {
+    public MockBusinessObject(String text, int category, String color, String type) {
         this.text = text;
         this.category = category;
+        this.color = color;
+        this.type = type;
     }
 
     public MockBusinessObject(Long id, String text) {
@@ -50,6 +54,14 @@ public class MockBusinessObject extends AbstractBusinessObject {
         this.id = id;
         this.text = text;
         this.category = category;
+    }
+
+    public MockBusinessObject(Long id, String text, int category, String color, String type) {
+        this.id = id;
+        this.text = text;
+        this.category = category;
+        this.color = color;
+        this.type = type;
     }
 
     public String getText() {
@@ -68,12 +80,30 @@ public class MockBusinessObject extends AbstractBusinessObject {
         this.category = category;
     }
 
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "MockBusinessObject {" +
                 "id='" + id + '\'' +
-                "text='" + text + '\'' +
-                ", category=" + category +
+                ", text='" + text + '\'' +
+                ", category=" + category + '\'' +
+                ", color=" + color + '\'' +
+                ", type=" + type + '\'' +
                 '}';
     }
 }

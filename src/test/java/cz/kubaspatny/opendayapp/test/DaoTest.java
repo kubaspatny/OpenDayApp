@@ -11,8 +11,8 @@ import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Query;
+import java.util.*;
 
 /**
  * Author: Kuba Spatny
@@ -37,6 +37,8 @@ import java.util.List;
 public class DaoTest extends AbstractTest {
 
     private List<Long> ids;
+    private List<String> colors;
+    private List<String> types;
 
     @Autowired
     private GenericDao dao;
@@ -57,8 +59,21 @@ public class DaoTest extends AbstractTest {
 
         ids = new ArrayList<Long>();
 
+        colors = new ArrayList<String>();
+        colors.add("red");
+        colors.add("green");
+        colors.add("blue");
+
+        types = new ArrayList<String>();
+        types.add("FULL");
+        types.add("TRIAL");
+
         for (int i = 1; i <= 100; i++) {
-            ids.add(getEntityManager().merge(new MockBusinessObject("TEXT " + i, (i % 4) + 1)).getId());
+            ids.add(getEntityManager().merge(new MockBusinessObject("TEXT " + i,
+                            (i % 4) + 1,
+                            colors.get(i % 3),
+                            types.get(i % 2))
+            ).getId());
         }
 
     }
@@ -69,7 +84,7 @@ public class DaoTest extends AbstractTest {
         // ------- SAVE CORRECT OBJECT --------------
         Assert.assertNotNull(dao);
 
-        MockBusinessObject obj = new MockBusinessObject("Test Object",1);
+        MockBusinessObject obj = new MockBusinessObject("Test Object",1, "red", "full");
         System.out.println(obj);
         Assert.assertNull(obj.getId());
         dao.saveOrUpdate(obj);
@@ -102,17 +117,6 @@ public class DaoTest extends AbstractTest {
         dao.saveOrUpdate(obj);
         Assert.assertEquals(new_value, obj.getText());
         System.out.println(obj);
-
-    }
-
-    @Test
-    public void testGetAll() throws Exception {
-
-        List<MockBusinessObject> objectList = dao.getAll(MockBusinessObject.class);
-        Assert.assertEquals(ids.size(), objectList.size());
-        for(MockBusinessObject o : objectList){
-            System.out.println(o);
-        }
 
     }
 
@@ -207,4 +211,157 @@ public class DaoTest extends AbstractTest {
         Assert.assertNull(dao.getById(System.nanoTime(), MockBusinessObject.class));
 
     }
+
+    @Test
+    public void testGetAll() throws Exception {
+
+        List<MockBusinessObject> objectList = dao.getAll(MockBusinessObject.class);
+        Assert.assertEquals(ids.size(), objectList.size());
+        for(MockBusinessObject o : objectList){
+            System.out.println(o);
+        }
+
+    }
+
+    @Test
+    public void testGetPage() throws Exception {
+
+        // ---- GET FULL PAGE ----
+
+        List<MockBusinessObject> list = dao.getPage(0, 25, MockBusinessObject.class);
+        Assert.assertEquals(25, list.size());
+        System.out.println("Size: " + list.size());
+        for(MockBusinessObject o : list){
+            System.out.println(o);
+        }
+
+        // ---- GET FULL PAGE ----
+
+        list = dao.getPage(1, 40, MockBusinessObject.class);
+        Assert.assertEquals(40, list.size());
+        System.out.println("Size: " + list.size());
+        for(MockBusinessObject o : list){
+            System.out.println(o);
+        }
+
+        // ---- GET PARTIALLY FULL PAGE ----
+
+        list = dao.getPage(1, 80, MockBusinessObject.class);
+        Assert.assertEquals(20, list.size());
+        System.out.println("Size: " + list.size());
+        for(MockBusinessObject o : list){
+            System.out.println(o);
+        }
+
+        // ---- GET NEGATIVE PAGE ----
+
+        try {
+            dao.getPage(-1, 80, MockBusinessObject.class);
+            Assert.fail("Should have thrown Exception by now!");
+        } catch (DaoException e){
+            Assert.assertEquals(DaoException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+        }
+
+        // ---- GET NEGATIVE SIZE ----
+
+        try {
+            dao.getPage(1, -80, MockBusinessObject.class);
+            Assert.fail("Should have thrown Exception by now!");
+        } catch (DaoException e){
+            Assert.assertEquals(DaoException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+        }
+
+
+    }
+
+    //@Test
+    public void testName() throws Exception {
+
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("category", 2);
+        map.put("type", "TRIAL");
+
+        StringBuilder s = new StringBuilder();
+        Iterator<Map.Entry<String, Object>> it = map.entrySet().iterator();
+        while(it.hasNext()){
+            String key = it.next().getKey();
+            s.append(key).append(" = :").append(key);
+            if(it.hasNext()) s.append(" and ");
+        }
+
+        int page = 0;
+        int pageSize = 1000;
+
+
+        String queryString = "SELECT e FROM " + MockBusinessObject.class.getSimpleName() + " e WHERE " + s.toString() + " order by e.id asc";
+        System.out.println(queryString);
+        Query q = getEntityManager().createQuery(queryString)
+                .setFirstResult(page * pageSize)
+                .setMaxResults(pageSize);
+
+        it = map.entrySet().iterator();
+        while(it.hasNext()){
+            Map.Entry<String, Object> e = it.next();
+            q.setParameter(e.getKey(), e.getValue());
+        }
+
+        List<MockBusinessObject> list = q.getResultList();
+        System.out.println(list.size());
+        for(MockBusinessObject o : list){
+            System.out.println(o);
+        }
+
+
+
+    }
+
+    @Test
+    public void testGetPageWithParameters() throws Exception {
+
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("category", 1);
+        map.put("color", "blue");
+
+        List<MockBusinessObject> list = dao.getPage(0, 25, map, "id", true, MockBusinessObject.class);
+
+        for(MockBusinessObject o : list){
+            System.out.println(o);
+        }
+
+        Assert.fail("Finish testing this method!");
+
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

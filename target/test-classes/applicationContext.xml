@@ -21,7 +21,7 @@
     <task:executor id="myExecutorService" pool-size="5-10" queue-capacity="10"></task:executor>
     <task:scheduler id="mySchedulerService" pool-size="10"></task:scheduler>
 
-    <context:property-placeholder location="classpath:db.properties" />
+    <context:property-placeholder location="classpath:db_localhost.properties" />
 
     <!-- Connection pool -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
