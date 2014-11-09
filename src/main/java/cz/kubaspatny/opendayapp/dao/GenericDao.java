@@ -78,7 +78,7 @@ public interface GenericDao {   // TODO: Add exceptions!!!
      * @param pageSize  Page size
      * @return  List of entities
      */
-    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, String sortBy, boolean ascending, Class<ENTITY> entity_class);
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, String sortBy, boolean ascending, Class<ENTITY> entity_class) throws DaoException;
 
     /**
      * Method supporting pagination. Returns a sorted page of entities filtered by @parameters.
@@ -91,13 +91,13 @@ public interface GenericDao {   // TODO: Add exceptions!!!
      * @param <ENTITY>
      * @return
      */
-    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, Map<String, Object> parameters, String sortBy, boolean ascending, Class<ENTITY> entity_class);
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, Map<String, Object> parameters, String sortBy, boolean ascending, Class<ENTITY> entity_class) throws DaoException;
 
     /**
      * Returns a list of filtered entities based on @properties.
-     * @param properties    Key-Value pairs of property names and values.
-     * @return  List of filtered entities.
+     *
+     * @param parameters@return  List of filtered entities.
      */
-    public <ENTITY extends AbstractBusinessObject> List<ENTITY> searchByProperty(Map<String, Object> properties, Class<ENTITY> entity_class);
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> searchByProperty(Map<String, Object> parameters, Class<ENTITY> entity_class) throws DaoException;
 
 }

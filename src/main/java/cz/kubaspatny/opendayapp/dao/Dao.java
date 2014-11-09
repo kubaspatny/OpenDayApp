@@ -10,10 +10,6 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -68,10 +64,12 @@ public class Dao implements GenericDao {
     @Override
     public <ENTITY extends AbstractBusinessObject> void remove(ENTITY o) throws DaoException {
 
+        if(o == null) throw new DaoException("Object parameter cannot be null!", DaoException.DaoErrorCode.ILLEGAL_ARGUMENT);
+
         try {
             getEntityManager().remove(o);
         } catch(InvalidDataAccessApiUsageException e){
-            throw new DaoException("Couldn't remove object!", DaoException.DaoErrorCode.ILLEGAL_ARGUMENT);
+            throw new DaoException("Couldn't remove object!", DaoException.DaoErrorCode.DETACHED_INSTANCE);
         }
 
     }
@@ -125,7 +123,16 @@ public class Dao implements GenericDao {
     }
 
     @Override
-    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, String sortBy, boolean ascending, Class<ENTITY> entity_class) {
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, String sortBy, boolean ascending, Class<ENTITY> entity_class) throws DaoException{
+
+        if(page < 0){
+            throw new DaoException("Negative page number!", DaoException.DaoErrorCode.ILLEGAL_ARGUMENT);
+        } else if(pageSize <= 0) {
+            throw new DaoException("Non-positive pageSize!", DaoException.DaoErrorCode.ILLEGAL_ARGUMENT);
+        } else if(sortBy == null){
+            throw new DaoException("Parameter sortBy cannot be null!", DaoException.DaoErrorCode.ILLEGAL_ARGUMENT);
+        }
+
         String queryString = "SELECT e FROM " + entity_class.getSimpleName() + " e order by e." + sortBy + (ascending ? " asc" : " desc");
         return getEntityManager().createQuery(queryString)
                 .setFirstResult(page*pageSize)
@@ -134,7 +141,17 @@ public class Dao implements GenericDao {
     }
 
     @Override
-    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, Map<String, Object> parameters, String sortBy, boolean ascending, Class<ENTITY> entity_class) {
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, Map<String, Object> parameters, String sortBy, boolean ascending, Class<ENTITY> entity_class) throws DaoException {
+
+        if(page < 0){
+            throw new DaoException("Negative page number!", DaoException.DaoErrorCode.ILLEGAL_ARGUMENT);
+        } else if(pageSize <= 0) {
+            throw new DaoException("Non-positive pageSize!", DaoException.DaoErrorCode.ILLEGAL_ARGUMENT);
+        } else if(sortBy == null){
+            throw new DaoException("Parameter sortBy cannot be null!", DaoException.DaoErrorCode.ILLEGAL_ARGUMENT);
+        } else if(parameters == null){
+            throw new DaoException("Parameter map for filtering cannot be null!", DaoException.DaoErrorCode.ILLEGAL_ARGUMENT);
+        }
 
         StringBuilder s = new StringBuilder();
         Iterator<Map.Entry<String, Object>> it = parameters.entrySet().iterator();
@@ -161,7 +178,31 @@ public class Dao implements GenericDao {
     }
 
     @Override
-    public <ENTITY extends AbstractBusinessObject> List<ENTITY> searchByProperty(Map<String, Object> properties, Class<ENTITY> entity_class) {
-        return null;
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> searchByProperty(Map<String, Object> parameters, Class<ENTITY> entity_class) throws DaoException {
+
+        if(parameters == null){
+            throw new DaoException("Parameters cannot be null!", DaoException.DaoErrorCode.ILLEGAL_ARGUMENT);
+        }
+
+        StringBuilder s = new StringBuilder();
+        Iterator<Map.Entry<String, Object>> it = parameters.entrySet().iterator();
+        while(it.hasNext()){
+            String key = it.next().getKey();
+            s.append("e.").append(key).append(" = :").append(key);
+            if(it.hasNext()) s.append(" and ");
+        }
+
+        String queryString = "SELECT e FROM " + entity_class.getSimpleName() + " e WHERE " + s.toString();
+        Query q = getEntityManager().createQuery(queryString);
+
+
+        it = parameters.entrySet().iterator();
+        while(it.hasNext()){
+            Map.Entry<String, Object> e = it.next();
+            q.setParameter(e.getKey(), e.getValue());
+        }
+
+        return q.getResultList();
     }
+
 }

@@ -149,7 +149,7 @@ public class DaoTest extends AbstractTest {
             dao.remove(obj);
             Assert.fail("Should have thrown Exception by now!");
         } catch (DaoException e){
-            Assert.assertTrue(e.getErrorCode() == DaoException.DaoErrorCode.ILLEGAL_ARGUMENT);
+            Assert.assertTrue(e.getErrorCode() == DaoException.DaoErrorCode.DETACHED_INSTANCE);
         }
 
 
@@ -174,17 +174,12 @@ public class DaoTest extends AbstractTest {
 
         // ---- REMOVE OBJECT WITH NONEXISTENT ID ----
 
-
         try {
             dao.removeById(System.nanoTime(), MockBusinessObject.class);
             Assert.fail("Should have thrown Exception by now!");
         } catch (DaoException e){
             Assert.assertEquals(DaoException.DaoErrorCode.INVALID_ID, e.getErrorCode());
         }
-
-
-
-
 
     }
 
@@ -271,64 +266,84 @@ public class DaoTest extends AbstractTest {
             Assert.assertEquals(DaoException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
         }
 
-
-    }
-
-    //@Test
-    public void testName() throws Exception {
-
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("category", 2);
-        map.put("type", "TRIAL");
-
-        StringBuilder s = new StringBuilder();
-        Iterator<Map.Entry<String, Object>> it = map.entrySet().iterator();
-        while(it.hasNext()){
-            String key = it.next().getKey();
-            s.append(key).append(" = :").append(key);
-            if(it.hasNext()) s.append(" and ");
-        }
-
-        int page = 0;
-        int pageSize = 1000;
-
-
-        String queryString = "SELECT e FROM " + MockBusinessObject.class.getSimpleName() + " e WHERE " + s.toString() + " order by e.id asc";
-        System.out.println(queryString);
-        Query q = getEntityManager().createQuery(queryString)
-                .setFirstResult(page * pageSize)
-                .setMaxResults(pageSize);
-
-        it = map.entrySet().iterator();
-        while(it.hasNext()){
-            Map.Entry<String, Object> e = it.next();
-            q.setParameter(e.getKey(), e.getValue());
-        }
-
-        List<MockBusinessObject> list = q.getResultList();
-        System.out.println(list.size());
-        for(MockBusinessObject o : list){
-            System.out.println(o);
-        }
-
-
-
     }
 
     @Test
     public void testGetPageWithParameters() throws Exception {
 
+        int category = 1;
+        String color = "blue";
+
+
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("category", 1);
-        map.put("color", "blue");
+        map.put("category", category);
+        map.put("color", color);
 
         List<MockBusinessObject> list = dao.getPage(0, 25, map, "id", true, MockBusinessObject.class);
 
+        Assert.assertTrue(list.size() <= 25);
+
         for(MockBusinessObject o : list){
-            System.out.println(o);
+            Assert.assertEquals(category, o.getCategory());
+            Assert.assertEquals(color, o.getColor());
         }
 
-        Assert.fail("Finish testing this method!");
+        // ---- GET NEGATIVE PAGE ----
+
+        try {
+            dao.getPage(-1, 80, map, "id", true, MockBusinessObject.class);
+            Assert.fail("Should have thrown Exception by now!");
+        } catch (DaoException e){
+            Assert.assertEquals(DaoException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+        }
+
+        // ---- GET NEGATIVE SIZE ----
+
+        try {
+            dao.getPage(1, -80, map, "id", true, MockBusinessObject.class);
+            Assert.fail("Should have thrown Exception by now!");
+        } catch (DaoException e){
+            Assert.assertEquals(DaoException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+        }
+
+        // ---- GET NULL MAP ----
+
+        try {
+            dao.getPage(1, 80, null, "id", true, MockBusinessObject.class);
+            Assert.fail("Should have thrown Exception by now!");
+        } catch (DaoException e){
+            Assert.assertEquals(DaoException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+        }
+
+        // ---- GET NULL PARAMETER ----
+
+        try {
+            dao.getPage(1, 80, map, null, true, MockBusinessObject.class);
+            Assert.fail("Should have thrown Exception by now!");
+        } catch (DaoException e){
+            Assert.assertEquals(DaoException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+        }
+
+    }
+
+    @Test
+    public void testSearchByProperty() throws Exception {
+
+        String color = "green";
+        String type = "TRIAL";
+
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("type", type);
+        map.put("color", color);
+
+        List<MockBusinessObject> list = dao.searchByProperty(map, MockBusinessObject.class);
+
+        for(MockBusinessObject o : list){
+            Assert.assertEquals(color, o.getColor());
+            Assert.assertEquals(type, o.getType());
+        }
+
+
 
     }
 }
