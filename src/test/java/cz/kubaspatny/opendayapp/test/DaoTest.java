@@ -40,11 +40,8 @@ public class DaoTest extends AbstractTest {
     private List<String> colors;
     private List<String> types;
 
-    @Autowired
-    private GenericDao dao;
-
-    @Autowired
-    protected EntityManagerFactory entityManagerfactory;
+    @Autowired private GenericDao dao;
+    @Autowired protected EntityManagerFactory entityManagerfactory;
 
     protected EntityManager getEntityManager() {
         return EntityManagerFactoryUtils.getTransactionalEntityManager(entityManagerfactory);
