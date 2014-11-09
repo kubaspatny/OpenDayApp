@@ -169,8 +169,6 @@ public class User extends AbstractBusinessObject {
     }
 
     public void addEvent(Event event){
-        if(this.id == null) throw new RuntimeException("User entity is not persisted!");
-
         if(events == null){
             events = new ArrayList<Event>();
         }
@@ -203,5 +201,24 @@ public class User extends AbstractBusinessObject {
         sb.append(", validTo=").append(validTo);
         sb.append('}');
         return sb.toString();
+    }
+
+    public void print(){
+        System.out.println(toString());
+        if(events != null){
+            for(Event e : events){
+                System.out.println("\t" + e);
+                if(e.getRoutes() != null){
+                    for(Route r : e.getRoutes()){
+                        System.out.println("\t\t" + r);
+                        if(r.getStations() != null){
+                            for(Station s : r.getStations()){
+                                System.out.println("\t\t\t" + s);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

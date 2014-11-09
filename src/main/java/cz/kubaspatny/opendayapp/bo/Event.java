@@ -86,8 +86,6 @@ public class Event extends AbstractBusinessObject {
     }
 
     public void addRoute(Route route){
-        if(this.id == null) throw new RuntimeException("Event entity not persisted!");
-
         if(routes == null){
             routes = new ArrayList<Route>();
         }
@@ -102,6 +100,8 @@ public class Event extends AbstractBusinessObject {
         // TODO: remove the route from userService via dao.remove(route)
         throw new RuntimeException("READ TODO!");
     }
+
+
 
     @Override
     public String toString() {

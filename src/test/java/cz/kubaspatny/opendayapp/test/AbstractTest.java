@@ -1,5 +1,9 @@
 package cz.kubaspatny.opendayapp.test;
 
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -35,4 +39,5 @@ public abstract class AbstractTest {
 
     protected AbstractTest() {
     }
+
 }

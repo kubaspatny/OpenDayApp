@@ -2,6 +2,7 @@ package cz.kubaspatny.opendayapp.test;
 
 import cz.kubaspatny.opendayapp.bo.Event;
 import cz.kubaspatny.opendayapp.bo.Route;
+import cz.kubaspatny.opendayapp.bo.Station;
 import cz.kubaspatny.opendayapp.bo.User;
 import cz.kubaspatny.opendayapp.dao.GenericDao;
 import cz.kubaspatny.opendayapp.provider.HashProvider;
@@ -54,6 +55,7 @@ public class SandBox extends AbstractTest {
         u.setPassword("password");
         u.setOrganization("Czech Technical University in Prague");
         u.setUserEnabled(true);
+
         dao.saveOrUpdate(u);
 
         Event event = new Event();
@@ -69,15 +71,25 @@ public class SandBox extends AbstractTest {
         event2.setOrganizer(u);
         u.addEvent(event2);
 
-        dao.saveOrUpdate(u);
-
-        // event is saved
-
         Route r1 = new Route();
         r1.setName("Blue route");
         r1.setDate(DateTime.now(DateTimeZone.UTC));
         r1.setHexColor("006040");
         r1.setInformation("This route is for STM and OI.");
+
+        for (int i = 1; i <= 9; i++) {
+
+            Station s = new Station();
+            s.setName("Station " + i);
+            s.setInformation("This is information #" + i);
+            s.setLocation("ROOM E-00" + i);
+            s.setSequencePosition(i);
+            s.setRelocationTime(i*2);
+            s.setTimeLimit(i*1000);
+
+            r1.addStation(s);
+
+        }
 
         Route r2 = new Route();
         r2.setName("Red route");
@@ -85,10 +97,23 @@ public class SandBox extends AbstractTest {
         r2.setHexColor("80FF20");
         r2.setInformation("This route is for Software Engineers only.");
 
-        u.getEvents().get(0).addRoute(r1);
-        u.getEvents().get(0).addRoute(r2);
+        event.addRoute(r1);
+        event.addRoute(r2);
 
         dao.saveOrUpdate(u);
+
+        Station s = u.getEvents().get(0).getRoutes().get(0).getStations().get(2);
+        s.setName("EDITED NAME");
+        dao.saveOrUpdate(s);
+
+    }
+
+    @Test
+    public void testPrintUser() throws Exception {
+
+        User u = dao.getByPropertyUnique("username",username, User.class);
+        u.print();
+
     }
 
     @Test
@@ -101,18 +126,16 @@ public class SandBox extends AbstractTest {
         Assert.assertNotNull(events);
 
         Collections.sort(events, new EventDateComparator());
+
+        List<Long> route_ids = new ArrayList<Long>();
+
         for(Event e : events){
-            System.out.println(e);
             List<Route> routes = e.getRoutes();
-
             if(routes == null) continue;
-
             for(Route r : routes){
-                System.out.println("\t" + r.toString());
+                route_ids.add(r.getId());
             }
-
         }
-
 
     }
 

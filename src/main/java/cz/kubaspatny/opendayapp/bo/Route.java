@@ -3,9 +3,9 @@ package cz.kubaspatny.opendayapp.bo;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: Kuba Spatny
@@ -45,6 +45,9 @@ public class Route extends AbstractBusinessObject {
     @ManyToOne
     private Event event;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "route")
+    private List<Station> stations;
+
     public String getName() {
         return name;
     }
@@ -83,6 +86,30 @@ public class Route extends AbstractBusinessObject {
 
     public void setEvent(Event event) {
         this.event = event;
+    }
+
+    public List<Station> getStations() {
+        return stations;
+    }
+
+    public void setStations(List<Station> stations) {
+        this.stations = stations;
+    }
+
+    public void addStation(Station station){
+        if(stations == null){
+            stations = new ArrayList<Station>();
+        }
+
+        station.setRoute(this);
+        stations.add(station);
+    }
+
+    public void removeStation(Station station){
+        if(stations == null || !stations.contains(station)) throw new RuntimeException("User collection doesn't contain route " + station.getId());
+        stations.remove(station);
+        // TODO: remove the station from userService via dao.remove(station)
+        throw new RuntimeException("READ TODO!");
     }
 
     @Override
