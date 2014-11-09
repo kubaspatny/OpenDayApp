@@ -2,14 +2,18 @@ package cz.kubaspatny.opendayapp.bo;
 
 import cz.kubaspatny.opendayapp.provider.HashProvider;
 import cz.kubaspatny.opendayapp.provider.SaltProvider;
+import cz.kubaspatny.opendayapp.utils.EventDateComparator;
+import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Author: Kuba Spatny
@@ -60,20 +64,20 @@ public class User extends AbstractBusinessObject {
     private boolean userEnabled = false;
 
     /**
-     * User account can be expirable, which means it has set values @validFrom and @validTo.
+     * User account can be expirable, which means it has set value @validTo.
      * The system does periodic checks on expirable accounts, if @user_account_expirable is
      * equal to true there are several possible outcomes:
-     * - current date is before validFrom -> no change of user attributes
-     * - current date is equal to validFrom -> @user_enabled is set to true
+     * - current date is before validTo -> no change of user attributes
      * - current date is after validTo -> @user_enabled is set to false and @user_account_expirable is to to false
      */
     @Column(nullable = false)
     private boolean userAccountExpirable = false;
 
     @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    private DateTime validFrom = null;
-    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     private DateTime validTo = null;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "organizer")
+    private List<Event> events;
 
     // ------------------- GETTER AND SETTERS -------------------
 
@@ -148,14 +152,6 @@ public class User extends AbstractBusinessObject {
         this.userAccountExpirable = userAccountExpirable;
     }
 
-    public DateTime getValidFrom() {
-        return validFrom;
-    }
-
-    public void setValidFrom(DateTime validFrom) {
-        this.validFrom = validFrom;
-    }
-
     public DateTime getValidTo() {
         return validTo;
     }
@@ -163,6 +159,34 @@ public class User extends AbstractBusinessObject {
     public void setValidTo(DateTime validTo) {
         this.validTo = validTo;
     }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
+    public void addEvent(Event event){
+        if(this.id == null) throw new RuntimeException("User entity is not persisted!");
+
+        if(events == null){
+            events = new ArrayList<Event>();
+        }
+
+        event.setOrganizer(this);
+        this.events.add(event);
+    }
+
+    public void removeEvent(Event event){
+        if(events == null || !events.contains(event)) throw new RuntimeException("User collection doesn't contain event " + event.getId());
+        events.remove(event);
+        // TODO: remove the event from userService via dao.remove(event)
+        throw new RuntimeException("READ TODO!");
+    }
+
+
 
     @Override
     public String toString() {
@@ -176,7 +200,6 @@ public class User extends AbstractBusinessObject {
         sb.append(", organization='").append(organization).append('\'');
         sb.append(", userEnabled=").append(userEnabled);
         sb.append(", userAccountExpirable=").append(userAccountExpirable);
-        sb.append(", validFrom=").append(validFrom);
         sb.append(", validTo=").append(validTo);
         sb.append('}');
         return sb.toString();
