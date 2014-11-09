@@ -3,12 +3,14 @@ package cz.kubaspatny.opendayapp.dao;
 import cz.kubaspatny.opendayapp.bo.AbstractBusinessObject;
 import cz.kubaspatny.opendayapp.exception.DaoException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.Iterator;
 import java.util.List;
@@ -96,6 +98,24 @@ public class Dao implements GenericDao {
         }
 
         return getEntityManager().find(entity_class, id);
+    }
+
+    @Override
+    public <ENTITY extends AbstractBusinessObject> ENTITY getByPropertyUnique(String property, Object value, Class<ENTITY> entity_class) throws DaoException {
+
+        if(property == null || value == null){
+            throw new DaoException("Search paramaters cannot be null!", DaoException.DaoErrorCode.ILLEGAL_ARGUMENT);
+        }
+
+        String queryString = "SELECT e FROM " + entity_class.getSimpleName() + " e WHERE e." + property + " = :" + property;
+        Query q = getEntityManager().createQuery(queryString).setParameter(property, value);
+
+        try {
+            return (ENTITY) q.getSingleResult();
+        } catch (EmptyResultDataAccessException e){
+            throw new DaoException("Couldn't find an instance with " + property +" equal to " + value, DaoException.DaoErrorCode.INSTANCE_NOT_FOUND);
+        }
+
     }
 
     @Override

@@ -23,7 +23,7 @@ package cz.kubaspatny.opendayapp.exception;
 public class DaoException extends Exception {
 
     public enum DaoErrorCode {
-        INVALID_ID, DETACHED_INSTANCE, ILLEGAL_ARGUMENT;
+        INVALID_ID, DETACHED_INSTANCE, ILLEGAL_ARGUMENT, INSTANCE_NOT_FOUND;
     }
 
     private DaoErrorCode errorCode;

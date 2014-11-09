@@ -208,6 +208,26 @@ public class DaoTest extends AbstractTest {
     }
 
     @Test
+    public void testGetByPropertyUnique() throws Exception {
+
+        // ----  GETTING OBJECT WITH EXISTING ID ----
+
+        MockBusinessObject obj = dao.getByPropertyUnique("id", ids.get(0), MockBusinessObject.class);
+        Assert.assertNotNull(obj);
+        Assert.assertEquals(ids.get(0), obj.getId());
+
+        // ----  GETTING OBJECT WITH NONEXISTENT ID ----
+
+        try {
+            dao.getByPropertyUnique("id", System.nanoTime(), MockBusinessObject.class);
+            Assert.fail("Should have thrown expection by now!");
+        } catch (DaoException e){
+            Assert.assertEquals(DaoException.DaoErrorCode.INSTANCE_NOT_FOUND, e.getErrorCode());
+        }
+
+    }
+
+    @Test
     public void testGetAll() throws Exception {
 
         List<MockBusinessObject> objectList = dao.getAll(MockBusinessObject.class);

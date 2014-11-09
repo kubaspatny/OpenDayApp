@@ -27,7 +27,7 @@ import java.util.Map;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public interface GenericDao {   // TODO: Add exceptions!!!
+public interface GenericDao {
 
     /**
      * Saves or updates object to the database. If o has assigned ID, then it's merged, otherwise it is persisted.
@@ -56,6 +56,16 @@ public interface GenericDao {   // TODO: Add exceptions!!!
      * @return  Entity from database
      */
     public <ENTITY extends AbstractBusinessObject> ENTITY getById(Long id, Class<ENTITY> entity_class) throws DaoException;
+
+
+    /**
+     * Returns a single entity based on the property specified in parameter with the specified value.
+     * @param property  property for search
+     * @param value value of property for search
+     * @return Entity from database
+     * @throws DaoException
+     */
+    public <ENTITY extends AbstractBusinessObject> ENTITY getByPropertyUnique(String property, Object value, Class<ENTITY> entity_class) throws DaoException;
 
     /**
      * Gets all entities of type @entity_class.
