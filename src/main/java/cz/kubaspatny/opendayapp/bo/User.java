@@ -79,6 +79,9 @@ public class User extends AbstractBusinessObject {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "organizer")
     private List<Event> events;
 
+    @ManyToMany(mappedBy = "stationManagers")
+    private List<Route> managedRoutes;
+
     // ------------------- GETTER AND SETTERS -------------------
 
     public String getUsername() {
@@ -184,7 +187,21 @@ public class User extends AbstractBusinessObject {
         throw new RuntimeException("READ TODO!");
     }
 
+    public List<Route> getManagedRoutes() {
+        return managedRoutes;
+    }
 
+    public void setManagedRoutes(List<Route> managedRoutes) {
+        this.managedRoutes = managedRoutes;
+    }
+
+    public void addManagedRoute(Route route){
+        if(managedRoutes == null){
+            managedRoutes = new ArrayList<Route>();
+        }
+
+        managedRoutes.add(route);
+    }
 
     @Override
     public String toString() {
@@ -205,19 +222,38 @@ public class User extends AbstractBusinessObject {
 
     public void print(){
         System.out.println(toString());
+        System.out.println("ORGANIZING EVENTS:");
         if(events != null){
             for(Event e : events){
                 System.out.println("\t" + e);
                 if(e.getRoutes() != null){
                     for(Route r : e.getRoutes()){
                         System.out.println("\t\t" + r);
+
+                        System.out.println("\t\t\t STATIONS:");
                         if(r.getStations() != null){
                             for(Station s : r.getStations()){
-                                System.out.println("\t\t\t" + s);
+                                System.out.println("\t\t\t\t" + s);
                             }
                         }
+
+                        System.out.println("\t\t\t STATION MANAGERS:");
+                        if(r.getStationManagers() != null){
+                            for(User stationManager : r.getStationManagers()){
+                                System.out.println("\t\t\t\t" + stationManager);
+                            }
+                        }
+
+
                     }
                 }
+            }
+        }
+
+        System.out.println("MANAGER AT ROUTES:");
+        if(managedRoutes != null){
+            for(Route r : managedRoutes){
+                System.out.println("\t" + r);
             }
         }
     }

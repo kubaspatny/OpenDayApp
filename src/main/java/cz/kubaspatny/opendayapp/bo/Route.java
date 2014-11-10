@@ -48,6 +48,9 @@ public class Route extends AbstractBusinessObject {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "route")
     private List<Station> stations;
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    private List<User> stationManagers;
+
     public String getName() {
         return name;
     }
@@ -110,6 +113,23 @@ public class Route extends AbstractBusinessObject {
         stations.remove(station);
         // TODO: remove the station from userService via dao.remove(station)
         throw new RuntimeException("READ TODO!");
+    }
+
+    public List<User> getStationManagers() {
+        return stationManagers;
+    }
+
+    public void setStationManagers(List<User> stationManagers) {
+        this.stationManagers = stationManagers;
+    }
+
+    public void addStationManager(User stationManager){
+        if(stationManagers == null){
+            stationManagers = new ArrayList<User>();
+        }
+
+        stationManagers.add(stationManager);
+        stationManager.addManagedRoute(this);
     }
 
     @Override

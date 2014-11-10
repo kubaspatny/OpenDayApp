@@ -117,6 +117,52 @@ public class SandBox extends AbstractTest {
     }
 
     @Test
+    public void testAddStationManager() throws Exception {
+
+        User u = dao.getByPropertyUnique("username",username, User.class);
+        u.print();
+        System.out.println("--------------------------------------------");
+
+        User uNew = new User();
+        String usernameNew = "stationmanager@gmail.com";
+        uNew.setUsername(usernameNew);
+        uNew.setPassword("djnsdgjnaso;a");
+        uNew.setOrganization("CTU");
+
+        u.getEvents().get(0).getRoutes().get(0).addStationManager(uNew);
+        dao.saveOrUpdate(u);
+
+        u = dao.getByPropertyUnique("username",username, User.class);
+        u.print();
+
+        System.out.println("--------------------------------------------");
+
+        uNew = dao.getByPropertyUnique("username",usernameNew, User.class);
+        uNew.print();
+
+
+    }
+
+    @Test
+    public void testAddEvent() throws Exception {
+
+        User u = dao.getByPropertyUnique("username",username, User.class);
+        u.print();
+        System.out.println("-----------------------------------");
+        Event e = new Event();
+        e.setName("NEWLY ADDED EVENT");
+        e.setInformation("INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION");
+        e.setDate(DateTime.now(DateTimeZone.UTC).plusYears(1));
+
+        u.addEvent(e);
+        dao.saveOrUpdate(u);
+
+        u = dao.getByPropertyUnique("username",username, User.class);
+        u.print();
+
+    }
+
+    @Test
     public void testEvents() throws Exception {
 
         User u = dao.getByPropertyUnique("username",username, User.class);
