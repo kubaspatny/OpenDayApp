@@ -2,8 +2,6 @@ package cz.kubaspatny.opendayapp.bo;
 
 import cz.kubaspatny.opendayapp.provider.HashProvider;
 import cz.kubaspatny.opendayapp.provider.SaltProvider;
-import cz.kubaspatny.opendayapp.utils.EventDateComparator;
-import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +9,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Author: Kuba Spatny

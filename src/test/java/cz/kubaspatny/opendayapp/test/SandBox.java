@@ -1,9 +1,6 @@
 package cz.kubaspatny.opendayapp.test;
 
-import cz.kubaspatny.opendayapp.bo.Event;
-import cz.kubaspatny.opendayapp.bo.Route;
-import cz.kubaspatny.opendayapp.bo.Station;
-import cz.kubaspatny.opendayapp.bo.User;
+import cz.kubaspatny.opendayapp.bo.*;
 import cz.kubaspatny.opendayapp.dao.GenericDao;
 import cz.kubaspatny.opendayapp.provider.HashProvider;
 import cz.kubaspatny.opendayapp.utils.EventDateComparator;
@@ -200,7 +197,7 @@ public class SandBox extends AbstractTest {
         }
 
         long id = events.get(0).getId();
-        u.removeEvent(events.get(0));
+        dao.remove(events.get(0));
         dao.saveOrUpdate(u);
 
         System.out.println("---------------------------------------------------");
@@ -359,18 +356,32 @@ public class SandBox extends AbstractTest {
     public void testRemoveStationRoutePart() throws Exception {
 
         User u = dao.getByPropertyUnique("username",username, User.class);
-        Station s = u.getEvents().get(0).getRoutes().get(0).getStations().get(0);
+        Route r = u.getEvents().get(0).getRoutes().get(0);
+        Station s = r.getStations().get(0);
 
         u.print();
 
+        int sizeBefore = r.getStations().size();
         dao.remove(s);
 
         Assert.assertNull(dao.getById(s.getId(), Station.class));
-
-        System.out.println("--------------------------------------------------");
-
+        Assert.assertEquals(sizeBefore - 1, r.getStations().size());
         u.print();
 
+    }
+
+    @Test
+    public void testDeleteEventCascade() throws Exception {
+
+        User u = dao.getByPropertyUnique("username", username, User.class);
+        u.print();
+        Long id = u.getEvents().get(0).getId();
+        Long idRoute = u.getEvents().get(0).getRoutes().get(0).getId();
+        dao.remove(u.getEvents().get(0));
+        u.print();
+
+        Assert.assertNull(dao.getById(id, Event.class));
+        Assert.assertNull(dao.getById(idRoute, Route.class));
 
     }
 }

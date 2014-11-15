@@ -5,6 +5,7 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -146,8 +147,10 @@ public class Route extends AbstractBusinessObject {
     private void preRemove(){
 
         // remove Route from Event
-        getEvent().removeRoute(this);
-        setEvent(null);
+        if(getEvent() != null){
+            getEvent().removeRoute(this);
+            setEvent(null);
+        }
 
         // remove Route from users' managedRoutes
         if(stationManagers != null){
@@ -155,6 +158,13 @@ public class Route extends AbstractBusinessObject {
                 u.removeManagedRoute(this);
             }
             stationManagers.clear();
+        }
+
+        // set Stations' ids to null
+        if(stations != null){
+            for(Station s : stations){
+                s.setRoute(null);
+            }
         }
 
 

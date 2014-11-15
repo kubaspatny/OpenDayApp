@@ -128,10 +128,10 @@ public class Station extends AbstractBusinessObject {
 
     @PreRemove
     private void preRemove(){
-        getRoute().removeStation(this);
-        setRoute(null);
-
-        //TODO: if station has updates or groups -> throw Exception
+        if(getRoute() != null){
+            getRoute().removeStation(this);
+            setRoute(null);
+        }
     }
 
 }
