@@ -271,9 +271,17 @@ public class User extends AbstractBusinessObject {
                             for(Group group : r.getGroups()){
                                 System.out.println("\t\t\t\t" + group);
 
+                                System.out.println("\t\t\t\t\tLOCATION UPDATES:");
                                 if(group.getGroupSizes() != null){
                                     for(GroupSize groupSize : group.getGroupSizes()){
                                         System.out.println("\t\t\t\t\t" + groupSize);
+                                    }
+                                }
+
+                                System.out.println("\t\t\t\t\tLOCATION UPDATES:");
+                                if(group.getLocationUpdates() != null){
+                                    for(LocationUpdate locationUpdate : group.getLocationUpdates()){
+                                        System.out.println("\t\t\t\t\t" + locationUpdate);
                                     }
                                 }
 
@@ -297,10 +305,17 @@ public class User extends AbstractBusinessObject {
         if(groups != null){
             for(Group g : groups){
                 System.out.println("\t" + g);
-
+                System.out.println("\t\tGROUP SIZES:");
                 if(g.getGroupSizes() != null){
                     for(GroupSize groupSize : g.getGroupSizes()){
                         System.out.println("\t\t" + groupSize);
+                    }
+                }
+
+                System.out.println("\t\tLOCATION UPDATES:");
+                if(g.getLocationUpdates() != null){
+                    for(LocationUpdate locationUpdate : g.getLocationUpdates()){
+                        System.out.println("\t\t" + locationUpdate);
                     }
                 }
             }

@@ -40,6 +40,9 @@ public class Group extends AbstractBusinessObject {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
     private List<GroupSize> groupSizes;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
+    private List<LocationUpdate> locationUpdates;
+
     public Route getRoute() {
         return route;
     }
@@ -97,6 +100,23 @@ public class Group extends AbstractBusinessObject {
 
         groupSize.setGroup(this);
         groupSizes.add(groupSize);
+    }
+
+    public List<LocationUpdate> getLocationUpdates() {
+        return locationUpdates;
+    }
+
+    public void setLocationUpdates(List<LocationUpdate> locationUpdates) {
+        this.locationUpdates = locationUpdates;
+    }
+
+    public void addLocationUpdate(LocationUpdate locationUpdate){
+        if(locationUpdates == null){
+            locationUpdates = new ArrayList<LocationUpdate>();
+        }
+
+        locationUpdate.setGroup(this);
+        locationUpdates.add(locationUpdate);
     }
 
     @PreRemove
