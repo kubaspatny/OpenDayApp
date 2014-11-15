@@ -301,6 +301,44 @@ public class GroupTest extends AbstractTest {
         u.print();
         u2.print();
 
+    }
+
+    @Test
+    public void testAddGroupSizes() throws Exception {
+
+        User u = dao.getByPropertyUnique("username",username, User.class);
+
+        Route r = u.getEvents().get(0).getRoutes().get(0);
+        Station s1 = r.getStations().get(0);
+
+        Group g = new Group();
+        dao.saveOrUpdate(g);
+        r.addGroup(g);
+        dao.saveOrUpdate(u);
+
+        User u2 = dao.getByPropertyUnique("username", usernameGuide1, User.class);
+        g.setGuide(u2);
+        g.setStartingPosition(s1);
+        dao.saveOrUpdate(g);
+
+        u.print();
+        u2.print();
+
+        System.out.println("-------------- ADDED GROUP SIZES --------------------");
+
+        for (int i = 0; i < 3; i++) {
+
+            GroupSize groupSize = new GroupSize();
+            groupSize.setSize((i+1) * 3);
+            groupSize.setTimestamp(DateTime.now().plusMinutes(10 * i));
+            g.addGroupSize(groupSize);
+
+        }
+
+        dao.saveOrUpdate(g);
+
+        u.print();
+        u2.print();
 
     }
 }

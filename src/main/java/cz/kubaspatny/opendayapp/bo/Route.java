@@ -156,7 +156,6 @@ public class Route extends AbstractBusinessObject {
         groups.remove(group);
     }
 
-
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Route{");

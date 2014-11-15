@@ -270,6 +270,13 @@ public class User extends AbstractBusinessObject {
                         if(r.getGroups() != null){
                             for(Group group : r.getGroups()){
                                 System.out.println("\t\t\t\t" + group);
+
+                                if(group.getGroupSizes() != null){
+                                    for(GroupSize groupSize : group.getGroupSizes()){
+                                        System.out.println("\t\t\t\t\t" + groupSize);
+                                    }
+                                }
+
                             }
                         }
 
@@ -290,6 +297,12 @@ public class User extends AbstractBusinessObject {
         if(groups != null){
             for(Group g : groups){
                 System.out.println("\t" + g);
+
+                if(g.getGroupSizes() != null){
+                    for(GroupSize groupSize : g.getGroupSizes()){
+                        System.out.println("\t\t" + groupSize);
+                    }
+                }
             }
         }
 

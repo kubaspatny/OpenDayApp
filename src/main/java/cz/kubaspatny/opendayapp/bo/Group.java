@@ -1,9 +1,8 @@
 package cz.kubaspatny.opendayapp.bo;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.PreRemove;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: Kuba Spatny
@@ -37,6 +36,9 @@ public class Group extends AbstractBusinessObject {
 
     @OneToOne
     private Station startingPosition;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
+    private List<GroupSize> groupSizes;
 
     public Route getRoute() {
         return route;
@@ -78,6 +80,23 @@ public class Group extends AbstractBusinessObject {
         if(startingPosition != null){
             this.startingPosition.setStartingGroup(this);
         }
+    }
+
+    public List<GroupSize> getGroupSizes() {
+        return groupSizes;
+    }
+
+    public void setGroupSizes(List<GroupSize> groupSizes) {
+        this.groupSizes = groupSizes;
+    }
+
+    public void addGroupSize(GroupSize groupSize){
+        if(groupSizes == null){
+            groupSizes = new ArrayList<GroupSize>();
+        }
+
+        groupSize.setGroup(this);
+        groupSizes.add(groupSize);
     }
 
     @PreRemove
