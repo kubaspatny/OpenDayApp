@@ -218,7 +218,7 @@ public class SandBox extends AbstractTest {
 
     }
 
-    @Test
+    //@Test
     public void testCascase() throws Exception {
 
         User u = dao.getByPropertyUnique("username",username, User.class);

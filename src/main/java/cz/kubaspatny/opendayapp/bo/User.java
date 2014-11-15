@@ -78,6 +78,9 @@ public class User extends AbstractBusinessObject {
     @ManyToMany(mappedBy = "stationManagers")
     private List<Route> managedRoutes;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "guide")
+    private List<Group> groups;
+
     // ------------------- GETTER AND SETTERS -------------------
 
     public String getUsername() {
@@ -202,6 +205,26 @@ public class User extends AbstractBusinessObject {
         managedRoutes.remove(route);
     }
 
+    public List<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
+    }
+
+    public void addGroup(Group group){
+        if(groups == null){
+            groups = new ArrayList<Group>();
+        }
+        if(!groups.contains(group)) groups.add(group);
+    }
+
+    public void removeGroup(Group group){
+        if(groups == null || !groups.contains(group)) throw new RuntimeException("User doesn't guide group with id: " + group.getId());
+        groups.remove(group);
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("User{");
@@ -262,6 +285,20 @@ public class User extends AbstractBusinessObject {
                 System.out.println("\t" + r);
             }
         }
+
+        System.out.println("GUIDING GROUPS:");
+        if(groups != null){
+            for(Group g : groups){
+                System.out.println("\t" + g);
+            }
+        }
+
+        System.out.println();
+    }
+
+    @PreRemove
+    private void preRemove(){
+        throw new RuntimeException("Users cannot be deleted from the database! Use User#setEnabled(false) instead!");
     }
 
 }

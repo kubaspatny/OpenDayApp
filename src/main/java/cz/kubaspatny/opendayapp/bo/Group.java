@@ -31,6 +31,10 @@ public class Group extends AbstractBusinessObject {
     @ManyToOne
     private Route route;
 
+    @ManyToOne
+    private User guide;
+
+
     public Route getRoute() {
         return route;
     }
@@ -39,11 +43,36 @@ public class Group extends AbstractBusinessObject {
         this.route = route;
     }
 
+    public User getGuide() {
+        return guide;
+    }
+
+    public void setGuide(User guide) {
+        if(this.guide != null) this.guide.removeGroup(this);
+        this.guide = guide;
+        this.guide.addGroup(this);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Group{");
+        sb.append("route=").append(route);
+        sb.append(", guide=").append(guide);
+        sb.append('}');
+        return sb.toString();
+    }
+
     @PreRemove
     private void preRemove(){
         if(route != null){
             route.removeGroup(this);
             setRoute(null);
         }
+
+        if(guide != null){
+            guide.removeGroup(this);
+            guide = null;
+        }
+
     }
 }

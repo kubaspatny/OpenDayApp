@@ -35,6 +35,8 @@ public class GroupTest extends AbstractTest {
     private GenericDao dao;
 
     private String username = "kuba.spatny@gmail.com";
+    private String usernameGuide1 = "guide1@gmail.com";
+    private String usernameGuide2 = "guide2@gmail.com";
 
     @Before
     public void setUp() throws Exception {
@@ -96,6 +98,24 @@ public class GroupTest extends AbstractTest {
         s.setName("EDITED NAME");
         dao.saveOrUpdate(s);
 
+        User u2 = new User();
+        u2.setFirstName("GUIDE 1");
+        u2.setLastName("LASTNAME");
+        u2.setUsername(usernameGuide1);
+        u2.setPassword("password");
+        u2.setOrganization("Czech Technical University in Prague");
+        u2.setUserEnabled(true);
+        dao.saveOrUpdate(u2);
+
+        User u3 = new User();
+        u3.setFirstName("GUIDE 2");
+        u3.setLastName("LASTNAME");
+        u3.setUsername(usernameGuide2);
+        u3.setPassword("password");
+        u3.setOrganization("Czech Technical University in Prague");
+        u3.setUserEnabled(true);
+        dao.saveOrUpdate(u3);
+
     }
 
     @Test
@@ -146,4 +166,70 @@ public class GroupTest extends AbstractTest {
         u.print();
 
     }
+
+    @Test
+    public void testAddGroupAndGuide() throws Exception {
+
+        User u = dao.getByPropertyUnique("username",username, User.class);
+
+        Route r = u.getEvents().get(0).getRoutes().get(0);
+
+        Group g = new Group();
+        dao.saveOrUpdate(g);
+        r.addGroup(g);
+        dao.saveOrUpdate(u);
+        Long id = g.getId();
+        System.out.println(id);
+        u.print();
+
+        User u2 = dao.getByPropertyUnique("username", usernameGuide1, User.class);
+        g.setGuide(u2);
+        dao.saveOrUpdate(g);
+
+        u.print();
+        u2.print();
+
+        dao.remove(r);
+
+        u.print();
+        u2.print();
+
+    }
+
+    @Test
+    public void testChangeGroupAndGuide() throws Exception {
+
+        User u = dao.getByPropertyUnique("username",username, User.class);
+
+        Route r = u.getEvents().get(0).getRoutes().get(0);
+
+        Group g = new Group();
+        dao.saveOrUpdate(g);
+        r.addGroup(g);
+        dao.saveOrUpdate(u);
+        Long id = g.getId();
+        System.out.println(id);
+        u.print();
+
+        User u2 = dao.getByPropertyUnique("username", usernameGuide1, User.class);
+        User u3 = dao.getByPropertyUnique("username", usernameGuide2, User.class);
+
+        g.setGuide(u2);
+        dao.saveOrUpdate(g);
+
+        u.print();
+        u2.print();
+        u3.print();
+
+        System.out.println("CHANGED GUIDE TO guide2@gmail.com");
+
+        g.setGuide(u3);
+        dao.saveOrUpdate(g);
+
+        u.print();
+        u2.print();
+        u3.print();
+
+    }
+
 }
