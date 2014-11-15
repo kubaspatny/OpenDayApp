@@ -243,6 +243,13 @@ public class User extends AbstractBusinessObject {
                             }
                         }
 
+                        System.out.println("\t\t\t GROUPS:");
+                        if(r.getGroups() != null){
+                            for(Group group : r.getGroups()){
+                                System.out.println("\t\t\t\t" + group);
+                            }
+                        }
+
 
                     }
                 }

@@ -52,6 +52,9 @@ public class Route extends AbstractBusinessObject {
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private List<User> stationManagers;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "route")
+    private List<Group> groups;
+
     public String getName() {
         return name;
     }
@@ -131,6 +134,29 @@ public class Route extends AbstractBusinessObject {
         stationManager.addManagedRoute(this);
     }
 
+    public List<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
+    }
+
+    public void addGroup(Group group){
+        if(groups == null){
+            groups = new ArrayList<Group>();
+        }
+
+        group.setRoute(this);
+        groups.add(group);
+    }
+
+    public void removeGroup(Group group){
+        if(groups == null || !groups.contains(group)) throw new RuntimeException("Route doesn't have group with ID: " + group.getId());
+        groups.remove(group);
+    }
+
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Route{");
@@ -164,6 +190,12 @@ public class Route extends AbstractBusinessObject {
         if(stations != null){
             for(Station s : stations){
                 s.setRoute(null);
+            }
+        }
+
+        if(groups != null){
+            for(Group g : groups){
+                g.setRoute(null);
             }
         }
 
