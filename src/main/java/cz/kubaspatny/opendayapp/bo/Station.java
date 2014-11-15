@@ -1,6 +1,9 @@
 package cz.kubaspatny.opendayapp.bo;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Author: Kuba Spatny
@@ -55,6 +58,9 @@ public class Station extends AbstractBusinessObject {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "startingPosition")
     private Group startingGroup;
+
+    @OneToMany(mappedBy = "station")
+    private List<LocationUpdate> locationUpdates;
 
     public String getName() {
         return name;
@@ -120,6 +126,22 @@ public class Station extends AbstractBusinessObject {
         this.startingGroup = startingGroup;
     }
 
+    public List<LocationUpdate> getLocationUpdates() {
+        return locationUpdates;
+    }
+
+    public void setLocationUpdates(List<LocationUpdate> locationUpdates) {
+        this.locationUpdates = locationUpdates;
+    }
+
+    public void addLocationUpdate(LocationUpdate locationUpdate){
+        if(locationUpdates == null){
+            locationUpdates = new ArrayList<LocationUpdate>();
+        }
+
+        locationUpdate.setStation(this);
+        locationUpdates.add(locationUpdate);
+    }
 
     @Override
     public String toString() {
@@ -144,6 +166,14 @@ public class Station extends AbstractBusinessObject {
 
         if(getStartingGroup() != null){
             getStartingGroup().setStartingPosition(null);
+        }
+
+        if(getLocationUpdates() != null){
+            for(Iterator<LocationUpdate> it = getLocationUpdates().iterator(); it.hasNext();){
+                LocationUpdate l = it.next();
+                l.setStation(null);
+                it.remove();
+            }
         }
     }
 

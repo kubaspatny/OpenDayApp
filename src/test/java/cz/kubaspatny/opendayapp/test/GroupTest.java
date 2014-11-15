@@ -379,22 +379,37 @@ public class GroupTest extends AbstractTest {
         LocationUpdate locationUpdate = new LocationUpdate();
         locationUpdate.setTimestamp(DateTime.now());
         locationUpdate.setType(LocationUpdate.Type.CHECKIN);
+        s1.addLocationUpdate(locationUpdate);
         g.addLocationUpdate(locationUpdate);
 
         locationUpdate = new LocationUpdate();
         locationUpdate.setTimestamp(DateTime.now());
         locationUpdate.setType(LocationUpdate.Type.CHECKOUT);
+        s1.addLocationUpdate(locationUpdate);
         g.addLocationUpdate(locationUpdate);
 
         locationUpdate = new LocationUpdate();
         locationUpdate.setTimestamp(DateTime.now());
         locationUpdate.setType(LocationUpdate.Type.SKIP);
+        s2.addLocationUpdate(locationUpdate);
         g.addLocationUpdate(locationUpdate);
 
         dao.saveOrUpdate(g);
 
         u.print();
         u2.print();
+
+        // ------------------
+        System.out.println("************************************************************************************");
+        dao.remove(s1);
+
+        u2 = dao.getByPropertyUnique("username", usernameGuide1, User.class);
+
+        u.print();
+        u2.print();
+
+        Long id = u2.getGroups().get(0).getLocationUpdates().get(0).getStation().getId();
+        Assert.assertNull(dao.getById(id, Station.class));
 
     }
 

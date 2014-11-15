@@ -1,5 +1,6 @@
 package cz.kubaspatny.opendayapp.bo;
 
+import org.hibernate.annotations.SourceType;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
@@ -46,6 +47,9 @@ public class LocationUpdate extends AbstractBusinessObject {
     @Column(nullable = false, updatable = false)
     private Type type;
 
+    @ManyToOne
+    private Station station;
+
     public DateTime getTimestamp() {
         return timestamp;
     }
@@ -78,6 +82,14 @@ public class LocationUpdate extends AbstractBusinessObject {
         this.estimated = estimated;
     }
 
+    public Station getStation() {
+        return station;
+    }
+
+    public void setStation(Station station) {
+        this.station = station;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("LocationUpdate{");
@@ -85,8 +97,8 @@ public class LocationUpdate extends AbstractBusinessObject {
         sb.append(", timestamp=").append(timestamp);
         sb.append(", group=").append(group);
         sb.append(", type=").append(type);
+        sb.append(", station=").append(station);
         sb.append('}');
         return sb.toString();
     }
-
 }
