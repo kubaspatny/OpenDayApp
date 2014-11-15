@@ -1,9 +1,6 @@
 package cz.kubaspatny.opendayapp.bo;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.PreRemove;
+import javax.persistence.*;
 
 /**
  * Author: Kuba Spatny
@@ -55,6 +52,9 @@ public class Station extends AbstractBusinessObject {
 
     @ManyToOne
     private Route route;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "startingPosition")
+    private Group startingGroup;
 
     public String getName() {
         return name;
@@ -112,6 +112,15 @@ public class Station extends AbstractBusinessObject {
         this.route = route;
     }
 
+    public Group getStartingGroup() {
+        return startingGroup;
+    }
+
+    public void setStartingGroup(Group startingGroup) {
+        this.startingGroup = startingGroup;
+    }
+
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Station{");
@@ -131,6 +140,10 @@ public class Station extends AbstractBusinessObject {
         if(getRoute() != null){
             getRoute().removeStation(this);
             setRoute(null);
+        }
+
+        if(getStartingGroup() != null){
+            getStartingGroup().setStartingPosition(null);
         }
     }
 

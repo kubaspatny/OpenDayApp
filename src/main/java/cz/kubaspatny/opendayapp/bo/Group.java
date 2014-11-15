@@ -2,6 +2,7 @@ package cz.kubaspatny.opendayapp.bo;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PreRemove;
 
 /**
@@ -34,6 +35,8 @@ public class Group extends AbstractBusinessObject {
     @ManyToOne
     private User guide;
 
+    @OneToOne
+    private Station startingPosition;
 
     public Route getRoute() {
         return route;
@@ -58,8 +61,23 @@ public class Group extends AbstractBusinessObject {
         final StringBuilder sb = new StringBuilder("Group{");
         sb.append("route=").append(route);
         sb.append(", guide=").append(guide);
+        sb.append(", startingPosition=").append(startingPosition);
         sb.append('}');
         return sb.toString();
+    }
+
+    public Station getStartingPosition() {
+        return startingPosition;
+    }
+
+    public void setStartingPosition(Station startingPosition) {
+        if(this.startingPosition != null) this.startingPosition.setStartingGroup(null);
+
+        this.startingPosition = startingPosition;
+
+        if(startingPosition != null){
+            this.startingPosition.setStartingGroup(this);
+        }
     }
 
     @PreRemove
@@ -72,6 +90,10 @@ public class Group extends AbstractBusinessObject {
         if(guide != null){
             guide.removeGroup(this);
             guide = null;
+        }
+
+        if(startingPosition != null){
+            startingPosition.setStartingGroup(null);
         }
 
     }

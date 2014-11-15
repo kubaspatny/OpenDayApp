@@ -232,4 +232,75 @@ public class GroupTest extends AbstractTest {
 
     }
 
+    @Test
+    public void testGroupStartingPosition() throws Exception {
+
+        User u = dao.getByPropertyUnique("username",username, User.class);
+
+        Route r = u.getEvents().get(0).getRoutes().get(0);
+        Station s1 = r.getStations().get(0);
+        Station s2 = r.getStations().get(1);
+
+        Group g = new Group();
+        dao.saveOrUpdate(g);
+        r.addGroup(g);
+        dao.saveOrUpdate(u);
+        Long id = g.getId();
+        u.print();
+
+        User u2 = dao.getByPropertyUnique("username", usernameGuide1, User.class);
+        g.setGuide(u2);
+        dao.saveOrUpdate(g);
+
+        u.print();
+        u2.print();
+
+        System.out.println("--- ADDED STARTING POSITION ---");
+
+        g.setStartingPosition(s1);
+        dao.saveOrUpdate(g);
+
+        u.print();
+        u2.print();
+
+        System.out.println("--- CHANGED STARTING POSITION ---");
+
+        g.setStartingPosition(s2);
+        dao.saveOrUpdate(g);
+
+        u.print();
+        u2.print();
+
+    }
+
+    @Test
+    public void testDeleteGroupWithEverything() throws Exception {
+
+        User u = dao.getByPropertyUnique("username",username, User.class);
+
+        Route r = u.getEvents().get(0).getRoutes().get(0);
+        Station s1 = r.getStations().get(0);
+
+        Group g = new Group();
+        dao.saveOrUpdate(g);
+        r.addGroup(g);
+        dao.saveOrUpdate(u);
+
+        User u2 = dao.getByPropertyUnique("username", usernameGuide1, User.class);
+        g.setGuide(u2);
+        g.setStartingPosition(s1);
+        dao.saveOrUpdate(g);
+
+        u.print();
+        u2.print();
+
+        System.out.println("--- GROUP DELETED ---");
+
+        dao.remove(g);
+
+        u.print();
+        u2.print();
+
+
+    }
 }
