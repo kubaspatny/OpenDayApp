@@ -183,8 +183,6 @@ public class User extends AbstractBusinessObject {
     public void removeEvent(Event event){
         if(events == null || !events.contains(event)) throw new RuntimeException("User collection doesn't contain event " + event.getId());
         events.remove(event);
-        // TODO: remove the event from userService via dao.remove(event)
-        throw new RuntimeException("READ TODO!");
     }
 
     public List<Route> getManagedRoutes() {
@@ -201,6 +199,11 @@ public class User extends AbstractBusinessObject {
         }
 
         managedRoutes.add(route);
+    }
+
+    public void removeManagedRoute(Route route){
+        if(managedRoutes == null || !managedRoutes.contains(route)) throw new RuntimeException("User managed routes collection doesn't contain route " + route.getId());
+        managedRoutes.remove(route);
     }
 
     @Override
@@ -257,4 +260,5 @@ public class User extends AbstractBusinessObject {
             }
         }
     }
+
 }

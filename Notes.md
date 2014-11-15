@@ -6,6 +6,10 @@ NOTES
 - CascadeType.REFRESH: When refreshing an entity, also refresh the entities held in this field.
 - CascadeType.MERGE: When merging entity state, also merge the entities held in this field.
 
+http://en.wikibooks.org/wiki/Java_Persistence/ManyToMany
+
+- Patterns for entity removal (@PreRemove): http://blog.xebia.com/2009/04/09/jpa-implementation-patterns-removing-entities/
+
 BUGS
 ===
 

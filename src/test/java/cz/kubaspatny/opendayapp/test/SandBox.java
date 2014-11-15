@@ -149,10 +149,12 @@ public class SandBox extends AbstractTest {
         User u = dao.getByPropertyUnique("username",username, User.class);
         u.print();
         System.out.println("-----------------------------------");
+
         Event e = new Event();
         e.setName("NEWLY ADDED EVENT");
         e.setInformation("INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION INFORMATION");
         e.setDate(DateTime.now(DateTimeZone.UTC).plusYears(1));
+        e = dao.saveOrUpdate(e);
 
         u.addEvent(e);
         dao.saveOrUpdate(u);
@@ -225,17 +227,149 @@ public class SandBox extends AbstractTest {
         User u = dao.getByPropertyUnique("username",username, User.class);
 
         List<Event> events = u.getEvents();
-        List<Long> ids = new ArrayList<Long>();
+        List<Long> ids_event = new ArrayList<Long>();
+        List<Long> ids_route = new ArrayList<Long>();
+        List<Long> ids_station = new ArrayList<Long>();
         Collections.sort(events, new EventDateComparator());
         for(Event e : events){
-            ids.add(e.getId());
+            ids_event.add(e.getId());
+
+            if(e.getRoutes() != null){
+                for(Route r : e.getRoutes()){
+                    ids_route.add(r.getId());
+                    if(r.getStations() != null){
+                        for(Station s : r.getStations()){
+                            ids_station.add(s.getId());
+
+                        }
+
+                    }
+                }
+            }
+
         }
 
         dao.remove(u);
 
-        Event e = dao.getById(ids.get(0), Event.class);
-        Assert.assertNull(e);
+        Event e = dao.getById(ids_event.get(0), Event.class);
+        Route r = dao.getById(ids_route.get(0), Route.class);
+        Station s = dao.getById(ids_station.get(0), Station.class);
 
+        /**
+         * Assert that the user's events have been deleted as well.
+         */
+        Assert.assertNull(e);
+        Assert.assertNull(r);
+        Assert.assertNull(s);
+
+
+
+    }
+
+    /**
+     * Test if we delete event that the user doesn't see it anymore.
+     * @throws Exception
+     */
+    @Test
+    public void testDeleteEvent() throws Exception {
+
+        User u = dao.getByPropertyUnique("username", username, User.class);
+
+        Long id = null;
+
+        for(Event e : u.getEvents()){
+            if(id == null){
+                id = e.getId();
+                break;
+            }
+        }
+
+        u.print();
+
+        dao.removeById(id, Event.class);
+        Assert.assertNull(dao.getById(id, Event.class));
+
+        System.out.println("---- PRE RETRIEVE ----");
+        u.print();
+
+        System.out.println("---- POST RETRIEVE ----");
+        u = dao.getByPropertyUnique("username", username, User.class);
+        u.print();
+
+
+    }
+
+    @Test
+    public void testDeleteRouteEventPart() throws Exception {
+
+        User u = dao.getByPropertyUnique("username", username, User.class);
+        Long id = u.getEvents().get(0).getRoutes().get(0).getId();
+
+        u.print();
+
+        dao.removeById(id, Route.class);
+        Assert.assertNull(dao.getById(id, Route.class));
+
+        System.out.println("---- PRE RETRIEVE ----");
+        u.print();
+
+        System.out.println("---- POST RETRIEVE ----");
+        u = dao.getByPropertyUnique("username", username, User.class);
+        u.print();
+
+    }
+
+    @Test
+    public void testDeleteRouteStationManagerPart() throws Exception {
+
+        User u = dao.getByPropertyUnique("username",username, User.class);
+
+        User uNew = new User();
+        String usernameNew = "stationmanager@gmail.com";
+        uNew.setUsername(usernameNew);
+        uNew.setPassword("djnsdgjnaso;a");
+        uNew.setOrganization("CTU");
+
+        u.getEvents().get(0).getRoutes().get(0).addStationManager(uNew);
+        dao.saveOrUpdate(u);
+
+        u = dao.getByPropertyUnique("username",username, User.class);
+        u.print();
+
+        System.out.println("--------------------------------------------");
+
+        uNew = dao.getByPropertyUnique("username",usernameNew, User.class);
+        uNew.print();
+
+        // remove route
+
+        Long id = u.getEvents().get(0).getRoutes().get(0).getId();
+        dao.removeById(id, Route.class);
+        Assert.assertNull(dao.getById(id, Route.class));
+
+        u.print();
+        System.out.println("--------------------------------------------");
+        uNew.print();
+        uNew = dao.getByPropertyUnique("username", usernameNew, User.class);
+        System.out.println("-- POST RETRIEVE --");
+        uNew.print();
+    }
+
+    @Test
+    public void testRemoveStationRoutePart() throws Exception {
+
+        User u = dao.getByPropertyUnique("username",username, User.class);
+        Station s = u.getEvents().get(0).getRoutes().get(0).getStations().get(0);
+
+        u.print();
+
+        dao.remove(s);
+
+        Assert.assertNull(dao.getById(s.getId(), Station.class));
+
+        System.out.println("--------------------------------------------------");
+
+        u.print();
 
 
     }

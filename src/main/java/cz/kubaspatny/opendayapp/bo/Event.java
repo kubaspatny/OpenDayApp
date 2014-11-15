@@ -97,11 +97,7 @@ public class Event extends AbstractBusinessObject {
     public void removeRoute(Route route){
         if(routes == null || !routes.contains(route)) throw new RuntimeException("User collection doesn't contain route " + route.getId());
         routes.remove(route);
-        // TODO: remove the route from userService via dao.remove(route)
-        throw new RuntimeException("READ TODO!");
     }
-
-
 
     @Override
     public String toString() {
@@ -112,6 +108,18 @@ public class Event extends AbstractBusinessObject {
         sb.append(", organizer=").append(organizer.getUsername());
         sb.append('}');
         return sb.toString();
+    }
+
+    /**
+     * Before deleting this entity, the relationship has to be removed, otherwise the User object
+     * might still see this entity in his list of Events (until the moment his entity was retrieved
+     * again, but in case he would try to persist this entity before retrieving it again it would
+     * cause an Exception).
+     */
+    @PreRemove
+    private void preRemove(){
+        getOrganizer().removeEvent(this);
+        setOrganizer(null);
     }
 
 }

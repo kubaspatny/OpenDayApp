@@ -111,8 +111,6 @@ public class Route extends AbstractBusinessObject {
     public void removeStation(Station station){
         if(stations == null || !stations.contains(station)) throw new RuntimeException("User collection doesn't contain route " + station.getId());
         stations.remove(station);
-        // TODO: remove the station from userService via dao.remove(station)
-        throw new RuntimeException("READ TODO!");
     }
 
     public List<User> getStationManagers() {
@@ -142,5 +140,23 @@ public class Route extends AbstractBusinessObject {
         sb.append(", event=").append(event.getName());
         sb.append('}');
         return sb.toString();
+    }
+
+    @PreRemove
+    private void preRemove(){
+
+        // remove Route from Event
+        getEvent().removeRoute(this);
+        setEvent(null);
+
+        // remove Route from users' managedRoutes
+        if(stationManagers != null){
+            for(User u : stationManagers){
+                u.removeManagedRoute(this);
+            }
+            stationManagers.clear();
+        }
+
+
     }
 }

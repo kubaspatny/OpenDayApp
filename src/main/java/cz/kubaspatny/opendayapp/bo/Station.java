@@ -3,6 +3,7 @@ package cz.kubaspatny.opendayapp.bo;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.PreRemove;
 
 /**
  * Author: Kuba Spatny
@@ -124,4 +125,13 @@ public class Station extends AbstractBusinessObject {
         sb.append('}');
         return sb.toString();
     }
+
+    @PreRemove
+    private void preRemove(){
+        getRoute().removeStation(this);
+        setRoute(null);
+
+        //TODO: if station has updates or groups -> throw Exception
+    }
+
 }
