@@ -21,4 +21,12 @@ package cz.kubaspatny.opendayapp.dto;
  * limitations under the License.
  */
 public class UserDto {
+
+    private String username;
+    private String email;
+    private String password;
+    private String firstName;
+    private String lastName;
+    private String organization;
+
 }

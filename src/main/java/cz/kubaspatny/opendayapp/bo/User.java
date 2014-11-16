@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Configurable;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Author: Kuba Spatny
@@ -36,6 +38,10 @@ import java.util.List;
 @Table(name = "users")
 @Configurable(preConstruction = true)
 public class User extends AbstractBusinessObject {
+
+    public enum UserRole {
+        ROLE_ORGANIZER, ROLE_STATIONMANAGER, ROLE_GUIDE;
+    }
 
     @Autowired private transient SaltProvider saltProvider;
     @Autowired private transient HashProvider hashProvider;
@@ -71,7 +77,8 @@ public class User extends AbstractBusinessObject {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "guide")
     private List<Group> groups;
 
-
+    @ElementCollection
+    private Set<UserRole> userRoles;
 
     // ------------------- GETTER AND SETTERS -------------------
 
@@ -213,6 +220,28 @@ public class User extends AbstractBusinessObject {
         groups.remove(group);
     }
 
+    public Set<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(Set<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
+
+    public void addUserRole(UserRole userRole){
+        if(userRoles == null){
+            userRoles = new HashSet<UserRole>();
+        }
+
+        userRoles.add(userRole);
+    }
+
+    public void removeUserRole(UserRole userRole){
+        if(userRoles != null){
+            userRoles.remove(userRole);
+        }
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("User{");
@@ -307,6 +336,13 @@ public class User extends AbstractBusinessObject {
             }
         }
 
+        System.out.println("USER ROLES:");
+        if(userRoles != null){
+            for(UserRole userRole : userRoles){
+                System.out.println("\t" + userRole);
+            }
+        }
+
         System.out.println();
     }
 
@@ -323,6 +359,7 @@ public class User extends AbstractBusinessObject {
         private String firstName;
         private String lastName;
         private String organization;
+        private Set<UserRole> userRoles;
 
         public Builder(String username, String email, String password) {
             if(username == null || email == null || password == null) throw new IllegalArgumentException("Parameters cannot be null!");
@@ -347,6 +384,15 @@ public class User extends AbstractBusinessObject {
             return this;
         }
 
+        public Builder addUserRole(UserRole userRole){
+            if(userRoles == null){
+                userRoles = new HashSet<UserRole>();
+            }
+
+            userRoles.add(userRole);
+            return this;
+        }
+
         public User build(){
             User u = new User();
             u.setUsername(username);
@@ -355,6 +401,7 @@ public class User extends AbstractBusinessObject {
             u.setFirstName(firstName);
             u.setLastName(lastName);
             u.setOrganization(organization);
+            u.setUserRoles(userRoles);
             return u;
         }
     }

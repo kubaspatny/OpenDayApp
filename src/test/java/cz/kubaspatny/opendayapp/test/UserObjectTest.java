@@ -34,6 +34,7 @@ public class UserObjectTest extends AbstractTest {
     @Autowired private HashProvider hashProvider;
 
     private String username = "kuba.spatny@gmail.com";
+    private String usernameAdmin = "admin@gmail.com";
 
     @Before
     public void setUp() throws Exception {
@@ -47,6 +48,10 @@ public class UserObjectTest extends AbstractTest {
         u.setUserEnabled(true);
 
         dao.saveOrUpdate(u);
+
+        User.Builder builder = new User.Builder(usernameAdmin, usernameAdmin, "password");
+        builder.setFirstName("FIRSTNAME").setLastName("LASTNAME").setOrganization("CTU").addUserRole(User.UserRole.ROLE_GUIDE);
+        dao.saveOrUpdate(builder.build());
     }
 
     @Test
@@ -71,4 +76,19 @@ public class UserObjectTest extends AbstractTest {
         System.out.println(u);
     }
 
+    @Test
+    public void testBuilder() throws Exception {
+
+        User u = dao.getByPropertyUnique("username", usernameAdmin, User.class);
+        u.print();
+        Assert.assertTrue(u.isLoginCorrect("password"));
+        Assert.assertFalse(u.isLoginCorrect("passwodr"));
+
+        u.addUserRole(User.UserRole.ROLE_GUIDE);
+        u.addUserRole(User.UserRole.ROLE_ORGANIZER);
+        dao.saveOrUpdate(u);
+
+        u.print();
+
+    }
 }
