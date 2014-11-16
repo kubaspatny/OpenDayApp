@@ -13,7 +13,9 @@ http://en.wikibooks.org/wiki/Java_Persistence/ManyToMany
 BUGS
 ===
 
-- User#removeEvent(): You must remove the event object from db as well! Do it in a service.
-- Event#removeRoute(): You must remove the route object from db as well! Do it in a service.
-- Route#removeStation(): You must remove the station object from db as well! Do it in a service.
-- Route#removeStationManager(): MANAGER MUST BE REMOVED FROM LIST, but also ROUTE MUST BE REMOVED FROM THE USER !!!
+EMAILS
+===
+
+- opendayapp@gmail.com, h=&estecA!uY+da2uGa2ephu*!8pejUx
+- opendayapptest@gmail.com, h=&estecA!uY+da2uGa2ephu*!8pejUx
+
