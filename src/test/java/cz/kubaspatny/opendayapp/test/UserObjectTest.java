@@ -41,6 +41,7 @@ public class UserObjectTest extends AbstractTest {
         u.setFirstName("Kuba");
         u.setLastName("Spatny");
         u.setUsername(username);
+        u.setEmail(username);
         u.setPassword("password");
         u.setOrganization("Czech Technical University in Prague");
         u.setUserEnabled(true);

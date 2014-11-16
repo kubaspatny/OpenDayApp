@@ -44,6 +44,7 @@ public class GroupTest extends AbstractTest {
         u.setFirstName("Kuba");
         u.setLastName("Spatny");
         u.setUsername(username);
+        u.setEmail(username);
         u.setPassword("password");
         u.setOrganization("Czech Technical University in Prague");
         u.setUserEnabled(true);
@@ -102,6 +103,7 @@ public class GroupTest extends AbstractTest {
         u2.setFirstName("GUIDE 1");
         u2.setLastName("LASTNAME");
         u2.setUsername(usernameGuide1);
+        u2.setEmail(usernameGuide1);
         u2.setPassword("password");
         u2.setOrganization("Czech Technical University in Prague");
         u2.setUserEnabled(true);
@@ -111,6 +113,7 @@ public class GroupTest extends AbstractTest {
         u3.setFirstName("GUIDE 2");
         u3.setLastName("LASTNAME");
         u3.setUsername(usernameGuide2);
+        u3.setEmail(usernameGuide2);
         u3.setPassword("password");
         u3.setOrganization("Czech Technical University in Prague");
         u3.setUserEnabled(true);

@@ -43,6 +43,9 @@ public class User extends AbstractBusinessObject {
     @Column(nullable = false, unique = true)
     private String username;
 
+    @Column(nullable = false, unique = true)
+    private String email;
+
     /**
      * This variable represents SHA-256 hashed and salted password.
      */
@@ -57,7 +60,7 @@ public class User extends AbstractBusinessObject {
     private String organization;
 
     @Column(nullable = false)
-    private boolean userEnabled = false;
+    private boolean userEnabled = true;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "organizer")
     private List<Event> events;
@@ -68,6 +71,8 @@ public class User extends AbstractBusinessObject {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "guide")
     private List<Group> groups;
 
+
+
     // ------------------- GETTER AND SETTERS -------------------
 
     public String getUsername() {
@@ -76,6 +81,14 @@ public class User extends AbstractBusinessObject {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -300,6 +313,50 @@ public class User extends AbstractBusinessObject {
     @PreRemove
     private void preRemove(){
         throw new RuntimeException("Users cannot be deleted from the database! Use User#setEnabled(false) instead!");
+    }
+
+    public static class Builder {
+
+        private String username;
+        private String email;
+        private String password;
+        private String firstName;
+        private String lastName;
+        private String organization;
+
+        public Builder(String username, String email, String password) {
+            if(username == null || email == null || password == null) throw new IllegalArgumentException("Parameters cannot be null!");
+
+            this.username = username;
+            this.email = email;
+            this.password = password;
+        }
+
+        public Builder setFirstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Builder setLastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public Builder setOrganization(String organization) {
+            this.organization = organization;
+            return this;
+        }
+
+        public User build(){
+            User u = new User();
+            u.setUsername(username);
+            u.setEmail(email);
+            u.setPassword(password);
+            u.setFirstName(firstName);
+            u.setLastName(lastName);
+            u.setOrganization(organization);
+            return u;
+        }
     }
 
 }

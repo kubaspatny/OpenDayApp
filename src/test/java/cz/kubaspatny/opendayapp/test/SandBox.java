@@ -49,6 +49,7 @@ public class SandBox extends AbstractTest {
         u.setFirstName("Kuba");
         u.setLastName("Spatny");
         u.setUsername(username);
+        u.setEmail(username);
         u.setPassword("password");
         u.setOrganization("Czech Technical University in Prague");
         u.setUserEnabled(true);
@@ -123,6 +124,7 @@ public class SandBox extends AbstractTest {
         User uNew = new User();
         String usernameNew = "stationmanager@gmail.com";
         uNew.setUsername(usernameNew);
+        uNew.setEmail(usernameNew);
         uNew.setPassword("djnsdgjnaso;a");
         uNew.setOrganization("CTU");
 
@@ -324,6 +326,7 @@ public class SandBox extends AbstractTest {
         User uNew = new User();
         String usernameNew = "stationmanager@gmail.com";
         uNew.setUsername(usernameNew);
+        uNew.setEmail(usernameNew);
         uNew.setPassword("djnsdgjnaso;a");
         uNew.setOrganization("CTU");
 
