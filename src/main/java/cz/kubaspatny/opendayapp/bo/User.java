@@ -59,19 +59,6 @@ public class User extends AbstractBusinessObject {
     @Column(nullable = false)
     private boolean userEnabled = false;
 
-    /**
-     * User account can be expirable, which means it has set value @validTo.
-     * The system does periodic checks on expirable accounts, if @user_account_expirable is
-     * equal to true there are several possible outcomes:
-     * - current date is before validTo -> no change of user attributes
-     * - current date is after validTo -> @user_enabled is set to false and @user_account_expirable is to to false
-     */
-    @Column(nullable = false)
-    private boolean userAccountExpirable = false;
-
-    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    private DateTime validTo = null;
-
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "organizer")
     private List<Event> events;
 
@@ -104,6 +91,10 @@ public class User extends AbstractBusinessObject {
     public void setPassword(String password) {
         setSalt(hashProvider.hash(saltProvider.generateSalt(32)));
         this.password = hashProvider.hash(password, salt);
+    }
+
+    public boolean isLoginCorrect(String password){
+        return this.password.equals(hashProvider.hash(password, salt));
     }
 
     public String getSalt() {
@@ -144,22 +135,6 @@ public class User extends AbstractBusinessObject {
 
     public void setUserEnabled(boolean userEnabled) {
         this.userEnabled = userEnabled;
-    }
-
-    public boolean isUserAccountExpirable() {
-        return userAccountExpirable;
-    }
-
-    public void setUserAccountExpirable(boolean userAccountExpirable) {
-        this.userAccountExpirable = userAccountExpirable;
-    }
-
-    public DateTime getValidTo() {
-        return validTo;
-    }
-
-    public void setValidTo(DateTime validTo) {
-        this.validTo = validTo;
     }
 
     public List<Event> getEvents() {
@@ -236,8 +211,6 @@ public class User extends AbstractBusinessObject {
         sb.append(", lastName='").append(lastName).append('\'');
         sb.append(", organization='").append(organization).append('\'');
         sb.append(", userEnabled=").append(userEnabled);
-        sb.append(", userAccountExpirable=").append(userAccountExpirable);
-        sb.append(", validTo=").append(validTo);
         sb.append('}');
         return sb.toString();
     }
