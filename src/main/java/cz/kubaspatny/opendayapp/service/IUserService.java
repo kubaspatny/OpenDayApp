@@ -37,6 +37,8 @@ public interface IUserService {
 
     public Long createUser(UserDto userDto);
 
+    public Long createGeneratedUser(String emailAddress);
+
     public void updateUser(UserDto userDto);
 
     public void deactivateUser(Long userId);
