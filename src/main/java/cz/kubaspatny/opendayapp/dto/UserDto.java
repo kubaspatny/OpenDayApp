@@ -1,5 +1,11 @@
 package cz.kubaspatny.opendayapp.dto;
 
+import cz.kubaspatny.opendayapp.bo.User;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * Author: Kuba Spatny
  * Web: kubaspatny.cz
@@ -24,9 +30,99 @@ public class UserDto {
 
     private String username;
     private String email;
-    private String password;
     private String firstName;
     private String lastName;
     private String organization;
 
+    private Set<User.UserRole> userRoles;
+
+    private List<EventDto> events;
+    private List<RouteDto> managedRoutes;
+    private List<GroupDto> groups;
+
+    public String getUsername() {
+        return username;
+    }
+
+    private void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    private void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
+
+    public Set<User.UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(Set<User.UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
+
+    public void addUserRole(User.UserRole userRole){
+        if(userRoles == null){
+            userRoles = new HashSet<User.UserRole>();
+        }
+
+        userRoles.add(userRole);
+    }
+
+    public void removeUserRole(User.UserRole userRole){
+        if(userRoles != null){
+            userRoles.remove(userRole);
+        }
+    }
+
+    public List<EventDto> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<EventDto> events) {
+        this.events = events;
+    }
+
+    public List<RouteDto> getManagedRoutes() {
+        return managedRoutes;
+    }
+
+    public void setManagedRoutes(List<RouteDto> managedRoutes) {
+        this.managedRoutes = managedRoutes;
+    }
+
+    public List<GroupDto> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<GroupDto> groups) {
+        this.groups = groups;
+    }
 }

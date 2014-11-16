@@ -1,11 +1,13 @@
-package cz.kubaspatny.opendayapp.service;
+package cz.kubaspatny.opendayapp.dto;
+
+import org.joda.time.DateTime;
 
 /**
  * Author: Kuba Spatny
  * Web: kubaspatny.cz
  * E-mail: kuba.spatny@gmail.com
  * Date: 16/11/2014
- * Time: 20:11
+ * Time: 22:13
  * Copyright 2014 Jakub Spatny
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,8 +22,9 @@ package cz.kubaspatny.opendayapp.service;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class UserService {
+public class GroupSizeDto {
 
-
+    private DateTime timestamp;
+    private int size;
 
 }

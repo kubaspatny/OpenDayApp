@@ -1,5 +1,6 @@
 package cz.kubaspatny.opendayapp.service;
 
+import cz.kubaspatny.opendayapp.dto.UserDto;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -24,6 +25,21 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public interface IUserService {
+
+    @Transactional(readOnly = true)
+    public boolean isUsernameFree(String username);
+
+    @Transactional(readOnly = true)
+    public UserDto getUser(String username);
+
+    @Transactional(readOnly = true)
+    public UserDto getUser(Long id);
+
+    public Long createUser(UserDto userDto);
+
+    public void updateUser(UserDto userDto);
+
+    public void deactivateUser(Long userId);
 
 
 
