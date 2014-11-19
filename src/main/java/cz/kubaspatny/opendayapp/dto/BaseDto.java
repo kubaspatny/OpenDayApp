@@ -1,13 +1,11 @@
 package cz.kubaspatny.opendayapp.dto;
 
-import org.joda.time.DateTime;
-
 /**
  * Author: Kuba Spatny
  * Web: kubaspatny.cz
  * E-mail: kuba.spatny@gmail.com
- * Date: 16/11/2014
- * Time: 22:13
+ * Date: 19/11/2014
+ * Time: 10:12
  * Copyright 2014 Jakub Spatny
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,9 +20,15 @@ import org.joda.time.DateTime;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class GroupSizeDto extends BaseDto {
+public abstract class BaseDto {
 
-    private DateTime timestamp;
-    private int size;
+    public Long id;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

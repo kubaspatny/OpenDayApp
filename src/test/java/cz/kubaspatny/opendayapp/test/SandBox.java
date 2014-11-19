@@ -2,6 +2,8 @@ package cz.kubaspatny.opendayapp.test;
 
 import cz.kubaspatny.opendayapp.bo.*;
 import cz.kubaspatny.opendayapp.dao.GenericDao;
+import cz.kubaspatny.opendayapp.dto.EventDto;
+import cz.kubaspatny.opendayapp.dto.UserDto;
 import cz.kubaspatny.opendayapp.provider.HashProvider;
 import cz.kubaspatny.opendayapp.utils.EventDateComparator;
 import org.hibernate.annotations.SourceType;
@@ -387,4 +389,21 @@ public class SandBox extends AbstractTest {
         Assert.assertNull(dao.getById(idRoute, Route.class));
 
     }
+
+    @Test
+    public void testDtoMapper() throws Exception {
+
+        User u = dao.getByPropertyUnique("username", username, User.class);
+
+        List<String> ignore = new ArrayList<String>();
+        ignore.add("events");
+        UserDto userDto = UserDto.map(u, new UserDto(), null);
+        System.out.println(userDto);
+
+        for(EventDto e : userDto.getEvents()){
+            System.out.println(e);
+        }
+
+    }
+
 }

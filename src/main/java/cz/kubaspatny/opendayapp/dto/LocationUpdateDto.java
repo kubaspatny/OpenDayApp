@@ -23,7 +23,7 @@ import org.joda.time.DateTime;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class LocationUpdateDto {
+public class LocationUpdateDto extends BaseDto {
 
     private boolean estimated = false;
     private DateTime timestamp;

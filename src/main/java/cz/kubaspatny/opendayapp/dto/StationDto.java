@@ -22,7 +22,7 @@ import java.util.List;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class StationDto {
+public class StationDto extends BaseDto {
 
     private String name;
     private String location;

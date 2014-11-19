@@ -1,7 +1,9 @@
 package cz.kubaspatny.opendayapp.dto;
 
+import cz.kubaspatny.opendayapp.bo.Event;
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,7 +26,7 @@ import java.util.List;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class EventDto {
+public class EventDto extends BaseDto {
 
     private String name;
     private DateTime date;
@@ -71,5 +73,41 @@ public class EventDto {
 
     public void setRoutes(List<RouteDto> routes) {
         this.routes = routes;
+    }
+
+    public static EventDto map(Event source, EventDto target, List<String> ignoredProperties){
+
+        target.id = source.getId();
+        target.name = source.getName();
+        target.date = source.getDate();
+        target.information = source.getInformation();
+        List<String> userIgnoredProperties = new ArrayList<String>();
+        userIgnoredProperties.add("events");
+        userIgnoredProperties.add("managedRoutes");
+        userIgnoredProperties.add("groups");
+        userIgnoredProperties.add("userRoles");
+        target.organizer = UserDto.map(source.getOrganizer(), new UserDto(),userIgnoredProperties);
+
+        if(ignoredProperties == null) ignoredProperties = new ArrayList<String>();
+        if(!ignoredProperties.contains("routes")){
+
+            // TODO: FINISH!!
+
+        }
+
+
+        return target;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("EventDto{");
+        sb.append("name='").append(name).append('\'');
+        sb.append(", date=").append(date);
+        sb.append(", information='").append(information).append('\'');
+        sb.append(", organizer=").append(organizer);
+        sb.append(", routes=").append(routes);
+        sb.append('}');
+        return sb.toString();
     }
 }

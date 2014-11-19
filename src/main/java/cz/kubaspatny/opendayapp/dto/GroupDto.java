@@ -22,7 +22,7 @@ import java.util.List;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class GroupDto {
+public class GroupDto extends BaseDto {
 
     private RouteDto route;
     private UserDto guide;

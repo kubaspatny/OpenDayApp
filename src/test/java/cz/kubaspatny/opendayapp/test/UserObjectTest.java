@@ -2,11 +2,16 @@ package cz.kubaspatny.opendayapp.test;
 
 import cz.kubaspatny.opendayapp.bo.User;
 import cz.kubaspatny.opendayapp.dao.GenericDao;
+import cz.kubaspatny.opendayapp.dto.EventDto;
+import cz.kubaspatny.opendayapp.dto.UserDto;
 import cz.kubaspatny.opendayapp.provider.HashProvider;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: Kuba Spatny
@@ -91,4 +96,8 @@ public class UserObjectTest extends AbstractTest {
         u.print();
 
     }
+
+
 }
+
+

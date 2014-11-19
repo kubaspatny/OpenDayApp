@@ -1,7 +1,9 @@
 package cz.kubaspatny.opendayapp.dto;
 
+import cz.kubaspatny.opendayapp.bo.Event;
 import cz.kubaspatny.opendayapp.bo.User;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,7 +28,7 @@ import java.util.Set;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class UserDto {
+public class UserDto extends BaseDto {
 
     private String username;
     private String email;
@@ -124,5 +126,52 @@ public class UserDto {
 
     public void setGroups(List<GroupDto> groups) {
         this.groups = groups;
+    }
+
+    public static UserDto map(User source, UserDto target, List<String> ignoredProperties){
+
+        target.id = source.getId();
+        target.username = source.getUsername();
+        target.email = source.getEmail();
+        target.firstName = source.getFirstName();
+        target.lastName = source.getLastName();
+        target.organization = source.getOrganization();
+
+        if(ignoredProperties == null) ignoredProperties = new ArrayList<String>();
+        // user roles ignorable
+        if(!ignoredProperties.contains("events") && source.getEvents() != null){
+            List<EventDto> eventDtos = new ArrayList<EventDto>();
+            List<String> eventIgnorable = new ArrayList<String>();
+            eventIgnorable.add("routes");
+            for(Event e : source.getEvents()){
+                eventDtos.add(EventDto.map(e, new EventDto(),eventIgnorable));
+            }
+            target.setEvents(eventDtos);
+        } else if(!ignoredProperties.contains("userRoles") && source.getUserRoles() != null){
+            for(User.UserRole userRole : source.getUserRoles()){
+                target.addUserRole(userRole);
+            }
+        }
+        // TODO: finish!!!
+
+        return target;
+
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("UserDto{");
+        sb.append("id=").append(id);
+        sb.append(", username='").append(username).append('\'');
+        sb.append(", email='").append(email).append('\'');
+        sb.append(", firstName='").append(firstName).append('\'');
+        sb.append(", lastName='").append(lastName).append('\'');
+        sb.append(", organization='").append(organization).append('\'');
+        sb.append(", userRoles=").append(userRoles);
+        sb.append(", events=").append(events);
+        sb.append(", managedRoutes=").append(managedRoutes);
+        sb.append(", groups=").append(groups);
+        sb.append('}');
+        return sb.toString();
     }
 }
