@@ -1,6 +1,9 @@
 package cz.kubaspatny.opendayapp.dto;
 
+import cz.kubaspatny.opendayapp.bo.GroupSize;
 import org.joda.time.DateTime;
+
+import java.util.List;
 
 /**
  * Author: Kuba Spatny
@@ -27,4 +30,40 @@ public class GroupSizeDto extends BaseDto {
     private DateTime timestamp;
     private int size;
 
+    public DateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(DateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    // OBJECT MAPPERS
+
+    public static GroupSizeDto map(GroupSize source, GroupSizeDto target, List<String> ignoreProperties){
+
+        target.id = source.getId();
+        target.timestamp = source.getTimestamp();
+        target.size = source.getSize();
+
+        return target;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("GroupSizeDto{");
+        sb.append("id=").append(id);
+        sb.append(", timestamp=").append(timestamp);
+        sb.append(", size=").append(size);
+        sb.append('}');
+        return sb.toString();
+    }
 }

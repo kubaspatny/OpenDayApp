@@ -1,5 +1,11 @@
 package cz.kubaspatny.opendayapp.dto;
 
+import cz.kubaspatny.opendayapp.bo.Group;
+import cz.kubaspatny.opendayapp.bo.GroupSize;
+import cz.kubaspatny.opendayapp.bo.LocationUpdate;
+import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +35,6 @@ public class GroupDto extends BaseDto {
     private StationDto startingPosition;
 
     private List<GroupSizeDto> groupSizes;
-
     private List<LocationUpdateDto> locationUpdates;
 
     public RouteDto getRoute() {
@@ -70,5 +75,52 @@ public class GroupDto extends BaseDto {
 
     public void setLocationUpdates(List<LocationUpdateDto> locationUpdates) {
         this.locationUpdates = locationUpdates;
+    }
+
+    // OBJECT MAPPERS
+
+    public static GroupDto map(Group source, GroupDto target, List<String> ignoredProperties){
+
+        target.id = source.getId();
+        target.route = RouteDto.map(source.getRoute(), new RouteDto(), DtoMapperUtil.getRouteIgnoredProperties());
+        target.guide = UserDto.map(source.getGuide(), new UserDto(), DtoMapperUtil.getUserIgnoredProperties());
+        target.startingPosition = StationDto.map(source.getStartingPosition(), new StationDto(), DtoMapperUtil.getStationIgnoredProperties());
+
+        if(ignoredProperties == null) ignoredProperties = new ArrayList<String>();
+
+        if(!ignoredProperties.contains("groupSizes") && source.getGroupSizes() != null){
+
+            List<GroupSizeDto> groupSizeDtos = new ArrayList<GroupSizeDto>();
+            for(GroupSize g : source.getGroupSizes()){
+                groupSizeDtos.add(GroupSizeDto.map(g, new GroupSizeDto(), null));
+            }
+
+            target.groupSizes = groupSizeDtos;
+
+        } else if(!ignoredProperties.contains("locationUpdates") && source.getLocationUpdates() != null){
+
+            List<LocationUpdateDto> locationUpdateDtos = new ArrayList<LocationUpdateDto>();
+            for(LocationUpdate l : source.getLocationUpdates()){
+                locationUpdateDtos.add(LocationUpdateDto.map(l, new LocationUpdateDto(), null));
+            }
+
+            target.locationUpdates = locationUpdateDtos;
+
+        }
+
+        return target;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("GroupDto{");
+        sb.append("id=").append(id);
+        sb.append(", route=").append(route);
+        sb.append(", guide=").append(guide);
+        sb.append(", startingPosition=").append(startingPosition);
+        sb.append(", groupSizes=").append(groupSizes);
+        sb.append(", locationUpdates=").append(locationUpdates);
+        sb.append('}');
+        return sb.toString();
     }
 }

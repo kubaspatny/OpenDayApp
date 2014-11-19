@@ -1,8 +1,12 @@
 package cz.kubaspatny.opendayapp.dto;
 
 import cz.kubaspatny.opendayapp.bo.Event;
+import cz.kubaspatny.opendayapp.bo.Group;
+import cz.kubaspatny.opendayapp.bo.Route;
 import cz.kubaspatny.opendayapp.bo.User;
+import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -138,21 +142,47 @@ public class UserDto extends BaseDto {
         target.organization = source.getOrganization();
 
         if(ignoredProperties == null) ignoredProperties = new ArrayList<String>();
-        // user roles ignorable
+
         if(!ignoredProperties.contains("events") && source.getEvents() != null){
+
             List<EventDto> eventDtos = new ArrayList<EventDto>();
-            List<String> eventIgnorable = new ArrayList<String>();
-            eventIgnorable.add("routes");
+            List<String> eventIgnorable = DtoMapperUtil.getEventIgnoredProperties();
+
             for(Event e : source.getEvents()){
-                eventDtos.add(EventDto.map(e, new EventDto(),eventIgnorable));
+                eventDtos.add(EventDto.map(e, new EventDto(), eventIgnorable));
             }
+
             target.setEvents(eventDtos);
+
+        } else if(!ignoredProperties.contains("managedRoutes") && source.getManagedRoutes() != null) {
+
+            List<RouteDto> routeDtos = new ArrayList<RouteDto>();
+            List<String> routeIgnoredProperties = DtoMapperUtil.getRouteIgnoredProperties();
+
+            for(Route r : source.getManagedRoutes()){
+                routeDtos.add(RouteDto.map(r, new RouteDto(), routeIgnoredProperties));
+            }
+
+            target.managedRoutes = routeDtos;
+
+        } else if(!ignoredProperties.contains("groups") && source.getGroups() != null) {
+
+            List<GroupDto> groupDtos = new ArrayList<GroupDto>();
+            List<String> groupIgnoredProperties = DtoMapperUtil.getGroupIgnoredProperties();
+
+            for(Group g : source.getGroups()){
+                groupDtos.add(GroupDto.map(g, new GroupDto(), groupIgnoredProperties));
+            }
+
+            target.groups = groupDtos;
+
         } else if(!ignoredProperties.contains("userRoles") && source.getUserRoles() != null){
+
             for(User.UserRole userRole : source.getUserRoles()){
                 target.addUserRole(userRole);
             }
+
         }
-        // TODO: finish!!!
 
         return target;
 
@@ -161,7 +191,7 @@ public class UserDto extends BaseDto {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("UserDto{");
-        sb.append("id=").append(id);
+        sb.append("id='").append(id).append('\'');
         sb.append(", username='").append(username).append('\'');
         sb.append(", email='").append(email).append('\'');
         sb.append(", firstName='").append(firstName).append('\'');

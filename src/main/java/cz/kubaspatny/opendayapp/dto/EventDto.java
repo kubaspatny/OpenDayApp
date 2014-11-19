@@ -1,6 +1,8 @@
 package cz.kubaspatny.opendayapp.dto;
 
 import cz.kubaspatny.opendayapp.bo.Event;
+import cz.kubaspatny.opendayapp.bo.Route;
+import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -81,20 +83,22 @@ public class EventDto extends BaseDto {
         target.name = source.getName();
         target.date = source.getDate();
         target.information = source.getInformation();
-        List<String> userIgnoredProperties = new ArrayList<String>();
-        userIgnoredProperties.add("events");
-        userIgnoredProperties.add("managedRoutes");
-        userIgnoredProperties.add("groups");
-        userIgnoredProperties.add("userRoles");
-        target.organizer = UserDto.map(source.getOrganizer(), new UserDto(),userIgnoredProperties);
+
+        target.organizer = UserDto.map(source.getOrganizer(), new UserDto(), DtoMapperUtil.getUserIgnoredProperties());
 
         if(ignoredProperties == null) ignoredProperties = new ArrayList<String>();
-        if(!ignoredProperties.contains("routes")){
 
-            // TODO: FINISH!!
+        if(!ignoredProperties.contains("routes") && source.getRoutes() != null){
+
+            List<RouteDto> routeDtos = new ArrayList<RouteDto>();
+            List<String> routeIgnoredProperties = DtoMapperUtil.getRouteIgnoredProperties();
+            for(Route r : source.getRoutes()){
+                routeDtos.add(RouteDto.map(r, new RouteDto(), routeIgnoredProperties));
+            }
+
+            target.routes = routeDtos;
 
         }
-
 
         return target;
     }
@@ -102,7 +106,8 @@ public class EventDto extends BaseDto {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("EventDto{");
-        sb.append("name='").append(name).append('\'');
+        sb.append("id='").append(id).append('\'');
+        sb.append(", ='").append(name).append('\'');
         sb.append(", date=").append(date);
         sb.append(", information='").append(information).append('\'');
         sb.append(", organizer=").append(organizer);

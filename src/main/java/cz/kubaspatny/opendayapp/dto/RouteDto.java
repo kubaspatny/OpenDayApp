@@ -1,7 +1,13 @@
 package cz.kubaspatny.opendayapp.dto;
 
+import cz.kubaspatny.opendayapp.bo.Group;
+import cz.kubaspatny.opendayapp.bo.Route;
+import cz.kubaspatny.opendayapp.bo.Station;
+import cz.kubaspatny.opendayapp.bo.User;
+import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -98,5 +104,72 @@ public class RouteDto extends BaseDto {
 
     public void setGroups(List<GroupDto> groups) {
         this.groups = groups;
+    }
+
+    // OBJECT MAPPERS
+
+    public static RouteDto map(Route source, RouteDto target, List<String> ignoreProperties){
+
+        target.id = source.getId();
+        target.name = source.getName();
+        target.hexColor = source.getHexColor();
+        target.date = source.getDate();
+
+        if(ignoreProperties == null) ignoreProperties = new ArrayList<String>();
+
+        if(!ignoreProperties.contains("event")){
+            target.event = EventDto.map(source.getEvent(), new EventDto(), DtoMapperUtil.getEventIgnoredProperties());
+        } else if(!ignoreProperties.contains("stations") && source.getStations() != null){
+
+            List<StationDto> stationDtos = new ArrayList<StationDto>();
+            List<String> stationIgnoredProperties = DtoMapperUtil.getStationIgnoredProperties();
+
+            for(Station s : source.getStations()){
+                stationDtos.add(StationDto.map(s, new StationDto(), stationIgnoredProperties));
+            }
+
+            target.stations = stationDtos;
+
+        } else if(!ignoreProperties.contains("stationManagers") && source.getStationManagers() != null){
+
+            List<UserDto> userDtos = new ArrayList<UserDto>();
+            List<String> userIgnoredProperties = DtoMapperUtil.getUserIgnoredProperties();
+
+            for(User u : source.getStationManagers()){
+                userDtos.add(UserDto.map(u, new UserDto(), userIgnoredProperties));
+            }
+
+            target.stationManagers = userDtos;
+
+        } else if(!ignoreProperties.contains("groups") && source.getGroups() != null){
+
+            List<GroupDto> groupDtos = new ArrayList<GroupDto>();
+            List<String> groupIgnoredProperties = DtoMapperUtil.getGroupIgnoredProperties();
+
+            for(Group g : source.getGroups()){
+                groupDtos.add(GroupDto.map(g, new GroupDto(), groupIgnoredProperties));
+            }
+
+            target.groups = groupDtos;
+
+        }
+
+        return target;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("RouteDto{");
+        sb.append("id='").append(id).append('\'');
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", hexColor='").append(hexColor).append('\'');
+        sb.append(", information='").append(information).append('\'');
+        sb.append(", date=").append(date);
+        sb.append(", event=").append(event);
+        sb.append(", stations=").append(stations);
+        sb.append(", stationManagers=").append(stationManagers);
+        sb.append(", groups=").append(groups);
+        sb.append('}');
+        return sb.toString();
     }
 }

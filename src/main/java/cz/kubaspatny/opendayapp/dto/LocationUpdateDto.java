@@ -1,7 +1,11 @@
 package cz.kubaspatny.opendayapp.dto;
 
 import cz.kubaspatny.opendayapp.bo.LocationUpdate;
+import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
 import org.joda.time.DateTime;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: Kuba Spatny
@@ -25,19 +29,10 @@ import org.joda.time.DateTime;
  */
 public class LocationUpdateDto extends BaseDto {
 
-    private boolean estimated = false;
     private DateTime timestamp;
-    private GroupDto group;
     private LocationUpdate.Type type;
     private StationDto station;
-
-    public boolean isEstimated() {
-        return estimated;
-    }
-
-    public void setEstimated(boolean estimated) {
-        this.estimated = estimated;
-    }
+    private GroupDto group;
 
     public DateTime getTimestamp() {
         return timestamp;
@@ -69,5 +64,31 @@ public class LocationUpdateDto extends BaseDto {
 
     public void setStation(StationDto station) {
         this.station = station;
+    }
+
+    // OBJECT MAPPERS
+
+    public static LocationUpdateDto map(LocationUpdate source, LocationUpdateDto target, List<String> ignoredProperties){
+
+        target.id = source.getId();
+        target.type = source.getType();
+        target.timestamp = source.getTimestamp();
+
+        target.station = StationDto.map(source.getStation(), new StationDto(), DtoMapperUtil.getStationIgnoredProperties());
+        target.group = GroupDto.map(source.getGroup(), new GroupDto(), DtoMapperUtil.getGroupIgnoredProperties());
+
+        return target;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("LocationUpdateDto{");
+        sb.append("id=").append(id);
+        sb.append(", timestamp=").append(timestamp);
+        sb.append(", type=").append(type);
+        sb.append(", station=").append(station);
+        sb.append(", group=").append(group);
+        sb.append('}');
+        return sb.toString();
     }
 }

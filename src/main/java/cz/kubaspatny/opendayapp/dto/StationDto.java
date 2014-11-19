@@ -1,5 +1,10 @@
 package cz.kubaspatny.opendayapp.dto;
 
+import cz.kubaspatny.opendayapp.bo.LocationUpdate;
+import cz.kubaspatny.opendayapp.bo.Station;
+import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,7 +37,6 @@ public class StationDto extends BaseDto {
     private int sequencePosition;
 
     private RouteDto route;
-    private GroupDto startingGroup;
     private List<LocationUpdateDto> locationUpdates;
 
     public String getName() {
@@ -91,19 +95,59 @@ public class StationDto extends BaseDto {
         this.route = route;
     }
 
-    public GroupDto getStartingGroup() {
-        return startingGroup;
-    }
-
-    public void setStartingGroup(GroupDto startingGroup) {
-        this.startingGroup = startingGroup;
-    }
-
     public List<LocationUpdateDto> getLocationUpdates() {
         return locationUpdates;
     }
 
     public void setLocationUpdates(List<LocationUpdateDto> locationUpdates) {
         this.locationUpdates = locationUpdates;
+    }
+
+    // OBJECT MAPPERS
+
+    public static StationDto map(Station source, StationDto target, List<String> ignoredProperties){
+
+        target.id = source.getId();
+        target.name = source.getName();
+        target.location = source.getLocation();
+        target.information = source.getInformation();
+        target.timeLimit = source.getTimeLimit();
+        target.relocationTime = source.getRelocationTime();
+        target.sequencePosition = source.getSequencePosition();
+
+        if(ignoredProperties == null) ignoredProperties = new ArrayList<String>();
+
+        if(!ignoredProperties.contains("route")){
+
+            target.route = RouteDto.map(source.getRoute(), new RouteDto(), DtoMapperUtil.getRouteIgnoredProperties());
+
+        } else if(!ignoredProperties.contains("locationUpdates") && source.getLocationUpdates() != null){
+
+            List<LocationUpdateDto> locationUpdateDtos = new ArrayList<LocationUpdateDto>();
+            for(LocationUpdate l : source.getLocationUpdates()){
+                locationUpdateDtos.add(LocationUpdateDto.map(l, new LocationUpdateDto(), null));
+            }
+
+            target.locationUpdates = locationUpdateDtos;
+
+        }
+
+        return target;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("StationDto{");
+        sb.append("id='").append(id).append('\'');
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", location='").append(location).append('\'');
+        sb.append(", information='").append(information).append('\'');
+        sb.append(", timeLimit=").append(timeLimit);
+        sb.append(", relocationTime=").append(relocationTime);
+        sb.append(", sequencePosition=").append(sequencePosition);
+        sb.append(", route=").append(route);
+        sb.append(", locationUpdates=").append(locationUpdates);
+        sb.append('}');
+        return sb.toString();
     }
 }
