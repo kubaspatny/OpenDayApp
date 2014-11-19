@@ -97,7 +97,9 @@ public class GroupDto extends BaseDto {
 
             target.groupSizes = groupSizeDtos;
 
-        } else if(!ignoredProperties.contains("locationUpdates") && source.getLocationUpdates() != null){
+        }
+
+        if(!ignoredProperties.contains("locationUpdates") && source.getLocationUpdates() != null){
 
             List<LocationUpdateDto> locationUpdateDtos = new ArrayList<LocationUpdateDto>();
             for(LocationUpdate l : source.getLocationUpdates()){

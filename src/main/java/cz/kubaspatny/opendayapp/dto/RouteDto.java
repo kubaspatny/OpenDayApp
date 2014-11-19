@@ -114,12 +114,15 @@ public class RouteDto extends BaseDto {
         target.name = source.getName();
         target.hexColor = source.getHexColor();
         target.date = source.getDate();
+        target.information = source.getInformation();
 
         if(ignoreProperties == null) ignoreProperties = new ArrayList<String>();
 
         if(!ignoreProperties.contains("event")){
             target.event = EventDto.map(source.getEvent(), new EventDto(), DtoMapperUtil.getEventIgnoredProperties());
-        } else if(!ignoreProperties.contains("stations") && source.getStations() != null){
+        }
+
+        if(!ignoreProperties.contains("stations") && source.getStations() != null){
 
             List<StationDto> stationDtos = new ArrayList<StationDto>();
             List<String> stationIgnoredProperties = DtoMapperUtil.getStationIgnoredProperties();
@@ -130,7 +133,9 @@ public class RouteDto extends BaseDto {
 
             target.stations = stationDtos;
 
-        } else if(!ignoreProperties.contains("stationManagers") && source.getStationManagers() != null){
+        }
+
+        if(!ignoreProperties.contains("stationManagers") && source.getStationManagers() != null){
 
             List<UserDto> userDtos = new ArrayList<UserDto>();
             List<String> userIgnoredProperties = DtoMapperUtil.getUserIgnoredProperties();
@@ -141,7 +146,9 @@ public class RouteDto extends BaseDto {
 
             target.stationManagers = userDtos;
 
-        } else if(!ignoreProperties.contains("groups") && source.getGroups() != null){
+        }
+
+        if(!ignoreProperties.contains("groups") && source.getGroups() != null){
 
             List<GroupDto> groupDtos = new ArrayList<GroupDto>();
             List<String> groupIgnoredProperties = DtoMapperUtil.getGroupIgnoredProperties();

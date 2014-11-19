@@ -121,7 +121,9 @@ public class StationDto extends BaseDto {
 
             target.route = RouteDto.map(source.getRoute(), new RouteDto(), DtoMapperUtil.getRouteIgnoredProperties());
 
-        } else if(!ignoredProperties.contains("locationUpdates") && source.getLocationUpdates() != null){
+        }
+
+        if(!ignoredProperties.contains("locationUpdates") && source.getLocationUpdates() != null){
 
             List<LocationUpdateDto> locationUpdateDtos = new ArrayList<LocationUpdateDto>();
             for(LocationUpdate l : source.getLocationUpdates()){

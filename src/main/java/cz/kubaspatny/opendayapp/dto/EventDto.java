@@ -107,7 +107,7 @@ public class EventDto extends BaseDto {
     public String toString() {
         final StringBuilder sb = new StringBuilder("EventDto{");
         sb.append("id='").append(id).append('\'');
-        sb.append(", ='").append(name).append('\'');
+        sb.append(", name='").append(name).append('\'');
         sb.append(", date=").append(date);
         sb.append(", information='").append(information).append('\'');
         sb.append(", organizer=").append(organizer);

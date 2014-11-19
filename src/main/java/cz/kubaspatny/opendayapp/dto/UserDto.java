@@ -154,7 +154,9 @@ public class UserDto extends BaseDto {
 
             target.setEvents(eventDtos);
 
-        } else if(!ignoredProperties.contains("managedRoutes") && source.getManagedRoutes() != null) {
+        }
+
+        if(!ignoredProperties.contains("managedRoutes") && source.getManagedRoutes() != null) {
 
             List<RouteDto> routeDtos = new ArrayList<RouteDto>();
             List<String> routeIgnoredProperties = DtoMapperUtil.getRouteIgnoredProperties();
@@ -165,7 +167,9 @@ public class UserDto extends BaseDto {
 
             target.managedRoutes = routeDtos;
 
-        } else if(!ignoredProperties.contains("groups") && source.getGroups() != null) {
+        }
+
+        if(!ignoredProperties.contains("groups") && source.getGroups() != null) {
 
             List<GroupDto> groupDtos = new ArrayList<GroupDto>();
             List<String> groupIgnoredProperties = DtoMapperUtil.getGroupIgnoredProperties();
@@ -176,7 +180,9 @@ public class UserDto extends BaseDto {
 
             target.groups = groupDtos;
 
-        } else if(!ignoredProperties.contains("userRoles") && source.getUserRoles() != null){
+        }
+
+        if(!ignoredProperties.contains("userRoles") && source.getUserRoles() != null){
 
             for(User.UserRole userRole : source.getUserRoles()){
                 target.addUserRole(userRole);
