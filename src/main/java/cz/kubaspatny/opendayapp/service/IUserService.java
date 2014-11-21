@@ -1,6 +1,7 @@
 package cz.kubaspatny.opendayapp.service;
 
 import cz.kubaspatny.opendayapp.dto.UserDto;
+import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -27,21 +28,21 @@ import org.springframework.transaction.annotation.Transactional;
 public interface IUserService {
 
     @Transactional(readOnly = true)
-    public boolean isUsernameFree(String username);
+    public boolean isUsernameFree(String username) throws DataAccessException;
 
     @Transactional(readOnly = true)
-    public UserDto getUser(String username);
+    public UserDto getUser(String username) throws DataAccessException;
 
     @Transactional(readOnly = true)
-    public UserDto getUser(Long id);
+    public UserDto getUser(Long id) throws DataAccessException;
 
-    public Long createUser(UserDto userDto);
+    public Long createUser(UserDto userDto) throws DataAccessException;
 
-    public Long createGeneratedUser(String emailAddress);
+    public Long createGeneratedUser(String emailAddress) throws DataAccessException;
 
-    public void updateUser(UserDto userDto);
+    public void updateUser(UserDto userDto) throws DataAccessException;
 
-    public void deactivateUser(Long userId);
+    public void deactivateUser(Long userId) throws DataAccessException;
 
 
 

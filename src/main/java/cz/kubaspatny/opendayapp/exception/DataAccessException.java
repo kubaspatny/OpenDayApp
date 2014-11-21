@@ -20,7 +20,7 @@ package cz.kubaspatny.opendayapp.exception;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class DaoException extends Exception {
+public class DataAccessException extends Exception {
 
     public enum DaoErrorCode {
         INVALID_ID, DETACHED_INSTANCE, ILLEGAL_ARGUMENT, INSTANCE_NOT_FOUND;
@@ -28,11 +28,11 @@ public class DaoException extends Exception {
 
     private DaoErrorCode errorCode;
 
-    public DaoException(String message) {
+    public DataAccessException(String message) {
         super(message);
     }
 
-    public DaoException(String message, DaoErrorCode code) {
+    public DataAccessException(String message, DaoErrorCode code) {
         super(message);
         errorCode = code;
     }

@@ -2,7 +2,7 @@ package cz.kubaspatny.opendayapp.service;
 
 import cz.kubaspatny.opendayapp.bo.User;
 import cz.kubaspatny.opendayapp.dto.UserDto;
-import cz.kubaspatny.opendayapp.exception.DaoException;
+import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.utils.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,49 +34,42 @@ public class UserService extends DataAccessService implements IUserService {
     @Autowired private EmailService emailService;
 
     @Override
-    public boolean isUsernameFree(String username) {
+    public boolean isUsernameFree(String username) throws DataAccessException {
         return false;
     }
 
     @Override
-    public UserDto getUser(String username) {
+    public UserDto getUser(String username) throws DataAccessException  {
         return null;
     }
 
     @Override
-    public UserDto getUser(Long id) {
+    public UserDto getUser(Long id) throws DataAccessException  {
         return null;
     }
 
     @Override
-    public Long createUser(UserDto userDto) {
+    public Long createUser(UserDto userDto) throws DataAccessException  {
         return null;
     }
 
     @Override
-    public Long createGeneratedUser(String emailAddress) {
+    public Long createGeneratedUser(String emailAddress) throws DataAccessException  {
         String password = PasswordGenerator.generatePassword(8);
         User.Builder builder = new User.Builder(emailAddress, emailAddress, password);
 
-        try {
-            Long id = dao.saveOrUpdate(builder.build()).getId();
-            emailService.sendCredentials(emailAddress, password);
-            return id;
-        } catch (DaoException e){
-            e.printStackTrace();
-        }
+        Long id = dao.saveOrUpdate(builder.build()).getId();
+        emailService.sendCredentials(emailAddress, password);
+        return id;
+    }
 
-        return null;
+    @Override
+    public void updateUser(UserDto userDto) throws DataAccessException  {
 
     }
 
     @Override
-    public void updateUser(UserDto userDto) {
-
-    }
-
-    @Override
-    public void deactivateUser(Long userId) {
+    public void deactivateUser(Long userId) throws DataAccessException  {
 
     }
 }

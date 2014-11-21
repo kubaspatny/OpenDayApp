@@ -1,9 +1,8 @@
 package cz.kubaspatny.opendayapp.dao;
 
 import cz.kubaspatny.opendayapp.bo.AbstractBusinessObject;
-import cz.kubaspatny.opendayapp.exception.DaoException;
+import cz.kubaspatny.opendayapp.exception.DataAccessException;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,20 +33,20 @@ public interface GenericDao {
      * @param o   Entity to be saved
      * @return    Saved Entity
      */
-    public <ENTITY extends AbstractBusinessObject> ENTITY saveOrUpdate(ENTITY o) throws DaoException;
+    public <ENTITY extends AbstractBusinessObject> ENTITY saveOrUpdate(ENTITY o) throws DataAccessException;
 
     /**
      * Removes an existing Entity.
      * @param o  Entity to be removed
      */
-    public <ENTITY extends AbstractBusinessObject> void remove(ENTITY o) throws DaoException;
+    public <ENTITY extends AbstractBusinessObject> void remove(ENTITY o) throws DataAccessException;
 
     /**
      * Removes an entity based on its ID.
      * @param id    ID
      * @param entity_class  Class object of the entity to be removed
      */
-    public <ENTITY extends AbstractBusinessObject> void removeById(Long id, Class<ENTITY> entity_class) throws DaoException;
+    public <ENTITY extends AbstractBusinessObject> void removeById(Long id, Class<ENTITY> entity_class) throws DataAccessException;
 
     /**
      * Gets entity from database based on its ID.
@@ -55,7 +54,7 @@ public interface GenericDao {
      * @param entity_class  Class object of the entity to be returned
      * @return  Entity from database
      */
-    public <ENTITY extends AbstractBusinessObject> ENTITY getById(Long id, Class<ENTITY> entity_class) throws DaoException;
+    public <ENTITY extends AbstractBusinessObject> ENTITY getById(Long id, Class<ENTITY> entity_class) throws DataAccessException;
 
 
     /**
@@ -63,9 +62,9 @@ public interface GenericDao {
      * @param property  property for search
      * @param value value of property for search
      * @return Entity from database
-     * @throws DaoException
+     * @throws cz.kubaspatny.opendayapp.exception.DataAccessException
      */
-    public <ENTITY extends AbstractBusinessObject> ENTITY getByPropertyUnique(String property, Object value, Class<ENTITY> entity_class) throws DaoException;
+    public <ENTITY extends AbstractBusinessObject> ENTITY getByPropertyUnique(String property, Object value, Class<ENTITY> entity_class) throws DataAccessException;
 
     /**
      * Gets all entities of type @entity_class.
@@ -80,7 +79,7 @@ public interface GenericDao {
      * @param pageSize  Page size
      * @return  List of entities
      */
-    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, Class<ENTITY> entity_class) throws DaoException;
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, Class<ENTITY> entity_class) throws DataAccessException;
 
     /**
      * Method supporting pagination. Returns a sorted page of entities.
@@ -88,7 +87,7 @@ public interface GenericDao {
      * @param pageSize  Page size
      * @return  List of entities
      */
-    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, String sortBy, boolean ascending, Class<ENTITY> entity_class) throws DaoException;
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, String sortBy, boolean ascending, Class<ENTITY> entity_class) throws DataAccessException;
 
     /**
      * Method supporting pagination. Returns a sorted page of entities filtered by @parameters.
@@ -101,13 +100,23 @@ public interface GenericDao {
      * @param <ENTITY>
      * @return
      */
-    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, Map<String, Object> parameters, String sortBy, boolean ascending, Class<ENTITY> entity_class) throws DaoException;
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, Map<String, Object> parameters, String sortBy, boolean ascending, Class<ENTITY> entity_class) throws DataAccessException;
 
     /**
      * Returns a list of filtered entities based on @properties.
      *
      * @param parameters@return  List of filtered entities.
      */
-    public <ENTITY extends AbstractBusinessObject> List<ENTITY> searchByProperty(Map<String, Object> parameters, Class<ENTITY> entity_class) throws DaoException;
+    public <ENTITY extends AbstractBusinessObject> List<ENTITY> searchByProperty(Map<String, Object> parameters, Class<ENTITY> entity_class) throws DataAccessException;
+
+    /**
+     * Returns the number of entities meeting the filtering criteria.
+     * @param property filtering property
+     * @return number of entities meeting the filtering criteria
+     * @throws DataAccessException
+     */
+    public <ENTITY extends AbstractBusinessObject> Long countByProperty(String property, Object value, Class<ENTITY> entity_class) throws DataAccessException;
+
+
 
 }

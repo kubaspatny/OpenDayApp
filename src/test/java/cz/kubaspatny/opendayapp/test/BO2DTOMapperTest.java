@@ -193,8 +193,5 @@ public class BO2DTOMapperTest extends AbstractTest {
         Assert.assertNotNull(stationDto.getSequencePosition());
         Assert.assertNotNull(stationDto.getRoute());
 
-
-
-
     }
 }

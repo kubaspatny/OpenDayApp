@@ -2,7 +2,7 @@ package cz.kubaspatny.opendayapp.test;
 
 import cz.kubaspatny.opendayapp.bo.MockBusinessObject;
 import cz.kubaspatny.opendayapp.dao.GenericDao;
-import cz.kubaspatny.opendayapp.exception.DaoException;
+import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +11,6 @@ import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import java.util.*;
 
 /**
@@ -92,8 +91,8 @@ public class DaoTest extends AbstractTest {
         // ------- SAVE NULL OBJECT --------------
         try {
             dao.saveOrUpdate(null);
-        } catch (DaoException e){
-            Assert.assertEquals(DaoException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+        } catch (DataAccessException e){
+            Assert.assertEquals(DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
         }
 
     }
@@ -135,8 +134,8 @@ public class DaoTest extends AbstractTest {
         try {
             dao.remove(null);
             Assert.fail("Should have thrown Exception by now!");
-        } catch (DaoException e){
-            Assert.assertTrue(e.getErrorCode() == DaoException.DaoErrorCode.ILLEGAL_ARGUMENT);
+        } catch (DataAccessException e){
+            Assert.assertTrue(e.getErrorCode() == DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT);
         }
 
         // ---- REMOVING NONEXISTENT(NOT PERSISTED) OBJECT ----
@@ -145,8 +144,8 @@ public class DaoTest extends AbstractTest {
             obj = new MockBusinessObject(System.nanoTime(), "Remove nonexistent object.");
             dao.remove(obj);
             Assert.fail("Should have thrown Exception by now!");
-        } catch (DaoException e){
-            Assert.assertTrue(e.getErrorCode() == DaoException.DaoErrorCode.DETACHED_INSTANCE);
+        } catch (DataAccessException e){
+            Assert.assertTrue(e.getErrorCode() == DataAccessException.DaoErrorCode.DETACHED_INSTANCE);
         }
 
 
@@ -160,8 +159,8 @@ public class DaoTest extends AbstractTest {
         try {
             dao.removeById(null, MockBusinessObject.class);
             Assert.fail("Should have thrown Exception by now!");
-        } catch (DaoException e){
-            Assert.assertEquals(DaoException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+        } catch (DataAccessException e){
+            Assert.assertEquals(DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
         }
 
         // ---- REMOVE OBJECT WITH EXISTING ID ----
@@ -174,8 +173,8 @@ public class DaoTest extends AbstractTest {
         try {
             dao.removeById(System.nanoTime(), MockBusinessObject.class);
             Assert.fail("Should have thrown Exception by now!");
-        } catch (DaoException e){
-            Assert.assertEquals(DaoException.DaoErrorCode.INVALID_ID, e.getErrorCode());
+        } catch (DataAccessException e){
+            Assert.assertEquals(DataAccessException.DaoErrorCode.INVALID_ID, e.getErrorCode());
         }
 
     }
@@ -188,8 +187,8 @@ public class DaoTest extends AbstractTest {
         try {
             dao.getById(null, MockBusinessObject.class);
             Assert.fail("Should have thrown Exception by now!");
-        } catch (DaoException e){
-            Assert.assertEquals(DaoException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+        } catch (DataAccessException e){
+            Assert.assertEquals(DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
         }
 
         // ----  GETTING OBJECT WITH EXISTING ID ----
@@ -218,8 +217,8 @@ public class DaoTest extends AbstractTest {
         try {
             dao.getByPropertyUnique("id", System.nanoTime(), MockBusinessObject.class);
             Assert.fail("Should have thrown expection by now!");
-        } catch (DaoException e){
-            Assert.assertEquals(DaoException.DaoErrorCode.INSTANCE_NOT_FOUND, e.getErrorCode());
+        } catch (DataAccessException e){
+            Assert.assertEquals(DataAccessException.DaoErrorCode.INSTANCE_NOT_FOUND, e.getErrorCode());
         }
 
     }
@@ -270,8 +269,8 @@ public class DaoTest extends AbstractTest {
         try {
             dao.getPage(-1, 80, MockBusinessObject.class);
             Assert.fail("Should have thrown Exception by now!");
-        } catch (DaoException e){
-            Assert.assertEquals(DaoException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+        } catch (DataAccessException e){
+            Assert.assertEquals(DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
         }
 
         // ---- GET NEGATIVE SIZE ----
@@ -279,8 +278,8 @@ public class DaoTest extends AbstractTest {
         try {
             dao.getPage(1, -80, MockBusinessObject.class);
             Assert.fail("Should have thrown Exception by now!");
-        } catch (DaoException e){
-            Assert.assertEquals(DaoException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+        } catch (DataAccessException e){
+            Assert.assertEquals(DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
         }
 
     }
@@ -310,8 +309,8 @@ public class DaoTest extends AbstractTest {
         try {
             dao.getPage(-1, 80, map, "id", true, MockBusinessObject.class);
             Assert.fail("Should have thrown Exception by now!");
-        } catch (DaoException e){
-            Assert.assertEquals(DaoException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+        } catch (DataAccessException e){
+            Assert.assertEquals(DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
         }
 
         // ---- GET NEGATIVE SIZE ----
@@ -319,8 +318,8 @@ public class DaoTest extends AbstractTest {
         try {
             dao.getPage(1, -80, map, "id", true, MockBusinessObject.class);
             Assert.fail("Should have thrown Exception by now!");
-        } catch (DaoException e){
-            Assert.assertEquals(DaoException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+        } catch (DataAccessException e){
+            Assert.assertEquals(DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
         }
 
         // ---- GET NULL MAP ----
@@ -328,8 +327,8 @@ public class DaoTest extends AbstractTest {
         try {
             dao.getPage(1, 80, null, "id", true, MockBusinessObject.class);
             Assert.fail("Should have thrown Exception by now!");
-        } catch (DaoException e){
-            Assert.assertEquals(DaoException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+        } catch (DataAccessException e){
+            Assert.assertEquals(DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
         }
 
         // ---- GET NULL PARAMETER ----
@@ -337,8 +336,8 @@ public class DaoTest extends AbstractTest {
         try {
             dao.getPage(1, 80, map, null, true, MockBusinessObject.class);
             Assert.fail("Should have thrown Exception by now!");
-        } catch (DaoException e){
-            Assert.assertEquals(DaoException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+        } catch (DataAccessException e){
+            Assert.assertEquals(DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
         }
 
     }
@@ -361,6 +360,25 @@ public class DaoTest extends AbstractTest {
         }
 
 
+
+    }
+
+    @Test
+    public void testCountByProperty() throws Exception {
+
+        String property = "color";
+        String colorInDB = "green";
+        String colorNotInDB = "orange";
+
+        Long count = dao.countByProperty(property, colorInDB, MockBusinessObject.class);
+
+        Assert.assertNotNull(count);
+        Assert.assertTrue(count > 0);
+
+        count = dao.countByProperty(property, colorNotInDB, MockBusinessObject.class);
+
+        Assert.assertNotNull(count);
+        Assert.assertTrue(count.equals(new Long(0)));
 
     }
 }
