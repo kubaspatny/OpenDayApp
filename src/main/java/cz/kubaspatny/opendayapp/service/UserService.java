@@ -35,7 +35,7 @@ public class UserService extends DataAccessService implements IUserService {
 
     @Override
     public boolean isUsernameFree(String username) throws DataAccessException {
-        return false;
+        return dao.countByProperty("username", username, User.class).equals(new Long(0));
     }
 
     @Override
@@ -55,11 +55,31 @@ public class UserService extends DataAccessService implements IUserService {
 
     @Override
     public Long createGeneratedUser(String emailAddress) throws DataAccessException  {
+
+        if(emailAddress == null || !emailAddress.contains("@")){
+            throw new DataAccessException("Invalid email address: " + emailAddress, DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
+        }
+
+        if(dao.countByProperty("email", emailAddress, User.class) != 0){
+            throw new DataAccessException("Email address " + emailAddress + " is already in DB!", DataAccessException.ErrorCode.BREAKING_UNIQUE_CONSTRAINT);
+        }
+
+        String username = emailAddress.substring(0, emailAddress.indexOf("@"));
+        String usernameCandidate = username;
+        int suffix = 1;
+
+        /**
+         * If the username is already in the database, add a suffix to id (create unique password).
+         */
+        while(!isUsernameFree(usernameCandidate)){
+            usernameCandidate = username + suffix;
+        }
+
         String password = PasswordGenerator.generatePassword(8);
-        User.Builder builder = new User.Builder(emailAddress, emailAddress, password);
+        User.Builder builder = new User.Builder(usernameCandidate, emailAddress, password);
 
         Long id = dao.saveOrUpdate(builder.build()).getId();
-        emailService.sendCredentials(emailAddress, password);
+        emailService.sendCredentials(usernameCandidate, password);
         return id;
     }
 

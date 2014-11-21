@@ -2,8 +2,10 @@ package cz.kubaspatny.opendayapp.test;
 
 import cz.kubaspatny.opendayapp.bo.User;
 import cz.kubaspatny.opendayapp.dao.GenericDao;
+import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.service.IUserService;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -32,13 +34,30 @@ public class UserServiceTest extends AbstractTest {
     @Autowired private IUserService userService;
     @Autowired private GenericDao dao;
 
+    private String username = "generic.username";
+    private String email = "generic.username1@abcd.com";
+    private String password = "genericPassword123";
+    private Long userID;
+
+    @Before
+    public void setUp() throws Exception {
+
+        User u =  new User.Builder(username, email, password).
+                setFirstName("FirstName").
+                setLastName("LastName").
+                setOrganization("Organization").build();
+
+        userID = dao.saveOrUpdate(u).getId();
+
+    }
+
     @Test
     public void testCreateGeneratedUser() throws Exception {
         String username = "opendayapptest@gmail.com";
         Long id = userService.createGeneratedUser(username);
         Assert.assertNotNull(id);
 
-        User u = dao.getByPropertyUnique("username", username, User.class);
+        User u = dao.getByPropertyUnique("username", "opendayapptest", User.class);
         Assert.assertNotNull(u);
         u.print();
 
@@ -46,5 +65,39 @@ public class UserServiceTest extends AbstractTest {
         Assert.assertNotNull(dao.getByPropertyUnique("email", username, User.class));
 
         Thread.sleep(5000); // make sure the async task is complete
+    }
+
+    /**
+     * Service should throw an Exception if the email is already in the DB.
+     * @throws Exception
+     */
+    @Test
+    public void testCreateGeneratedUserExisting() throws Exception {
+
+        try {
+            userService.createGeneratedUser(email);
+        } catch (DataAccessException e){
+            Assert.assertTrue(e.getErrorCode() == DataAccessException.ErrorCode.BREAKING_UNIQUE_CONSTRAINT);
+        }
+
+        Long id = userService.createGeneratedUser("generic.username@abcd.com");
+        User u = dao.getById(id, User.class);
+        Assert.assertEquals("generic.username1", u.getUsername());
+    }
+
+    @Test
+    public void testIsUserNameFree() throws Exception {
+
+        Assert.assertFalse(userService.isUsernameFree(username));
+        Assert.assertTrue(userService.isUsernameFree(username + System.nanoTime()));
+
+    }
+
+    @Test
+    public void testTEST() throws Exception {
+
+        String username = email.substring(0, email.indexOf("@"));
+        System.out.println(username);
+
     }
 }

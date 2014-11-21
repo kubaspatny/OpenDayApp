@@ -50,7 +50,7 @@ public class Dao implements GenericDao {
     public <ENTITY extends AbstractBusinessObject> ENTITY saveOrUpdate(ENTITY o) throws DataAccessException {
 
         if(o == null){
-            throw new DataAccessException("Passed object is null!", DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT);
+            throw new DataAccessException("Passed object is null!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         }
 
         if (o.getId() == null) {
@@ -65,12 +65,12 @@ public class Dao implements GenericDao {
     @Override
     public <ENTITY extends AbstractBusinessObject> void remove(ENTITY o) throws DataAccessException {
 
-        if(o == null) throw new DataAccessException("Object parameter cannot be null!", DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT);
+        if(o == null) throw new DataAccessException("Object parameter cannot be null!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
 
         try {
             getEntityManager().remove(o);
         } catch(InvalidDataAccessApiUsageException e){
-            throw new DataAccessException("Couldn't remove object!", DataAccessException.DaoErrorCode.DETACHED_INSTANCE);
+            throw new DataAccessException("Couldn't remove object!", DataAccessException.ErrorCode.DETACHED_INSTANCE);
         }
 
     }
@@ -79,21 +79,21 @@ public class Dao implements GenericDao {
     public <ENTITY extends AbstractBusinessObject> void removeById(Long id, Class<ENTITY> entity_class) throws DataAccessException {
 
         if(id == null){
-            throw new DataAccessException("ID cannot be null!", DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT);
+            throw new DataAccessException("ID cannot be null!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         }
 
         ENTITY e = getEntityManager().find(entity_class, id);
         if (e != null) {
             getEntityManager().remove(e);
         } else {
-            throw new DataAccessException("Object with id: " + id + " doesn't exist!", DataAccessException.DaoErrorCode.INVALID_ID);
+            throw new DataAccessException("Object with id: " + id + " doesn't exist!", DataAccessException.ErrorCode.INVALID_ID);
         }
     }
 
     @Override
     public <ENTITY extends AbstractBusinessObject> ENTITY getById(Long id, Class<ENTITY> entity_class) throws DataAccessException {
         if(id == null){
-            throw new DataAccessException("ID cannot be null!", DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT);
+            throw new DataAccessException("ID cannot be null!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         }
 
         return getEntityManager().find(entity_class, id);
@@ -103,7 +103,7 @@ public class Dao implements GenericDao {
     public <ENTITY extends AbstractBusinessObject> ENTITY getByPropertyUnique(String property, Object value, Class<ENTITY> entity_class) throws DataAccessException {
 
         if(property == null || value == null){
-            throw new DataAccessException("Search paramaters cannot be null!", DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT);
+            throw new DataAccessException("Search paramaters cannot be null!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         }
 
         String queryString = "SELECT e FROM " + entity_class.getSimpleName() + " e WHERE e." + property + " = :" + property;
@@ -112,7 +112,7 @@ public class Dao implements GenericDao {
         try {
             return (ENTITY) q.getSingleResult();
         } catch (EmptyResultDataAccessException e){
-            throw new DataAccessException("Couldn't find an instance with " + property +" equal to " + value, DataAccessException.DaoErrorCode.INSTANCE_NOT_FOUND);
+            throw new DataAccessException("Couldn't find an instance with " + property +" equal to " + value, DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
         }
 
     }
@@ -126,11 +126,11 @@ public class Dao implements GenericDao {
     public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, Class<ENTITY> entity_class) throws DataAccessException {
 
         if(page < 0){
-            throw new DataAccessException("Negative page number!", DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT);
+            throw new DataAccessException("Negative page number!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         }
 
         if(pageSize <= 0) {
-            throw new DataAccessException("Non-positive pageSize!", DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT);
+            throw new DataAccessException("Non-positive pageSize!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         }
 
         String queryString = "SELECT e FROM " + entity_class.getSimpleName() + " e order by e.id";
@@ -145,11 +145,11 @@ public class Dao implements GenericDao {
     public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, String sortBy, boolean ascending, Class<ENTITY> entity_class) throws DataAccessException {
 
         if(page < 0){
-            throw new DataAccessException("Negative page number!", DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT);
+            throw new DataAccessException("Negative page number!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         } else if(pageSize <= 0) {
-            throw new DataAccessException("Non-positive pageSize!", DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT);
+            throw new DataAccessException("Non-positive pageSize!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         } else if(sortBy == null){
-            throw new DataAccessException("Parameter sortBy cannot be null!", DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT);
+            throw new DataAccessException("Parameter sortBy cannot be null!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         }
 
         String queryString = "SELECT e FROM " + entity_class.getSimpleName() + " e order by e." + sortBy + (ascending ? " asc" : " desc");
@@ -163,13 +163,13 @@ public class Dao implements GenericDao {
     public <ENTITY extends AbstractBusinessObject> List<ENTITY> getPage(int page, int pageSize, Map<String, Object> parameters, String sortBy, boolean ascending, Class<ENTITY> entity_class) throws DataAccessException {
 
         if(page < 0){
-            throw new DataAccessException("Negative page number!", DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT);
+            throw new DataAccessException("Negative page number!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         } else if(pageSize <= 0) {
-            throw new DataAccessException("Non-positive pageSize!", DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT);
+            throw new DataAccessException("Non-positive pageSize!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         } else if(sortBy == null){
-            throw new DataAccessException("Parameter sortBy cannot be null!", DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT);
+            throw new DataAccessException("Parameter sortBy cannot be null!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         } else if(parameters == null){
-            throw new DataAccessException("Parameter map for filtering cannot be null!", DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT);
+            throw new DataAccessException("Parameter map for filtering cannot be null!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         }
 
         StringBuilder s = new StringBuilder();
@@ -200,7 +200,7 @@ public class Dao implements GenericDao {
     public <ENTITY extends AbstractBusinessObject> List<ENTITY> searchByProperty(Map<String, Object> parameters, Class<ENTITY> entity_class) throws DataAccessException {
 
         if(parameters == null){
-            throw new DataAccessException("Parameters cannot be null!", DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT);
+            throw new DataAccessException("Parameters cannot be null!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         }
 
         StringBuilder s = new StringBuilder();
@@ -228,7 +228,7 @@ public class Dao implements GenericDao {
     public <ENTITY extends AbstractBusinessObject> Long countByProperty(String property, Object value, Class<ENTITY> entity_class) throws DataAccessException {
 
         if(property == null || value == null){
-            throw new DataAccessException("Search paramaters cannot be null!", DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT);
+            throw new DataAccessException("Search paramaters cannot be null!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         }
 
         String queryString = "SELECT COUNT(e) FROM " + entity_class.getSimpleName() + " e WHERE e." + property + " = :" + property;
@@ -237,9 +237,7 @@ public class Dao implements GenericDao {
         try {
             return (Long) q.getSingleResult();
         } catch (EmptyResultDataAccessException e){
-
-            // should be returning 0 here?
-            throw new DataAccessException("Couldn't find an instance with " + property +" equal to " + value, DataAccessException.DaoErrorCode.INSTANCE_NOT_FOUND);
+            throw new DataAccessException("Error counting instances with " + property +" equal to " + value, DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
         }
 
     }

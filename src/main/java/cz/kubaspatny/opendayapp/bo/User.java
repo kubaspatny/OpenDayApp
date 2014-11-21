@@ -246,7 +246,8 @@ public class User extends AbstractBusinessObject {
     public String toString() {
         final StringBuilder sb = new StringBuilder("User{");
         sb.append("id='").append(id).append('\'');
-        sb.append("username='").append(username).append('\'');
+        sb.append(", username='").append(username).append('\'');
+        sb.append(", email='").append(email).append('\'');
         sb.append(", password='").append(password).append('\'');
         sb.append(", salt='").append(salt).append('\'');
         sb.append(", firstName='").append(firstName).append('\'');

@@ -22,26 +22,26 @@ package cz.kubaspatny.opendayapp.exception;
  */
 public class DataAccessException extends Exception {
 
-    public enum DaoErrorCode {
-        INVALID_ID, DETACHED_INSTANCE, ILLEGAL_ARGUMENT, INSTANCE_NOT_FOUND;
+    public enum ErrorCode {
+        INVALID_ID, DETACHED_INSTANCE, ILLEGAL_ARGUMENT, INSTANCE_NOT_FOUND, BREAKING_UNIQUE_CONSTRAINT;
     }
 
-    private DaoErrorCode errorCode;
+    private ErrorCode errorCode;
 
     public DataAccessException(String message) {
         super(message);
     }
 
-    public DataAccessException(String message, DaoErrorCode code) {
+    public DataAccessException(String message, ErrorCode code) {
         super(message);
         errorCode = code;
     }
 
-    public DaoErrorCode getErrorCode() {
+    public ErrorCode getErrorCode() {
         return errorCode;
     }
 
-    public void setErrorCode(DaoErrorCode errorCode) {
+    public void setErrorCode(ErrorCode errorCode) {
         this.errorCode = errorCode;
     }
 }

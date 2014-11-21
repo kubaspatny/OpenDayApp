@@ -92,7 +92,7 @@ public class DaoTest extends AbstractTest {
         try {
             dao.saveOrUpdate(null);
         } catch (DataAccessException e){
-            Assert.assertEquals(DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+            Assert.assertEquals(DataAccessException.ErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
         }
 
     }
@@ -135,7 +135,7 @@ public class DaoTest extends AbstractTest {
             dao.remove(null);
             Assert.fail("Should have thrown Exception by now!");
         } catch (DataAccessException e){
-            Assert.assertTrue(e.getErrorCode() == DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT);
+            Assert.assertTrue(e.getErrorCode() == DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         }
 
         // ---- REMOVING NONEXISTENT(NOT PERSISTED) OBJECT ----
@@ -145,7 +145,7 @@ public class DaoTest extends AbstractTest {
             dao.remove(obj);
             Assert.fail("Should have thrown Exception by now!");
         } catch (DataAccessException e){
-            Assert.assertTrue(e.getErrorCode() == DataAccessException.DaoErrorCode.DETACHED_INSTANCE);
+            Assert.assertTrue(e.getErrorCode() == DataAccessException.ErrorCode.DETACHED_INSTANCE);
         }
 
 
@@ -160,7 +160,7 @@ public class DaoTest extends AbstractTest {
             dao.removeById(null, MockBusinessObject.class);
             Assert.fail("Should have thrown Exception by now!");
         } catch (DataAccessException e){
-            Assert.assertEquals(DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+            Assert.assertEquals(DataAccessException.ErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
         }
 
         // ---- REMOVE OBJECT WITH EXISTING ID ----
@@ -174,7 +174,7 @@ public class DaoTest extends AbstractTest {
             dao.removeById(System.nanoTime(), MockBusinessObject.class);
             Assert.fail("Should have thrown Exception by now!");
         } catch (DataAccessException e){
-            Assert.assertEquals(DataAccessException.DaoErrorCode.INVALID_ID, e.getErrorCode());
+            Assert.assertEquals(DataAccessException.ErrorCode.INVALID_ID, e.getErrorCode());
         }
 
     }
@@ -188,7 +188,7 @@ public class DaoTest extends AbstractTest {
             dao.getById(null, MockBusinessObject.class);
             Assert.fail("Should have thrown Exception by now!");
         } catch (DataAccessException e){
-            Assert.assertEquals(DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+            Assert.assertEquals(DataAccessException.ErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
         }
 
         // ----  GETTING OBJECT WITH EXISTING ID ----
@@ -218,7 +218,7 @@ public class DaoTest extends AbstractTest {
             dao.getByPropertyUnique("id", System.nanoTime(), MockBusinessObject.class);
             Assert.fail("Should have thrown expection by now!");
         } catch (DataAccessException e){
-            Assert.assertEquals(DataAccessException.DaoErrorCode.INSTANCE_NOT_FOUND, e.getErrorCode());
+            Assert.assertEquals(DataAccessException.ErrorCode.INSTANCE_NOT_FOUND, e.getErrorCode());
         }
 
     }
@@ -270,7 +270,7 @@ public class DaoTest extends AbstractTest {
             dao.getPage(-1, 80, MockBusinessObject.class);
             Assert.fail("Should have thrown Exception by now!");
         } catch (DataAccessException e){
-            Assert.assertEquals(DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+            Assert.assertEquals(DataAccessException.ErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
         }
 
         // ---- GET NEGATIVE SIZE ----
@@ -279,7 +279,7 @@ public class DaoTest extends AbstractTest {
             dao.getPage(1, -80, MockBusinessObject.class);
             Assert.fail("Should have thrown Exception by now!");
         } catch (DataAccessException e){
-            Assert.assertEquals(DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+            Assert.assertEquals(DataAccessException.ErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
         }
 
     }
@@ -310,7 +310,7 @@ public class DaoTest extends AbstractTest {
             dao.getPage(-1, 80, map, "id", true, MockBusinessObject.class);
             Assert.fail("Should have thrown Exception by now!");
         } catch (DataAccessException e){
-            Assert.assertEquals(DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+            Assert.assertEquals(DataAccessException.ErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
         }
 
         // ---- GET NEGATIVE SIZE ----
@@ -319,7 +319,7 @@ public class DaoTest extends AbstractTest {
             dao.getPage(1, -80, map, "id", true, MockBusinessObject.class);
             Assert.fail("Should have thrown Exception by now!");
         } catch (DataAccessException e){
-            Assert.assertEquals(DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+            Assert.assertEquals(DataAccessException.ErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
         }
 
         // ---- GET NULL MAP ----
@@ -328,7 +328,7 @@ public class DaoTest extends AbstractTest {
             dao.getPage(1, 80, null, "id", true, MockBusinessObject.class);
             Assert.fail("Should have thrown Exception by now!");
         } catch (DataAccessException e){
-            Assert.assertEquals(DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+            Assert.assertEquals(DataAccessException.ErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
         }
 
         // ---- GET NULL PARAMETER ----
@@ -337,7 +337,7 @@ public class DaoTest extends AbstractTest {
             dao.getPage(1, 80, map, null, true, MockBusinessObject.class);
             Assert.fail("Should have thrown Exception by now!");
         } catch (DataAccessException e){
-            Assert.assertEquals(DataAccessException.DaoErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
+            Assert.assertEquals(DataAccessException.ErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
         }
 
     }
