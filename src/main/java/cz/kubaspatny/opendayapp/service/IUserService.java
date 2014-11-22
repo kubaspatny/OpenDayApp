@@ -31,6 +31,9 @@ public interface IUserService {
     public boolean isUsernameFree(String username) throws DataAccessException;
 
     @Transactional(readOnly = true)
+    public boolean isEmailFree(String email) throws DataAccessException;
+
+    @Transactional(readOnly = true)
     public UserDto getUser(String username) throws DataAccessException;
 
     @Transactional(readOnly = true)

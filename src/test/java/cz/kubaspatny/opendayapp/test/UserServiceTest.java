@@ -99,6 +99,14 @@ public class UserServiceTest extends AbstractTest {
     }
 
     @Test
+    public void testIsEmailFree() throws Exception {
+
+        Assert.assertFalse(userService.isEmailFree(email));
+        Assert.assertTrue(userService.isEmailFree(email + System.nanoTime()));
+
+    }
+
+    @Test
     public void testGetUserByUsername() throws Exception {
 
         UserDto userDto = userService.getUser(username);
@@ -169,6 +177,64 @@ public class UserServiceTest extends AbstractTest {
         Assert.assertEquals(newFirst, user.getFirstName());
         Assert.assertEquals(newLast, user.getLastName());
         Assert.assertEquals(newOrganization, user.getOrganization());
+
+    }
+
+    @Test
+    public void testUpdateUser() throws Exception {
+
+        UserDto u = userService.getUser(userID);
+        Assert.assertNotNull(u);
+        System.out.println(u);
+
+        u.setFirstName("DIFFERENT FIRST NAME");
+        u.setLastName("DIFFERENT LAST NAME");
+        u.setOrganization("DIFFERENT ORGANIZATION");
+
+        userService.updateUser(u);
+
+        u = userService.getUser(userID);
+        Assert.assertNotNull(u);
+        System.out.println(u);
+
+        // TRY TO CHANGE USERNAME, EMAIL -> should stay unchanged
+
+        u.setUsername("NEW_USERNAME");
+        u.setEmail("NEW_EMAIL");
+
+        userService.updateUser(u);
+
+        u = userService.getUser(userID);
+        Assert.assertNotNull(u);
+        Assert.assertEquals(this.username, u.getUsername());
+        Assert.assertEquals(this.email, u.getEmail());
+        System.out.println(u);
+
+    }
+
+    @Test
+    public void testDeactivateUser() throws Exception {
+
+        UserDto u = userService.getUser(userID);
+        System.out.println(u);
+
+        userService.deactivateUser(u.getId());
+
+        try {
+            userService.getUser(u.getId());
+            // should have thrown an Exception by now!
+            Assert.fail();
+        } catch (DataAccessException e){
+            Assert.assertEquals(DataAccessException.ErrorCode.INSTANCE_NOT_FOUND, e.getErrorCode());
+        }
+
+        try {
+            userService.getUser(u.getUsername());
+            // should have thrown an Exception by now!
+            Assert.fail();
+        } catch (DataAccessException e){
+            Assert.assertEquals(DataAccessException.ErrorCode.INSTANCE_NOT_FOUND, e.getErrorCode());
+        }
 
     }
 }

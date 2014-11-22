@@ -205,10 +205,24 @@ public class UserDto extends BaseDto {
 
     public static User map(UserDto source, User target, List<String> ignoredProperties){
 
-        target.setId(source.getId());
-        target.setUsername(source.getUsername());
-        target.setPassword(source.getPassword());
-        target.setEmail(source.getEmail());
+        if(ignoredProperties == null) ignoredProperties = new ArrayList<String>();
+
+        if(!ignoredProperties.contains("id")){
+            target.setId(source.getId());
+        }
+
+        if(!ignoredProperties.contains("username")){
+            target.setUsername(source.getUsername());
+        }
+
+        if(!ignoredProperties.contains("email")){
+            target.setEmail(source.getEmail());
+        }
+
+        if(!ignoredProperties.contains("password")){
+            target.setPassword(source.getPassword());
+        }
+
         target.setFirstName(source.getFirstName());
         target.setLastName(source.getLastName());
         target.setOrganization(source.getOrganization());

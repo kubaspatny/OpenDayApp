@@ -8,6 +8,9 @@ import cz.kubaspatny.opendayapp.utils.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Author: Kuba Spatny
  * Web: kubaspatny.cz
@@ -40,14 +43,21 @@ public class UserService extends DataAccessService implements IUserService {
     }
 
     @Override
+    public boolean isEmailFree(String email) throws DataAccessException {
+        return dao.countByProperty("email", email, User.class).equals(new Long(0));
+    }
+
+    @Override
     public UserDto getUser(String username) throws DataAccessException  {
         User u = dao.getByPropertyUnique("username", username, User.class);
+        if(!u.isUserEnabled()) throw new DataAccessException("User was deactivated!", DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
         return UserDto.map(u, new UserDto(), null);
     }
 
     @Override
     public UserDto getUser(Long id) throws DataAccessException  {
         User u = dao.getById(id, User.class);
+        if(!u.isUserEnabled()) throw new DataAccessException("User was deactivated!", DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
         return UserDto.map(u, new UserDto(), null);
     }
 
@@ -89,10 +99,25 @@ public class UserService extends DataAccessService implements IUserService {
     @Override
     public void updateUser(UserDto userDto) throws DataAccessException  {
 
+        if(userDto.getId() == null) throw new DataAccessException("Trying to update object with null ID!", DataAccessException.ErrorCode.INVALID_ID);
+        User u = dao.getById(userDto.getId(), User.class);
+
+        List<String> ignoredProperties = new ArrayList<String>();
+        ignoredProperties.add("id");
+        ignoredProperties.add("username");
+        ignoredProperties.add("email");
+        ignoredProperties.add("password");
+
+        dao.saveOrUpdate(UserDto.map(userDto, u, ignoredProperties));
+
     }
 
     @Override
     public void deactivateUser(Long userId) throws DataAccessException  {
+
+        User u = dao.getById(userId, User.class);
+        u.setUserEnabled(false);
+        dao.saveOrUpdate(u);
 
     }
 }

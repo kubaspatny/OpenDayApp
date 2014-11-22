@@ -1,5 +1,7 @@
 package cz.kubaspatny.opendayapp.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -29,13 +31,14 @@ import java.util.Properties;
  * limitations under the License.
  */
 
-@Service
+@Service("emailService")
 public class EmailService {
+
+    @Value("${email.username}") private String email_username;
+    @Value("${email.password}") private String email_password;
 
     @Async
     public void sendCredentials(String email, String password) {
-        final String email_username = "opendayapp@gmail.com";
-        final String email_password = "h=&estecA!uY+da2uGa2ephu*!8pejUx";
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -65,6 +68,5 @@ public class EmailService {
             throw new RuntimeException(e);
         }
     }
-
 
 }
