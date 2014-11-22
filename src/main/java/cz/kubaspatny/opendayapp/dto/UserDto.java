@@ -39,6 +39,7 @@ public class UserDto extends BaseDto {
     private String firstName;
     private String lastName;
     private String organization;
+    private String password;
 
     private Set<User.UserRole> userRoles;
 
@@ -50,7 +51,7 @@ public class UserDto extends BaseDto {
         return username;
     }
 
-    private void setUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
@@ -58,7 +59,7 @@ public class UserDto extends BaseDto {
         return email;
     }
 
-    private void setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -132,6 +133,14 @@ public class UserDto extends BaseDto {
         this.groups = groups;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    private String getPassword() {
+        return password;
+    }
+
     public static UserDto map(User source, UserDto target, List<String> ignoredProperties){
 
         target.id = source.getId();
@@ -194,11 +203,25 @@ public class UserDto extends BaseDto {
 
     }
 
+    public static User map(UserDto source, User target, List<String> ignoredProperties){
+
+        target.setId(source.getId());
+        target.setUsername(source.getUsername());
+        target.setPassword(source.getPassword());
+        target.setEmail(source.getEmail());
+        target.setFirstName(source.getFirstName());
+        target.setLastName(source.getLastName());
+        target.setOrganization(source.getOrganization());
+
+        return target;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("UserDto{");
         sb.append("id='").append(id).append('\'');
         sb.append(", username='").append(username).append('\'');
+        sb.append(", password='").append(password).append('\'');
         sb.append(", email='").append(email).append('\'');
         sb.append(", firstName='").append(firstName).append('\'');
         sb.append(", lastName='").append(lastName).append('\'');

@@ -53,7 +53,7 @@ public class UserService extends DataAccessService implements IUserService {
 
     @Override
     public Long createUser(UserDto userDto) throws DataAccessException  {
-        return null;
+        return dao.saveOrUpdate(UserDto.map(userDto, new User(), null)).getId();
     }
 
     @Override

@@ -137,6 +137,38 @@ public class UserServiceTest extends AbstractTest {
         Assert.assertTrue(userDto.getUserRoles().contains(User.UserRole.ROLE_STATIONMANAGER));
         Assert.assertFalse(userDto.getUserRoles().contains(User.UserRole.ROLE_GUIDE));
 
+    }
+
+    @Test
+    public void testCreateUser() throws Exception {
+
+        String newUsername = "user.name";
+        String newPassword = "user_password";
+        String newEmail = "user.mail@gmail.com";
+        String newFirst = "first_name";
+        String newLast = "last_name";
+        String newOrganization = "organization_name";
+
+        UserDto u = new UserDto();
+        u.setUsername(newUsername);
+        u.setPassword(newPassword);
+        u.setEmail(newEmail);
+        u.setFirstName(newFirst);
+        u.setLastName(newLast);
+        u.setOrganization(newOrganization);
+
+        Long id = userService.createUser(u);
+        Assert.assertNotNull(id);
+
+        User user = dao.getById(id, User.class);
+        Assert.assertNotNull(user);
+        user.print();
+
+        Assert.assertEquals(newUsername, user.getUsername());
+        Assert.assertEquals(newEmail, user.getEmail());
+        Assert.assertEquals(newFirst, user.getFirstName());
+        Assert.assertEquals(newLast, user.getLastName());
+        Assert.assertEquals(newOrganization, user.getOrganization());
 
     }
 }
