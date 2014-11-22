@@ -406,4 +406,26 @@ public class SandBox extends AbstractTest {
 
     }
 
+    @Test
+    public void testSetEventUserOnlyID() throws Exception {
+
+        User u = new User();
+        u.setFirstName("Kuba");
+        u.setLastName("Spatny");
+        u.setUsername(username);
+        u.setEmail(username);
+        u.setPassword("password");
+        u.setOrganization("Czech Technical University in Prague");
+        u.setUserEnabled(true);
+
+        long id = dao.saveOrUpdate(u).getId();
+
+        Event event = new Event();
+        event.setName("CTU DAY 1");
+        event.setDate(DateTime.now(DateTimeZone.UTC));
+        event.setInformation("CTU DAY is an annual conference for all people.");
+
+        u.addEvent(event);
+
+    }
 }

@@ -141,6 +141,10 @@ public class UserDto extends BaseDto {
         return password;
     }
 
+    public boolean isPasswordSet(){
+        return this.password != null;
+    }
+
     public static UserDto map(User source, UserDto target, List<String> ignoredProperties){
 
         target.id = source.getId();

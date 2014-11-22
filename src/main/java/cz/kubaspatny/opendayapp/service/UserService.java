@@ -50,19 +50,28 @@ public class UserService extends DataAccessService implements IUserService {
     @Override
     public UserDto getUser(String username) throws DataAccessException  {
         User u = dao.getByPropertyUnique("username", username, User.class);
-        if(!u.isUserEnabled()) throw new DataAccessException("User was deactivated!", DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
+        if(u == null || !u.isUserEnabled()) throw new DataAccessException("User was deactivated!", DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
         return UserDto.map(u, new UserDto(), null);
     }
 
     @Override
     public UserDto getUser(Long id) throws DataAccessException  {
         User u = dao.getById(id, User.class);
-        if(!u.isUserEnabled()) throw new DataAccessException("User was deactivated!", DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
+        if(u == null || !u.isUserEnabled()) throw new DataAccessException("User was deactivated!", DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
         return UserDto.map(u, new UserDto(), null);
     }
 
     @Override
     public Long createUser(UserDto userDto) throws DataAccessException  {
+
+        if(userDto.getUsername() == null || !userDto.isPasswordSet() || userDto.getEmail() == null){
+            throw new DataAccessException("Trying to save object with null values for non-nullable fields!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
+        }
+
+        if(!isUsernameFree(userDto.getUsername()) || !isEmailFree(userDto.getUsername())){
+            throw new DataAccessException("Trying to save object which breaks unique constraint!", DataAccessException.ErrorCode.BREAKING_UNIQUE_CONSTRAINT);
+        }
+
         return dao.saveOrUpdate(UserDto.map(userDto, new User(), null)).getId();
     }
 
@@ -73,7 +82,7 @@ public class UserService extends DataAccessService implements IUserService {
             throw new DataAccessException("Invalid email address: " + emailAddress, DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         }
 
-        if(dao.countByProperty("email", emailAddress, User.class) != 0){
+        if(!isEmailFree(emailAddress)){
             throw new DataAccessException("Email address " + emailAddress + " is already in DB!", DataAccessException.ErrorCode.BREAKING_UNIQUE_CONSTRAINT);
         }
 

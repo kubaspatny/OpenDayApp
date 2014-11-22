@@ -103,6 +103,23 @@ public class EventDto extends BaseDto {
         return target;
     }
 
+    /**
+     * Doesn't map attribute "organizer" -> that's service's job.
+     * @param source
+     * @param target
+     * @param ignoredProperties
+     * @return
+     */
+    public static Event map(EventDto source, Event target, List<String> ignoredProperties){
+
+        target.setName(source.getName());
+        target.setDate(source.getDate());
+        target.setInformation(source.getInformation());
+
+        return target;
+
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("EventDto{");

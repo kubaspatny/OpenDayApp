@@ -181,6 +181,35 @@ public class UserServiceTest extends AbstractTest {
     }
 
     @Test
+    public void testCreateExistingUsername() throws Exception {
+
+        String newUsername = username;
+        String newPassword = "user_password";
+        String newEmail = email;
+        String newFirst = "first_name";
+        String newLast = "last_name";
+        String newOrganization = "organization_name";
+
+        UserDto u = new UserDto();
+        u.setUsername(newUsername);
+        u.setPassword(newPassword);
+        u.setEmail(newEmail);
+        u.setFirstName(newFirst);
+        u.setLastName(newLast);
+        u.setOrganization(newOrganization);
+
+        try {
+            Long id = userService.createUser(u);
+            // should have thrown exception by now
+            Assert.fail();
+        } catch (DataAccessException e){
+            Assert.assertEquals(DataAccessException.ErrorCode.BREAKING_UNIQUE_CONSTRAINT, e.getErrorCode());
+
+        }
+
+    }
+
+    @Test
     public void testUpdateUser() throws Exception {
 
         UserDto u = userService.getUser(userID);
