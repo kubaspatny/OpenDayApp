@@ -76,9 +76,13 @@
       <file leaf-file-name="UserServiceTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/UserServiceTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="874" max-vertical-offset="1734">
-              <caret line="83" column="53" selection-start-line="83" selection-start-column="45" selection-end-line="83" selection-end-column="45" />
-              <folding />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1248" max-vertical-offset="2363">
+              <caret line="128" column="57" selection-start-line="128" selection-start-column="53" selection-end-line="128" selection-end-column="53" />
+              <folding>
+                <element signature="method#testCreateGeneratedUser#0;class#UserServiceTest#0" expanded="false" />
+                <element signature="method#testCreateGeneratedUserExisting#0;class#UserServiceTest#0" expanded="false" />
+                <element signature="method#testIsUserNameFree#0;class#UserServiceTest#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -86,8 +90,8 @@
       <file leaf-file-name="UserService.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/UserService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5804196" vertical-offset="399" max-vertical-offset="1037">
-              <caret line="56" column="85" selection-start-line="56" selection-start-column="85" selection-end-line="56" selection-end-column="85" />
+            <state vertical-scroll-proportion="0.5497771" vertical-offset="327" max-vertical-offset="1139">
+              <caret line="49" column="45" selection-start-line="49" selection-start-column="45" selection-end-line="49" selection-end-column="45" />
               <folding>
                 <element signature="method#isUsernameFree#0;class#UserService#0" expanded="false" />
                 <element signature="method#createGeneratedUser#0;class#UserService#0" expanded="false" />
@@ -154,8 +158,8 @@
         <option value="$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/DaoTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dao/Dao.java" />
         <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bo/User.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/UserService.java" />
         <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/exception/DataAccessException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/UserService.java" />
         <option value="$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/UserServiceTest.java" />
       </list>
     </option>
@@ -564,81 +568,7 @@
       <recent name="cz.kubaspatny.opendayapp.test" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in OpenDayApp (2)">
-    <configuration default="false" name="UserServiceTest.testCreateGeneratedUser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="cz.kubaspatny.opendayapp.test.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="OpenDayApp" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="cz.kubaspatny.opendayapp.test" />
-      <option name="MAIN_CLASS_NAME" value="cz.kubaspatny.opendayapp.test.UserServiceTest" />
-      <option name="METHOD_NAME" value="testCreateGeneratedUser" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="All in OpenDayApp" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="OpenDayApp" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="package" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="All in OpenDayApp (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="OpenDayApp" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="package" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="JUnit.All in OpenDayApp">
     <configuration default="false" name="UserServiceTest.testCreateGeneratedUserExisting" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -668,6 +598,85 @@
       <method />
     </configuration>
     <configuration default="false" name="All in OpenDayApp (2)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="OpenDayApp" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="UserServiceTest.testGetUserByUsername" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="cz.kubaspatny.opendayapp.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="OpenDayApp" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="cz.kubaspatny.opendayapp.test" />
+      <option name="MAIN_CLASS_NAME" value="cz.kubaspatny.opendayapp.test.UserServiceTest" />
+      <option name="METHOD_NAME" value="testGetUserByUsername" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="UserServiceTest.testGetUserByID" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="cz.kubaspatny.opendayapp.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="OpenDayApp" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="cz.kubaspatny.opendayapp.test" />
+      <option name="MAIN_CLASS_NAME" value="cz.kubaspatny.opendayapp.test.UserServiceTest" />
+      <option name="METHOD_NAME" value="testGetUserByID" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="All in OpenDayApp" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="OpenDayApp" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -1043,19 +1052,19 @@
     <list size="7">
       <item index="0" class="java.lang.String" itemvalue="JUnit.SandBox.testDeleteRouteStationManagerPart" />
       <item index="1" class="java.lang.String" itemvalue="Tomcat Server.Tomcat 7.0" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.UserServiceTest.testCreateGeneratedUser" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (1)" />
-      <item index="5" class="java.lang.String" itemvalue="JUnit.UserServiceTest.testCreateGeneratedUserExisting" />
-      <item index="6" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (2)" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.UserServiceTest.testCreateGeneratedUserExisting" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (2)" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.UserServiceTest.testGetUserByUsername" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.UserServiceTest.testGetUserByID" />
+      <item index="6" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (2)" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.UserServiceTest.testCreateGeneratedUserExisting" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (1)" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.UserServiceTest.testCreateGeneratedUser" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.UserServiceTest.testGetUserByID" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.UserServiceTest.testGetUserByUsername" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (2)" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.UserServiceTest.testCreateGeneratedUserExisting" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
@@ -1095,12 +1104,12 @@
       <workItem from="1416164200675" duration="13946000" />
       <workItem from="1416386169595" duration="3335000" />
       <workItem from="1416425603138" duration="8542000" />
-      <workItem from="1416605268240" duration="5492000" />
+      <workItem from="1416605268240" duration="7566000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="135731000" />
+    <option name="totallyTimeSpent" value="137805000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1149,46 +1158,14 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35345775" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24557522" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3243243" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1659292" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21058558" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
-    <layout-to-restore>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22277227" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
-      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="JSF" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35345775" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22861357" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.9438944" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32838285" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32013202" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.9125413" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -1208,14 +1185,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/UserDto.java</url>
-          <line>182</line>
-          <properties />
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="10" />
     </breakpoint-manager>
   </component>
@@ -1521,19 +1490,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/UserDto.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1728" vertical-offset="2408" max-vertical-offset="3111">
-          <caret line="184" column="8" selection-start-line="184" selection-start-column="8" selection-end-line="184" selection-end-column="8" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3856#3866#0" expanded="true" />
-            <element signature="e#4300#4310#0" expanded="true" />
-            <element signature="e#4758#4768#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/EventDto.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.592" vertical-offset="1041" max-vertical-offset="1666">
@@ -1643,18 +1599,35 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/UserDto.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.36713287" vertical-offset="2306" max-vertical-offset="3111">
+          <caret line="184" column="8" selection-start-line="184" selection-start-column="8" selection-end-line="184" selection-end-column="8" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3856#3866#0" expanded="true" />
+            <element signature="e#4300#4310#0" expanded="true" />
+            <element signature="e#4758#4768#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/UserServiceTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="874" max-vertical-offset="1734">
-          <caret line="83" column="53" selection-start-line="83" selection-start-column="45" selection-end-line="83" selection-end-column="45" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1248" max-vertical-offset="2363">
+          <caret line="128" column="57" selection-start-line="128" selection-start-column="53" selection-end-line="128" selection-end-column="53" />
+          <folding>
+            <element signature="method#testCreateGeneratedUser#0;class#UserServiceTest#0" expanded="false" />
+            <element signature="method#testCreateGeneratedUserExisting#0;class#UserServiceTest#0" expanded="false" />
+            <element signature="method#testIsUserNameFree#0;class#UserServiceTest#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/UserService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5804196" vertical-offset="399" max-vertical-offset="1037">
-          <caret line="56" column="85" selection-start-line="56" selection-start-column="85" selection-end-line="56" selection-end-column="85" />
+        <state vertical-scroll-proportion="0.5497771" vertical-offset="327" max-vertical-offset="1139">
+          <caret line="49" column="45" selection-start-line="49" selection-start-column="45" selection-end-line="49" selection-end-column="45" />
           <folding>
             <element signature="method#isUsernameFree#0;class#UserService#0" expanded="false" />
             <element signature="method#createGeneratedUser#0;class#UserService#0" expanded="false" />

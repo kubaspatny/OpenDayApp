@@ -2,6 +2,7 @@ package cz.kubaspatny.opendayapp.test;
 
 import cz.kubaspatny.opendayapp.bo.User;
 import cz.kubaspatny.opendayapp.dao.GenericDao;
+import cz.kubaspatny.opendayapp.dto.UserDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.service.IUserService;
 import org.junit.Assert;
@@ -36,6 +37,9 @@ public class UserServiceTest extends AbstractTest {
 
     private String username = "generic.username";
     private String email = "generic.username1@abcd.com";
+    private String firstName = "FirstName";
+    private String lastName = "LastName";
+    private String org = "Organization";
     private String password = "genericPassword123";
     private Long userID;
 
@@ -43,9 +47,10 @@ public class UserServiceTest extends AbstractTest {
     public void setUp() throws Exception {
 
         User u =  new User.Builder(username, email, password).
-                setFirstName("FirstName").
-                setLastName("LastName").
-                setOrganization("Organization").build();
+                setFirstName(firstName).
+                setLastName(lastName).
+                setOrganization(org).
+                addUserRole(User.UserRole.ROLE_ORGANIZER).addUserRole(User.UserRole.ROLE_STATIONMANAGER).build();
 
         userID = dao.saveOrUpdate(u).getId();
 
@@ -94,10 +99,72 @@ public class UserServiceTest extends AbstractTest {
     }
 
     @Test
-    public void testTEST() throws Exception {
+    public void testGetUserByUsername() throws Exception {
 
-        String username = email.substring(0, email.indexOf("@"));
-        System.out.println(username);
+        UserDto userDto = userService.getUser(username);
+        System.out.println(userDto);
+
+        Assert.assertNotNull(userDto);
+        Assert.assertEquals(userID, userDto.getId());
+        Assert.assertEquals(username, userDto.getUsername());
+        Assert.assertEquals(email, userDto.getEmail());
+        Assert.assertEquals(firstName, userDto.getFirstName());
+        Assert.assertEquals(lastName, userDto.getLastName());
+        Assert.assertEquals(org, userDto.getOrganization());
+
+        Assert.assertTrue(userDto.getUserRoles().contains(User.UserRole.ROLE_ORGANIZER));
+        Assert.assertTrue(userDto.getUserRoles().contains(User.UserRole.ROLE_STATIONMANAGER));
+        Assert.assertFalse(userDto.getUserRoles().contains(User.UserRole.ROLE_GUIDE));
+
+
+    }
+
+    @Test
+    public void testGetUserByID() throws Exception {
+
+        UserDto userDto = userService.getUser(userID);
+        System.out.println(userDto);
+
+        Assert.assertNotNull(userDto);
+        Assert.assertEquals(userID, userDto.getId());
+        Assert.assertEquals(username, userDto.getUsername());
+        Assert.assertEquals(email, userDto.getEmail());
+        Assert.assertEquals(firstName, userDto.getFirstName());
+        Assert.assertEquals(lastName, userDto.getLastName());
+        Assert.assertEquals(org, userDto.getOrganization());
+
+        Assert.assertTrue(userDto.getUserRoles().contains(User.UserRole.ROLE_ORGANIZER));
+        Assert.assertTrue(userDto.getUserRoles().contains(User.UserRole.ROLE_STATIONMANAGER));
+        Assert.assertFalse(userDto.getUserRoles().contains(User.UserRole.ROLE_GUIDE));
+
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

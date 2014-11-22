@@ -3,6 +3,7 @@ package cz.kubaspatny.opendayapp.service;
 import cz.kubaspatny.opendayapp.bo.User;
 import cz.kubaspatny.opendayapp.dto.UserDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
+import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
 import cz.kubaspatny.opendayapp.utils.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -40,12 +41,14 @@ public class UserService extends DataAccessService implements IUserService {
 
     @Override
     public UserDto getUser(String username) throws DataAccessException  {
-        return null;
+        User u = dao.getByPropertyUnique("username", username, User.class);
+        return UserDto.map(u, new UserDto(), null);
     }
 
     @Override
     public UserDto getUser(Long id) throws DataAccessException  {
-        return null;
+        User u = dao.getById(id, User.class);
+        return UserDto.map(u, new UserDto(), null);
     }
 
     @Override
