@@ -36,8 +36,21 @@ public class StationDto extends BaseDto {
     private int relocationTime;
     private int sequencePosition;
 
+    /**
+     * ID used for identifying group's starting position on the createRoute Screen.
+     */
+    private long creationId;
+
     private RouteDto route;
     private List<LocationUpdateDto> locationUpdates;
+
+    public StationDto() {
+    }
+
+    public StationDto(boolean generateCreationId) {
+        creationId = System.nanoTime();
+    }
+
 
     public String getName() {
         return name;
@@ -101,6 +114,10 @@ public class StationDto extends BaseDto {
 
     public void setLocationUpdates(List<LocationUpdateDto> locationUpdates) {
         this.locationUpdates = locationUpdates;
+    }
+
+    public long getCreationId() {
+        return creationId;
     }
 
     // OBJECT MAPPERS

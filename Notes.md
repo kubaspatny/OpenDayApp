@@ -19,3 +19,10 @@ EMAILS
 - opendayapp@gmail.com, h=&estecA!uY+da2uGa2ephu*!8pejUx
 - opendayapptest@gmail.com, h=&estecA!uY+da2uGa2ephu*!8pejUx
 
+SAVING ROUTE WITH EVERYTHING
+===
+saveRoute(Event id, String name, String hexColor, String information, List<DateTime> times, List<Station> stations, HashMap<String, String> stationCreationID_guideEmail,
+                List<String> stationManagerEmails);
+                
+saveRoute(Event id, RouteDto);
+

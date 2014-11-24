@@ -44,6 +44,7 @@ public class SandBox extends AbstractTest {
     @Autowired private GenericDao dao;
 
     private String username = "kuba.spatny@gmail.com";
+    private String username2 = "guide@gmail.com";
 
     @Before
     public void setUp() throws Exception {
@@ -56,7 +57,17 @@ public class SandBox extends AbstractTest {
         u.setOrganization("Czech Technical University in Prague");
         u.setUserEnabled(true);
 
+        User u2 = new User();
+        u2.setFirstName("GUIDE");
+        u2.setLastName("GUIDE");
+        u2.setUsername(username2);
+        u2.setEmail(username2);
+        u2.setPassword("password");
+        u2.setOrganization("Czech Technical University in Prague");
+        u2.setUserEnabled(true);
+
         dao.saveOrUpdate(u);
+        dao.saveOrUpdate(u2);
 
         Event event = new Event();
         event.setName("CTU DAY 1");
@@ -426,6 +437,68 @@ public class SandBox extends AbstractTest {
         event.setInformation("CTU DAY is an annual conference for all people.");
 
         u.addEvent(event);
+
+    }
+
+    @Test
+    public void testCreatingRoute() throws Exception {
+
+        User u = dao.getByPropertyUnique("username",username, User.class);
+        User u2 = dao.getByPropertyUnique("username",username2, User.class);
+
+        Event e = new Event();
+        e.setName("Event for Route testing");
+        e.setInformation("Event info");
+        e.setOrganizer(u);
+        e.setDate(DateTime.now());
+        u.addEvent(e);
+
+        dao.saveOrUpdate(e);
+        Assert.assertNotNull(e.getId());
+
+        u = dao.getByPropertyUnique("username",username, User.class);
+        u.print();
+
+        System.out.println("--------------------------------------------------------------------------------------------");
+
+        Route r = new Route();
+        r.setName("FEL Route");
+        r.setHexColor("blue");
+        r.setInformation("info");
+        r.setDate(DateTime.now());
+        e.addRoute(r);
+        dao.saveOrUpdate(r);
+
+        for (int i = 1; i <= 6; i++) {
+
+            Station s = new Station();
+            s.setName("Station 0" + i);
+            s.setInformation("Station 0" + i + " info");
+            s.setLocation("K-00" + i);
+            s.setRelocationTime(10);
+            s.setSequencePosition(1);
+            r.addStation(s);
+            dao.saveOrUpdate(s);
+
+            Group g = new Group();
+            g.setStartingPosition(s);
+            g.setGuide(u2);
+            r.addGroup(g);
+            dao.saveOrUpdate(g);
+
+        }
+
+
+
+
+        u = dao.getByPropertyUnique("username",username, User.class);
+        u2 = dao.getByPropertyUnique("username",username2, User.class);
+
+        u.print();
+        u2.print();
+
+
+
 
     }
 }
