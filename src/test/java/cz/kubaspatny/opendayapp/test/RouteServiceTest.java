@@ -10,6 +10,7 @@ import cz.kubaspatny.opendayapp.dto.StationDto;
 import cz.kubaspatny.opendayapp.dto.UserDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.service.IRouteService;
+import cz.kubaspatny.opendayapp.service.IStationService;
 import cz.kubaspatny.opendayapp.service.IUserService;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -47,6 +48,7 @@ public class RouteServiceTest extends AbstractTest {
     @Autowired private GenericDao dao;
     @Autowired private IRouteService routeService;
     @Autowired private IUserService userService;
+    @Autowired private IStationService stationService;
 
     private String username = "kuba.spatny@gmail.com";
 
@@ -120,9 +122,6 @@ public class RouteServiceTest extends AbstractTest {
         event.addRoute(r2);
 
         dao.saveOrUpdate(u);
-
-        u = dao.getByPropertyUnique("username", username, User.class);
-        u.print();
 
         routeId = u.getEvents().get(0).getRoutes().get(0).getId();
 
@@ -251,6 +250,29 @@ public class RouteServiceTest extends AbstractTest {
 
         user = dao.getByPropertyUnique("email", stationManager1, User.class);
         user.print();
+
+    }
+
+    @Test
+    public void testRemoveStation() throws Exception {
+
+        testCreateRoute();
+        System.out.println("//////////////////////////////////////////////////////////////////////////////////");
+        User user = dao.getByPropertyUnique("username", username, User.class);
+        user.print();
+        System.out.println("//////////////////////////////////////////////////////////////////////////////////");
+        System.out.println("//////////////////////////////////////////////////////////////////////////////////");
+
+        Station s = user.getEvents().get(1).getRoutes().get(1).getStations().get(0);
+        stationService.removeStation(s.getId());
+
+        user = dao.getByPropertyUnique("username", username, User.class);
+        user.print();
+        System.out.println("//////////////////////////////////////////////////////////////////////////////////");
+
+        user = dao.getByPropertyUnique("email", guide1, User.class);
+        user.print();
+
 
 
     }

@@ -135,21 +135,29 @@ public class StationDto extends BaseDto {
         if(ignoredProperties == null) ignoredProperties = new ArrayList<String>();
 
         if(!ignoredProperties.contains("route")){
-
             target.route = RouteDto.map(source.getRoute(), new RouteDto(), DtoMapperUtil.getRouteIgnoredProperties());
-
         }
 
         if(!ignoredProperties.contains("locationUpdates") && source.getLocationUpdates() != null){
-
             List<LocationUpdateDto> locationUpdateDtos = new ArrayList<LocationUpdateDto>();
             for(LocationUpdate l : source.getLocationUpdates()){
                 locationUpdateDtos.add(LocationUpdateDto.map(l, new LocationUpdateDto(), null));
             }
 
             target.locationUpdates = locationUpdateDtos;
-
         }
+
+        return target;
+    }
+
+    public static Station map(StationDto source, Station target, List<String> ignorableProperties){
+
+        target.setName(source.getName());
+        target.setLocation(source.getLocation());
+        target.setInformation(source.getInformation());
+        target.setTimeLimit(source.getTimeLimit());
+        target.setRelocationTime(source.getRelocationTime());
+        target.setSequencePosition(source.getSequencePosition());
 
         return target;
     }
