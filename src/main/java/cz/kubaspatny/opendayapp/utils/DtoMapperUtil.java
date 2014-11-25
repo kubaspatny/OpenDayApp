@@ -64,6 +64,8 @@ public class DtoMapperUtil {
         List<String> groupIgnoredProperties = new ArrayList<String>();
         groupIgnoredProperties.add("groupSizes");
         groupIgnoredProperties.add("locationUpdates");
+        groupIgnoredProperties.add("latestGroupSize");
+        groupIgnoredProperties.add("latestLocationUpdate");
 
         return groupIgnoredProperties;
     }

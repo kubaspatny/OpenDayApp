@@ -34,6 +34,9 @@ public class GroupDto extends BaseDto {
     private UserDto guide;
     private StationDto startingPosition;
 
+    private GroupSizeDto latestGroupSize;
+    private LocationUpdateDto latestLocationUpdate;
+
     private List<GroupSizeDto> groupSizes;
     private List<LocationUpdateDto> locationUpdates;
 
@@ -77,6 +80,14 @@ public class GroupDto extends BaseDto {
         this.locationUpdates = locationUpdates;
     }
 
+    public GroupSizeDto getLatestGroupSize() {
+        return latestGroupSize;
+    }
+
+    public LocationUpdateDto getLatestLocationUpdate() {
+        return latestLocationUpdate;
+    }
+
     // OBJECT MAPPERS
 
     public static GroupDto map(Group source, GroupDto target, List<String> ignoredProperties){
@@ -99,6 +110,10 @@ public class GroupDto extends BaseDto {
 
         }
 
+        if(!ignoredProperties.contains("latestGroupSize") && source.getGroupSizes() != null && source.getGroupSizes().size() > 0){
+            target.latestGroupSize = GroupSizeDto.map(source.getGroupSizes().get(source.getGroupSizes().size() - 1), new GroupSizeDto(), null);
+        }
+
         if(!ignoredProperties.contains("locationUpdates") && source.getLocationUpdates() != null){
 
             List<LocationUpdateDto> locationUpdateDtos = new ArrayList<LocationUpdateDto>();
@@ -107,8 +122,19 @@ public class GroupDto extends BaseDto {
             }
 
             target.locationUpdates = locationUpdateDtos;
-
         }
+
+        if(!ignoredProperties.contains("locationUpdates") && source.getLocationUpdates() != null && source.getLocationUpdates().size() > 0){
+            target.latestLocationUpdate = LocationUpdateDto.map(source.getLocationUpdates().get(source.getLocationUpdates().size() - 1), new LocationUpdateDto(), null);
+        }
+
+        return target;
+    }
+
+    public static Group map(GroupDto source, Group target, List<String> ignorableProperties){
+
+
+
 
         return target;
     }
@@ -116,13 +142,15 @@ public class GroupDto extends BaseDto {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("GroupDto{");
-        sb.append("id=").append(id);
-        sb.append(", route=").append(route);
-        sb.append(", guide=").append(guide);
-        sb.append(", startingPosition=").append(startingPosition);
-        sb.append(", groupSizes=").append(groupSizes);
-        sb.append(", locationUpdates=").append(locationUpdates);
-        sb.append('}');
+        sb.append("\n\troute=").append(route);
+        sb.append("\n\tguide=").append(guide);
+        sb.append("\n\tstartingPosition=").append(startingPosition);
+        sb.append("\n\tlatestGroupSize=").append(latestGroupSize);
+        sb.append("\n\tlatestLocationUpdate=").append(latestLocationUpdate);
+        sb.append("\n\tgroupSizes=").append(groupSizes);
+        sb.append("\n\tlocationUpdates=").append(locationUpdates);
+        sb.append("\n}");
         return sb.toString();
     }
+
 }

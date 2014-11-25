@@ -80,6 +80,12 @@ public class LocationUpdateDto extends BaseDto {
         return target;
     }
 
+    public static LocationUpdate map(LocationUpdateDto source, LocationUpdate target, List<String> ignoredProperties){
+        target.setTimestamp(source.getTimestamp());
+        target.setType(source.getType());
+        return target;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("LocationUpdateDto{");
