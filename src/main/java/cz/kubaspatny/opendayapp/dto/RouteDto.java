@@ -164,6 +164,17 @@ public class RouteDto extends BaseDto {
         return target;
     }
 
+    public static Route map(RouteDto source, Route target, List<String> ignoredProperties){
+
+        target.setName(source.getName());
+        target.setHexColor(source.getHexColor());
+        target.setInformation(source.getInformation());
+        target.setDate(source.getDate());
+
+        return target;
+
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("RouteDto{");

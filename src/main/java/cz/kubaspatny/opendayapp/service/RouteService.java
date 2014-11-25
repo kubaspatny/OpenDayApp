@@ -1,12 +1,13 @@
 package cz.kubaspatny.opendayapp.service;
 
-import cz.kubaspatny.opendayapp.bo.Route;
+import cz.kubaspatny.opendayapp.bo.*;
 import cz.kubaspatny.opendayapp.dto.RouteDto;
 import cz.kubaspatny.opendayapp.dto.StationDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -43,18 +44,83 @@ public class RouteService extends DataAccessService implements IRouteService {
 
     }
 
+    /**
+     * Saves a whole route object with stations, groups/guides and station managers.
+     * @param guideEmails HashMap where Key == StationDto.creationId, Value == guide email
+     * @throws DataAccessException
+     */
     @Override
-    public Long saveRoute(Long eventId, String name, String hexColor, String information, List<DateTime> routeStartingTimes, List<StationDto> stations, HashMap<Long, String> stationCreationID_guideEmail, List<String> stationManagerEmails) throws DataAccessException {
-        return null;
+    public List<Long> saveRoute(Long eventId, String name, String hexColor, String information, List<DateTime> routeStartingTimes, List<StationDto> stations, HashMap<Long, String> guideEmails, List<String> stationManagerEmails) throws DataAccessException {
+
+        if(eventId == null) throw new DataAccessException("Event id is null!", DataAccessException.ErrorCode.INVALID_ID);
+        if(name == null || name.isEmpty() || hexColor == null || hexColor.isEmpty() || routeStartingTimes == null || routeStartingTimes.size() == 0) throw new DataAccessException("Paramaters name, hexColor and routeStartingTimes cannot be null or empty!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
+
+        List<Long> routeIds = new ArrayList<Long>(routeStartingTimes.size());
+
+        Event e = dao.getById(eventId, Event.class);
+
+        for(DateTime t : routeStartingTimes){
+
+            Route r = new Route();
+            r.setName(name);
+            r.setHexColor(hexColor);
+            r.setInformation(information);
+            r.setDate(t);
+            e.addRoute(r);
+            dao.saveOrUpdate(r);
+
+            routeIds.add(r.getId());
+
+            if(stations != null) {
+                for(StationDto stationDto : stations){
+
+                    Station s = new Station();
+                    s.setName(stationDto.getName());
+                    s.setInformation(stationDto.getInformation());
+                    s.setLocation(stationDto.getLocation());
+                    s.setRelocationTime(stationDto.getRelocationTime());
+                    s.setSequencePosition(stationDto.getSequencePosition());
+                    r.addStation(s);
+                    dao.saveOrUpdate(s);
+
+                    if(guideEmails != null && guideEmails.containsKey(stationDto.getCreationId())){
+
+                        User guide = dao.getByPropertyUnique("email", guideEmails.get(stationDto.getCreationId()), User.class);
+
+                        Group g = new Group();
+                        g.setStartingPosition(s);
+                        g.setGuide(guide);
+                        r.addGroup(g);
+                        dao.saveOrUpdate(g);
+
+                    }
+                }
+            }
+
+            if(stationManagerEmails != null){
+                for(String email : stationManagerEmails){
+                    User stationManager = dao.getByPropertyUnique("email", email, User.class);
+                    r.addStationManager(stationManager);
+                }
+                dao.saveOrUpdate(r);
+            }
+
+        }
+
+        return routeIds;
     }
 
     @Override
     public void removeRoute(Long id) throws DataAccessException {
-
+        dao.removeById(id, Route.class);
     }
 
     @Override
     public void updateRoute(RouteDto route) throws DataAccessException {
+        if(route.getId() == null) throw new DataAccessException("Trying to update object with null ID!", DataAccessException.ErrorCode.INVALID_ID);
+
+        Route r = dao.getById(route.getId(), Route.class);
+        dao.saveOrUpdate(RouteDto.map(route, r, null));
 
     }
 }

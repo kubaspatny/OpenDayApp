@@ -6,13 +6,21 @@ import cz.kubaspatny.opendayapp.bo.Station;
 import cz.kubaspatny.opendayapp.bo.User;
 import cz.kubaspatny.opendayapp.dao.GenericDao;
 import cz.kubaspatny.opendayapp.dto.RouteDto;
+import cz.kubaspatny.opendayapp.dto.StationDto;
+import cz.kubaspatny.opendayapp.dto.UserDto;
+import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.service.IRouteService;
+import cz.kubaspatny.opendayapp.service.IUserService;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Author: Kuba Spatny
@@ -38,8 +46,21 @@ public class RouteServiceTest extends AbstractTest {
 
     @Autowired private GenericDao dao;
     @Autowired private IRouteService routeService;
+    @Autowired private IUserService userService;
 
     private String username = "kuba.spatny@gmail.com";
+
+    private String guide1 = "guide1@gmail.com";
+    private String guide2 = "guide2@gmail.com";
+    private String guide3 = "guide3@gmail.com";
+    private String guide4 = "guide4@gmail.com";
+
+    private String stationManager1 = "stationManager1@gmail.com";
+    private String stationManager2 = "stationManager2@gmail.com";
+    private String stationManager3 = "stationManager3@gmail.com";
+    private String stationManager4 = "stationManager4@gmail.com";
+
+    private Long routeId;
 
     @Before
     public void setUp() throws Exception {
@@ -62,6 +83,12 @@ public class RouteServiceTest extends AbstractTest {
         event.setDate(DateTime.now(DateTimeZone.UTC));
         event.setInformation("CTU DAY is an annual conference for all people.");
         u.addEvent(event);
+
+        Event event2 = new Event();
+        event2.setName("SERVICE TEST EVENT");
+        event2.setDate(DateTime.now(DateTimeZone.UTC));
+        event2.setInformation("SERVICE TEST EVENT SERVICE TEST EVENT SERVICE TEST EVENT SERVICE TEST EVENT");
+        u.addEvent(event2);
 
         Route r1 = new Route();
         r1.setName("Blue route");
@@ -94,19 +121,136 @@ public class RouteServiceTest extends AbstractTest {
 
         dao.saveOrUpdate(u);
 
+        u = dao.getByPropertyUnique("username", username, User.class);
+        u.print();
+
+        routeId = u.getEvents().get(0).getRoutes().get(0).getId();
+
+        userService.createGeneratedUser(guide1);
+        userService.createGeneratedUser(guide2);
+        userService.createGeneratedUser(guide3);
+        userService.createGeneratedUser(guide4);
+
+        userService.createGeneratedUser(stationManager1);
+        userService.createGeneratedUser(stationManager2);
+        userService.createGeneratedUser(stationManager3);
+        userService.createGeneratedUser(stationManager4);
     }
 
     @Test
     public void testGetRoute() throws Exception {
 
-        User u = dao.getByPropertyUnique("username", username, User.class);
-        u.print();
-
-        Long routeId = u.getEvents().get(0).getRoutes().get(0).getId();
-
         RouteDto routeDto = routeService.getRoute(routeId);
         System.out.println(routeDto);
 
+    }
+
+    @Test
+    public void testRemoveRoute() throws Exception {
+
+        RouteDto r = routeService.getRoute(routeId);
+        Assert.assertNotNull(r);
+
+        routeService.removeRoute(routeId);
+
+        try {
+            r = routeService.getRoute(routeId);
+            Assert.fail("Should have thrown Exception!");
+        } catch (DataAccessException e){
+            Assert.assertEquals(DataAccessException.ErrorCode.INSTANCE_NOT_FOUND, e.getErrorCode());
+        }
+
+        User u = dao.getByPropertyUnique("username", username, User.class);
+        u.print();
+
+    }
+
+    @Test
+    public void testUpdateRoute() throws Exception {
+
+        long before = System.nanoTime();
+
+        RouteDto r = routeService.getRoute(routeId);
+        Assert.assertNotNull(r);
+
+        String newName = "ROUTENAME"+System.nanoTime();
+        String newHexColor = "HEXCOLOR"+System.nanoTime();
+        String newInfo = "INFO"+System.nanoTime();
+        DateTime newTime = DateTime.now().plusYears(100);
+
+        Assert.assertNotEquals(newName, r.getName());
+        Assert.assertNotEquals(newHexColor, r.getHexColor());
+        Assert.assertNotEquals(newInfo, r.getInformation());
+        Assert.assertNotEquals(newTime, r.getDate());
+
+        r.setName(newName);
+        r.setHexColor(newHexColor);
+        r.setInformation(newInfo);
+        r.setDate(newTime);
+
+        routeService.updateRoute(r);
+        r = routeService.getRoute(routeId);
+
+        Assert.assertEquals(newName, r.getName());
+        Assert.assertEquals(newHexColor, r.getHexColor());
+        Assert.assertEquals(newInfo, r.getInformation());
+        Assert.assertEquals(newTime, r.getDate());
+
+        double time = (System.nanoTime() - before) / 1000000000.0;
+
+        System.out.println("Total time: " + time + " seconds.");
+
+    }
+
+    @Test
+    public void testCreateRoute() throws Exception {
+
+        UserDto u = userService.getUser(username);
+        System.out.println(u.getEvents().get(1));
+        Long eventId = u.getEvents().get(1).getId();
+
+        String name = "CREATED_ROUTE";
+        String hexColor = "006080";
+        String info = "This is route information.";
+
+        List<DateTime> times = new ArrayList<DateTime>();
+        times.add(DateTime.now().plusHours(1));
+        times.add(DateTime.now().plusHours(3));
+
+        HashMap<Long, String> guides = new HashMap<Long, String>();
+
+        List<StationDto> stations = new ArrayList<StationDto>();
+        for (int i = 1; i <= 4; i++) {
+
+            StationDto s = new StationDto(true);
+            s.setName("Station " + i);
+            s.setSequencePosition(i);
+            s.setLocation("K-00" + i);
+            s.setRelocationTime(i*10);
+            s.setTimeLimit(i*100);
+
+            guides.put(s.getCreationId(), "guide"+ i +"@gmail.com");
+            stations.add(s);
+
+        }
+
+        List<String> stationManagerEmails = new ArrayList<String>();
+        stationManagerEmails.add(stationManager1);
+        stationManagerEmails.add(stationManager2);
+        stationManagerEmails.add(stationManager3);
+        stationManagerEmails.add(stationManager4);
+
+        List<Long> routeIds = routeService.saveRoute(eventId, name, hexColor, info, times, stations, guides, stationManagerEmails);
+        Assert.assertEquals(times.size(), routeIds.size());
+
+        User user = dao.getByPropertyUnique("username", username, User.class);
+        user.print();
+
+        user = dao.getByPropertyUnique("email", guide1, User.class);
+        user.print();
+
+        user = dao.getByPropertyUnique("email", stationManager1, User.class);
+        user.print();
 
 
     }

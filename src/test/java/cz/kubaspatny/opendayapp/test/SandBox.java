@@ -485,11 +485,10 @@ public class SandBox extends AbstractTest {
             g.setGuide(u2);
             r.addGroup(g);
             dao.saveOrUpdate(g);
-
         }
 
-
-
+        r.addStationManager(u2);
+        dao.saveOrUpdate(r);
 
         u = dao.getByPropertyUnique("username",username, User.class);
         u2 = dao.getByPropertyUnique("username",username2, User.class);
