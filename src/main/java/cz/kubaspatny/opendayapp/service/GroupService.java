@@ -3,6 +3,7 @@ package cz.kubaspatny.opendayapp.service;
 import cz.kubaspatny.opendayapp.bo.*;
 import cz.kubaspatny.opendayapp.dto.*;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -110,4 +111,40 @@ public class GroupService extends DataAccessService implements IGroupService {
         return dao.saveOrUpdate(update).getId();
     }
 
+    @Override
+    public void setLastUpdated(Long id, DateTime time) throws DataAccessException {
+
+        Group g = dao.getById(id, Group.class);
+        if(g == null) throw new DataAccessException("Instance not found!", DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
+
+        g.setLastUpdated(time);
+        g.setInactivityNotified(true);
+        dao.saveOrUpdate(g);
+
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

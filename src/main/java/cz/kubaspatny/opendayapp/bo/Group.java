@@ -1,5 +1,9 @@
 package cz.kubaspatny.opendayapp.bo;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +47,10 @@ public class Group extends AbstractBusinessObject {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
     private List<LocationUpdate> locationUpdates;
 
+    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    private DateTime lastUpdated;
+    private boolean inactivityNotified = true;
+
     public Route getRoute() {
         return route;
     }
@@ -67,6 +75,8 @@ public class Group extends AbstractBusinessObject {
         sb.append("route=").append(route);
         sb.append(", guide=").append(guide);
         sb.append(", startingPosition=").append(startingPosition);
+        sb.append(", active=").append(isActive());
+        sb.append(", notified=").append(isInactivityNotified());
         sb.append('}');
         return sb.toString();
     }
@@ -117,6 +127,27 @@ public class Group extends AbstractBusinessObject {
 
         locationUpdate.setGroup(this);
         locationUpdates.add(locationUpdate);
+    }
+
+    public DateTime getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(DateTime lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
+    public boolean isActive() {
+        Duration d = new Duration(getLastUpdated(), DateTime.now());
+        return d.getStandardMinutes() < 10;
+    }
+
+    public boolean isInactivityNotified() {
+        return inactivityNotified;
+    }
+
+    public void setInactivityNotified(boolean inactivityNotified) {
+        this.inactivityNotified = inactivityNotified;
     }
 
     @PreRemove

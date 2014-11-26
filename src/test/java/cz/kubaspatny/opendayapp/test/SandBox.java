@@ -4,11 +4,11 @@ import cz.kubaspatny.opendayapp.bo.*;
 import cz.kubaspatny.opendayapp.dao.GenericDao;
 import cz.kubaspatny.opendayapp.dto.EventDto;
 import cz.kubaspatny.opendayapp.dto.UserDto;
-import cz.kubaspatny.opendayapp.provider.HashProvider;
 import cz.kubaspatny.opendayapp.utils.EventDateComparator;
-import org.hibernate.annotations.SourceType;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.Duration;
+import org.joda.time.Interval;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Author: Kuba Spatny
@@ -496,8 +495,41 @@ public class SandBox extends AbstractTest {
         u.print();
         u2.print();
 
+    }
 
+    @Test
+    public void testDateTimeDifference() throws Exception {
 
+        DateTime time1 = DateTime.now().minusMinutes(10);
+
+        Duration d = new Duration(time1, DateTime.now());
+        System.out.println(d.getStandardMinutes());
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

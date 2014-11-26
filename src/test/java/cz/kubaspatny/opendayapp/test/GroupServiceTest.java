@@ -341,4 +341,28 @@ public class GroupServiceTest extends AbstractTest {
         user.print();
 
     }
+
+    @Test
+    public void testGroupActive() throws Exception {
+
+        printUsers();
+
+        User user = dao.getByPropertyUnique("username", username, User.class);
+        Route r = user.getEvents().get(1).getRoutes().get(0);
+
+        Station s1 = r.getStations().get(0);
+        Station s2 = r.getStations().get(1);
+
+
+        Group g = r.getGroups().get(0);
+        groupService.setLastUpdated(g.getId(), DateTime.now());
+        GroupDto group = groupService.getGroup(g.getId(), false, false);
+        Assert.assertTrue(group.isActive());
+        System.out.println(group);
+
+        groupService.setLastUpdated(g.getId(), DateTime.now().minusMinutes(20));
+        group = groupService.getGroup(g.getId(), false, false);
+        Assert.assertFalse(group.isActive());
+        System.out.println(group);
+    }
 }

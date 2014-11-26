@@ -35,8 +35,6 @@ public class LocationUpdate extends AbstractBusinessObject {
         CHECKIN, CHECKOUT, SKIP;
     }
 
-    private boolean estimated = false;
-
     @Column(nullable = false, updatable = false)
     @org.hibernate.annotations.Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     private DateTime timestamp;
@@ -74,14 +72,6 @@ public class LocationUpdate extends AbstractBusinessObject {
         this.type = type;
     }
 
-    public boolean isEstimated() {
-        return estimated;
-    }
-
-    public void setEstimated(boolean estimated) {
-        this.estimated = estimated;
-    }
-
     public Station getStation() {
         return station;
     }
@@ -93,8 +83,7 @@ public class LocationUpdate extends AbstractBusinessObject {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("LocationUpdate{");
-        sb.append("estimated=").append(estimated);
-        sb.append(", timestamp=").append(timestamp);
+        sb.append("timestamp=").append(timestamp);
         sb.append(", group=").append(group);
         sb.append(", type=").append(type);
         sb.append(", station=").append(station);

@@ -4,6 +4,7 @@ import cz.kubaspatny.opendayapp.bo.Group;
 import cz.kubaspatny.opendayapp.bo.GroupSize;
 import cz.kubaspatny.opendayapp.bo.LocationUpdate;
 import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,8 @@ public class GroupDto extends BaseDto {
 
     private List<GroupSizeDto> groupSizes;
     private List<LocationUpdateDto> locationUpdates;
+
+    private boolean active;
 
     public RouteDto getRoute() {
         return route;
@@ -88,6 +91,10 @@ public class GroupDto extends BaseDto {
         return latestLocationUpdate;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
     // OBJECT MAPPERS
 
     public static GroupDto map(Group source, GroupDto target, List<String> ignoredProperties){
@@ -96,6 +103,7 @@ public class GroupDto extends BaseDto {
         target.route = RouteDto.map(source.getRoute(), new RouteDto(), DtoMapperUtil.getRouteIgnoredProperties());
         target.guide = UserDto.map(source.getGuide(), new UserDto(), DtoMapperUtil.getUserIgnoredProperties());
         target.startingPosition = StationDto.map(source.getStartingPosition(), new StationDto(), DtoMapperUtil.getStationIgnoredProperties());
+        target.active = source.isActive();
 
         if(ignoredProperties == null) ignoredProperties = new ArrayList<String>();
 
@@ -131,14 +139,6 @@ public class GroupDto extends BaseDto {
         return target;
     }
 
-    public static Group map(GroupDto source, Group target, List<String> ignorableProperties){
-
-
-
-
-        return target;
-    }
-
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("GroupDto{");
@@ -149,6 +149,7 @@ public class GroupDto extends BaseDto {
         sb.append("\n\tlatestLocationUpdate=").append(latestLocationUpdate);
         sb.append("\n\tgroupSizes=").append(groupSizes);
         sb.append("\n\tlocationUpdates=").append(locationUpdates);
+        sb.append("\n\tactive=").append(active);
         sb.append("\n}");
         return sb.toString();
     }

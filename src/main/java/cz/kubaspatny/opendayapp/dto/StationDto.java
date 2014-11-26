@@ -32,6 +32,7 @@ public class StationDto extends BaseDto {
     private String name;
     private String location;
     private String information;
+    private boolean closed;
     private int timeLimit;
     private int relocationTime;
     private int sequencePosition;
@@ -120,6 +121,14 @@ public class StationDto extends BaseDto {
         return creationId;
     }
 
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
+    }
+
     // OBJECT MAPPERS
 
     public static StationDto map(Station source, StationDto target, List<String> ignoredProperties){
@@ -127,6 +136,7 @@ public class StationDto extends BaseDto {
         target.id = source.getId();
         target.name = source.getName();
         target.location = source.getLocation();
+        target.closed = source.isClosed();
         target.information = source.getInformation();
         target.timeLimit = source.getTimeLimit();
         target.relocationTime = source.getRelocationTime();
@@ -155,6 +165,7 @@ public class StationDto extends BaseDto {
         target.setName(source.getName());
         target.setLocation(source.getLocation());
         target.setInformation(source.getInformation());
+        target.setClosed(source.isClosed());
         target.setTimeLimit(source.getTimeLimit());
         target.setRelocationTime(source.getRelocationTime());
         target.setSequencePosition(source.getSequencePosition());
@@ -169,6 +180,7 @@ public class StationDto extends BaseDto {
         sb.append(", name='").append(name).append('\'');
         sb.append(", location='").append(location).append('\'');
         sb.append(", information='").append(information).append('\'');
+        sb.append(", isClosed='").append(closed).append('\'');
         sb.append(", timeLimit=").append(timeLimit);
         sb.append(", relocationTime=").append(relocationTime);
         sb.append(", sequencePosition=").append(sequencePosition);

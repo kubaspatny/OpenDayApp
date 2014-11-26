@@ -34,6 +34,7 @@ public class Station extends AbstractBusinessObject {
     @Column(nullable = false)
     private String location;
     private String information;
+    private boolean closed = false;
 
     /**
      * Time limit for station in seconds.
@@ -143,12 +144,21 @@ public class Station extends AbstractBusinessObject {
         locationUpdates.add(locationUpdate);
     }
 
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Station{");
         sb.append("name='").append(name).append('\'');
         sb.append(", location='").append(location).append('\'');
         sb.append(", information='").append(information).append('\'');
+        sb.append(", isClosed='").append(closed).append('\'');
         sb.append(", timeLimit=").append(timeLimit);
         sb.append(", relocationTime=").append(relocationTime);
         sb.append(", sequencePosition=").append(sequencePosition);

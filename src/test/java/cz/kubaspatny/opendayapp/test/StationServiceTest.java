@@ -164,9 +164,6 @@ public class StationServiceTest extends AbstractTest {
         u = dao.getByPropertyUnique("username", username, User.class);
         u.print();
 
-
-
-
     }
 
     @Test
@@ -177,12 +174,14 @@ public class StationServiceTest extends AbstractTest {
         String stationName2 = "EDITED";
         String stationInformation2 = "EDITED EDITED EDITED";
         String stationLocation2 = "EDITED LOCATION";
+        boolean closed = true;
         int timeLimit2 = 999999;
         int relocationTime2 = 99;
         int sequencePosition2 = 9;
 
         Assert.assertNotEquals(stationName2, s.getName());
         Assert.assertNotEquals(stationInformation2, s.getInformation());
+        Assert.assertNotEquals(closed, s.isClosed());
         Assert.assertNotEquals(stationLocation2, s.getLocation());
         Assert.assertNotEquals(relocationTime2, s.getRelocationTime());
         Assert.assertNotEquals(sequencePosition2, s.getSequencePosition());
@@ -190,6 +189,7 @@ public class StationServiceTest extends AbstractTest {
 
         s.setName(stationName2);
         s.setInformation(stationInformation2);
+        s.setClosed(closed);
         s.setLocation(stationLocation2);
         s.setTimeLimit(timeLimit2);
         s.setRelocationTime(relocationTime2);
@@ -201,6 +201,7 @@ public class StationServiceTest extends AbstractTest {
 
         Assert.assertEquals(stationName2, s.getName());
         Assert.assertEquals(stationInformation2, s.getInformation());
+        Assert.assertEquals(closed, s.isClosed());
         Assert.assertEquals(stationLocation2, s.getLocation());
         Assert.assertEquals(relocationTime2, s.getRelocationTime());
         Assert.assertEquals(sequencePosition2, s.getSequencePosition());

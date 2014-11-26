@@ -236,7 +236,5 @@ public class EventServiceTest extends AbstractTest {
         Assert.assertEquals(emailListSize, e.getEmailList().size());
         Assert.assertFalse(e.getEmailList().contains(mail));
 
-
-
     }
 }

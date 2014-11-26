@@ -2,6 +2,7 @@ package cz.kubaspatny.opendayapp.service;
 
 import cz.kubaspatny.opendayapp.dto.*;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
+import org.joda.time.DateTime;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -40,5 +41,7 @@ public interface IGroupService {
     public void removeGroup(Long id) throws DataAccessException;
 
     public Long addLocationUpdate(LocationUpdateDto locationUpdate) throws DataAccessException;
+
+    public void setLastUpdated(Long id, DateTime time) throws DataAccessException;
 
 }
