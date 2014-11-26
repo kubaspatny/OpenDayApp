@@ -309,4 +309,36 @@ public class GroupServiceTest extends AbstractTest {
         user.print();
 
     }
+
+    @Test
+    public void testSetStartingPosition() throws Exception {
+
+        printUsers();
+
+        User user = dao.getByPropertyUnique("username", username, User.class);
+        Route r = user.getEvents().get(1).getRoutes().get(0);
+
+        Station s1 = r.getStations().get(0);
+        Station s2 = r.getStations().get(1);
+
+
+        Group g = r.getGroups().get(0);
+
+        GroupDto group = groupService.getGroup(g.getId(), false, false);
+        Assert.assertNotEquals(s2.getId(), group.getStartingPosition().getId());
+
+        groupService.setGroupStartingPosition(g.getId(), s2.getId());
+
+        group = groupService.getGroup(g.getId(), false, false);
+        Assert.assertEquals(s2.getId(), group.getStartingPosition().getId());
+
+        Assert.assertEquals(s2.getStartingGroup().getId(), g.getId());
+
+        System.out.println("*****************************************************");
+        user = dao.getByPropertyUnique("username", username, User.class);
+        user.print();
+        user = dao.getByPropertyUnique("email", guide1, User.class);
+        user.print();
+
+    }
 }

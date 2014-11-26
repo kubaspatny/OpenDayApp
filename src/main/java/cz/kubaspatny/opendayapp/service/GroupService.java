@@ -79,7 +79,15 @@ public class GroupService extends DataAccessService implements IGroupService {
 
     @Override
     public void setGroupStartingPosition(Long groupID, Long stationID) throws DataAccessException {
-        throw new UnsupportedOperationException("Method not implemented yet!");
+
+        Group g = dao.getById(groupID, Group.class);
+        Station s = dao.getById(stationID, Station.class);
+
+        if(g == null || s == null) throw new DataAccessException("Instance not found!", DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
+
+        g.setStartingPosition(s);
+        dao.saveOrUpdate(g);
+
     }
 
     @Override
