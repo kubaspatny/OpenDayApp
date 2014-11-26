@@ -36,4 +36,8 @@ public interface IEventService {
 
     public void removeEvent(Long id) throws DataAccessException;
 
+    public void addEmailToList(Long id, String email) throws DataAccessException;
+
+    public void removeEmailFromList(Long id, String email) throws DataAccessException;
+
 }

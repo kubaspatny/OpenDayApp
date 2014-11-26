@@ -67,4 +67,22 @@ public class EventService extends DataAccessService implements IEventService {
     public void removeEvent(Long id) throws DataAccessException {
         dao.removeById(id, Event.class);
     }
+
+    @Override
+    public void addEmailToList(Long id, String email) throws DataAccessException {
+        Event e = dao.getById(id, Event.class);
+        if(e == null)  throw new DataAccessException("Instance not found!", DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
+
+        e.addEmailToList(email);
+        dao.saveOrUpdate(e);
+    }
+
+    @Override
+    public void removeEmailFromList(Long id, String email) throws DataAccessException {
+        Event e = dao.getById(id, Event.class);
+        if(e == null)  throw new DataAccessException("Instance not found!", DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
+
+        e.removeEmailFromList(email);
+        dao.saveOrUpdate(e);
+    }
 }

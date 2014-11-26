@@ -6,7 +6,9 @@ import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Author: Kuba Spatny
@@ -36,6 +38,7 @@ public class EventDto extends BaseDto {
     private UserDto organizer;
 
     private List<RouteDto> routes;
+    private Set<String> emailList;
 
     public String getName() {
         return name;
@@ -77,6 +80,14 @@ public class EventDto extends BaseDto {
         this.routes = routes;
     }
 
+    public Set<String> getEmailList() {
+        return emailList;
+    }
+
+    public void setEmailList(Set<String> emailList) {
+        this.emailList = emailList;
+    }
+
     public static EventDto map(Event source, EventDto target, List<String> ignoredProperties){
 
         target.id = source.getId();
@@ -100,6 +111,14 @@ public class EventDto extends BaseDto {
 
         }
 
+        if(!ignoredProperties.contains("emailList") && source.getEmailList() != null){
+
+            Set<String> emails = new HashSet<String>();
+            emails.addAll(source.getEmailList());
+            target.setEmailList(emails);
+
+        }
+
         return target;
     }
 
@@ -115,6 +134,12 @@ public class EventDto extends BaseDto {
         target.setName(source.getName());
         target.setDate(source.getDate());
         target.setInformation(source.getInformation());
+
+        if(ignoredProperties == null) ignoredProperties = new ArrayList<String>();
+
+        if(!ignoredProperties.contains("emailList") && source.getEmailList() != null) {
+            target.setEmailList(source.getEmailList());
+        }
 
         return target;
 

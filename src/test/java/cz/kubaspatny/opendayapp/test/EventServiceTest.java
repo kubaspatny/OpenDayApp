@@ -14,6 +14,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Author: Kuba Spatny
  * Web: kubaspatny.cz
@@ -47,9 +50,14 @@ public class EventServiceTest extends AbstractTest {
     private String eventName = "eventname";
     private DateTime eventDate = DateTime.now();
     private String eventInfo = "eventinfo";
+    private Set<String> emailList = new HashSet<String>();
 
     @Before
     public void setUp() throws Exception {
+
+        for (int i = 1; i < 7; i++) {
+            emailList.add("emailFROMlist" + i + "@emailaddress.com");
+        }
 
         UserDto u = new UserDto();
         u.setUsername("username");
@@ -71,11 +79,13 @@ public class EventServiceTest extends AbstractTest {
         e.setName(eventName);
         e.setDate(eventDate);
         e.setInformation(eventInfo);
+        e.setEmailList(emailList);
         User user = dao.getById(userID2, User.class);
         user.addEvent(e);
 
         eventID = dao.saveOrUpdate(e).getId();
         dao.saveOrUpdate(user);
+
 
     }
 
@@ -90,11 +100,13 @@ public class EventServiceTest extends AbstractTest {
         e.setName(name);
         e.setDate(time);
         e.setInformation(info);
+        e.setEmailList(emailList);
 
         Long id = eventService.addEvent(userID, e);
 
         Assert.assertNotNull(id);
         Event event = dao.getById(id, Event.class);
+        System.out.println(event);
         Assert.assertNotNull(event);
         Assert.assertEquals(name, event.getName());
         Assert.assertEquals(time, event.getDate());
@@ -192,6 +204,39 @@ public class EventServiceTest extends AbstractTest {
         Assert.assertEquals(eventInfoNew, e.getInformation());
 
         System.out.println(e);
+
+    }
+
+    @Test
+    public void testAddEmail() throws Exception {
+
+        User u = dao.getById(userID2, User.class);
+        u.print();
+        Event e = u.getEvents().get(0);
+        Assert.assertNotNull(e.getEmailList());
+        int emailListSize = e.getEmailList().size();
+
+        String mail = "NEWMAIL@gmail1.com";
+
+        eventService.addEmailToList(e.getId(), mail);
+
+        u = dao.getById(userID2, User.class);
+        e = u.getEvents().get(0);
+
+        Assert.assertNotNull(e.getEmailList());
+        Assert.assertEquals(emailListSize+1, e.getEmailList().size());
+        Assert.assertTrue(e.getEmailList().contains(mail));
+
+        eventService.removeEmailFromList(e.getId(), mail);
+
+        u = dao.getById(userID2, User.class);
+        e = u.getEvents().get(0);
+
+        Assert.assertNotNull(e.getEmailList());
+        Assert.assertEquals(emailListSize, e.getEmailList().size());
+        Assert.assertFalse(e.getEmailList().contains(mail));
+
+
 
     }
 }

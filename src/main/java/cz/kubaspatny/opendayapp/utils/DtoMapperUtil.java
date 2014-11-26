@@ -56,6 +56,7 @@ public class DtoMapperUtil {
     public static List<String> getEventIgnoredProperties(){
         List<String> eventIgnoredProperties = new ArrayList<String>();
         eventIgnoredProperties.add("routes");
+        eventIgnoredProperties.add("emailList");
 
         return eventIgnoredProperties;
     }

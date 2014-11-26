@@ -5,7 +5,9 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Author: Kuba Spatny
@@ -44,6 +46,9 @@ public class Event extends AbstractBusinessObject {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "event")
     private List<Route> routes;
+
+    @ElementCollection
+    private Set<String> emailList;
 
     public String getName() {
         return name;
@@ -99,6 +104,28 @@ public class Event extends AbstractBusinessObject {
         routes.remove(route);
     }
 
+    public Set<String> getEmailList() {
+        return emailList;
+    }
+
+    public void setEmailList(Set<String> emailList) {
+        this.emailList = emailList;
+    }
+
+    public void addEmailToList(String email){
+        if(emailList == null){
+            emailList = new HashSet<String>();
+        }
+
+        emailList.add(email);
+    }
+
+    public void removeEmailFromList(String email){
+        if(emailList != null){
+            emailList.remove(email);
+        }
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Event{");
@@ -106,6 +133,7 @@ public class Event extends AbstractBusinessObject {
         sb.append(", date=").append(date);
         sb.append(", information='").append(information).append('\'');
         sb.append(", organizer=").append(organizer.getUsername());
+        sb.append(", emaiLList=").append(emailList);
         sb.append('}');
         return sb.toString();
     }
