@@ -209,6 +209,7 @@ public class GroupTest extends AbstractTest {
         Group g = new Group();
         dao.saveOrUpdate(g);
         r.addGroup(g);
+        g.setStartingPosition(1);
         dao.saveOrUpdate(u);
         Long id = g.getId();
         System.out.println(id);
@@ -260,7 +261,7 @@ public class GroupTest extends AbstractTest {
 
         System.out.println("--- ADDED STARTING POSITION ---");
 
-        g.setStartingPosition(s1);
+        g.setStartingPosition(1);
         dao.saveOrUpdate(g);
 
         u.print();
@@ -268,7 +269,7 @@ public class GroupTest extends AbstractTest {
 
         System.out.println("--- CHANGED STARTING POSITION ---");
 
-        g.setStartingPosition(s2);
+        g.setStartingPosition(2);
         dao.saveOrUpdate(g);
 
         u.print();
@@ -291,7 +292,7 @@ public class GroupTest extends AbstractTest {
 
         User u2 = dao.getByPropertyUnique("username", usernameGuide1, User.class);
         g.setGuide(u2);
-        g.setStartingPosition(s1);
+        g.setStartingPosition(1);
         dao.saveOrUpdate(g);
 
         u.print();
@@ -321,7 +322,7 @@ public class GroupTest extends AbstractTest {
 
         User u2 = dao.getByPropertyUnique("username", usernameGuide1, User.class);
         g.setGuide(u2);
-        g.setStartingPosition(s1);
+        g.setStartingPosition(1);
         dao.saveOrUpdate(g);
 
         u.print();
@@ -362,7 +363,7 @@ public class GroupTest extends AbstractTest {
 
         User u2 = dao.getByPropertyUnique("username", usernameGuide1, User.class);
         g.setGuide(u2);
-        g.setStartingPosition(s1);
+        g.setStartingPosition(1);
         dao.saveOrUpdate(g);
 
         u.print();

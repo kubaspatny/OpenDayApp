@@ -38,8 +38,7 @@ public class Group extends AbstractBusinessObject {
     @ManyToOne
     private User guide;
 
-    @OneToOne
-    private Station startingPosition;
+    private Integer startingPosition;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
     private List<GroupSize> groupSizes;
@@ -81,18 +80,12 @@ public class Group extends AbstractBusinessObject {
         return sb.toString();
     }
 
-    public Station getStartingPosition() {
+    public Integer getStartingPosition() {
         return startingPosition;
     }
 
-    public void setStartingPosition(Station startingPosition) {
-        if(this.startingPosition != null) this.startingPosition.setStartingGroup(null);
-
+    public void setStartingPosition(Integer startingPosition) {
         this.startingPosition = startingPosition;
-
-        if(startingPosition != null){
-            this.startingPosition.setStartingGroup(this);
-        }
     }
 
     public List<GroupSize> getGroupSizes() {
@@ -161,10 +154,5 @@ public class Group extends AbstractBusinessObject {
             guide.removeGroup(this);
             guide = null;
         }
-
-        if(startingPosition != null){
-            startingPosition.setStartingGroup(null);
-        }
-
     }
 }

@@ -2,15 +2,9 @@ package cz.kubaspatny.opendayapp.test;
 
 import cz.kubaspatny.opendayapp.bo.*;
 import cz.kubaspatny.opendayapp.dao.GenericDao;
-import cz.kubaspatny.opendayapp.dto.GroupDto;
-import cz.kubaspatny.opendayapp.dto.LocationUpdateDto;
-import cz.kubaspatny.opendayapp.dto.StationDto;
-import cz.kubaspatny.opendayapp.dto.UserDto;
+import cz.kubaspatny.opendayapp.dto.*;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
-import cz.kubaspatny.opendayapp.service.IGroupService;
-import cz.kubaspatny.opendayapp.service.IRouteService;
-import cz.kubaspatny.opendayapp.service.IStationService;
-import cz.kubaspatny.opendayapp.service.IUserService;
+import cz.kubaspatny.opendayapp.service.*;
 import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -50,6 +44,7 @@ public class GroupServiceTest extends AbstractTest {
     @Autowired private IRouteService routeService;
     @Autowired private IUserService userService;
     @Autowired private IGroupService groupService;
+    @Autowired private IEventService eventService;
 
     private String username = "kuba.spatny@gmail.com";
 
@@ -152,7 +147,7 @@ public class GroupServiceTest extends AbstractTest {
         times.add(DateTime.now().plusHours(1));
         times.add(DateTime.now().plusHours(3));
 
-        HashMap<Long, String> guides = new HashMap<Long, String>();
+        HashMap<Integer, String> guides = new HashMap<Integer, String>();
 
         List<StationDto> stations = new ArrayList<StationDto>();
         for (int i = 1; i <= 4; i++) {
@@ -164,7 +159,7 @@ public class GroupServiceTest extends AbstractTest {
             s.setRelocationTime(i*10);
             s.setTimeLimit(i*100);
 
-            if(i != 4) guides.put(s.getCreationId(), "guide"+ i +"@gmail.com");
+            if(i != 4) guides.put(i, "guide"+ i +"@gmail.com");
 
             stations.add(s);
 
@@ -178,6 +173,11 @@ public class GroupServiceTest extends AbstractTest {
 
         List<Long> routeIds = routeService.saveRoute(eventId, name, hexColor, info, times, stations, guides, stationManagerEmails);
         Assert.assertEquals(times.size(), routeIds.size());
+
+        System.out.println("-----------------------------------");
+        u = userService.getUser(username);
+        EventDto e =  eventService.getEvent(u.getEvents().get(1).getId());
+        System.out.println(e);
 
     }
 
@@ -225,10 +225,12 @@ public class GroupServiceTest extends AbstractTest {
         user2.print();
 
         Long routeID = user.getEvents().get(0).getRoutes().get(0).getId();
-        Long stationID = user.getEvents().get(0).getRoutes().get(0).getStations().get(3).getId();
+        Integer startingPosition = 3;
         Long guideID = user2.getId();
 
-        Long groupID = groupService.addGroup(routeID, stationID, guideID);
+        Long groupID = groupService.addGroup(routeID, startingPosition, guideID);
+        GroupDto group = groupService.getGroup(groupID, false, false);
+        Assert.assertNotNull(group);
 
         System.out.println("*******************************************************************************************");
 
@@ -236,6 +238,8 @@ public class GroupServiceTest extends AbstractTest {
         user.print();
 
         user2 = dao.getByPropertyUnique("email", guide4, User.class);
+        Assert.assertNotNull(user2.getGroups());
+        Assert.assertFalse(user2.getGroups().isEmpty());
         user2.print();
 
     }
@@ -318,21 +322,15 @@ public class GroupServiceTest extends AbstractTest {
         User user = dao.getByPropertyUnique("username", username, User.class);
         Route r = user.getEvents().get(1).getRoutes().get(0);
 
-        Station s1 = r.getStations().get(0);
-        Station s2 = r.getStations().get(1);
-
-
         Group g = r.getGroups().get(0);
 
         GroupDto group = groupService.getGroup(g.getId(), false, false);
-        Assert.assertNotEquals(s2.getId(), group.getStartingPosition().getId());
+        Assert.assertNotEquals(new Integer(2), group.getStartingPosition());
 
-        groupService.setGroupStartingPosition(g.getId(), s2.getId());
+        groupService.setGroupStartingPosition(g.getId(), 2);
 
         group = groupService.getGroup(g.getId(), false, false);
-        Assert.assertEquals(s2.getId(), group.getStartingPosition().getId());
-
-        Assert.assertEquals(s2.getStartingGroup().getId(), g.getId());
+        Assert.assertEquals(new Integer(2), group.getStartingPosition());
 
         System.out.println("*****************************************************");
         user = dao.getByPropertyUnique("username", username, User.class);
@@ -365,4 +363,5 @@ public class GroupServiceTest extends AbstractTest {
         Assert.assertFalse(group.isActive());
         System.out.println(group);
     }
+
 }

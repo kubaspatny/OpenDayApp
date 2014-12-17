@@ -37,7 +37,7 @@ public interface IRouteService {
     public RouteDto getRoute(Long id) throws DataAccessException;
 
     public List<Long> saveRoute(Long eventId, String name, String hexColor, String information, List<DateTime> routeStartingTimes,
-                          List<StationDto> stations, HashMap<Long, String> stationCreationID_guideEmail,
+                          List<StationDto> stations, HashMap<Integer, String> startingPosition_guideEmail,
                           List<String> stationManagerEmails) throws DataAccessException;
 
     public void removeRoute(Long id) throws DataAccessException;

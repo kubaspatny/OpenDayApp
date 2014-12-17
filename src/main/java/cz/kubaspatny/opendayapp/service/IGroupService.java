@@ -29,19 +29,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface IGroupService {
 
-    public Long addGroup(RouteDto route, StationDto startingPosition, UserDto guide) throws DataAccessException;
+    public Long addGroup(RouteDto route, Integer startingPosition, UserDto guide) throws DataAccessException;
 
-    public Long addGroup(Long routeId, Long startingPositionId, Long guideId) throws DataAccessException;
+    public Long addGroup(Long routeId, Integer startingPosition, Long guideId) throws DataAccessException;
 
     @Transactional(readOnly = true)
     public GroupDto getGroup(Long id, boolean latest, boolean fullLists) throws DataAccessException;
 
-    public void setGroupStartingPosition(Long groupID, Long stationID) throws DataAccessException;
+    public void setGroupStartingPosition(Long groupID, Integer startingPosition) throws DataAccessException;
 
     public void removeGroup(Long id) throws DataAccessException;
 
     public Long addLocationUpdate(LocationUpdateDto locationUpdate) throws DataAccessException;
 
-    public void setLastUpdated(Long id, DateTime time) throws DataAccessException;
+    public void setLastUpdated(Long groupId, DateTime time) throws DataAccessException;
 
 }

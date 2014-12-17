@@ -480,7 +480,7 @@ public class SandBox extends AbstractTest {
             dao.saveOrUpdate(s);
 
             Group g = new Group();
-            g.setStartingPosition(s);
+            g.setStartingPosition(i);
             g.setGuide(u2);
             r.addGroup(g);
             dao.saveOrUpdate(g);

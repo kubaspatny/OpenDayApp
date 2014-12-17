@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Author: Kuba Spatny
@@ -50,7 +51,7 @@ public class RouteService extends DataAccessService implements IRouteService {
      * @throws DataAccessException
      */
     @Override
-    public List<Long> saveRoute(Long eventId, String name, String hexColor, String information, List<DateTime> routeStartingTimes, List<StationDto> stations, HashMap<Long, String> guideEmails, List<String> stationManagerEmails) throws DataAccessException {
+    public List<Long> saveRoute(Long eventId, String name, String hexColor, String information, List<DateTime> routeStartingTimes, List<StationDto> stations, HashMap<Integer, String> guideEmails, List<String> stationManagerEmails) throws DataAccessException {
 
         if(eventId == null) throw new DataAccessException("Event id is null!", DataAccessException.ErrorCode.INVALID_ID);
         if(name == null || name.isEmpty() || hexColor == null || hexColor.isEmpty() || routeStartingTimes == null || routeStartingTimes.size() == 0) throw new DataAccessException("Paramaters name, hexColor and routeStartingTimes cannot be null or empty!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
@@ -83,17 +84,20 @@ public class RouteService extends DataAccessService implements IRouteService {
                     r.addStation(s);
                     dao.saveOrUpdate(s);
 
-                    if(guideEmails != null && guideEmails.containsKey(stationDto.getCreationId())){
+                }
+            }
 
-                        User guide = dao.getByPropertyUnique("email", guideEmails.get(stationDto.getCreationId()), User.class);
+            if(guideEmails != null){
+                for(Map.Entry<Integer, String> entry : guideEmails.entrySet()){
 
-                        Group g = new Group();
-                        g.setStartingPosition(s);
-                        g.setGuide(guide);
-                        r.addGroup(g);
-                        dao.saveOrUpdate(g);
+                    User guide = dao.getByPropertyUnique("email", entry.getValue(), User.class);
 
-                    }
+                    Group g = new Group();
+                    g.setStartingPosition(entry.getKey());
+                    g.setGuide(guide);
+                    r.addGroup(g);
+                    dao.saveOrUpdate(g);
+
                 }
             }
 

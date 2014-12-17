@@ -57,9 +57,6 @@ public class Station extends AbstractBusinessObject {
     @ManyToOne
     private Route route;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "startingPosition")
-    private Group startingGroup;
-
     @OneToMany(mappedBy = "station")
     private List<LocationUpdate> locationUpdates;
 
@@ -119,14 +116,6 @@ public class Station extends AbstractBusinessObject {
         this.route = route;
     }
 
-    public Group getStartingGroup() {
-        return startingGroup;
-    }
-
-    public void setStartingGroup(Group startingGroup) {
-        this.startingGroup = startingGroup;
-    }
-
     public List<LocationUpdate> getLocationUpdates() {
         return locationUpdates;
     }
@@ -172,10 +161,6 @@ public class Station extends AbstractBusinessObject {
         if(getRoute() != null){
             getRoute().removeStation(this);
             setRoute(null);
-        }
-
-        if(getStartingGroup() != null){
-            getStartingGroup().setStartingPosition(null);
         }
 
         if(getLocationUpdates() != null){

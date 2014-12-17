@@ -216,7 +216,7 @@ public class RouteServiceTest extends AbstractTest {
         times.add(DateTime.now().plusHours(1));
         times.add(DateTime.now().plusHours(3));
 
-        HashMap<Long, String> guides = new HashMap<Long, String>();
+        HashMap<Integer, String> guides = new HashMap<Integer, String>();
 
         List<StationDto> stations = new ArrayList<StationDto>();
         for (int i = 1; i <= 4; i++) {
@@ -228,7 +228,7 @@ public class RouteServiceTest extends AbstractTest {
             s.setRelocationTime(i*10);
             s.setTimeLimit(i*100);
 
-            guides.put(s.getCreationId(), "guide"+ i +"@gmail.com");
+            guides.put(i, "guide"+ i +"@gmail.com");
             stations.add(s);
 
         }

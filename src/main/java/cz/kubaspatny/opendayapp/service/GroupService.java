@@ -34,23 +34,22 @@ import java.util.List;
 public class GroupService extends DataAccessService implements IGroupService {
 
     @Override
-    public Long addGroup(RouteDto route, StationDto startingPosition, UserDto guide) throws DataAccessException {
+    public Long addGroup(RouteDto route, Integer startingPosition, UserDto guide) throws DataAccessException {
         if(route == null || startingPosition == null || guide == null) throw new DataAccessException("Parameters cannot be null!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
-        return addGroup(route.getId(), startingPosition.getId(), guide.getId());
+        return addGroup(route.getId(), startingPosition, guide.getId());
 
     }
 
     @Override
-    public Long addGroup(Long routeId, Long startingPositionId, Long guideId) throws DataAccessException {
+    public Long addGroup(Long routeId, Integer startingPosition, Long guideId) throws DataAccessException {
 
         Route r = dao.getById(routeId, Route.class);
-        Station s = dao.getById(startingPositionId, Station.class);
         User u = dao.getById(guideId, User.class);
 
-        if(r == null || s == null || u == null) throw new DataAccessException("Could find Route, Station or User!", DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
+        if(r == null || u == null) throw new DataAccessException("Could find Route or User!", DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
 
         Group g = new Group();
-        g.setStartingPosition(s);
+        g.setStartingPosition(startingPosition);
         g.setGuide(u);
         r.addGroup(g);
         return dao.saveOrUpdate(g).getId();
@@ -79,14 +78,13 @@ public class GroupService extends DataAccessService implements IGroupService {
     }
 
     @Override
-    public void setGroupStartingPosition(Long groupID, Long stationID) throws DataAccessException {
+    public void setGroupStartingPosition(Long groupID, Integer startingPosition) throws DataAccessException {
 
         Group g = dao.getById(groupID, Group.class);
-        Station s = dao.getById(stationID, Station.class);
 
-        if(g == null || s == null) throw new DataAccessException("Instance not found!", DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
+        if(g == null || startingPosition == null) throw new DataAccessException("Instance not found!", DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
 
-        g.setStartingPosition(s);
+        g.setStartingPosition(startingPosition);
         dao.saveOrUpdate(g);
 
     }
@@ -112,9 +110,9 @@ public class GroupService extends DataAccessService implements IGroupService {
     }
 
     @Override
-    public void setLastUpdated(Long id, DateTime time) throws DataAccessException {
+    public void setLastUpdated(Long groupId, DateTime time) throws DataAccessException {
 
-        Group g = dao.getById(id, Group.class);
+        Group g = dao.getById(groupId, Group.class);
         if(g == null) throw new DataAccessException("Instance not found!", DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
 
         g.setLastUpdated(time);

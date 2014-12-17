@@ -33,7 +33,7 @@ public class GroupDto extends BaseDto {
 
     private RouteDto route;
     private UserDto guide;
-    private StationDto startingPosition;
+    private Integer startingPosition;
 
     private GroupSizeDto latestGroupSize;
     private LocationUpdateDto latestLocationUpdate;
@@ -59,11 +59,11 @@ public class GroupDto extends BaseDto {
         this.guide = guide;
     }
 
-    public StationDto getStartingPosition() {
+    public Integer getStartingPosition() {
         return startingPosition;
     }
 
-    public void setStartingPosition(StationDto startingPosition) {
+    public void setStartingPosition(Integer startingPosition) {
         this.startingPosition = startingPosition;
     }
 
@@ -102,7 +102,7 @@ public class GroupDto extends BaseDto {
         target.id = source.getId();
         target.route = RouteDto.map(source.getRoute(), new RouteDto(), DtoMapperUtil.getRouteIgnoredProperties());
         target.guide = UserDto.map(source.getGuide(), new UserDto(), DtoMapperUtil.getUserIgnoredProperties());
-        target.startingPosition = StationDto.map(source.getStartingPosition(), new StationDto(), DtoMapperUtil.getStationIgnoredProperties());
+        target.startingPosition = source.getStartingPosition();
         target.active = source.isActive();
 
         if(ignoredProperties == null) ignoredProperties = new ArrayList<String>();
