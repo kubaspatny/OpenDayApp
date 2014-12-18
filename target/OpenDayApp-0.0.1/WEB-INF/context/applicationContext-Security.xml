@@ -18,7 +18,7 @@
         <form-login login-processing-url="/static/j_spring_security_check" login-page="/login.xhtml" authentication-failure-url="/login.xhtml?login_error=t" />
         <http-basic />
 
-        <intercept-url pattern="/app/admin*" access="ROLE_ADMIN" />
+        <intercept-url pattern="web/secured.xhtml" access="ROLE_ADMIN" />
 
         <logout logout-url="/static/j_spring_security_logout" logout-success-url="/app/index.xhtml" />
     </http>

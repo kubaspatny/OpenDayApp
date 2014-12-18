@@ -52,6 +52,7 @@
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.1.2" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.1.1" />
           <element id="library" level="project" name="Maven: org.primefaces:primefaces:5.0" />
+          <element id="library" level="project" name="Maven: org.primefaces.themes:bootstrap:1.0.10" />
           <element id="library" level="project" name="Maven: joda-time:joda-time:2.3" />
           <element id="library" level="project" name="Maven: org.jadira.usertype:usertype.core:3.0.0.CR1" />
           <element id="library" level="project" name="Maven: org.joda:joda-money:0.6" />

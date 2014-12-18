@@ -105,6 +105,7 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.1.2" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.1.1" level="project" />
     <orderEntry type="library" name="Maven: org.primefaces:primefaces:5.0" level="project" />
+    <orderEntry type="library" name="Maven: org.primefaces.themes:bootstrap:1.0.10" level="project" />
     <orderEntry type="library" name="Maven: joda-time:joda-time:2.3" level="project" />
     <orderEntry type="library" name="Maven: org.jadira.usertype:usertype.core:3.0.0.CR1" level="project" />
     <orderEntry type="library" name="Maven: org.joda:joda-money:0.6" level="project" />
