@@ -10,8 +10,7 @@
                         http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
     <sec:global-method-security secured-annotations="enabled" pre-post-annotations="enabled" />
-
-    <!--<beans:bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener" />-->
+    <beans:bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener" />
 
     <!--<http>-->
         <!--<form-login login-processing-url="/static/j_spring_security_check" login-page="/login.xhtml" authentication-failure-url="/login.xhtml?login_error=t" />-->
