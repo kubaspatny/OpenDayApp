@@ -39,7 +39,7 @@
 
     <sec:http auto-config="true">
         <sec:intercept-url pattern="/web/secured.xhtml" access="ROLE_USER,ROLE_ADMIN" />
-        <sec:logout logout-success-url="/web/demo.xhtml" invalidate-session="true"/>
+        <sec:logout logout-url="/logout" logout-success-url="/web/demo.xhtml" invalidate-session="true"/>
     </sec:http>
 
     <sec:authentication-manager>

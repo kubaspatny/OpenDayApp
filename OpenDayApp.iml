@@ -40,6 +40,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/webapp/WEB-INF/context" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/webapp/WEB-INF/properties" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/webapp/resources" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -55,8 +56,8 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="Maven: com.sun.faces:jsf-api:2.1.1-b04" level="project" />
-    <orderEntry type="library" name="Maven: com.sun.faces:jsf-impl:2.1.1-b04" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.faces:jsf-api:2.1.7" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.faces:jsf-impl:2.1.7" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:javax.servlet-api:3.0.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet.jsp:jsp-api:2.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:jstl:1.2" level="project" />

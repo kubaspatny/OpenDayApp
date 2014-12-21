@@ -4,12 +4,17 @@
         xmlns:beans="http://www.springframework.org/schema/beans"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:sec="http://www.springframework.org/schema/security"
+        xmlns:p="http://www.springframework.org/schema/p"
         xsi:schemaLocation="http://www.springframework.org/schema/beans
                          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                         http://www.springframework.org/schema/security
                         http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-    <sec:global-method-security secured-annotations="enabled" pre-post-annotations="enabled" />
+    <sec:global-method-security secured-annotations="enabled" pre-post-annotations="enabled">
+        <!-- Reference to a custom expression handler with ACL support -->
+        <sec:expression-handler ref="expressionHandler" />
+    </sec:global-method-security>
+
     <beans:bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener" />
 
     <!-- TODO: EDIT!!! -->
@@ -34,7 +39,7 @@
 
     <sec:http auto-config="true">
         <sec:intercept-url pattern="/web/secured.xhtml" access="ROLE_USER,ROLE_ADMIN" />
-        <sec:logout logout-success-url="/web/demo.xhtml" invalidate-session="true"/>
+        <sec:logout logout-url="/logout" logout-success-url="/web/demo.xhtml" invalidate-session="true"/>
     </sec:http>
 
     <sec:authentication-manager>
@@ -45,5 +50,71 @@
             </sec:user-service>
         </sec:authentication-provider>
     </sec:authentication-manager>
+
+    <!--ACCESS CONTROL LIST-->
+
+    <beans:bean id="testService" class="cz.kubaspatny.opendayapp.service.TestService">
+        <beans:constructor-arg ref="aclService"/>
+    </beans:bean>
+
+    <!-- A customized expression handler
+        permissionEvaluator: a reference to a custom PermissionEvaluator
+        roleHierarchy: defines the role order -->
+    <beans:bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler"
+          p:permissionEvaluator-ref="permissionEvaluator"
+    />
+
+    <!-- A customized PermissionEvaluator that evaluates permissions via the ACL module -->
+    <beans:bean class="org.springframework.security.acls.AclPermissionEvaluator" id="permissionEvaluator">
+        <!-- Reference to the ACL service which performs JDBC calls to an ACL database -->
+        <beans:constructor-arg ref="aclService"/>
+    </beans:bean>
+
+    <!-- A customized ACL service which provides default JDBC implementation -->
+    <beans:bean class="org.springframework.security.acls.jdbc.JdbcMutableAclService" id="aclService">
+        <beans:constructor-arg ref="dataSource"/>
+        <beans:constructor-arg ref="lookupStrategy"/>
+        <beans:constructor-arg ref="aclCache"/>
+    </beans:bean>
+
+    <!-- A lookup strategy for optimizing database queries -->
+    <beans:bean id="lookupStrategy" class="org.springframework.security.acls.jdbc.BasicLookupStrategy">
+        <beans:constructor-arg ref="dataSource"/>
+        <beans:constructor-arg ref="aclCache"/>
+        <beans:constructor-arg ref="aclAuthorizationStrategy"/>
+        <beans:constructor-arg ref="auditLogger"/>
+    </beans:bean>
+
+    <!-- An ACL cache to minimize calls to the ACL database -->
+    <beans:bean id="aclCache" class="org.springframework.security.acls.domain.EhCacheBasedAclCache">
+        <beans:constructor-arg>
+            <beans:bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+                <beans:property name="cacheManager">
+                    <beans:bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
+                </beans:property>
+                <beans:property name="cacheName" value="aclCache"/>
+            </beans:bean>
+        </beans:constructor-arg>
+    </beans:bean>
+
+    <!-- An ACL authorization strategy to determine whether a principal is permitted to call administrative methods -->
+    <beans:bean id="aclAuthorizationStrategy" class="org.springframework.security.acls.domain.AclAuthorizationStrategyImpl">
+        <beans:constructor-arg>
+            <beans:list>
+                <beans:bean class="org.springframework.security.core.authority.GrantedAuthorityImpl">
+                    <beans:constructor-arg value="ROLE_ADMIN"/>
+                </beans:bean>
+                <beans:bean class="org.springframework.security.core.authority.GrantedAuthorityImpl">
+                    <beans:constructor-arg value="ROLE_ADMIN"/>
+                </beans:bean>
+                <beans:bean class="org.springframework.security.core.authority.GrantedAuthorityImpl">
+                    <beans:constructor-arg value="ROLE_ADMIN"/>
+                </beans:bean>
+            </beans:list>
+        </beans:constructor-arg>
+    </beans:bean>
+
+    <!-- An audit logger used to log audit events -->
+    <beans:bean id="auditLogger" class="org.springframework.security.acls.domain.ConsoleAuditLogger"/>
 
 </beans:beans>
