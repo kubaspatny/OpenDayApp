@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
     <title>OPEN DAY APP</title>
@@ -23,12 +23,17 @@
 
     </style>
 
-
-
 </h:head>
 <h:body>
 
 <h1>THIS IS SECURED PAGE</h1>
+
+    <h:form>
+        <h:outputText value="#{demoBB.securedText}"/>
+        <p:commandButton action="#{demoBB.submit}" update="@form" value="Submit"/>
+    </h:form>
+
+    <h:outputLink value="${pageContext.request.contextPath}/static/j_spring_security_logout">logout</h:outputLink>
 
 </h:body>
 </html>

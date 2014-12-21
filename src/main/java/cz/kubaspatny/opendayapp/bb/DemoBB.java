@@ -1,9 +1,11 @@
 package cz.kubaspatny.opendayapp.bb;
 
+import cz.kubaspatny.opendayapp.service.TestService;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -65,5 +67,20 @@ public class DemoBB {
 
     public void setColorPopup(String colorPopup) {
         this.colorPopup = colorPopup;
+    }
+
+    // -------------------------------------------------------------------------
+
+    private String securedText = "Secured text, click submit button to look!";
+
+    @Autowired
+    private TestService testService;
+
+    public String getSecuredText() {
+        return securedText;
+    }
+
+    public void submit(){
+        securedText = testService.getSomeText();
     }
 }

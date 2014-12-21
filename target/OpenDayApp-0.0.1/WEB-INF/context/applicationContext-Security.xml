@@ -12,6 +12,8 @@
     <sec:global-method-security secured-annotations="enabled" pre-post-annotations="enabled" />
     <beans:bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener" />
 
+    <!-- TODO: EDIT!!! -->
+
     <!--<http>-->
         <!--<form-login login-processing-url="/static/j_spring_security_check" login-page="/login.xhtml" authentication-failure-url="/login.xhtml?login_error=t" />-->
         <!--<http-basic />-->
@@ -20,9 +22,6 @@
 
         <!--<logout logout-url="/static/j_spring_security_logout" logout-success-url="/app/index.xhtml" />-->
     <!--</http>-->
-
-
-    <!-- TODO: EDIT!!! -->
 
     <!--<beans:bean id="authenticationProvider" class="cz.kubaspatny.opendayapp.service.AuthService">-->
         <!--<beans:property name="genericDAO" ref="genericDao" />-->
@@ -34,13 +33,15 @@
     <!--</security:authentication-manager>-->
 
     <sec:http auto-config="true">
-        <sec:intercept-url pattern="/web/secured.xhtml" access="ROLE_USER" />
+        <sec:intercept-url pattern="/web/secured.xhtml" access="ROLE_USER,ROLE_ADMIN" />
+        <sec:logout logout-success-url="/web/demo.xhtml" invalidate-session="true"/>
     </sec:http>
 
     <sec:authentication-manager>
         <sec:authentication-provider>
             <sec:user-service>
-                <sec:user name="kuba" password="pass" authorities="ROLE_USER" />
+                <sec:user name="user" password="user" authorities="ROLE_USER" />
+                <sec:user name="admin" password="admin" authorities="ROLE_USER,ROLE_ADMIN" />
             </sec:user-service>
         </sec:authentication-provider>
     </sec:authentication-manager>

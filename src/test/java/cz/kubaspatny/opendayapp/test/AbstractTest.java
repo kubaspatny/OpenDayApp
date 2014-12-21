@@ -32,7 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
+@ContextConfiguration(locations = {"classpath:applicationContext.xml","classpath:applicationContext-Security.xml"})
 @TransactionConfiguration(defaultRollback=true, transactionManager="txManager")
 @Transactional
 public abstract class AbstractTest {
