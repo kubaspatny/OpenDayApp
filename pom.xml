@@ -14,8 +14,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <org.hibernate.version>4.1.7.Final</org.hibernate.version>
         <org.springframework.version>4.0.0.RELEASE</org.springframework.version>
-        <org.springframework.versionData>3.1.2.RELEASE</org.springframework.versionData>
-        <org.springframework.versionSecurity>3.1.2.RELEASE</org.springframework.versionSecurity>
+        <org.springframework.versionData>3.2.5.RELEASE</org.springframework.versionData>
+        <org.springframework.versionSecurity>3.2.5.RELEASE</org.springframework.versionSecurity>
         <org.richfaces.bom.version>4.1.0.Final</org.richfaces.bom.version>
     </properties>
 
