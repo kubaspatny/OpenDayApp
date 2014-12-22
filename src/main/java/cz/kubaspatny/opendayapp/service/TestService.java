@@ -1,9 +1,13 @@
 package cz.kubaspatny.opendayapp.service;
 
 import cz.kubaspatny.opendayapp.bo.Event;
+import cz.kubaspatny.opendayapp.bo.Route;
 import cz.kubaspatny.opendayapp.dao.GenericDao;
 import cz.kubaspatny.opendayapp.dto.EventDto;
+import cz.kubaspatny.opendayapp.dto.RouteDto;
+import cz.kubaspatny.opendayapp.dto.StationDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +19,9 @@ import org.springframework.security.acls.model.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+
+import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -42,6 +49,7 @@ import org.springframework.util.Assert;
 public class TestService {
 
     @Autowired private IEventService eventService;
+    @Autowired private IRouteService routeService;
     @Autowired private GenericDao dao;
     private JdbcMutableAclService aclService;
 
@@ -85,6 +93,36 @@ public class TestService {
         return id;
     }
 
+    public Long addSecuredRoute(Long eventId, String name, String hexColor, String information, List<DateTime> routeStartingTimes, List<StationDto> stations, HashMap<Integer, String> guideEmails, List<String> stationManagerEmails){
+
+        Long id;
+        try {
+            id = routeService.saveRoute(eventId, name, hexColor, information, routeStartingTimes, stations, guideEmails, stationManagerEmails).get(0);
+        } catch (DataAccessException e){
+            return null;
+        }
+
+        ObjectIdentity oi = new ObjectIdentityImpl(Route.class, id);
+
+        Sid sid = new PrincipalSid(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        Permission p = BasePermission.READ;
+
+        MutableAcl acl = null;
+        try {
+            acl = (MutableAcl) aclService.readAclById(oi);
+        } catch (NotFoundException nfe) {
+            acl = aclService.createAcl(oi);
+        }
+
+        ObjectIdentity parentIdentity = new ObjectIdentityImpl(Event.class, eventId);
+        MutableAcl aclParent = (MutableAcl) aclService.readAclById(parentIdentity);
+        acl.setParent(aclParent);
+
+        aclService.updateAcl(acl);
+
+        return id;
+    }
+
     @PostAuthorize("hasPermission(returnObject, 'READ')")
     public Event getSecuredEvent(Long id){
 
@@ -92,6 +130,28 @@ public class TestService {
             Event e = dao.getById(id, Event.class);
             return e;
         } catch (Exception e){
+            return null;
+        }
+
+    }
+
+    @PostAuthorize("hasPermission(returnObject.id, #clazz, 'READ')")
+     public EventDto getSecuredEventDto(Long id, String clazz){
+
+        try {
+            return eventService.getEvent(id);
+        } catch (DataAccessException e){
+            return null;
+        }
+
+    }
+
+    @PostAuthorize("hasPermission(returnObject.id, #clazz, 'READ')")
+    public RouteDto getSecuredRouteDto(Long id, String clazz){
+
+        try {
+            return routeService.getRoute(id);
+        } catch (DataAccessException e){
             return null;
         }
 

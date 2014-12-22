@@ -1,9 +1,13 @@
 package cz.kubaspatny.opendayapp.test;
 
 import cz.kubaspatny.opendayapp.bo.Event;
+import cz.kubaspatny.opendayapp.bo.Route;
 import cz.kubaspatny.opendayapp.dto.EventDto;
+import cz.kubaspatny.opendayapp.dto.RouteDto;
+import cz.kubaspatny.opendayapp.dto.StationDto;
 import cz.kubaspatny.opendayapp.dto.UserDto;
 import cz.kubaspatny.opendayapp.service.IEventService;
+import cz.kubaspatny.opendayapp.service.IRouteService;
 import cz.kubaspatny.opendayapp.service.IUserService;
 import cz.kubaspatny.opendayapp.service.TestService;
 import org.hibernate.annotations.SourceType;
@@ -20,6 +24,10 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Author: Kuba Spatny
@@ -43,14 +51,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 public class SecuredServiceTest extends AbstractTest {
 
-    @Autowired
-    private TestService testService;
-    @Autowired
-    private IUserService userService;
-    @Autowired
-    private IEventService eventService;
+    @Autowired private TestService testService;
+    @Autowired private IUserService userService;
+    @Autowired private IEventService eventService;
+    @Autowired private IRouteService routeService;
 
     private Long eventID;
+    private Long routeID;
 
     @Before
     public void setUp() throws Exception {
@@ -89,6 +96,17 @@ public class SecuredServiceTest extends AbstractTest {
         //eventID = eventService.addEvent(userID, e);
         eventID = testService.addSecuredEvent(userID, e);
 
+        // ------ add route ------
+
+        String name = "CREATED_ROUTE";
+        String hexColor = "006080";
+        String info = "This is route information.";
+
+        List<DateTime> times = new ArrayList<DateTime>();
+        times.add(DateTime.now().plusHours(1));
+
+        routeID = testService.addSecuredRoute(eventID, name, hexColor, info, times, null, null, null);
+
     }
 
     @Test
@@ -118,9 +136,55 @@ public class SecuredServiceTest extends AbstractTest {
         } catch (AccessDeniedException e) {
             Assert.fail("Shouldn't have thrown Exception!");
         }
+
         try {
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("admin", "admin", null));
             Event e = testService.getSecuredEvent(eventID);
+            Assert.fail("Should have thrown Exception!");
+        } catch (AccessDeniedException e) {
+            Assert.assertTrue(true);
+        }
+
+    }
+
+    @Test
+    public void testACLSecuredMethodDto() throws Exception {
+
+        try {
+            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("user", "user", null));
+            EventDto e = testService.getSecuredEventDto(eventID, Event.class.getName());
+            Assert.assertNotNull(e);
+        } catch (AccessDeniedException e) {
+            Assert.fail("Should NOT have thrown Exception!");
+        }
+
+        try {
+            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("admin", "admin", null));
+            EventDto e = testService.getSecuredEventDto(eventID, Event.class.getName());
+            Assert.fail("Should have thrown Exception!");
+        } catch (AccessDeniedException e) {
+            Assert.assertTrue(true);
+        }
+
+    }
+
+    @Test
+    public void testACLSecuredMethodSubObjectDto() throws Exception {
+
+        try {
+
+            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("user", "user", null));
+            RouteDto e = testService.getSecuredRouteDto(routeID, Route.class.getName());
+            Assert.assertNotNull(e);
+            System.out.println(e);
+
+        } catch (AccessDeniedException e) {
+            Assert.fail("Should NOT have thrown Exception!");
+        }
+
+        try {
+            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("admin", "admin", null));
+            EventDto e = testService.getSecuredEventDto(eventID, Event.class.getName());
             Assert.fail("Should have thrown Exception!");
         } catch (AccessDeniedException e) {
             Assert.assertTrue(true);
