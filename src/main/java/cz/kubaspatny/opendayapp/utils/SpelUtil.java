@@ -1,5 +1,7 @@
 package cz.kubaspatny.opendayapp.utils;
 
+import cz.kubaspatny.opendayapp.bo.*;
+
 /**
  * Author: Kuba Spatny
  * Web: kubaspatny.cz
@@ -23,15 +25,21 @@ package cz.kubaspatny.opendayapp.utils;
 public class SpelUtil {
 
     public static String name(Class clazz){
-        System.out.println("/////////////////////////////////////////////////////////////////////////");
-        System.out.println("/////////////////////////////////////////////////////////////////////////");
-        System.out.println("/////////////////////////////////////////////////////////////////////////");
-        System.out.println(clazz.getName());
-        System.out.println(clazz.getCanonicalName());
-        System.out.println("/////////////////////////////////////////////////////////////////////////");
-        System.out.println("/////////////////////////////////////////////////////////////////////////");
-        System.out.println("/////////////////////////////////////////////////////////////////////////");
         return clazz == null ? null : clazz.getName();
+    }
+
+    public static String getACLObjectIdentityClass(String className){
+
+        if("Event".equals(className)) return Event.class.getName();
+        if("Route".equals(className)) return Route.class.getName();
+        if("Station".equals(className)) return Station.class.getName();
+        if("Group".equals(className)) return Group.class.getName();
+        if("GroupSize".equals(className)) return GroupSize.class.getName();
+        if("LocationUpdate".equals(className)) return LocationUpdate.class.getName();
+        if("User".equals(className)) return User.class.getName();
+
+        return null;
+
     }
 
 }

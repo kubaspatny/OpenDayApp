@@ -99,7 +99,7 @@ public class MockBusinessObject extends AbstractBusinessObject {
     @Override
     public String toString() {
         return "MockBusinessObject {" +
-                "id='" + id + '\'' +
+                "eventId='" + id + '\'' +
                 ", text='" + text + '\'' +
                 ", category=" + category + '\'' +
                 ", color=" + color + '\'' +

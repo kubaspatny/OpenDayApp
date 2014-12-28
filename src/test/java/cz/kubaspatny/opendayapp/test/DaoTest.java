@@ -316,7 +316,7 @@ public class DaoTest extends AbstractTest {
         // ---- GET NEGATIVE SIZE ----
 
         try {
-            dao.getPage(1, -80, map, "id", true, MockBusinessObject.class);
+            dao.getPage(1, -80, map, "eventId", true, MockBusinessObject.class);
             Assert.fail("Should have thrown Exception by now!");
         } catch (DataAccessException e){
             Assert.assertEquals(DataAccessException.ErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
@@ -325,7 +325,7 @@ public class DaoTest extends AbstractTest {
         // ---- GET NULL MAP ----
 
         try {
-            dao.getPage(1, 80, null, "id", true, MockBusinessObject.class);
+            dao.getPage(1, 80, null, "eventId", true, MockBusinessObject.class);
             Assert.fail("Should have thrown Exception by now!");
         } catch (DataAccessException e){
             Assert.assertEquals(DataAccessException.ErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());

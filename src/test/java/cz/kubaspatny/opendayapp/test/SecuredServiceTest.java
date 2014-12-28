@@ -23,7 +23,11 @@ import org.springframework.security.acls.model.MutableAclService;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.test.context.TestExecutionListeners;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,7 +65,9 @@ public class SecuredServiceTest extends AbstractSecuredTest {
 
     @Before
     public void setUp() throws Exception {
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("user", "user", null);
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        authorities.add(new GrantedAuthorityImpl("ROLE_ORGANIZER"));
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("user", "user", authorities);
 
         SecurityContextHolder.getContext().setAuthentication(token);
 
@@ -94,7 +100,7 @@ public class SecuredServiceTest extends AbstractSecuredTest {
         e.setInformation("info");
 
         //eventID = eventService.addEvent(userID, e);
-        eventID = testService.addSecuredEvent(userID, e);
+        eventID = testService.addSecuredEvent(e);
 
         // ------ add route ------
 

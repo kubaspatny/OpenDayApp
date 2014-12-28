@@ -19,8 +19,8 @@
 
     <!-- async support -->
     <task:annotation-driven executor="myExecutorService" scheduler="mySchedulerService"></task:annotation-driven>
-    <!--<task:executor id="myExecutorService" pool-size="5-10" queue-capacity="10"></task:executor>-->
-    <!--<task:scheduler id="mySchedulerService" pool-size="10"></task:scheduler>-->
+    <!--<task:executor eventId="myExecutorService" pool-size="5-10" queue-capacity="10"></task:executor>-->
+    <!--<task:scheduler eventId="mySchedulerService" pool-size="10"></task:scheduler>-->
 
     <task:executor id="myExecutorService" pool-size="10" queue-capacity="100"></task:executor>
     <task:scheduler id="mySchedulerService" pool-size="10"></task:scheduler>

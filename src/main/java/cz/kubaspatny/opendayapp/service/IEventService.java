@@ -3,6 +3,7 @@ package cz.kubaspatny.opendayapp.service;
 import cz.kubaspatny.opendayapp.dto.EventDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -32,14 +33,19 @@ public interface IEventService {
     @PostAuthorize("hasPermission(returnObject.id, returnObject.ACLObjectIdentityClass, 'READ')")
     public EventDto getEvent(Long id) throws DataAccessException;
 
-    public Long addEvent(Long userId, EventDto event) throws DataAccessException;
+    @PreAuthorize("hasRole('ROLE_ORGANIZER')")
+    public Long addEvent(EventDto event) throws DataAccessException;
 
+    @PreAuthorize("hasPermission(#event.id, #event.ACLObjectIdentityClass, 'WRITE')")
     public void updateEvent(EventDto event) throws DataAccessException;
 
+    @PreAuthorize("hasPermission(#id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Event'), 'WRITE')")
     public void removeEvent(Long id) throws DataAccessException;
 
+    @PreAuthorize("hasPermission(#id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Event'), 'WRITE')")
     public void addEmailToList(Long id, String email) throws DataAccessException;
 
+    @PreAuthorize("hasPermission(#id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Event'), 'WRITE')")
     public void removeEmailFromList(Long id, String email) throws DataAccessException;
 
 }

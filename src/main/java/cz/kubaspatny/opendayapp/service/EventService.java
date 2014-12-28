@@ -4,7 +4,15 @@ import cz.kubaspatny.opendayapp.bo.Event;
 import cz.kubaspatny.opendayapp.bo.User;
 import cz.kubaspatny.opendayapp.dto.EventDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
+import org.springframework.security.acls.domain.BasePermission;
+import org.springframework.security.acls.domain.ObjectIdentityImpl;
+import org.springframework.security.acls.domain.PrincipalSid;
+import org.springframework.security.acls.model.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
+
+import java.nio.file.AccessDeniedException;
 
 /**
  * Author: Kuba Spatny
@@ -40,16 +48,40 @@ public class EventService extends DataAccessService implements IEventService {
     }
 
     @Override
-    public Long addEvent(Long userId, EventDto event) throws DataAccessException {
+    public Long addEvent(EventDto event) throws DataAccessException {
 
-        if(userId == null || event == null) throw new DataAccessException("Passed Argument is null!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
+        String username = null;
 
-        User u = dao.getById(userId, User.class);
+        try {
+            username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        } catch(Exception e){
+            throw new DataAccessException("User not found!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
+        }
+
+        if(username == null || event == null) throw new DataAccessException("Passed Argument is null!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
+
+        User u = dao.getByPropertyUnique("username", username, User.class);
         Event e = EventDto.map(event, new Event(), null);
         u.addEvent(e);
 
         dao.saveOrUpdate(e);
         dao.saveOrUpdate(u);
+
+        // --------------------- ACL ---------------------
+
+        ObjectIdentity oi = new ObjectIdentityImpl(Event.class, e.getId());
+        Sid sid = new PrincipalSid(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+
+        MutableAcl acl = null;
+        try {
+            acl = (MutableAcl) aclService.readAclById(oi);
+        } catch (NotFoundException nfe) {
+            acl = aclService.createAcl(oi);
+        }
+
+        acl.insertAce(acl.getEntries().size(), BasePermission.WRITE, sid, true);
+        acl.insertAce(acl.getEntries().size(), BasePermission.READ, sid, true);
+        aclService.updateAcl(acl);
 
         return e.getId();
     }

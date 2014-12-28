@@ -56,11 +56,11 @@ public class TestService extends DataAccessService {
         return "Hello!";
     }
 
-    public Long addSecuredEvent(Long userId, EventDto eventDto){
+    public Long addSecuredEvent(EventDto eventDto){
 
         Long id;
         try {
-            id = eventService.addEvent(userId, eventDto);
+            id = eventService.addEvent(eventDto);
         } catch (DataAccessException e){
             return null;
         }

@@ -13,6 +13,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -66,6 +68,7 @@ public class EventServiceTest extends AbstractTest {
 
         userID = userService.createUser(u);
 
+
         // -----------------------------------
 
         UserDto u2 = new UserDto();
@@ -74,6 +77,9 @@ public class EventServiceTest extends AbstractTest {
         u2.setEmail("email2@email.com");
 
         userID2 = userService.createUser(u2);
+
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("username2", "password", null);
+        SecurityContextHolder.getContext().setAuthentication(token);
 
         Event e = new Event();
         e.setName(eventName);
@@ -92,6 +98,9 @@ public class EventServiceTest extends AbstractTest {
     @Test
     public void testAddEvent() throws Exception {
 
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("username", "password", null);
+        SecurityContextHolder.getContext().setAuthentication(token);
+
         String name = "Super Event Name";
         DateTime time = DateTime.now().plusYears(1);
         String info = "Information about Super Event";
@@ -102,7 +111,7 @@ public class EventServiceTest extends AbstractTest {
         e.setInformation(info);
         e.setEmailList(emailList);
 
-        Long id = eventService.addEvent(userID, e);
+        Long id = eventService.addEvent(e);
 
         Assert.assertNotNull(id);
         Event event = dao.getById(id, Event.class);
@@ -124,7 +133,7 @@ public class EventServiceTest extends AbstractTest {
     public void testAddEventIllegalArguments() throws Exception {
 
         try {
-            Long id = eventService.addEvent(userID, null);
+            Long id = eventService.addEvent(null);
             Assert.fail("Should have thrown Exception by now!");
         } catch (DataAccessException e){
             Assert.assertEquals(DataAccessException.ErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
@@ -136,7 +145,9 @@ public class EventServiceTest extends AbstractTest {
             e.setDate(DateTime.now());
             e.setInformation("");
 
-            Long id = eventService.addEvent(null, e);
+            SecurityContextHolder.getContext().setAuthentication(null);
+
+            Long id = eventService.addEvent(e);
             Assert.fail("Should have thrown Exception by now!");
         } catch (DataAccessException e){
             Assert.assertEquals(DataAccessException.ErrorCode.ILLEGAL_ARGUMENT, e.getErrorCode());
