@@ -2,6 +2,8 @@ package cz.kubaspatny.opendayapp.service;
 
 import cz.kubaspatny.opendayapp.dao.GenericDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.acls.jdbc.JdbcMutableAclService;
+import org.springframework.util.Assert;
 
 /**
  * Author: Kuba Spatny
@@ -23,10 +25,22 @@ import org.springframework.beans.factory.annotation.Autowired;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public abstract class DataAccessService {
+public class DataAccessService {
 
     @Autowired
     protected GenericDao dao;
+
+    protected JdbcMutableAclService aclService;
+
+    public DataAccessService() {
+    }
+
+    public DataAccessService(JdbcMutableAclService aclService) {
+        Assert.notNull(aclService);
+        this.aclService = aclService;
+        aclService.setSidIdentityQuery("select currval('acl_sid_id_seq')");
+        aclService.setClassIdentityQuery("select currval('acl_class_id_seq')");
+    }
 
     public GenericDao getDao() {
         return dao;
@@ -34,6 +48,14 @@ public abstract class DataAccessService {
 
     public void setDao(GenericDao dao) {
         this.dao = dao;
+    }
+
+    public JdbcMutableAclService getAclService() {
+        return aclService;
+    }
+
+    public void setAclService(JdbcMutableAclService aclService) {
+        this.aclService = aclService;
     }
 
 }

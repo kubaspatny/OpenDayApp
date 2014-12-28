@@ -10,11 +10,6 @@
                         http://www.springframework.org/schema/security
                         http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-    <sec:global-method-security secured-annotations="enabled" pre-post-annotations="enabled">
-        <!-- Reference to a custom expression handler with ACL support -->
-        <sec:expression-handler ref="expressionHandler" />
-    </sec:global-method-security>
-
     <beans:bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener" />
 
     <!-- TODO: EDIT!!! -->
@@ -53,7 +48,7 @@
 
     <!--ACCESS CONTROL LIST-->
 
-    <beans:bean id="testService" class="cz.kubaspatny.opendayapp.service.TestService">
+    <beans:bean id="dataAccessService" class="cz.kubaspatny.opendayapp.service.DataAccessService">
         <beans:constructor-arg ref="aclService"/>
     </beans:bean>
 

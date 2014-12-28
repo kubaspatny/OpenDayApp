@@ -46,19 +46,10 @@ import java.util.List;
  */
 
 @Component("testService")
-public class TestService {
+public class TestService extends DataAccessService {
 
     @Autowired private IEventService eventService;
     @Autowired private IRouteService routeService;
-    @Autowired private GenericDao dao;
-    private JdbcMutableAclService aclService;
-
-    public TestService(JdbcMutableAclService aclService) {
-        Assert.notNull(aclService);
-        this.aclService = aclService;
-        aclService.setSidIdentityQuery("select currval('acl_sid_id_seq')");
-        aclService.setClassIdentityQuery("select currval('acl_class_id_seq')");
-    }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getSomeText(){
@@ -77,7 +68,7 @@ public class TestService {
         ObjectIdentity oi = new ObjectIdentityImpl(Event.class, id);
         Sid sid = new PrincipalSid(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
         Permission p = BasePermission.READ;
-//
+
         // Create or update the relevant ACL
         MutableAcl acl = null;
         try {

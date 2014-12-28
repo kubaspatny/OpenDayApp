@@ -2,6 +2,7 @@ package cz.kubaspatny.opendayapp.service;
 
 import cz.kubaspatny.opendayapp.dto.EventDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -28,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface IEventService {
 
     @Transactional(readOnly = true)
+    @PostAuthorize("hasPermission(returnObject.id, returnObject.ACLObjectIdentityClass, 'READ')")
     public EventDto getEvent(Long id) throws DataAccessException;
 
     public Long addEvent(Long userId, EventDto event) throws DataAccessException;

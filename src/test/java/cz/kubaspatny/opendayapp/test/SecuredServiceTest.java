@@ -49,7 +49,7 @@ import java.util.List;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class SecuredServiceTest extends AbstractTest {
+public class SecuredServiceTest extends AbstractSecuredTest {
 
     @Autowired private TestService testService;
     @Autowired private IUserService userService;
@@ -161,6 +161,27 @@ public class SecuredServiceTest extends AbstractTest {
         try {
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("admin", "admin", null));
             EventDto e = testService.getSecuredEventDto(eventID);
+            Assert.fail("Should have thrown Exception!");
+        } catch (AccessDeniedException e) {
+            Assert.assertTrue(true);
+        }
+
+    }
+
+    @Test
+    public void testACLServiceMethod() throws Exception {
+
+        try {
+            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("user", "user", null));
+            EventDto e = eventService.getEvent(eventID);
+            Assert.assertNotNull(e);
+        } catch (AccessDeniedException e) {
+            Assert.fail("Should NOT have thrown Exception!");
+        }
+
+        try {
+            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("admin", "admin", null));
+            EventDto e = eventService.getEvent(eventID);
             Assert.fail("Should have thrown Exception!");
         } catch (AccessDeniedException e) {
             Assert.assertTrue(true);
