@@ -66,6 +66,11 @@ public class LocationUpdateDto extends BaseDto {
         this.station = station;
     }
 
+    @Override
+    public String getACLObjectIdentityClass() {
+        return LocationUpdate.class.getName();
+    }
+
     // OBJECT MAPPERS
 
     public static LocationUpdateDto map(LocationUpdate source, LocationUpdateDto target, List<String> ignoredProperties){

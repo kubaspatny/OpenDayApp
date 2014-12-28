@@ -129,6 +129,11 @@ public class StationDto extends BaseDto {
         this.closed = closed;
     }
 
+    @Override
+    public String getACLObjectIdentityClass() {
+        return Station.class.getName();
+    }
+
     // OBJECT MAPPERS
 
     public static StationDto map(Station source, StationDto target, List<String> ignoredProperties){

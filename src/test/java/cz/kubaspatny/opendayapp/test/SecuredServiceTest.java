@@ -152,7 +152,7 @@ public class SecuredServiceTest extends AbstractTest {
 
         try {
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("user", "user", null));
-            EventDto e = testService.getSecuredEventDto(eventID, Event.class.getName());
+            EventDto e = testService.getSecuredEventDto(eventID);
             Assert.assertNotNull(e);
         } catch (AccessDeniedException e) {
             Assert.fail("Should NOT have thrown Exception!");
@@ -160,7 +160,7 @@ public class SecuredServiceTest extends AbstractTest {
 
         try {
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("admin", "admin", null));
-            EventDto e = testService.getSecuredEventDto(eventID, Event.class.getName());
+            EventDto e = testService.getSecuredEventDto(eventID);
             Assert.fail("Should have thrown Exception!");
         } catch (AccessDeniedException e) {
             Assert.assertTrue(true);
@@ -174,7 +174,7 @@ public class SecuredServiceTest extends AbstractTest {
         try {
 
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("user", "user", null));
-            RouteDto e = testService.getSecuredRouteDto(routeID, Route.class.getName());
+            RouteDto e = testService.getSecuredRouteDto(routeID);
             Assert.assertNotNull(e);
             System.out.println(e);
 
@@ -184,7 +184,7 @@ public class SecuredServiceTest extends AbstractTest {
 
         try {
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("admin", "admin", null));
-            EventDto e = testService.getSecuredEventDto(eventID, Event.class.getName());
+            RouteDto e = testService.getSecuredRouteDto(routeID);
             Assert.fail("Should have thrown Exception!");
         } catch (AccessDeniedException e) {
             Assert.assertTrue(true);

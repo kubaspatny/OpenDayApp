@@ -140,6 +140,11 @@ public class GroupDto extends BaseDto {
     }
 
     @Override
+    public String getACLObjectIdentityClass() {
+        return Group.class.getName();
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("GroupDto{");
         sb.append("\n\troute=").append(route);

@@ -145,6 +145,11 @@ public class UserDto extends BaseDto {
         return this.password != null;
     }
 
+    @Override
+    public String getACLObjectIdentityClass() {
+        return User.class.getName();
+    }
+
     public static UserDto map(User source, UserDto target, List<String> ignoredProperties){
 
         target.id = source.getId();

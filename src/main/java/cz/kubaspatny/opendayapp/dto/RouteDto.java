@@ -106,6 +106,11 @@ public class RouteDto extends BaseDto {
         this.groups = groups;
     }
 
+    @Override
+    public String getACLObjectIdentityClass() {
+        return Route.class.getName();
+    }
+
     // OBJECT MAPPERS
 
     public static RouteDto map(Route source, RouteDto target, List<String> ignoreProperties){

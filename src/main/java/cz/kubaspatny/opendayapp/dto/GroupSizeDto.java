@@ -58,6 +58,11 @@ public class GroupSizeDto extends BaseDto {
     }
 
     @Override
+    public String getACLObjectIdentityClass() {
+        return GroupSize.class.getName();
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("GroupSizeDto{");
         sb.append("id=").append(id);

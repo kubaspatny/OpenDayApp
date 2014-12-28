@@ -31,4 +31,6 @@ public abstract class BaseDto {
     protected void setId(Long id) {
         this.id = id;
     }
+
+    public abstract String getACLObjectIdentityClass();
 }

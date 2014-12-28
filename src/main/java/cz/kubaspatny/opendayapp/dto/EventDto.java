@@ -157,4 +157,10 @@ public class EventDto extends BaseDto {
         sb.append('}');
         return sb.toString();
     }
+
+    @Override
+    public String getACLObjectIdentityClass() {
+        return Event.class.getName();
+    }
+
 }

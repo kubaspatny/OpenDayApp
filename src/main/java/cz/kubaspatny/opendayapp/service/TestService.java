@@ -135,8 +135,12 @@ public class TestService {
 
     }
 
-    @PostAuthorize("hasPermission(returnObject.id, #clazz, 'READ')")
-     public EventDto getSecuredEventDto(Long id, String clazz){
+    //@PostAuthorize("hasPermission(returnObject.id, #clazz.name, 'READ')")
+    //@PostAuthorize("hasPermission(returnObject.id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).name(T(cz.kubaspatny.opendayapp.bo.Event).class), 'READ')")
+    //@PostAuthorize("hasPermission(returnObject.id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).name(#clazz), 'READ')")
+    //@PostAuthorize("hasPermission(returnObject.id, 'cz.kubaspatny.opendayapp.bo.Event', 'READ')")
+    @PostAuthorize("hasPermission(returnObject.id, returnObject.ACLObjectIdentityClass, 'READ')")
+    public EventDto getSecuredEventDto(Long id){
 
         try {
             return eventService.getEvent(id);
@@ -146,8 +150,8 @@ public class TestService {
 
     }
 
-    @PostAuthorize("hasPermission(returnObject.id, #clazz, 'READ')")
-    public RouteDto getSecuredRouteDto(Long id, String clazz){
+    @PostAuthorize("hasPermission(returnObject.id, returnObject.ACLObjectIdentityClass, 'READ')")
+    public RouteDto getSecuredRouteDto(Long id){
 
         try {
             return routeService.getRoute(id);
