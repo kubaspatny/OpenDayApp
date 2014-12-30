@@ -98,6 +98,7 @@ public class EventService extends DataAccessService implements IEventService {
     @Override
     public void removeEvent(Long id) throws DataAccessException {
         dao.removeById(id, Event.class);
+        aclService.deleteAcl(new ObjectIdentityImpl(Event.class, id), true);
     }
 
     @Override

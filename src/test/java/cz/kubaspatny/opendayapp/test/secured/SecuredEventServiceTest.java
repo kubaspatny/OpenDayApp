@@ -14,6 +14,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.acls.model.MutableAcl;
+import org.springframework.security.acls.model.NotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
@@ -201,6 +203,15 @@ public class SecuredEventServiceTest extends AbstractSecuredTest {
         } catch (DataAccessException ex){
             ex.printStackTrace();
             Assert.fail("Should NOT have thrown THIS Exception!");
+        }
+
+        try {
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
+            SecurityContextHolder.getContext().setAuthentication(token);
+            eventService.removeEvent(eventId);
+            Assert.fail("Should have thrown an exception!");
+        } catch (AccessDeniedException ex){
+            // correct
         }
 
     }
