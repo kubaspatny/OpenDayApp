@@ -47,6 +47,4 @@ public interface IUserService {
 
     public void deactivateUser(Long userId) throws DataAccessException;
 
-
-
 }

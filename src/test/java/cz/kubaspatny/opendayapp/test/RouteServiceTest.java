@@ -5,10 +5,12 @@ import cz.kubaspatny.opendayapp.bo.Route;
 import cz.kubaspatny.opendayapp.bo.Station;
 import cz.kubaspatny.opendayapp.bo.User;
 import cz.kubaspatny.opendayapp.dao.GenericDao;
+import cz.kubaspatny.opendayapp.dto.EventDto;
 import cz.kubaspatny.opendayapp.dto.RouteDto;
 import cz.kubaspatny.opendayapp.dto.StationDto;
 import cz.kubaspatny.opendayapp.dto.UserDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
+import cz.kubaspatny.opendayapp.service.IEventService;
 import cz.kubaspatny.opendayapp.service.IRouteService;
 import cz.kubaspatny.opendayapp.service.IStationService;
 import cz.kubaspatny.opendayapp.service.IUserService;
@@ -18,6 +20,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,6 +53,7 @@ public class RouteServiceTest extends AbstractTest {
     @Autowired private IRouteService routeService;
     @Autowired private IUserService userService;
     @Autowired private IStationService stationService;
+    @Autowired private IEventService eventService;
 
     private String username = "kuba.spatny@gmail.com";
 
@@ -80,17 +85,21 @@ public class RouteServiceTest extends AbstractTest {
 
         dao.saveOrUpdate(u);
 
-        Event event = new Event();
-        event.setName("CTU DAY 1");
-        event.setDate(DateTime.now(DateTimeZone.UTC));
-        event.setInformation("CTU DAY is an annual conference for all people.");
-        u.addEvent(event);
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
+        SecurityContextHolder.getContext().setAuthentication(token);
 
-        Event event2 = new Event();
-        event2.setName("SERVICE TEST EVENT");
-        event2.setDate(DateTime.now(DateTimeZone.UTC));
-        event2.setInformation("SERVICE TEST EVENT SERVICE TEST EVENT SERVICE TEST EVENT SERVICE TEST EVENT");
-        u.addEvent(event2);
+        EventDto eventDto = new EventDto();
+        eventDto.setName("CTU DAY 1");
+        eventDto.setDate(DateTime.now(DateTimeZone.UTC));
+        eventDto.setInformation("CTU DAY is an annual conference for all people.");
+
+        Event event = dao.getById(eventService.addEvent(eventDto), Event.class);
+
+        EventDto eventDto2 = new EventDto();
+        eventDto2.setName("SERVICE TEST EVENT");
+        eventDto2.setDate(DateTime.now(DateTimeZone.UTC));
+        eventDto2.setInformation("SERVICE TEST EVENT SERVICE TEST EVENT SERVICE TEST EVENT SERVICE TEST EVENT");
+        eventService.addEvent(eventDto2);
 
         Route r1 = new Route();
         r1.setName("Blue route");

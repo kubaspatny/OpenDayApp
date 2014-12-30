@@ -68,21 +68,53 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SecuredEventServiceTest.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="SecuredEventServiceTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/secured/SecuredEventServiceTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.32696897" vertical-offset="3042" max-vertical-offset="4386">
-              <caret line="211" column="59" selection-start-line="211" selection-start-column="59" selection-end-line="211" selection-end-column="59" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="674" max-vertical-offset="4386">
+              <caret line="76" column="68" selection-start-line="75" selection-start-column="8" selection-end-line="76" selection-end-column="68" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EventService.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/EventService.java">
+      <file leaf-file-name="EventServiceTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/EventServiceTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1249" max-vertical-offset="1955">
-              <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="859" max-vertical-offset="4080">
+              <caret line="81" column="68" selection-start-line="80" selection-start-column="8" selection-end-line="81" selection-end-column="68" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RouteServiceTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/RouteServiceTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="3601" max-vertical-offset="4573">
+              <caret line="251" column="59" selection-start-line="215" selection-start-column="8" selection-end-line="251" selection-end-column="59" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SecuredRouteServiceTest.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/secured/SecuredRouteServiceTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="1.0544662" vertical-offset="2355" max-vertical-offset="3026">
+              <caret line="167" column="53" selection-start-line="167" selection-start-column="9" selection-end-line="167" selection-end-column="9" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RouteService.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/RouteService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2533" max-vertical-offset="3298">
+              <caret line="171" column="73" selection-start-line="171" selection-start-column="73" selection-end-line="171" selection-end-column="73" />
               <folding />
             </state>
           </provider>
@@ -98,19 +130,9 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/UserServiceTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bo/Event.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/utils/DtoMapperUtil.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bo/LocationUpdate.java" />
-        <option value="$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/StationServiceTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bo/Station.java" />
         <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/IGroupService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/GroupService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/RouteService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/IRouteService.java" />
         <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bo/Group.java" />
         <option value="$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/GroupTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/GroupServiceTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/SandBox.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/web-dispatcher-servlet.xml" />
         <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/DemoBB.java" />
@@ -125,7 +147,6 @@
         <option value="$PROJECT_DIR$/src/main/webapp/web/secured.xhtml" />
         <option value="$PROJECT_DIR$/src/main/webapp/resources/css/secured.css" />
         <option value="$PROJECT_DIR$/src/main/webapp/web/demo.xhtml" />
-        <option value="$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/RouteServiceTest.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/context/applicationContext.xml" />
         <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/BaseDto.java" />
         <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/EventDto.java" />
@@ -149,6 +170,17 @@
         <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/TestService.java" />
         <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/EventService.java" />
         <option value="$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/secured/SecuredEventServiceTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/IRouteService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/IUserService.java" />
+        <option value="$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/EmailServiceTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/EmailService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/UserService.java" />
+        <option value="$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/GroupServiceTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/RouteServiceTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/GroupService.java" />
+        <option value="$PROJECT_DIR$/Notes.md" />
+        <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/RouteService.java" />
+        <option value="$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/secured/SecuredRouteServiceTest.java" />
       </list>
     </option>
   </component>
@@ -284,6 +316,70 @@
               <option name="myItemId" value="opendayapp" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenDayApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenDayApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="opendayapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="secured" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenDayApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenDayApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="opendayapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -381,36 +477,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OpenDayApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OpenDayApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="opendayapp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="service" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -439,7 +505,7 @@
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="dynamic.classpath" value="false" />
-    <property name="SearchEverywhereHistoryKey" value="annot&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/webapp/WEB-INF/context/applicationContext-SecurityAnnotations.xml&#10;userse&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.service.UserService&#10;service&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.service.EventService&#10;pom&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/pom.xml&#10;routeser&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.test.RouteServiceTest&#10;routese&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.service.RouteService&#10;xhtml&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/webapp/web/demo.xhtml&#10;secured&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/webapp/web/secured.xhtml&#10;log&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/test/resources/log4j.properties&#10;securetes&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/test/java/cz/kubaspatny/opendayapp/test/SecuredServiceTest.java&#10;secureSe&#9;RUN_CONFIGURATION&#9;SecuredServiceTest&#10;demoB&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/java/cz/kubaspatny/opendayapp/bb/DemoBB.java&#10;grouptest&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.test.GroupTest&#10;Group&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/java/cz/kubaspatny/opendayapp/bo/Group.java&#10;iroute&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/java/cz/kubaspatny/opendayapp/service/IRouteService.java&#10;IGroup&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/java/cz/kubaspatny/opendayapp/service/IGroupService.java&#10;stationdto&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/java/cz/kubaspatny/opendayapp/dto/StationDto.java&#10;GroupSe&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/java/cz/kubaspatny/opendayapp/service/GroupService.java&#10;groupDto&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/java/cz/kubaspatny/opendayapp/dto/GroupDto.java&#10;event&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.bo.Event&#10;location&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/java/cz/kubaspatny/opendayapp/bo/LocationUpdate.java&#10;eventD&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.dto.EventDto&#10;Event&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.bo.Event&#10;DtoMapper&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.utils.DtoMapperUtil&#10;LocationUpda&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.dto.LocationUpdateDto&#10;saveRoute&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.service.IRouteService#saveRoute&#10;route&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.bo.Route&#10;email&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/java/cz/kubaspatny/opendayapp/service/EmailService.java&#10;dao&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/java/cz/kubaspatny/opendayapp/dao/Dao.java&#10;pom.&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/pom.xml" />
+    <property name="SearchEverywhereHistoryKey" value="routeS&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/java/cz/kubaspatny/opendayapp/service/RouteService.java&#10;annot&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/webapp/WEB-INF/context/applicationContext-SecurityAnnotations.xml&#10;userse&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.service.UserService&#10;service&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.service.EventService&#10;pom&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/pom.xml&#10;routeser&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.test.RouteServiceTest&#10;routese&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.service.RouteService&#10;xhtml&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/webapp/web/demo.xhtml&#10;secured&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/webapp/web/secured.xhtml&#10;log&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/test/resources/log4j.properties&#10;securetes&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/test/java/cz/kubaspatny/opendayapp/test/SecuredServiceTest.java&#10;secureSe&#9;RUN_CONFIGURATION&#9;SecuredServiceTest&#10;demoB&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/java/cz/kubaspatny/opendayapp/bb/DemoBB.java&#10;grouptest&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.test.GroupTest&#10;Group&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/java/cz/kubaspatny/opendayapp/bo/Group.java&#10;iroute&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/java/cz/kubaspatny/opendayapp/service/IRouteService.java&#10;IGroup&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/java/cz/kubaspatny/opendayapp/service/IGroupService.java&#10;stationdto&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/java/cz/kubaspatny/opendayapp/dto/StationDto.java&#10;GroupSe&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/java/cz/kubaspatny/opendayapp/service/GroupService.java&#10;groupDto&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/java/cz/kubaspatny/opendayapp/dto/GroupDto.java&#10;event&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.bo.Event&#10;location&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/java/cz/kubaspatny/opendayapp/bo/LocationUpdate.java&#10;eventD&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.dto.EventDto&#10;Event&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.bo.Event&#10;DtoMapper&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.utils.DtoMapperUtil&#10;LocationUpda&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.dto.LocationUpdateDto&#10;saveRoute&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.service.IRouteService#saveRoute&#10;route&#9;PSI&#9;JAVA://cz.kubaspatny.opendayapp.bo.Route&#10;email&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/java/cz/kubaspatny/opendayapp/service/EmailService.java&#10;dao&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/src/main/java/cz/kubaspatny/opendayapp/dao/Dao.java&#10;pom.&#9;FILE&#9;file://C:/Users/Kuba/IdeaProjects/OpenDayApp/pom.xml" />
     <property name="full.screen.before.presentation.mode" value="false" />
   </component>
   <component name="RecentsManager">
@@ -455,8 +521,54 @@
       <recent name="C:\Users\Kuba\IdeaProjects\OpenDayApp\src\main\webapp\WEB-INF\context" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in OpenDayApp (3)">
-    <configuration default="false" name="SecuredEventServiceTest.testRemoveEvent" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.All in OpenDayApp">
+    <configuration default="false" name="All in OpenDayApp (3)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="OpenDayApp" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="All in OpenDayApp (4)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="OpenDayApp" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="SecuredRouteServiceTest.testName" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="cz.kubaspatny.opendayapp.test.secured.*" />
@@ -467,8 +579,36 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="cz.kubaspatny.opendayapp.test.secured" />
-      <option name="MAIN_CLASS_NAME" value="cz.kubaspatny.opendayapp.test.secured.SecuredEventServiceTest" />
-      <option name="METHOD_NAME" value="testRemoveEvent" />
+      <option name="MAIN_CLASS_NAME" value="cz.kubaspatny.opendayapp.test.secured.SecuredRouteServiceTest" />
+      <option name="METHOD_NAME" value="testName" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="SecuredRouteServiceTest.testAddRoute" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="cz.kubaspatny.opendayapp.test.secured.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="OpenDayApp" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="cz.kubaspatny.opendayapp.test.secured" />
+      <option name="MAIN_CLASS_NAME" value="cz.kubaspatny.opendayapp.test.secured.SecuredRouteServiceTest" />
+      <option name="METHOD_NAME" value="testAddRoute" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -485,75 +625,6 @@
       <method />
     </configuration>
     <configuration default="false" name="All in OpenDayApp" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="OpenDayApp" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="package" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="All in OpenDayApp (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="OpenDayApp" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="package" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="All in OpenDayApp (2)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="OpenDayApp" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="package" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="All in OpenDayApp (3)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="OpenDayApp" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -999,19 +1070,19 @@
       <item index="1" class="java.lang.String" itemvalue="JUnit.StationServiceTest.testGetStation" />
       <item index="2" class="java.lang.String" itemvalue="JUnit.SandBox.testDeleteRouteStationManagerPart" />
       <item index="3" class="java.lang.String" itemvalue="Tomcat Server.Tomcat 7.0" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.SecuredEventServiceTest.testRemoveEvent" />
-      <item index="5" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp" />
-      <item index="6" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (1)" />
-      <item index="7" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (2)" />
-      <item index="8" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (3)" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (3)" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (4)" />
+      <item index="6" class="java.lang.String" itemvalue="JUnit.SecuredRouteServiceTest.testName" />
+      <item index="7" class="java.lang.String" itemvalue="JUnit.SecuredRouteServiceTest.testAddRoute" />
+      <item index="8" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (3)" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.SecuredEventServiceTest.testRemoveEvent" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (2)" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (1)" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.SecuredRouteServiceTest.testAddRoute" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.SecuredRouteServiceTest.testName" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (4)" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (3)" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
@@ -1070,12 +1141,12 @@
       <workItem from="1419209393203" duration="4184000" />
       <workItem from="1419764905123" duration="269000" />
       <workItem from="1419765306267" duration="15987000" />
-      <workItem from="1419950152830" duration="990000" />
+      <workItem from="1419950152830" duration="11884000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="275879000" />
+    <option name="totallyTimeSpent" value="286773000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1099,7 +1170,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="738" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1124,8 +1195,8 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3524775" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15885022" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26237625" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21785174" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19636963" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1167,83 +1238,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/4.0.0.RELEASE/spring-core-4.0.0.RELEASE.jar!/org/springframework/core/convert/support/NumberToNumberConverterFactory.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.36" vertical-offset="18" max-vertical-offset="425">
-          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/4.0.0.RELEASE/spring-core-4.0.0.RELEASE.jar!/org/springframework/core/convert/converter/GenericConverter.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6925926" vertical-offset="0" max-vertical-offset="540">
-          <caret line="23" column="19" selection-start-line="23" selection-start-column="19" selection-end-line="23" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/4.0.0.RELEASE/spring-core-4.0.0.RELEASE.jar!/org/springframework/core/convert/support/StringToNumberConverterFactory.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.18888889" vertical-offset="0" max-vertical-offset="540">
-          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/4.0.0.RELEASE/spring-core-4.0.0.RELEASE.jar!/org/springframework/core/convert/support/DefaultConversionService.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.44074073" vertical-offset="0" max-vertical-offset="540">
-          <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/4.0.0.RELEASE/spring-core-4.0.0.RELEASE.jar!/org/springframework/core/convert/support/GenericConversionService.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.12592593" vertical-offset="663" max-vertical-offset="2550">
-          <caret line="44" column="88" selection-start-line="44" selection-start-column="88" selection-end-line="44" selection-end-column="88" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/4.0.0.RELEASE/spring-core-4.0.0.RELEASE.jar!/org/springframework/util/ReflectionUtils.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13152805" vertical-offset="425" max-vertical-offset="1632">
-          <caret line="30" column="35" selection-start-line="30" selection-start-column="35" selection-end-line="30" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/4.0.0.RELEASE/spring-core-4.0.0.RELEASE.jar!/org/springframework/util/Assert.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.72" vertical-offset="204" max-vertical-offset="1105">
-          <caret line="17" column="23" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/4.0.0.RELEASE/spring-core-4.0.0.RELEASE.jar!/org/springframework/core/SerializableTypeWrapper.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.27659574" vertical-offset="1149" max-vertical-offset="1666">
-          <caret line="77" column="32" selection-start-line="77" selection-start-column="32" selection-end-line="77" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/4.0.0.RELEASE/spring-core-4.0.0.RELEASE.jar!/org/springframework/util/ObjectUtils.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13152805" vertical-offset="561" max-vertical-offset="1700">
-          <caret line="38" column="26" selection-start-line="38" selection-start-column="26" selection-end-line="38" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/4.0.0.RELEASE/spring-core-4.0.0.RELEASE.jar!/org/springframework/util/ConcurrentReferenceHashMap.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13152805" vertical-offset="816" max-vertical-offset="4369">
-          <caret line="53" column="13" selection-start-line="53" selection-start-column="13" selection-end-line="53" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/4.0.0.RELEASE/spring-core-4.0.0.RELEASE.jar!/org/springframework/core/ResolvableType.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13152805" vertical-offset="1003" max-vertical-offset="3128">
-          <caret line="64" column="30" selection-start-line="64" selection-start-column="30" selection-end-line="64" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/resources/log4j.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289">
@@ -1288,21 +1282,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-15.692307" vertical-offset="0" max-vertical-offset="646">
           <caret line="24" column="34" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/RouteService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.47797358" vertical-offset="948" max-vertical-offset="2108">
-          <caret line="53" column="229" selection-start-line="53" selection-start-column="32" selection-end-line="53" selection-end-column="229" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/RouteServiceTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5528634" vertical-offset="3217" max-vertical-offset="4488">
-          <caret line="225" column="44" selection-start-line="225" selection-start-column="37" selection-end-line="225" selection-end-column="37" />
         </state>
       </provider>
     </entry>
@@ -1358,6 +1337,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.30265486" vertical-offset="696" max-vertical-offset="1564">
           <caret line="70" column="46" selection-start-line="70" selection-start-column="46" selection-end-line="70" selection-end-column="46" />
+          <folding>
+            <element signature="e#1704#1705#0" expanded="false" />
+            <element signature="e#1742#1743#0" expanded="false" />
+            <element signature="e#1805#1806#0" expanded="false" />
+            <element signature="e#1858#1859#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1365,13 +1350,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8235294" vertical-offset="34" max-vertical-offset="646">
           <caret line="34" column="20" selection-start-line="34" selection-start-column="20" selection-end-line="34" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/RouteDto.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21453287" vertical-offset="1066" max-vertical-offset="2788">
-          <caret line="110" column="37" selection-start-line="110" selection-start-column="37" selection-end-line="110" selection-end-column="37" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1390,13 +1369,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.39100346" vertical-offset="1253" max-vertical-offset="2652">
           <caret line="132" column="43" selection-start-line="132" selection-start-column="21" selection-end-line="132" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/AbstractSecuredTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8236434" vertical-offset="0" max-vertical-offset="578">
-          <caret line="25" column="88" selection-start-line="25" selection-start-column="88" selection-end-line="25" selection-end-column="88" />
           <folding />
         </state>
       </provider>
@@ -1406,20 +1378,6 @@
         <state vertical-scroll-proportion="0.777336" vertical-offset="119" max-vertical-offset="697">
           <caret line="38" column="53" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/IUserService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7672634" vertical-offset="363" max-vertical-offset="952">
-          <caret line="41" column="16" selection-start-line="41" selection-start-column="16" selection-end-line="41" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/utils/SpelUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.27088037" vertical-offset="356" max-vertical-offset="833">
-          <caret line="30" column="51" selection-start-line="30" selection-start-column="25" selection-end-line="30" selection-end-column="51" />
         </state>
       </provider>
     </entry>
@@ -1447,14 +1405,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/UserService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.51428574" vertical-offset="480" max-vertical-offset="2193">
-          <caret line="51" column="75" selection-start-line="51" selection-start-column="17" selection-end-line="51" selection-end-column="75" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dao/Dao.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.104700856" vertical-offset="70" max-vertical-offset="4675">
@@ -1467,6 +1417,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33263597" vertical-offset="351" max-vertical-offset="1190">
           <caret line="35" column="22" selection-start-line="35" selection-start-column="22" selection-end-line="35" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1481,6 +1432,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33245382" vertical-offset="248" max-vertical-offset="782">
           <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1488,28 +1440,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.2117264" vertical-offset="4660" max-vertical-offset="6970">
           <caret line="309" column="40" selection-start-line="309" selection-start-column="40" selection-end-line="309" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/EventServiceTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.4093568" vertical-offset="2521" max-vertical-offset="4080">
-          <caret line="238" column="55" selection-start-line="238" selection-start-column="55" selection-end-line="238" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/IEventService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.20467836" vertical-offset="388" max-vertical-offset="901">
-          <caret line="33" column="22" selection-start-line="33" selection-start-column="22" selection-end-line="33" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/EmailService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.20467836" vertical-offset="337" max-vertical-offset="1156">
-          <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1529,27 +1459,200 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/EventService.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/utils/SpelUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1249" max-vertical-offset="1955">
-          <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.25625" vertical-offset="353" max-vertical-offset="833">
+          <caret line="30" column="51" selection-start-line="30" selection-start-column="25" selection-end-line="30" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/IRouteService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7687366" vertical-offset="406" max-vertical-offset="935">
+          <caret line="54" column="113" selection-start-line="54" selection-start-column="113" selection-end-line="54" selection-end-column="113" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/IEventService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="901">
+          <caret line="41" column="127" selection-start-line="41" selection-start-column="4" selection-end-line="41" selection-end-column="127" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bo/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="2334" max-vertical-offset="6069">
+          <caret line="197" column="16" selection-start-line="197" selection-start-column="16" selection-end-line="197" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bo/Route.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="1433" max-vertical-offset="2907">
+          <caret line="127" column="16" selection-start-line="127" selection-start-column="16" selection-end-line="127" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/RouteDto.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33260393" vertical-offset="2041" max-vertical-offset="2754">
+          <caret line="171" column="24" selection-start-line="171" selection-start-column="24" selection-end-line="171" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/IUserService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6018018" vertical-offset="363" max-vertical-offset="918">
+          <caret line="43" column="16" selection-start-line="43" selection-start-column="16" selection-end-line="43" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/UserServiceTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="803" max-vertical-offset="5015">
+          <caret line="62" column="54" selection-start-line="62" selection-start-column="33" selection-end-line="62" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/4.0.0.RELEASE/spring-core-4.0.0.RELEASE.jar!/org/springframework/util/Assert.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.5638298" vertical-offset="856" max-vertical-offset="1105">
+          <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-acl/3.2.5.RELEASE/spring-security-acl-3.2.5.RELEASE.jar!/org/springframework/security/acls/domain/PrincipalSid.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.44" vertical-offset="87" max-vertical-offset="425">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/EmailServiceTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="319" max-vertical-offset="901">
+          <caret line="34" column="52" selection-start-line="34" selection-start-column="52" selection-end-line="34" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/EmailService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.3396674" vertical-offset="269" max-vertical-offset="1139">
+          <caret line="59" column="24" selection-start-line="59" selection-start-column="24" selection-end-line="59" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/TestService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="2346">
-          <caret line="48" column="41" selection-start-line="48" selection-start-column="41" selection-end-line="48" selection-end-column="41" />
+        <state vertical-scroll-proportion="0.19557196" vertical-offset="659" max-vertical-offset="2346">
+          <caret line="68" column="8" selection-start-line="68" selection-start-column="8" selection-end-line="80" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/UserService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.29758713" vertical-offset="1249" max-vertical-offset="2210">
+          <caret line="89" column="42" selection-start-line="89" selection-start-column="42" selection-end-line="89" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/EventServiceTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="859" max-vertical-offset="4080">
+          <caret line="81" column="68" selection-start-line="80" selection-start-column="8" selection-end-line="81" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/GroupServiceTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="935" max-vertical-offset="6154">
+          <caret line="78" column="8" selection-start-line="78" selection-start-column="8" selection-end-line="92" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/GroupService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.3181818" vertical-offset="1694" max-vertical-offset="2584">
+          <caret line="98" column="29" selection-start-line="98" selection-start-column="29" selection-end-line="98" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Notes.md">
+      <provider selected="true" editor-type-id="MarkdownPreviewEditor">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3" max-vertical-offset="510">
+          <caret line="16" column="56" selection-start-line="16" selection-start-column="56" selection-end-line="16" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/EventService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.084886126" vertical-offset="1455" max-vertical-offset="1955">
+          <caret line="100" column="76" selection-start-line="100" selection-start-column="8" selection-end-line="100" selection-end-column="76" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/AbstractSecuredTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6158192" vertical-offset="224" max-vertical-offset="578">
+          <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/secured/SecuredEventServiceTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.32696897" vertical-offset="3042" max-vertical-offset="4386">
-          <caret line="211" column="59" selection-start-line="211" selection-start-column="59" selection-end-line="211" selection-end-column="59" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="674" max-vertical-offset="4386">
+          <caret line="76" column="68" selection-start-line="75" selection-start-column="8" selection-end-line="76" selection-end-column="68" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/RouteServiceTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3601" max-vertical-offset="4573">
+          <caret line="251" column="59" selection-start-line="215" selection-start-column="8" selection-end-line="251" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/RouteService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2533" max-vertical-offset="3298">
+          <caret line="171" column="73" selection-start-line="171" selection-start-column="73" selection-end-line="171" selection-end-column="73" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/secured/SecuredRouteServiceTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.0544662" vertical-offset="2355" max-vertical-offset="3026">
+          <caret line="167" column="53" selection-start-line="167" selection-start-column="9" selection-end-line="167" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

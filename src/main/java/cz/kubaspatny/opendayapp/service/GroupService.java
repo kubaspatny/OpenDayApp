@@ -54,6 +54,9 @@ public class GroupService extends DataAccessService implements IGroupService {
         r.addGroup(g);
         return dao.saveOrUpdate(g).getId();
 
+        // add ACL entry to route
+        // add ACL for guide with ADMINISTRATION right
+
     }
 
     @Override
@@ -92,6 +95,8 @@ public class GroupService extends DataAccessService implements IGroupService {
     @Override
     public void removeGroup(Long id) throws DataAccessException {
         dao.removeById(id, Group.class);
+        // remove guide's ACL entry from route
+        // remove group's ACL
     }
 
     @Override

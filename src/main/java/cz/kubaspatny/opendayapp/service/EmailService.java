@@ -38,7 +38,7 @@ public class EmailService {
     @Value("${email.password}") private String email_password;
 
     @Async
-    public void sendCredentials(String email, String password) {
+    public void sendCredentials(String username, String email, String password) {
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -58,9 +58,8 @@ public class EmailService {
             message.setFrom(new InternetAddress(email_username));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
             message.setSubject("Welcome to OpenDayApp!");
-            //message.setText(text);
             message.setContent("<h1>Welcome to OpenDayApp</h1>" +
-                                "<p><b>Username: </b>" + email + "</p>" +
+                                "<p><b>Username: </b>" + username + "</p>" +
                                 "<p><b>Password: </b>" + password + "</p>" +
                                 "<br><br><p>You can change your password at www.opendayapp.com!</p>", "text/html");
             Transport.send(message);

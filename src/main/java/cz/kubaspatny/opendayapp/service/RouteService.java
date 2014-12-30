@@ -5,6 +5,11 @@ import cz.kubaspatny.opendayapp.dto.RouteDto;
 import cz.kubaspatny.opendayapp.dto.StationDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import org.joda.time.DateTime;
+import org.springframework.security.acls.domain.BasePermission;
+import org.springframework.security.acls.domain.ObjectIdentityImpl;
+import org.springframework.security.acls.domain.PrincipalSid;
+import org.springframework.security.acls.model.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -72,6 +77,22 @@ public class RouteService extends DataAccessService implements IRouteService {
 
             routeIds.add(r.getId());
 
+            // add ACL with parent to acl(eventId)
+            ObjectIdentity oi = new ObjectIdentityImpl(Route.class, r.getId());
+
+            MutableAcl acl = null;
+            try {
+                acl = (MutableAcl) aclService.readAclById(oi);
+            } catch (NotFoundException nfe) {
+                acl = aclService.createAcl(oi);
+            }
+
+            ObjectIdentity parentIdentity = new ObjectIdentityImpl(Event.class, eventId);
+            MutableAcl aclParent = (MutableAcl) aclService.readAclById(parentIdentity);
+            acl.setParent(aclParent);
+            aclService.updateAcl(acl);
+            // -----------------------------------
+
             if(stations != null) {
                 for(StationDto stationDto : stations){
 
@@ -83,6 +104,22 @@ public class RouteService extends DataAccessService implements IRouteService {
                     s.setSequencePosition(stationDto.getSequencePosition());
                     r.addStation(s);
                     dao.saveOrUpdate(s);
+
+                    // add ACL with parent to acl(r.getId)
+                    oi = new ObjectIdentityImpl(Station.class, s.getId());
+
+                    acl = null;
+                    try {
+                        acl = (MutableAcl) aclService.readAclById(oi);
+                    } catch (NotFoundException nfe) {
+                        acl = aclService.createAcl(oi);
+                    }
+
+                    parentIdentity = new ObjectIdentityImpl(Route.class, r.getId());
+                    aclParent = (MutableAcl) aclService.readAclById(parentIdentity);
+                    acl.setParent(aclParent);
+                    aclService.updateAcl(acl);
+                    // -----------------------------------
 
                 }
             }
@@ -98,6 +135,32 @@ public class RouteService extends DataAccessService implements IRouteService {
                     r.addGroup(g);
                     dao.saveOrUpdate(g);
 
+                    // add ACL with parent to acl(r.getId)
+                    oi = new ObjectIdentityImpl(Group.class, g.getId());
+
+                    acl = null;
+                    try {
+                        acl = (MutableAcl) aclService.readAclById(oi);
+                    } catch (NotFoundException nfe) {
+                        acl = aclService.createAcl(oi);
+                    }
+
+                    parentIdentity = new ObjectIdentityImpl(Route.class, r.getId());
+                    aclParent = (MutableAcl) aclService.readAclById(parentIdentity);
+                    acl.setParent(aclParent);
+
+                    Sid sid = new PrincipalSid(guide.getUsername());
+                    acl.insertAce(acl.getEntries().size(), BasePermission.ADMINISTRATION, sid, true);
+                    aclService.updateAcl(acl);
+
+                    parentIdentity = new ObjectIdentityImpl(Event.class, eventId);
+                    aclParent = (MutableAcl) aclService.readAclById(parentIdentity);
+                    aclParent.insertAce(aclParent.getEntries().size(), BasePermission.READ, sid, true);
+                    aclService.updateAcl(aclParent);
+
+                    // -----------------------------------
+                    // add ACL (group) Entry to guide 'ADMINISTRATION'
+                    // add ACL (event) Entry to guide 'READ'
                 }
             }
 
@@ -105,6 +168,15 @@ public class RouteService extends DataAccessService implements IRouteService {
                 for(String email : stationManagerEmails){
                     User stationManager = dao.getByPropertyUnique("email", email, User.class);
                     r.addStationManager(stationManager);
+
+                    parentIdentity = new ObjectIdentityImpl(Event.class, eventId);
+                    aclParent = (MutableAcl) aclService.readAclById(parentIdentity);
+
+                    Sid sid = new PrincipalSid(stationManager.getUsername());
+                    aclParent.insertAce(aclParent.getEntries().size(), BasePermission.READ, sid, true);
+                    aclService.updateAcl(aclParent);
+
+                    // add ACL (event) Entry to stationmanager 'READ'
                 }
                 dao.saveOrUpdate(r);
             }
@@ -117,6 +189,7 @@ public class RouteService extends DataAccessService implements IRouteService {
     @Override
     public void removeRoute(Long id) throws DataAccessException {
         dao.removeById(id, Route.class);
+        aclService.deleteAcl(new ObjectIdentityImpl(Route.class, id), true);
     }
 
     @Override

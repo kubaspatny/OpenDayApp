@@ -13,16 +13,12 @@ http://en.wikibooks.org/wiki/Java_Persistence/ManyToMany
 BUGS
 ===
 
+- When route/group/stationmanager is deleted, ACL Entry for event "guide 'READ'" is not deleted! It can be deleted ONLY if
+ the user is not guide/stationmanager at any other route
+
 EMAILS
 ===
 
 - opendayapp@gmail.com, h=&estecA!uY+da2uGa2ephu*!8pejUx
 - opendayapptest@gmail.com, h=&estecA!uY+da2uGa2ephu*!8pejUx
-
-SAVING ROUTE WITH EVERYTHING
-===
-saveRoute(Event id, String name, String hexColor, String information, List<DateTime> times, List<Station> stations, HashMap<String, String> stationCreationID_guideEmail,
-                List<String> stationManagerEmails);
-                
-saveRoute(Event id, RouteDto);
 

@@ -12,6 +12,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,17 +76,21 @@ public class GroupServiceTest extends AbstractTest {
 
         dao.saveOrUpdate(u);
 
-        Event event = new Event();
-        event.setName("CTU DAY 1");
-        event.setDate(DateTime.now(DateTimeZone.UTC));
-        event.setInformation("CTU DAY is an annual conference for all people.");
-        u.addEvent(event);
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
+        SecurityContextHolder.getContext().setAuthentication(token);
 
-        Event event2 = new Event();
-        event2.setName("SERVICE TEST EVENT");
-        event2.setDate(DateTime.now(DateTimeZone.UTC));
-        event2.setInformation("SERVICE TEST EVENT SERVICE TEST EVENT SERVICE TEST EVENT SERVICE TEST EVENT");
-        u.addEvent(event2);
+        EventDto eventDto = new EventDto();
+        eventDto.setName("CTU DAY 1");
+        eventDto.setDate(DateTime.now(DateTimeZone.UTC));
+        eventDto.setInformation("CTU DAY is an annual conference for all people.");
+
+        Event event = dao.getById(eventService.addEvent(eventDto), Event.class);
+
+        EventDto eventDto2 = new EventDto();
+        eventDto2.setName("SERVICE TEST EVENT");
+        eventDto2.setDate(DateTime.now(DateTimeZone.UTC));
+        eventDto2.setInformation("SERVICE TEST EVENT SERVICE TEST EVENT SERVICE TEST EVENT SERVICE TEST EVENT");
+        eventService.addEvent(eventDto2);
 
         Route r1 = new Route();
         r1.setName("Blue route");

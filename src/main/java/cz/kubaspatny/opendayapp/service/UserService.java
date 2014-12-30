@@ -95,13 +95,14 @@ public class UserService extends DataAccessService implements IUserService {
          */
         while(!isUsernameFree(usernameCandidate)){
             usernameCandidate = username + suffix;
+            suffix++;
         }
 
         String password = PasswordGenerator.generatePassword(8);
         User.Builder builder = new User.Builder(usernameCandidate, emailAddress, password);
 
         Long id = dao.saveOrUpdate(builder.build()).getId();
-        emailService.sendCredentials(usernameCandidate, password);
+        emailService.sendCredentials(usernameCandidate, emailAddress, password);
         return id;
     }
 

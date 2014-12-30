@@ -32,7 +32,7 @@ public class EmailServiceTest extends AbstractTest {
     @Test
     public void testSendEmail() throws Exception {
 
-        emailService.sendCredentials("kuba.spatny@gmail.com", PasswordGenerator.generatePassword(8));
+        emailService.sendCredentials("kuba.spatny", "kuba.spatny@gmail.com", PasswordGenerator.generatePassword(8));
         Thread.sleep(10000);
 
     }

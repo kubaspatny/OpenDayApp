@@ -4,6 +4,8 @@ import cz.kubaspatny.opendayapp.dto.RouteDto;
 import cz.kubaspatny.opendayapp.dto.StationDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import org.joda.time.DateTime;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
@@ -34,12 +36,15 @@ import java.util.List;
 public interface IRouteService {
 
     @Transactional(readOnly = true)
+    @PostAuthorize("hasPermission(returnObject.id, returnObject.ACLObjectIdentityClass, 'READ')")
     public RouteDto getRoute(Long id) throws DataAccessException;
 
+    @PreAuthorize("hasPermission(#eventId, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Event'), 'WRITE')")
     public List<Long> saveRoute(Long eventId, String name, String hexColor, String information, List<DateTime> routeStartingTimes,
                           List<StationDto> stations, HashMap<Integer, String> startingPosition_guideEmail,
                           List<String> stationManagerEmails) throws DataAccessException;
 
+    @PreAuthorize("hasPermission(#id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Route'), 'WRITE')")
     public void removeRoute(Long id) throws DataAccessException;
 
     /**
@@ -47,6 +52,7 @@ public interface IRouteService {
      * @param route
      * @throws DataAccessException
      */
+    @PreAuthorize("hasPermission(#id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Route'), 'WRITE')")
     public void updateRoute(RouteDto route) throws DataAccessException;
 
 }
