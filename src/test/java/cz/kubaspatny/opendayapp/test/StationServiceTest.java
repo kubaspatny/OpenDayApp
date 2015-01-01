@@ -5,8 +5,11 @@ import cz.kubaspatny.opendayapp.bo.Route;
 import cz.kubaspatny.opendayapp.bo.Station;
 import cz.kubaspatny.opendayapp.bo.User;
 import cz.kubaspatny.opendayapp.dao.GenericDao;
+import cz.kubaspatny.opendayapp.dto.EventDto;
 import cz.kubaspatny.opendayapp.dto.StationDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
+import cz.kubaspatny.opendayapp.service.IEventService;
+import cz.kubaspatny.opendayapp.service.IRouteService;
 import cz.kubaspatny.opendayapp.service.IStationService;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -14,6 +17,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: Kuba Spatny
@@ -39,6 +47,8 @@ public class StationServiceTest extends AbstractTest {
 
     @Autowired private GenericDao dao;
     @Autowired private IStationService stationService;
+    @Autowired private IEventService eventService;
+    @Autowired private IRouteService routeService;
 
     private String username = "username@gmail.com";
     private Long stationID;
@@ -54,6 +64,9 @@ public class StationServiceTest extends AbstractTest {
     @Before
     public void setUp() throws Exception {
 
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
+        SecurityContextHolder.getContext().setAuthentication(token);
+
         User u = new User();
         u.setFirstName("Kuba");
         u.setLastName("Spatny");
@@ -65,43 +78,38 @@ public class StationServiceTest extends AbstractTest {
 
         dao.saveOrUpdate(u);
 
-        Event event = new Event();
-        event.setName("CTU DAY 1");
-        event.setDate(DateTime.now(DateTimeZone.UTC));
-        event.setInformation("CTU DAY is an annual conference for all people.");
-        u.addEvent(event);
+        EventDto eventDto = new EventDto();
+        eventDto.setName("CTU DAY 1");
+        eventDto.setDate(DateTime.now(DateTimeZone.UTC));
+        eventDto.setInformation("CTU DAY is an annual conference for all people.");
+        Event event = dao.getById(eventService.addEvent(eventDto), Event.class);
 
-        Event event2 = new Event();
-        event2.setName("SERVICE TEST EVENT");
-        event2.setDate(DateTime.now(DateTimeZone.UTC));
-        event2.setInformation("SERVICE TEST EVENT SERVICE TEST EVENT SERVICE TEST EVENT SERVICE TEST EVENT");
-        u.addEvent(event2);
-
-        Route r1 = new Route();
-        r1.setName("Blue route");
-        r1.setDate(DateTime.now(DateTimeZone.UTC));
-        r1.setHexColor("006040");
-        r1.setInformation("This route is for STM and OI.");
-
-            Station s = new Station();
-            s.setName(stationName);
-            s.setInformation(stationInformation);
-            s.setLocation(stationLocation);
-            s.setSequencePosition(sequencePosition);
-            s.setRelocationTime(relocationTime);
-            s.setTimeLimit(timeLimit);
-
-            r1.addStation(s);
+        EventDto eventDto2 = new EventDto();
+        eventDto2.setName("SERVICE TEST EVENT");
+        eventDto2.setDate(DateTime.now(DateTimeZone.UTC));
+        eventDto2.setInformation("SERVICE TEST EVENT SERVICE TEST EVENT SERVICE TEST EVENT SERVICE TEST EVENT");
+        eventService.addEvent(eventDto2);
 
 
-        Route r2 = new Route();
-        r2.setName("Red route");
-        r2.setDate(DateTime.now(DateTimeZone.UTC));
-        r2.setHexColor("80FF20");
-        r2.setInformation("This route is for Software Engineers only.");
+        List<DateTime> dateTimes = new ArrayList<DateTime>();
+        dateTimes.add(DateTime.now(DateTimeZone.UTC));
 
-        event.addRoute(r1);
-        event.addRoute(r2);
+        StationDto s = new StationDto();
+        s.setName(stationName);
+        s.setInformation(stationInformation);
+        s.setLocation(stationLocation);
+        s.setSequencePosition(sequencePosition);
+        s.setRelocationTime(relocationTime);
+        s.setTimeLimit(timeLimit);
+
+        List<StationDto> stationDtos = new ArrayList<StationDto>();
+        stationDtos.add(s);
+
+        routeService.saveRoute(event.getId(), "Blue route", "006040", "This route is for STM and OI.", dateTimes, stationDtos, null, null);
+
+        // -------------------------------------------------
+
+        routeService.saveRoute(event.getId(), "Red route", "80FF20", "This route is for Software Engineers only.", dateTimes, null, null, null);
 
         dao.saveOrUpdate(u);
 

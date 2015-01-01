@@ -97,6 +97,7 @@ public class RouteService extends DataAccessService implements IRouteService {
                     s.setLocation(stationDto.getLocation());
                     s.setRelocationTime(stationDto.getRelocationTime());
                     s.setSequencePosition(stationDto.getSequencePosition());
+                    s.setTimeLimit(stationDto.getTimeLimit());
                     r.addStation(s);
                     dao.saveOrUpdate(s);
 

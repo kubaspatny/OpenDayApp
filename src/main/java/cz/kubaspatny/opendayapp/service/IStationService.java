@@ -2,6 +2,8 @@ package cz.kubaspatny.opendayapp.service;
 
 import cz.kubaspatny.opendayapp.dto.StationDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -29,12 +31,16 @@ import org.springframework.transaction.annotation.Transactional;
 public interface IStationService {
 
     @Transactional(readOnly = true)
+    @PostAuthorize("hasPermission(returnObject.id, returnObject.ACLObjectIdentityClass, 'READ')")
     public StationDto getStation(Long id) throws DataAccessException;
 
+    @PreAuthorize("hasPermission(#routeId, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Route'), 'WRITE')")
     public Long addStation(Long routeId, StationDto stationDto) throws DataAccessException;
 
+    @PreAuthorize("hasPermission(#stationDto.id, #stationDto.ACLObjectIdentityClass, 'WRITE')")
     public void updateStation(StationDto stationDto) throws DataAccessException;
 
+    @PreAuthorize("hasPermission(#id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Station'), 'WRITE')")
     public void removeStation(Long id) throws DataAccessException;
 
 }

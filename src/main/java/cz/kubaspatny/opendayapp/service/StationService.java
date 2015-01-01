@@ -5,6 +5,8 @@ import cz.kubaspatny.opendayapp.bo.Station;
 import cz.kubaspatny.opendayapp.dto.StationDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
+import org.springframework.security.acls.domain.ObjectIdentityImpl;
+import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.stereotype.Component;
 
 /**
@@ -44,7 +46,13 @@ public class StationService extends DataAccessService implements IStationService
 
         Station s = StationDto.map(stationDto, new Station(), null);
         r.addStation(s);
-        return dao.saveOrUpdate(s).getId();
+        dao.saveOrUpdate(s);
+
+        ObjectIdentity oi = new ObjectIdentityImpl(Station.class, s.getId());
+        ObjectIdentity parentIdentity = new ObjectIdentityImpl(Route.class, r.getId());
+        saveOrUpdateACL(oi, parentIdentity, true);
+
+        return s.getId();
     }
 
     @Override
@@ -61,6 +69,7 @@ public class StationService extends DataAccessService implements IStationService
     @Override
     public void removeStation(Long id) throws DataAccessException {
         dao.removeById(id, Station.class);
+        aclService.deleteAcl(new ObjectIdentityImpl(Station.class, id), false);
     }
 
 }

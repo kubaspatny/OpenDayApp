@@ -52,7 +52,7 @@ public interface IRouteService {
      * @param route
      * @throws DataAccessException
      */
-    @PreAuthorize("hasPermission(#id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Route'), 'WRITE')")
+    @PreAuthorize("hasPermission(#route.id, #route.ACLObjectIdentityClass, 'WRITE')")
     public void updateRoute(RouteDto route) throws DataAccessException;
 
 }
