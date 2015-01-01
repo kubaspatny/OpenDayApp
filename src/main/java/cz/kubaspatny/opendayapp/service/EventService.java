@@ -68,20 +68,9 @@ public class EventService extends DataAccessService implements IEventService {
         dao.saveOrUpdate(u);
 
         // --------------------- ACL ---------------------
-
-        ObjectIdentity oi = new ObjectIdentityImpl(Event.class, e.getId());
         Sid sid = new PrincipalSid(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-
-        MutableAcl acl = null;
-        try {
-            acl = (MutableAcl) aclService.readAclById(oi);
-        } catch (NotFoundException nfe) {
-            acl = aclService.createAcl(oi);
-        }
-
-        acl.insertAce(acl.getEntries().size(), BasePermission.WRITE, sid, true);
-        acl.insertAce(acl.getEntries().size(), BasePermission.READ, sid, true);
-        aclService.updateAcl(acl);
+        addPermission(e, sid, BasePermission.WRITE);
+        addPermission(e, sid, BasePermission.READ);
 
         return e.getId();
     }

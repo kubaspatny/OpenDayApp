@@ -1,5 +1,6 @@
 package cz.kubaspatny.opendayapp.test;
 
+import cz.kubaspatny.opendayapp.bo.AbstractBusinessObject;
 import cz.kubaspatny.opendayapp.bo.Event;
 import cz.kubaspatny.opendayapp.bo.Route;
 import cz.kubaspatny.opendayapp.dto.EventDto;
@@ -220,8 +221,9 @@ public class SecuredServiceTest extends AbstractSecuredTest {
     }
 
     @Test
-    public void testEmpty() throws Exception {
+    public void testACL_ACE() throws Exception {
 
+        testService.testACL_ACE();
 
     }
 }

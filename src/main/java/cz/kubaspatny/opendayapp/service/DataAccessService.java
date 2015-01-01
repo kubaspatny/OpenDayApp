@@ -1,9 +1,17 @@
 package cz.kubaspatny.opendayapp.service;
 
+import cz.kubaspatny.opendayapp.bo.AbstractBusinessObject;
 import cz.kubaspatny.opendayapp.dao.GenericDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.jdbc.JdbcMutableAclService;
+import org.springframework.security.acls.model.*;
 import org.springframework.util.Assert;
+
+import javax.persistence.Access;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Author: Kuba Spatny
@@ -57,5 +65,102 @@ public class DataAccessService {
     public void setAclService(JdbcMutableAclService aclService) {
         this.aclService = aclService;
     }
+
+    public void addPermission(AbstractBusinessObject object, Sid recipient, Permission permission){
+        ObjectIdentity oid = new ObjectIdentityImpl(object.getClass(), object.getId());
+        addPermission(oid, recipient, permission);
+    }
+
+    public void addPermission(ObjectIdentity oid, Sid recipient, Permission permission){
+        MutableAcl acl = saveOrUpdateACL(oid, null, false);
+
+        try{
+            if(acl.isGranted(getPermissionAsList(permission), getSidAsList(recipient), false)) return;
+        } catch (NotFoundException ex){
+            // no ACE for given SID found
+        }
+
+        acl.insertAce(acl.getEntries().size(), permission, recipient, true);
+        aclService.updateAcl(acl);
+    }
+
+    private List<Permission> getPermissionAsList(Permission p){
+        List<Permission> list = new ArrayList<Permission>();
+        list.add(p);
+        return list;
+    }
+
+    private List<Sid> getSidAsList(Sid sid){
+        List<Sid> list = new ArrayList<Sid>();
+        list.add(sid);
+        return list;
+    }
+
+    public MutableAcl saveOrUpdateACL(ObjectIdentity objectIdentity, ObjectIdentity parentIdentity, boolean isEntriesInheriting){
+
+        MutableAcl acl = null;
+
+        try {
+            acl = (MutableAcl) aclService.readAclById(objectIdentity);
+        } catch (NotFoundException nfe) {
+            acl = aclService.createAcl(objectIdentity);
+        }
+
+        if(parentIdentity != null){
+            MutableAcl aclParent = (MutableAcl) aclService.readAclById(parentIdentity);
+            acl.setParent(aclParent);
+            acl.setEntriesInheriting(isEntriesInheriting);
+        }
+
+        aclService.updateAcl(acl);
+        return acl;
+
+    }
+
+    public List<AccessControlEntry> getPermissions(AbstractBusinessObject object, Sid recipient){
+
+        List<AccessControlEntry> accessControlEntryList = new ArrayList<AccessControlEntry>();
+        ObjectIdentity oid = new ObjectIdentityImpl(object.getClass(), object.getId());
+        MutableAcl acl;
+
+        try {
+            acl = (MutableAcl) aclService.readAclById(oid);
+        } catch (NotFoundException nfe) {
+            acl = aclService.createAcl(oid);
+        }
+
+        List<AccessControlEntry> list = acl.getEntries();
+
+        for (AccessControlEntry ace : list) {
+            if (ace.getSid().equals(recipient)){
+                accessControlEntryList.add(ace);
+            }
+        }
+
+        return accessControlEntryList;
+
+    }
+
+    public void removePermissions(AbstractBusinessObject object, Sid recipient){
+
+        ObjectIdentity oid = new ObjectIdentityImpl(object.getClass(), object.getId());
+        MutableAcl acl;
+
+        try {
+            acl = (MutableAcl) aclService.readAclById(oid);
+        } catch (NotFoundException nfe) {
+            return; // ACL for object not found
+        }
+
+        List<AccessControlEntry> entries = acl.getEntries();
+
+        for (int i = 0; i < entries.size(); i++) {
+            if(entries.get(i).getSid().equals(recipient)) acl.deleteAce(i);
+        }
+
+        aclService.updateAcl(acl);
+
+    }
+
 
 }

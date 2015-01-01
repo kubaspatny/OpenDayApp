@@ -20,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -149,6 +150,39 @@ public class TestService extends DataAccessService {
         } catch (DataAccessException e){
             return null;
         }
+
+    }
+
+    public void testACL_ACE(){
+
+        Event e = new Event();
+        e.setId(1l);
+        ObjectIdentity oi = new ObjectIdentityImpl(Event.class, new Long(1));
+        Sid sid = new PrincipalSid("user1");
+        Permission p = BasePermission.READ;
+
+        addPermission(e, sid, p);
+        addPermission(e, sid, p);
+        addPermission(e, sid, p);
+
+        MutableAcl acl = null;
+
+        // --------------------------
+        try {
+            acl = (MutableAcl) aclService.readAclById(oi);
+            System.out.println("Number of entries total: " + acl.getEntries().size());
+
+            List<Sid> sids = new ArrayList<Sid>();
+            sids.add(sid);
+
+            acl = (MutableAcl) aclService.readAclById(oi, sids);
+            System.out.println("Number of entries for user2: " + acl.getEntries().size());
+
+        } catch (Exception ex){
+
+        }
+
+
 
     }
 
