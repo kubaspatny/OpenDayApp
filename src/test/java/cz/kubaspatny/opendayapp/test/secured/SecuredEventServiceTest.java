@@ -57,12 +57,7 @@ public class SecuredEventServiceTest extends AbstractSecuredTest {
     private String eventInfo = "eventinfo";
 
     private Set<String> emailList = new HashSet<String>();
-
-    // set up -> add Event
-    // can I: edit, read, remove, add emails?
-
     public Long eventId;
-
 
     @Before
     public void setUp() throws Exception {
@@ -75,8 +70,7 @@ public class SecuredEventServiceTest extends AbstractSecuredTest {
 
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new GrantedAuthorityImpl("ROLE_ORGANIZER"));
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", authorities);
-        SecurityContextHolder.getContext().setAuthentication(token);
+        setUser(username, authorities);
 
         addEvent();
 
@@ -110,8 +104,7 @@ public class SecuredEventServiceTest extends AbstractSecuredTest {
 
         try {
             // doesn't have authority ROLE_ORGANIZER
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser(username);
             eventId = eventService.addEvent(e);
             Assert.fail("Should have thrown an Exception!");
         } catch (AccessDeniedException ex){
@@ -132,15 +125,12 @@ public class SecuredEventServiceTest extends AbstractSecuredTest {
         Assert.assertEquals(eventInfo, e.getInformation());
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("username2", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("username2");
             e = eventService.getEvent(eventId);
             Assert.fail("Should have thrown exception!");
         } catch (AccessDeniedException ex){
             return;
         }
-
-        // TODO: test get Event after people are routemanagers/guides
 
     }
 
@@ -167,8 +157,7 @@ public class SecuredEventServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("username2", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("username2");
             eventService.updateEvent(e);
             Assert.fail("Should have thrown Exception!");
         } catch (AccessDeniedException ex){
@@ -183,8 +172,7 @@ public class SecuredEventServiceTest extends AbstractSecuredTest {
     public void testRemoveEvent() throws Exception {
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("username2", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("username2");
             eventService.removeEvent(eventId);
             Assert.fail("Should have thrown Exception!");
         } catch (AccessDeniedException ex){
@@ -194,8 +182,7 @@ public class SecuredEventServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser(username);
             Assert.assertNotNull(eventService.getEvent(eventId));
             eventService.removeEvent(eventId);
         } catch (AccessDeniedException ex){
@@ -206,8 +193,7 @@ public class SecuredEventServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser(username);
             eventService.removeEvent(eventId);
             Assert.fail("Should have thrown an exception!");
         } catch (AccessDeniedException ex){
@@ -231,9 +217,7 @@ public class SecuredEventServiceTest extends AbstractSecuredTest {
 
         try {
 
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("username2", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
-
+            setUser("username2");
             String mail = "NEWMAIL@gmail1.com";
             eventService.addEmailToList(eventId, mail);
             Assert.fail("Should have thrown Exception!");
@@ -256,9 +240,7 @@ public class SecuredEventServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
-
+            setUser(username);
             String mail = "NEWMAIL@gmail1.com";
             eventService.removeEmailFromList(eventId, mail);
         } catch (AccessDeniedException ex){
@@ -267,8 +249,6 @@ public class SecuredEventServiceTest extends AbstractSecuredTest {
             ex.printStackTrace();
             Assert.fail("Should NOT have thrown THIS Exception!");
         }
-
-
 
     }
 

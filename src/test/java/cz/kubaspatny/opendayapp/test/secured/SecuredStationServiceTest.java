@@ -83,8 +83,7 @@ public class SecuredStationServiceTest extends AbstractSecuredTest {
 
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new GrantedAuthorityImpl("ROLE_ORGANIZER"));
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", authorities);
-        SecurityContextHolder.getContext().setAuthentication(token);
+        setUser(username, authorities);
 
         EventDto eventDto = new EventDto();
         eventDto.setName("CTU DAY 1");
@@ -147,24 +146,21 @@ public class SecuredStationServiceTest extends AbstractSecuredTest {
     public void testGetStation() throws Exception {
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser(username);
             stationService.getStation(stationId);
         } catch (AccessDeniedException e){
             Assert.fail("Should NOT have thrown exception!");
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("guide1", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("guide1");
             stationService.getStation(stationId);
         } catch (AccessDeniedException e){
             Assert.fail("Should NOT have thrown exception!");
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("unknown", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("unknown");
             stationService.getStation(stationId);
             Assert.fail("Should have thrown an exception!");
         } catch (AccessDeniedException e){
@@ -186,8 +182,7 @@ public class SecuredStationServiceTest extends AbstractSecuredTest {
         Long newStationId = null;
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("guide1", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("guide1");
             newStationId = stationService.addStation(routeId, s);
             Assert.fail("Should have thrown an exception!");
         } catch (AccessDeniedException e){
@@ -195,8 +190,7 @@ public class SecuredStationServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("unknown", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("unknown");
             newStationId = stationService.addStation(routeId, s);
             Assert.fail("Should have thrown an exception!");
         } catch (AccessDeniedException e){
@@ -204,8 +198,7 @@ public class SecuredStationServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser(username);
             newStationId = stationService.addStation(routeId, s);
             Assert.assertNotNull(newStationId);
         } catch (AccessDeniedException e){
@@ -213,24 +206,21 @@ public class SecuredStationServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser(username);
             stationService.getStation(newStationId);
         } catch (AccessDeniedException e){
             Assert.fail("Should NOT have thrown exception!");
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("guide1", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("guide1");
             stationService.getStation(newStationId);
         } catch (AccessDeniedException e){
             Assert.fail("Should NOT have thrown exception!");
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("unknown", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("unknown");
             stationService.getStation(newStationId);
             Assert.fail("Should have thrown an exception!");
         } catch (AccessDeniedException e){
@@ -251,8 +241,7 @@ public class SecuredStationServiceTest extends AbstractSecuredTest {
         s.setTimeLimit(100);
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("guide1", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("guide1");
             stationService.updateStation(s);
             Assert.fail("Should have thrown an exception!");
         } catch (AccessDeniedException e){
@@ -260,8 +249,7 @@ public class SecuredStationServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("unknown", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("unknown");
             stationService.updateStation(s);
             Assert.fail("Should have thrown an exception!");
         } catch (AccessDeniedException e){
@@ -269,8 +257,7 @@ public class SecuredStationServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser(username);
             stationService.updateStation(s);
         } catch (AccessDeniedException e){
             Assert.fail("Should NOT have thrown exception!");
@@ -282,8 +269,7 @@ public class SecuredStationServiceTest extends AbstractSecuredTest {
     public void testRemoveStation() throws Exception {
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("guide1", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("guide1");
             stationService.removeStation(stationId);
             Assert.fail("Should have thrown an exception!");
         } catch (AccessDeniedException e){
@@ -291,8 +277,7 @@ public class SecuredStationServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("unknown", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("unknown");
             stationService.removeStation(stationId);
             Assert.fail("Should have thrown an exception!");
         } catch (AccessDeniedException e){
@@ -300,8 +285,7 @@ public class SecuredStationServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser(username);
             Assert.assertNotNull(stationService.getStation(stationId));
             stationService.removeStation(stationId);
 
@@ -314,6 +298,5 @@ public class SecuredStationServiceTest extends AbstractSecuredTest {
         }
 
     }
-
 
 }

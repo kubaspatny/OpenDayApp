@@ -80,8 +80,7 @@ public class SecuredRouteServiceTest extends AbstractSecuredTest {
 
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new GrantedAuthorityImpl("ROLE_ORGANIZER"));
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", authorities);
-        SecurityContextHolder.getContext().setAuthentication(token);
+        setUser(username, authorities);
 
         EventDto eventDto = new EventDto();
         eventDto.setName("CTU DAY 1");
@@ -150,16 +149,14 @@ public class SecuredRouteServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("guide1", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("guide1");
             routeService.getRoute(id);
         } catch (AccessDeniedException e){
             Assert.fail("Should NOT have thrown exception!");
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("unknown", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("unknown");
             routeService.getRoute(id);
             Assert.fail("Should have thrown an exception!");
         } catch (AccessDeniedException e){
@@ -210,8 +207,7 @@ public class SecuredRouteServiceTest extends AbstractSecuredTest {
         Long id = routeIds.get(0);
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("guide1", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("guide1");
             routeService.removeRoute(id);
             Assert.fail("Should have thrown an exception!");
         } catch (AccessDeniedException e){
@@ -219,8 +215,7 @@ public class SecuredRouteServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("unknown", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("unknown");
             routeService.removeRoute(id);
             Assert.fail("Should have thrown an exception!");
         } catch (AccessDeniedException e){
@@ -228,8 +223,7 @@ public class SecuredRouteServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser(username);
             routeService.removeRoute(id);
         } catch (AccessDeniedException e){
             Assert.fail("Should NOT have thrown exception!");
@@ -281,8 +275,7 @@ public class SecuredRouteServiceTest extends AbstractSecuredTest {
         routeDto.setInformation("NEW INFO!");
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("guide1", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("guide1");
             routeService.updateRoute(routeDto);
             Assert.fail("Should have thrown an exception!");
         } catch (AccessDeniedException e){
@@ -290,8 +283,7 @@ public class SecuredRouteServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("unknown", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("unknown");
             routeService.updateRoute(routeDto);
             Assert.fail("Should have thrown an exception!");
         } catch (AccessDeniedException e){
@@ -299,14 +291,12 @@ public class SecuredRouteServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser(username);
             routeService.updateRoute(routeDto);
         } catch (AccessDeniedException e){
             Assert.fail("Should NOT have thrown exception!");
         }
 
     }
-
 
 }

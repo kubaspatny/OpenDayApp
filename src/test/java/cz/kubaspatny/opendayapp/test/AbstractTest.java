@@ -56,7 +56,11 @@ public abstract class AbstractTest {
     }
 
     public void setUser(String username){
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
+        setUser(username, null);
+    }
+
+    public void setUser(String username, List<GrantedAuthority> grantedAuthorities){
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", grantedAuthorities);
         SecurityContextHolder.getContext().setAuthentication(token);
     }
 

@@ -13,10 +13,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,8 +76,7 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
 
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new GrantedAuthorityImpl("ROLE_ORGANIZER"));
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", authorities);
-        SecurityContextHolder.getContext().setAuthentication(token);
+        setUser(username, authorities);
 
         EventDto eventDto = new EventDto();
         eventDto.setName("CTU DAY 1");
@@ -144,24 +141,21 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
     public void testGetGroup() throws Exception {
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser(username);
             groupService.getGroup(groupId, true, false);
         } catch (AccessDeniedException e){
             Assert.fail("Should NOT have thrown exception!");
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("guide1", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("guide1");
             groupService.getGroup(groupId, true, false);
         } catch (AccessDeniedException e){
             Assert.fail("Should NOT have thrown exception!");
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("unknown", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("unknown");
             groupService.getGroup(groupId, true, false);
             Assert.fail("Should have thrown an exception!");
         } catch (AccessDeniedException e){
@@ -175,12 +169,11 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
 
         RouteDto r = routeService.getRoute(routeId);
 
-        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("guide3", "password", null));
+        setUser("guide3");
         UserDto u = userService.getUser("guide3");
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("guide3", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("guide3");
             routeService.getRoute(r.getId());
             Assert.fail("Should have thrown exception!");
         } catch (AccessDeniedException e){
@@ -188,8 +181,7 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("guide1", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("guide1");
             groupService.addGroup(r.getId(), 1, u.getId());
             Assert.fail("Should have thrown exception!");
         } catch (AccessDeniedException e){
@@ -197,8 +189,7 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("guide1", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("guide1");
             groupService.addGroup(r, 1, u);
             Assert.fail("Should have thrown exception!");
         } catch (AccessDeniedException e){
@@ -206,8 +197,7 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("unknown", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("unknown");
             groupService.addGroup(r.getId(), 1, u.getId());
             Assert.fail("Should have thrown an exception!");
         } catch (AccessDeniedException e){
@@ -215,8 +205,7 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("unknown", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("unknown");
             groupService.addGroup(r, 1, u);
             Assert.fail("Should have thrown an exception!");
         } catch (AccessDeniedException e){
@@ -227,16 +216,14 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
         Long newGroupId2 = null;
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser(username);
             newGroupId = groupService.addGroup(r.getId(), 1, u.getId());
         } catch (AccessDeniedException e){
             Assert.fail("Should NOT have thrown exception!");
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser(username);
             newGroupId2 = groupService.addGroup(r, 1, u);
         } catch (AccessDeniedException e){
             Assert.fail("Should NOT have thrown exception!");
@@ -245,8 +232,7 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
         //
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("guide3", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("guide3");
             routeService.getRoute(r.getId());
             eventService.getEvent(r.getEvent().getId());
             groupService.getGroup(newGroupId, false, false);
@@ -256,8 +242,7 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser(username);
             groupService.getGroup(newGroupId, false, false);
             groupService.getGroup(newGroupId2, false, false);
         } catch (AccessDeniedException e){
@@ -270,24 +255,21 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
     public void testChangeStartingPosition() throws Exception {
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser(username);
             groupService.setGroupStartingPosition(groupId, 2);
         } catch (AccessDeniedException e){
             Assert.fail("Should NOT have thrown exception!");
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("guide1", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("guide1");
             groupService.setGroupStartingPosition(groupId, 2);
         } catch (AccessDeniedException e){
             Assert.fail("Should NOT have thrown exception!");
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("guide2", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("guide2");
             groupService.setGroupStartingPosition(groupId, 2);
             Assert.fail("Should have thrown an exception!");
         } catch (AccessDeniedException e){
@@ -295,8 +277,7 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("unknown", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("unknown");
             groupService.setGroupStartingPosition(groupId, 2);
             Assert.fail("Should have thrown an exception!");
         } catch (AccessDeniedException e){
@@ -309,8 +290,7 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
     public void testRemoveGroup() throws Exception {
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("guide1", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("guide1");
             groupService.removeGroup(groupId);
             Assert.fail("Should have thrown exception!");
         } catch (AccessDeniedException e){
@@ -318,8 +298,7 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("unknown", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("unknown");
             groupService.removeGroup(groupId);
             Assert.fail("Should have thrown an exception!");
         } catch (AccessDeniedException e){
@@ -327,8 +306,7 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser(username);
             groupService.removeGroup(groupId);
         } catch (AccessDeniedException e){
             Assert.fail("Should NOT have thrown exception!");
@@ -346,8 +324,7 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
         updateDto.setType(LocationUpdate.Type.CHECKIN);
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("unknown", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("unknown");
             groupService.addLocationUpdate(updateDto);
             Assert.fail("Should have thrown an exception!");
         } catch (AccessDeniedException e){
@@ -355,8 +332,7 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser(username);
             groupService.addLocationUpdate(updateDto);
             Assert.fail("Should have thrown exception!");
         } catch (AccessDeniedException e){
@@ -364,17 +340,12 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
         }
 
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("guide1", "password", null);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            setUser("guide1");
             groupService.addLocationUpdate(updateDto);
         } catch (AccessDeniedException e){
             Assert.fail("Should NOT have thrown exception!");
         }
 
     }
-
-
-
-
 
 }
