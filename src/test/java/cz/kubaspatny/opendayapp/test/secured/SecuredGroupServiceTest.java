@@ -67,16 +67,14 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
     @Before
     public void setUp() throws Exception {
 
-        User u = new User();
+        UserDto u = new UserDto();
         u.setFirstName("Kuba");
         u.setLastName("Spatny");
         u.setUsername(username);
         u.setEmail(username);
         u.setPassword("password");
         u.setOrganization("Czech Technical University in Prague");
-        u.setUserEnabled(true);
-
-        dao.saveOrUpdate(u);
+        Long userId = userService.createUser(u);
 
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new GrantedAuthorityImpl("ROLE_ORGANIZER"));
@@ -102,7 +100,7 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
         userService.createGeneratedUser(stationManager1);
         userService.createGeneratedUser(stationManager2);
 
-        Long eventId = u.getEvents().get(1).getId();
+        Long eventId = dao.getById(userId, User.class).getEvents().get(1).getId();
 
         String name = "CREATED_ROUTE";
         String hexColor = "006080";
@@ -175,8 +173,10 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
     @Test
     public void testAddGroup() throws Exception {
 
-        UserDto u = userService.getUser("guide3");
         RouteDto r = routeService.getRoute(routeId);
+
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("guide3", "password", null));
+        UserDto u = userService.getUser("guide3");
 
         try {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("guide3", "password", null);

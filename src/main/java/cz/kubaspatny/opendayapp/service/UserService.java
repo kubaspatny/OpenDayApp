@@ -6,6 +6,9 @@ import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
 import cz.kubaspatny.opendayapp.utils.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.acls.domain.BasePermission;
+import org.springframework.security.acls.domain.ObjectIdentityImpl;
+import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -72,7 +75,13 @@ public class UserService extends DataAccessService implements IUserService {
             throw new DataAccessException("Trying to save object which breaks unique constraint!", DataAccessException.ErrorCode.BREAKING_UNIQUE_CONSTRAINT);
         }
 
-        return dao.saveOrUpdate(UserDto.map(userDto, new User(), null)).getId();
+        Long userId = dao.saveOrUpdate(UserDto.map(userDto, new User(), null)).getId();
+
+        saveOrUpdateACL(new ObjectIdentityImpl(User.class, userId), null, false);
+        addPermission(new ObjectIdentityImpl(User.class, userId), new PrincipalSid(userDto.getUsername()), BasePermission.READ);
+        addPermission(new ObjectIdentityImpl(User.class, userId), new PrincipalSid(userDto.getUsername()), BasePermission.WRITE);
+
+        return userId;
     }
 
     @Override
@@ -103,6 +112,11 @@ public class UserService extends DataAccessService implements IUserService {
 
         Long id = dao.saveOrUpdate(builder.build()).getId();
         emailService.sendCredentials(usernameCandidate, emailAddress, password);
+
+        saveOrUpdateACL(new ObjectIdentityImpl(User.class, id), null, false);
+        addPermission(new ObjectIdentityImpl(User.class, id), new PrincipalSid(usernameCandidate), BasePermission.READ);
+        addPermission(new ObjectIdentityImpl(User.class, id), new PrincipalSid(usernameCandidate), BasePermission.WRITE);
+
         return id;
     }
 

@@ -2,6 +2,8 @@ package cz.kubaspatny.opendayapp.service;
 
 import cz.kubaspatny.opendayapp.dto.UserDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -34,17 +36,21 @@ public interface IUserService {
     public boolean isEmailFree(String email) throws DataAccessException;
 
     @Transactional(readOnly = true)
+    @PostAuthorize("hasPermission(returnObject.id, returnObject.ACLObjectIdentityClass, 'READ')")
     public UserDto getUser(String username) throws DataAccessException;
 
     @Transactional(readOnly = true)
+    @PostAuthorize("hasPermission(returnObject.id, returnObject.ACLObjectIdentityClass, 'READ')")
     public UserDto getUser(Long id) throws DataAccessException;
 
     public Long createUser(UserDto userDto) throws DataAccessException;
 
     public Long createGeneratedUser(String emailAddress) throws DataAccessException;
 
+    @PreAuthorize("hasPermission(#userDto.id, #userDto.ACLObjectIdentityClass, 'WRITE')")
     public void updateUser(UserDto userDto) throws DataAccessException;
 
+    @PreAuthorize("hasPermission(#userId, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('User'), 'WRITE')")
     public void deactivateUser(Long userId) throws DataAccessException;
 
 }

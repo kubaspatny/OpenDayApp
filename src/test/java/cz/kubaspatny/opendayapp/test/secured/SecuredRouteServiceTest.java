@@ -69,16 +69,14 @@ public class SecuredRouteServiceTest extends AbstractSecuredTest {
     @Before
     public void setUp() throws Exception {
 
-        User u = new User();
+        UserDto u = new UserDto();
         u.setFirstName("Kuba");
         u.setLastName("Spatny");
         u.setUsername(username);
         u.setEmail(username);
         u.setPassword("password");
         u.setOrganization("Czech Technical University in Prague");
-        u.setUserEnabled(true);
-
-        dao.saveOrUpdate(u);
+        userService.createUser(u);
 
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new GrantedAuthorityImpl("ROLE_ORGANIZER"));

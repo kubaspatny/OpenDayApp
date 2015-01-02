@@ -5,10 +5,18 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.junit.runner.RunWith;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: Kuba Spatny
@@ -38,6 +46,18 @@ import org.springframework.transaction.annotation.Transactional;
 public abstract class AbstractTest {
 
     protected AbstractTest() {
+        setAnonymousUser();
+    }
+
+    public void setAnonymousUser(){
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
+        grantedAuthorities.add(new GrantedAuthorityImpl("ROLE_ANONYMOUS"));
+        SecurityContextHolder.getContext().setAuthentication(new AnonymousAuthenticationToken("bypass_auth", "bypass_auth", grantedAuthorities));
+    }
+
+    public void setUser(String username){
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, "password", null);
+        SecurityContextHolder.getContext().setAuthentication(token);
     }
 
 }
