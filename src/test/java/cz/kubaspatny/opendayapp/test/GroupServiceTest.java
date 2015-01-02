@@ -179,6 +179,7 @@ public class GroupServiceTest extends AbstractTest {
 
         List<Long> routeIds = routeService.saveRoute(eventId, name, hexColor, info, times, stations, guides, stationManagerEmails);
         Assert.assertEquals(times.size(), routeIds.size());
+        routeId = routeIds.get(0);
 
         System.out.println("-----------------------------------");
         u = userService.getUser(username);
@@ -230,11 +231,10 @@ public class GroupServiceTest extends AbstractTest {
         User user2 = dao.getByPropertyUnique("email", guide4, User.class);
         user2.print();
 
-        Long routeID = user.getEvents().get(0).getRoutes().get(0).getId();
         Integer startingPosition = 3;
         Long guideID = user2.getId();
 
-        Long groupID = groupService.addGroup(routeID, startingPosition, guideID);
+        Long groupID = groupService.addGroup(routeId, startingPosition, guideID);
         GroupDto group = groupService.getGroup(groupID, false, false);
         Assert.assertNotNull(group);
 

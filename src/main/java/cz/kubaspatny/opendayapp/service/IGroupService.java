@@ -3,6 +3,8 @@ package cz.kubaspatny.opendayapp.service;
 import cz.kubaspatny.opendayapp.dto.*;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import org.joda.time.DateTime;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -29,17 +31,23 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface IGroupService {
 
+    @PreAuthorize("hasPermission(#route.id, #route.ACLObjectIdentityClass, 'WRITE')")
     public Long addGroup(RouteDto route, Integer startingPosition, UserDto guide) throws DataAccessException;
 
+    @PreAuthorize("hasPermission(#routeId, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Route'), 'WRITE')")
     public Long addGroup(Long routeId, Integer startingPosition, Long guideId) throws DataAccessException;
 
     @Transactional(readOnly = true)
+    @PostAuthorize("hasPermission(returnObject.id, returnObject.ACLObjectIdentityClass, 'READ')")
     public GroupDto getGroup(Long id, boolean latest, boolean fullLists) throws DataAccessException;
 
+    @PreAuthorize("hasPermission(#groupID, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Group'), 'WRITE') or hasPermission(#groupID, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Group'), 'ADMINISTRATION')")
     public void setGroupStartingPosition(Long groupID, Integer startingPosition) throws DataAccessException;
 
+    @PreAuthorize("hasPermission(#id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Group'), 'WRITE')")
     public void removeGroup(Long id) throws DataAccessException;
 
+    @PreAuthorize("hasPermission(#locationUpdate.group.id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Group'), 'ADMINISTRATION')")
     public Long addLocationUpdate(LocationUpdateDto locationUpdate) throws DataAccessException;
 
     public void setLastUpdated(Long groupId, DateTime time) throws DataAccessException;

@@ -4,6 +4,11 @@ import cz.kubaspatny.opendayapp.bo.*;
 import cz.kubaspatny.opendayapp.dto.*;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import org.joda.time.DateTime;
+import org.springframework.security.acls.domain.BasePermission;
+import org.springframework.security.acls.domain.ObjectIdentityImpl;
+import org.springframework.security.acls.domain.PrincipalSid;
+import org.springframework.security.acls.model.ObjectIdentity;
+import org.springframework.security.acls.model.Sid;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -52,10 +57,19 @@ public class GroupService extends DataAccessService implements IGroupService {
         g.setStartingPosition(startingPosition);
         g.setGuide(u);
         r.addGroup(g);
-        return dao.saveOrUpdate(g).getId();
+        dao.saveOrUpdate(g);
 
-        // add ACL entry to route
-        // add ACL for guide with ADMINISTRATION right
+        ObjectIdentity oi = new ObjectIdentityImpl(Group.class, g.getId());
+        ObjectIdentity parentIdentity = new ObjectIdentityImpl(Route.class, r.getId());
+        saveOrUpdateACL(oi, parentIdentity, true);
+
+        Sid sid = new PrincipalSid(u.getUsername());
+        addPermission(oi, sid, BasePermission.ADMINISTRATION);
+        addPermission(parentIdentity, sid, BasePermission.READ);
+        addPermission(parentIdentity, sid, BasePermission.READ);
+        addPermission(new ObjectIdentityImpl(Event.class, r.getEvent().getId()), sid, BasePermission.READ);
+
+        return g.getId();
 
     }
 
@@ -95,6 +109,7 @@ public class GroupService extends DataAccessService implements IGroupService {
     @Override
     public void removeGroup(Long id) throws DataAccessException {
         dao.removeById(id, Group.class);
+        aclService.deleteAcl(new ObjectIdentityImpl(Group.class, id), false);
         // remove guide's ACL entry from route
         // remove group's ACL
     }
