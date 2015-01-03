@@ -74,11 +74,16 @@ public class DataAccessService {
     public void addPermission(ObjectIdentity oid, Sid recipient, Permission permission){
         MutableAcl acl = saveOrUpdateACL(oid, null, false);
 
-        try{
-            if(acl.isGranted(getPermissionAsList(permission), getSidAsList(recipient), false)) return;
-        } catch (NotFoundException ex){
-            // no ACE for given SID found
-        }
+        // to make things easier, do not check if user has already permission
+        // just add it multiply times, then when removing a group for instance
+        // just remove one of the Access Control Entries, so that the user
+        // still has permission (until all of his groups were removed).
+
+//        try{
+//            if(acl.isGranted(getPermissionAsList(permission), getSidAsList(recipient), false)) return;
+//        } catch (NotFoundException ex){
+//            // no ACE for given SID found
+//        }
 
         acl.insertAce(acl.getEntries().size(), permission, recipient, true);
         aclService.updateAcl(acl);
@@ -119,8 +124,14 @@ public class DataAccessService {
 
     public List<AccessControlEntry> getPermissions(AbstractBusinessObject object, Sid recipient){
 
-        List<AccessControlEntry> accessControlEntryList = new ArrayList<AccessControlEntry>();
         ObjectIdentity oid = new ObjectIdentityImpl(object.getClass(), object.getId());
+        return getPermissions(oid, recipient);
+
+    }
+
+    public List<AccessControlEntry> getPermissions(ObjectIdentity oid, Sid recipient){
+
+        List<AccessControlEntry> accessControlEntryList = new ArrayList<AccessControlEntry>();
         MutableAcl acl;
 
         try {
@@ -156,6 +167,29 @@ public class DataAccessService {
 
         for (int i = 0; i < entries.size(); i++) {
             if(entries.get(i).getSid().equals(recipient)) acl.deleteAce(i);
+        }
+
+        aclService.updateAcl(acl);
+
+    }
+
+    public void removePermissionEntry(ObjectIdentity oid, Sid recipient, Permission permission){
+
+        MutableAcl acl;
+
+        try {
+            acl = (MutableAcl) aclService.readAclById(oid);
+        } catch (NotFoundException nfe) {
+            return; // ACL for object not found
+        }
+
+        List<AccessControlEntry> entries = acl.getEntries();
+
+        for (int i = 0; i < entries.size(); i++) {
+            if(entries.get(i).getSid().equals(recipient) && entries.get(i).getPermission().equals(permission)) {
+                acl.deleteAce(i);
+                break;
+            }
         }
 
         aclService.updateAcl(acl);

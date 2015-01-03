@@ -348,4 +348,76 @@ public class SecuredGroupServiceTest extends AbstractSecuredTest {
 
     }
 
+    @Test
+    public void testAddGroupPermissions() throws Exception {
+
+        RouteDto r = routeService.getRoute(routeId);
+
+        setUser("guide3");
+        UserDto u = userService.getUser("guide3");
+        Long newGroupId = null;
+        Long newGroupId2 = null;
+
+        try {
+            setUser(username);
+            newGroupId = groupService.addGroup(r.getId(), 1, u.getId());
+        } catch (AccessDeniedException e){
+            Assert.fail("Should NOT have thrown exception!");
+        }
+
+        try {
+            setUser(username);
+            newGroupId2 = groupService.addGroup(r.getId(), 2, u.getId());
+        } catch (AccessDeniedException e){
+            Assert.fail("Should NOT have thrown exception!");
+        }
+
+        try {
+            setUser("guide3");
+            routeService.getRoute(r.getId());
+            eventService.getEvent(r.getEvent().getId());
+        } catch (AccessDeniedException e){
+            Assert.fail("Should NOT have thrown exception!");
+        }
+
+        try {
+            setUser(username);
+            groupService.removeGroup(newGroupId);
+        } catch (AccessDeniedException e){
+            Assert.fail("Should NOT have thrown exception!");
+        }
+
+        try {
+            setUser("guide3");
+            routeService.getRoute(r.getId());
+            eventService.getEvent(r.getEvent().getId());
+        } catch (AccessDeniedException e){
+            Assert.fail("Should NOT have thrown exception!");
+        }
+
+        try {
+            setUser(username);
+            groupService.removeGroup(newGroupId2);
+        } catch (AccessDeniedException e){
+            Assert.fail("Should NOT have thrown exception!");
+        }
+
+        try {
+            setUser("guide3");
+            routeService.getRoute(r.getId());
+            Assert.fail("Should have thrown exception!");
+        } catch (AccessDeniedException e){
+            // correct
+        }
+
+        try {
+            setUser("guide3");
+            eventService.getEvent(r.getEvent().getId());
+            Assert.fail("Should have thrown exception!");
+        } catch (AccessDeniedException e){
+            // correct
+        }
+
+    }
+
 }

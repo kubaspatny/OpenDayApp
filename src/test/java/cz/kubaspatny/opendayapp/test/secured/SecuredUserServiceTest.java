@@ -3,6 +3,7 @@ package cz.kubaspatny.opendayapp.test.secured;
 import cz.kubaspatny.opendayapp.bo.User;
 import cz.kubaspatny.opendayapp.dao.GenericDao;
 import cz.kubaspatny.opendayapp.dto.UserDto;
+import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.service.IUserService;
 import cz.kubaspatny.opendayapp.test.AbstractSecuredTest;
 import org.junit.Assert;

@@ -66,7 +66,6 @@ public class GroupService extends DataAccessService implements IGroupService {
         Sid sid = new PrincipalSid(u.getUsername());
         addPermission(oi, sid, BasePermission.ADMINISTRATION);
         addPermission(parentIdentity, sid, BasePermission.READ);
-        addPermission(parentIdentity, sid, BasePermission.READ);
         addPermission(new ObjectIdentityImpl(Event.class, r.getEvent().getId()), sid, BasePermission.READ);
 
         return g.getId();
@@ -108,10 +107,13 @@ public class GroupService extends DataAccessService implements IGroupService {
 
     @Override
     public void removeGroup(Long id) throws DataAccessException {
-        dao.removeById(id, Group.class);
+        Group g = dao.getById(id, Group.class);
+
+        removePermissionEntry(new ObjectIdentityImpl(Route.class, g.getRoute().getId()), new PrincipalSid(g.getGuide().getUsername()), BasePermission.READ);
+        removePermissionEntry(new ObjectIdentityImpl(Event.class, g.getRoute().getEvent().getId()), new PrincipalSid(g.getGuide().getUsername()), BasePermission.READ);
         aclService.deleteAcl(new ObjectIdentityImpl(Group.class, id), false);
-        // remove guide's ACL entry from route
-        // remove group's ACL
+
+        dao.removeById(id, Group.class);
     }
 
     @Override
