@@ -29,9 +29,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface IUserService {
 
+    /**
+     * Checks if user with @username already exists in the database. Method should be called before calling @createUser.
+     * @return true if no user with @username exists in the database
+     */
     @Transactional(readOnly = true)
     public boolean isUsernameFree(String username) throws DataAccessException;
 
+    /**
+     * Checks if user with @email already exists in the database. Method should be called before calling @createGeneratedUser.
+     * @return true if no user with @email exists in the database
+     */
     @Transactional(readOnly = true)
     public boolean isEmailFree(String email) throws DataAccessException;
 
@@ -45,11 +53,19 @@ public interface IUserService {
 
     public Long createUser(UserDto userDto) throws DataAccessException;
 
+    /**
+     * Creates a user profile for specified email address. A unique username is generated from the email address, which
+     * is then send via email together with a generated alphanumeric password to the  @emailAdress.
+     * @throws DataAccessException If @emailAddress in not in valid format, or a user with this address already exists
+     */
     public Long createGeneratedUser(String emailAddress) throws DataAccessException;
 
     @PreAuthorize("hasPermission(#userDto.id, #userDto.ACLObjectIdentityClass, 'WRITE')")
     public void updateUser(UserDto userDto) throws DataAccessException;
 
+    /**
+     * Deactivates user with @userId.
+     */
     @PreAuthorize("hasPermission(#userId, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('User'), 'WRITE')")
     public void deactivateUser(Long userId) throws DataAccessException;
 

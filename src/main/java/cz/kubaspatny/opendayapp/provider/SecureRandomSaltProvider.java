@@ -27,6 +27,9 @@ import java.security.SecureRandom;
 @Component("saltProvider")
 public class SecureRandomSaltProvider implements SaltProvider {
 
+    /**
+     * Generates a byte array of size @size filled with random bytes using SecureRandom, which can be user as a password salt.
+     */
     @Override
     public byte[] generateSalt(int size) {
         SecureRandom random = new SecureRandom();

@@ -88,6 +88,13 @@ public class EventDto extends BaseDto {
         this.emailList = emailList;
     }
 
+    /**
+     * Maps BO to DTO leaving variables specified in @ignoredProperties set to null.
+     * @param source Object to be mapped to DTO
+     * @param target Object to be mapped from BO to
+     * @param ignoredProperties names of variables to be ignored
+     * @return
+     */
     public static EventDto map(Event source, EventDto target, List<String> ignoredProperties){
 
         target.id = source.getId();
@@ -123,10 +130,10 @@ public class EventDto extends BaseDto {
     }
 
     /**
-     * Doesn't map attribute "organizer" -> that's service's job.
-     * @param source
-     * @param target
-     * @param ignoredProperties
+     * Maps BO to DTO leaving variables specified in @ignoredProperties set to null. Doesn't map attribute "organizer" -> that's service's job.
+     * @param source Object to be mapped to DTO
+     * @param target Object to be mapped from BO to
+     * @param ignoredProperties names of variables to be ignored
      * @return
      */
     public static Event map(EventDto source, Event target, List<String> ignoredProperties){

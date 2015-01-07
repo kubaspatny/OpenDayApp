@@ -37,6 +37,12 @@ public class EmailService {
     @Value("${email.username}") private String email_username;
     @Value("${email.password}") private String email_password;
 
+    /**
+     * Sends email with user login credentials.
+     * @param username  credentials login
+     * @param email     email address to send the email to
+     * @param password  credentials password
+     */
     @Async
     public void sendCredentials(String username, String email, String password) {
 

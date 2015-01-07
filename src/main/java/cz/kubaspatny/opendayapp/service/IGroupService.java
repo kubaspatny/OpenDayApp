@@ -50,6 +50,10 @@ public interface IGroupService {
     @PreAuthorize("hasPermission(#locationUpdate.group.id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Group'), 'ADMINISTRATION')")
     public Long addLocationUpdate(LocationUpdateDto locationUpdate) throws DataAccessException;
 
+    /**
+     * Sets the time when the group last communicated with the server. This time is used for determining the activity of
+     * a group.
+     */
     public void setLastUpdated(Long groupId, DateTime time) throws DataAccessException;
 
 }

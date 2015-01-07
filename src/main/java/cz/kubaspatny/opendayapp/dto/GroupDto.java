@@ -95,8 +95,13 @@ public class GroupDto extends BaseDto {
         return active;
     }
 
-    // OBJECT MAPPERS
-
+    /**
+     * Maps BO to DTO leaving variables specified in @ignoredProperties set to null.
+     * @param source Object to be mapped to DTO
+     * @param target Object to be mapped from BO to
+     * @param ignoredProperties names of variables to be ignored
+     * @return
+     */
     public static GroupDto map(Group source, GroupDto target, List<String> ignoredProperties){
 
         target.id = source.getId();

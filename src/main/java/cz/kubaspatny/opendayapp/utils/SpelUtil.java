@@ -28,6 +28,9 @@ public class SpelUtil {
         return clazz == null ? null : clazz.getName();
     }
 
+    /**
+     * A helper method for Spring's Spel expressions. Returns a full class name based on the @param className.
+     */
     public static String getACLObjectIdentityClass(String className){
 
         if("Event".equals(className)) return Event.class.getName();

@@ -31,6 +31,9 @@ import java.security.NoSuchAlgorithmException;
 @Component("hashProvider")
 public class SHA256Provider implements HashProvider {
 
+    /**
+     * Returns a SHA256 hash representation of @value.
+     */
     @Override
     public String hash(String value) {
         try {
@@ -43,6 +46,9 @@ public class SHA256Provider implements HashProvider {
 
     }
 
+    /**
+     * Returns a SHA256 hash representation of @value.
+     */
     @Override
     public String hash(byte[] value) {
 
@@ -59,6 +65,9 @@ public class SHA256Provider implements HashProvider {
 
     }
 
+    /**
+     * Returns a SHA256 hash representation of @salt with appended @password.
+     */
     @Override
     public String hash(String password, String salt) {
         try {

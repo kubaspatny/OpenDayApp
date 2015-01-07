@@ -22,6 +22,9 @@ package cz.kubaspatny.opendayapp.utils;
  */
 public class HexUtils {
 
+    /**
+     * Returns a string hexadecimal representation of byte array @bytes.
+     */
     public static String convertToHex(byte[] bytes){
 
         StringBuffer hexResult = new StringBuffer();

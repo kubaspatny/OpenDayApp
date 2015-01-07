@@ -32,5 +32,9 @@ public abstract class BaseDto {
         this.id = id;
     }
 
+    /**
+     * Returns a string representation of DTO's business object class which is used in ObjectIdentities in Spring Security ACL.
+     * @return
+     */
     public abstract String getACLObjectIdentityClass();
 }

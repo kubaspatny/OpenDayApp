@@ -46,9 +46,14 @@ public class GroupSizeDto extends BaseDto {
         this.size = size;
     }
 
-    // OBJECT MAPPERS
-
-    public static GroupSizeDto map(GroupSize source, GroupSizeDto target, List<String> ignoreProperties){
+    /**
+     * Maps BO to DTO leaving variables specified in @ignoredProperties set to null.
+     * @param source Object to be mapped to DTO
+     * @param target Object to be mapped from BO to
+     * @param ignoredProperties names of variables to be ignored
+     * @return
+     */
+    public static GroupSizeDto map(GroupSize source, GroupSizeDto target, List<String> ignoredProperties){
 
         target.id = source.getId();
         target.timestamp = source.getTimestamp();

@@ -143,6 +143,12 @@ public class Group extends AbstractBusinessObject {
         this.inactivityNotified = inactivityNotified;
     }
 
+    /**
+     * Before deleting this entity, the relationships has to be removed, otherwise the Route and Guide objects
+     * might still hold a reference to this entity (until the moment the Route/Guide entity was retrieved
+     * again, but in case he would try to persist this entity before retrieving it again it would
+     * cause an Exception).
+     */
     @PreRemove
     private void preRemove(){
         if(route != null){

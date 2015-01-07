@@ -66,41 +66,55 @@ public class DataAccessService {
         this.aclService = aclService;
     }
 
+    /**
+     * Adds permission to recipient to a certain object.
+     * @param object        Object for which recipient gains permission
+     * @param recipient     User who gains permission
+     * @param permission    Type of Permission (e.g. READ, WRITE)
+     */
     public void addPermission(AbstractBusinessObject object, Sid recipient, Permission permission){
         ObjectIdentity oid = new ObjectIdentityImpl(object.getClass(), object.getId());
         addPermission(oid, recipient, permission);
     }
 
+    /**
+     * Adds permission to recipient to a certain object.
+     * @param oid           ObjectIdenty of object for which recipient gains permission
+     * @param recipient     User who gains permission
+     * @param permission    Type of Permission (e.g. READ, WRITE)
+     */
     public void addPermission(ObjectIdentity oid, Sid recipient, Permission permission){
         MutableAcl acl = saveOrUpdateACL(oid, null, false);
-
-        // to make things easier, do not check if user has already permission
-        // just add it multiply times, then when removing a group for instance
-        // just remove one of the Access Control Entries, so that the user
-        // still has permission (until all of his groups were removed).
-
-//        try{
-//            if(acl.isGranted(getPermissionAsList(permission), getSidAsList(recipient), false)) return;
-//        } catch (NotFoundException ex){
-//            // no ACE for given SID found
-//        }
 
         acl.insertAce(acl.getEntries().size(), permission, recipient, true);
         aclService.updateAcl(acl);
     }
 
+    /**
+     * Returns a single Permission object in a List.
+     */
     private List<Permission> getPermissionAsList(Permission p){
         List<Permission> list = new ArrayList<Permission>();
         list.add(p);
         return list;
     }
 
+    /**
+     * Returns a single Sid object in a List.
+     */
     private List<Sid> getSidAsList(Sid sid){
         List<Sid> list = new ArrayList<Sid>();
         list.add(sid);
         return list;
     }
 
+    /**
+     * Method creates or updates Access Control List (ACL) for specified object by its ObjectIdentity.
+     * @param objectIdentity    object to create ACL for
+     * @param parentIdentity    object whose ACL is hierarchical parent of objectIdentity's ACL
+     * @param isEntriesInheriting   if true, parent ACL entries are inheriting to created ACL
+     * @return
+     */
     public MutableAcl saveOrUpdateACL(ObjectIdentity objectIdentity, ObjectIdentity parentIdentity, boolean isEntriesInheriting){
 
         MutableAcl acl = null;
@@ -122,6 +136,9 @@ public class DataAccessService {
 
     }
 
+    /**
+     * Returns a list of recipient's Permissions to object.
+     */
     public List<AccessControlEntry> getPermissions(AbstractBusinessObject object, Sid recipient){
 
         ObjectIdentity oid = new ObjectIdentityImpl(object.getClass(), object.getId());
@@ -129,6 +146,9 @@ public class DataAccessService {
 
     }
 
+    /**
+     * Returns a list of recipient's Permissions to object specified by oid.
+     */
     public List<AccessControlEntry> getPermissions(ObjectIdentity oid, Sid recipient){
 
         List<AccessControlEntry> accessControlEntryList = new ArrayList<AccessControlEntry>();
@@ -152,6 +172,9 @@ public class DataAccessService {
 
     }
 
+    /**
+     * Removes all recipient's permissions to object.
+     */
     public void removePermissions(AbstractBusinessObject object, Sid recipient){
 
         ObjectIdentity oid = new ObjectIdentityImpl(object.getClass(), object.getId());
@@ -173,6 +196,9 @@ public class DataAccessService {
 
     }
 
+    /**
+     * Removes a single recipient's Permission Entry from object's ACL.
+     */
     public void removePermissionEntry(ObjectIdentity oid, Sid recipient, Permission permission){
 
         MutableAcl acl;

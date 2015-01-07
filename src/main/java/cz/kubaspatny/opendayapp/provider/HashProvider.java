@@ -22,10 +22,19 @@ package cz.kubaspatny.opendayapp.provider;
  */
 public interface HashProvider {
 
-     public String hash(String value);
+    /**
+     * Returns a hash representation of @value.
+     */
+    public String hash(String value);
 
-     public String hash(byte[] value);
+    /**
+     * Returns a hash representation of @value.
+     */
+    public String hash(byte[] value);
 
-     public String hash(String password, String salt);
+    /**
+     * Returns a hash representation of @salt with appended @password.
+     */
+    public String hash(String password, String salt);
 
 }

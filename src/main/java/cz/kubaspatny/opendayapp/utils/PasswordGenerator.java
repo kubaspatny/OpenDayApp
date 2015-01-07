@@ -29,6 +29,11 @@ public class PasswordGenerator {
     private static Random random = new Random();
     private static final String alphabet = "abcdefghijklmnopqrstuvxyz0123456789";
 
+    /**
+     * Generates a pseudorandom string of lenght @length, which can be user as a password for generated users.
+     * @param length
+     * @return
+     */
     public static String generatePassword(int length){
         StringBuilder sb = new StringBuilder(length);
 

@@ -25,6 +25,9 @@ import java.util.List;
  */
 public class DtoMapperUtil {
 
+    /**
+     * Returns a list of properties which can be ignored by User Dto mapping methods between DTO->BO and BO->DTO.
+     */
     public static List<String> getUserIgnoredProperties(){
         List<String> userIgnoredProperties = new ArrayList<String>();
         userIgnoredProperties.add("events");
@@ -35,6 +38,9 @@ public class DtoMapperUtil {
         return userIgnoredProperties;
     }
 
+    /**
+     * Returns a list of properties which can be ignored by Station Dto mapping methods between DTO->BO and BO->DTO.
+     */
     public static List<String> getStationIgnoredProperties(){
         List<String> stationIgnoredProperties = new ArrayList<String>();
         stationIgnoredProperties.add("route");
@@ -43,6 +49,9 @@ public class DtoMapperUtil {
         return stationIgnoredProperties;
     }
 
+    /**
+     * Returns a list of properties which can be ignored by Route Dto mapping methods between DTO->BO and BO->DTO.
+     */
     public static List<String> getRouteIgnoredProperties(){
         List<String> routeIgnoredProperties = new ArrayList<String>();
         routeIgnoredProperties.add("event");
@@ -53,6 +62,9 @@ public class DtoMapperUtil {
         return routeIgnoredProperties;
     }
 
+    /**
+     * Returns a list of properties which can be ignored by Event Dto mapping methods between DTO->BO and BO->DTO.
+     */
     public static List<String> getEventIgnoredProperties(){
         List<String> eventIgnoredProperties = new ArrayList<String>();
         eventIgnoredProperties.add("routes");
@@ -61,6 +73,9 @@ public class DtoMapperUtil {
         return eventIgnoredProperties;
     }
 
+    /**
+     * Returns a list of properties which can be ignored by Group Dto mapping methods between DTO->BO and BO->DTO.
+     */
     public static List<String> getGroupIgnoredProperties(){
         List<String> groupIgnoredProperties = new ArrayList<String>();
         groupIgnoredProperties.add("groupSizes");

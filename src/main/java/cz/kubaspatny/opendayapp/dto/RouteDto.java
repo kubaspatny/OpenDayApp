@@ -111,8 +111,13 @@ public class RouteDto extends BaseDto {
         return Route.class.getName();
     }
 
-    // OBJECT MAPPERS
-
+    /**
+     * Maps BO to DTO leaving variables specified in @ignoredProperties set to null.
+     * @param source Object to be mapped to DTO
+     * @param target Object to be mapped from BO to
+     * @param ignoreProperties names of variables to be ignored
+     * @return
+     */
     public static RouteDto map(Route source, RouteDto target, List<String> ignoreProperties){
 
         target.id = source.getId();
@@ -169,6 +174,13 @@ public class RouteDto extends BaseDto {
         return target;
     }
 
+    /**
+     * Maps BO to DTO leaving variables specified in @ignoredProperties set to null.
+     * @param source Object to be mapped to DTO
+     * @param target Object to be mapped from BO to
+     * @param ignoredProperties names of variables to be ignored
+     * @return
+     */
     public static Route map(RouteDto source, Route target, List<String> ignoredProperties){
 
         target.setName(source.getName());

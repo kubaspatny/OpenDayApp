@@ -156,6 +156,12 @@ public class Station extends AbstractBusinessObject {
         return sb.toString();
     }
 
+    /**
+     * Before deleting this entity, the relationships has to be removed, otherwise the Route or LocationUpdate objects
+     * might still hold a reference to this entity (until the moment the Route/LocationUpdate was retrieved
+     * again, but in case he would try to persist this entity before retrieving it again it would
+     * cause an Exception).
+     */
     @PreRemove
     private void preRemove(){
         if(getRoute() != null){

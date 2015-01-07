@@ -140,7 +140,7 @@ public class Event extends AbstractBusinessObject {
 
     /**
      * Before deleting this entity, the relationship has to be removed, otherwise the User object
-     * might still see this entity in his list of Events (until the moment his entity was retrieved
+     * might still hold a reference to this entity in his list of Events (until the moment his entity was retrieved
      * again, but in case he would try to persist this entity before retrieving it again it would
      * cause an Exception).
      */

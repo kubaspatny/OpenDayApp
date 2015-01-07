@@ -71,8 +71,13 @@ public class LocationUpdateDto extends BaseDto {
         return LocationUpdate.class.getName();
     }
 
-    // OBJECT MAPPERS
-
+    /**
+     * Maps BO to DTO leaving variables specified in @ignoredProperties set to null.
+     * @param source Object to be mapped to DTO
+     * @param target Object to be mapped from BO to
+     * @param ignoredProperties names of variables to be ignored
+     * @return
+     */
     public static LocationUpdateDto map(LocationUpdate source, LocationUpdateDto target, List<String> ignoredProperties){
 
         target.id = source.getId();
@@ -85,6 +90,13 @@ public class LocationUpdateDto extends BaseDto {
         return target;
     }
 
+    /**
+     * Maps BO to DTO leaving variables specified in @ignoredProperties set to null.
+     * @param source Object to be mapped to DTO
+     * @param target Object to be mapped from BO to
+     * @param ignoredProperties names of variables to be ignored
+     * @return
+     */
     public static LocationUpdate map(LocationUpdateDto source, LocationUpdate target, List<String> ignoredProperties){
         target.setTimestamp(source.getTimestamp());
         target.setType(source.getType());

@@ -150,6 +150,13 @@ public class UserDto extends BaseDto {
         return User.class.getName();
     }
 
+    /**
+     * Maps BO to DTO leaving variables specified in @ignoredProperties set to null.
+     * @param source Object to be mapped to DTO
+     * @param target Object to be mapped from BO to
+     * @param ignoredProperties names of variables to be ignored
+     * @return
+     */
     public static UserDto map(User source, UserDto target, List<String> ignoredProperties){
 
         target.id = source.getId();
@@ -212,6 +219,13 @@ public class UserDto extends BaseDto {
 
     }
 
+    /**
+     * Maps BO to DTO leaving variables specified in @ignoredProperties set to null.
+     * @param source Object to be mapped to DTO
+     * @param target Object to be mapped from BO to
+     * @param ignoredProperties names of variables to be ignored
+     * @return
+     */
     public static User map(UserDto source, User target, List<String> ignoredProperties){
 
         if(ignoredProperties == null) ignoredProperties = new ArrayList<String>();

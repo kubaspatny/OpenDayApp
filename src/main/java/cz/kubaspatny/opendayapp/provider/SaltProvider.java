@@ -22,6 +22,9 @@ package cz.kubaspatny.opendayapp.provider;
  */
 public interface SaltProvider {
 
+    /**
+     * Generates a byte array of size @size, which can be user as a password salt.
+     */
     public byte[] generateSalt(int size);
 
 }

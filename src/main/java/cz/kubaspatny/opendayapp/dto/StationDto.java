@@ -134,8 +134,13 @@ public class StationDto extends BaseDto {
         return Station.class.getName();
     }
 
-    // OBJECT MAPPERS
-
+    /**
+     * Maps BO to DTO leaving variables specified in @ignoredProperties set to null.
+     * @param source Object to be mapped to DTO
+     * @param target Object to be mapped from BO to
+     * @param ignoredProperties names of variables to be ignored
+     * @return
+     */
     public static StationDto map(Station source, StationDto target, List<String> ignoredProperties){
 
         target.id = source.getId();
@@ -165,7 +170,14 @@ public class StationDto extends BaseDto {
         return target;
     }
 
-    public static Station map(StationDto source, Station target, List<String> ignorableProperties){
+    /**
+     * Maps BO to DTO leaving variables specified in @ignoredProperties set to null.
+     * @param source Object to be mapped to DTO
+     * @param target Object to be mapped from BO to
+     * @param ignoredProperties names of variables to be ignored
+     * @return
+     */
+    public static Station map(StationDto source, Station target, List<String> ignoredProperties){
 
         target.setName(source.getName());
         target.setLocation(source.getLocation());
