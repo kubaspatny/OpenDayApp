@@ -29,22 +29,40 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface IEventService {
 
+    /**
+     * Returns an EventDto object for specified id.
+     */
     @Transactional(readOnly = true)
     @PostAuthorize("hasPermission(returnObject.id, returnObject.ACLObjectIdentityClass, 'READ')")
     public EventDto getEvent(Long id) throws DataAccessException;
 
+    /**
+     * Adds a new Event with data from @event to a currently authorized user.
+     */
     @PreAuthorize("hasRole('ROLE_ORGANIZER')")
     public Long addEvent(EventDto event) throws DataAccessException;
 
+    /**
+     * Updates event. The passed @event must have not-null id.
+     */
     @PreAuthorize("hasPermission(#event.id, #event.ACLObjectIdentityClass, 'WRITE')")
     public void updateEvent(EventDto event) throws DataAccessException;
 
+    /**
+     * Removes the event with id @id.
+     */
     @PreAuthorize("hasPermission(#id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Event'), 'WRITE')")
     public void removeEvent(Long id) throws DataAccessException;
 
+    /**
+     * Adds an email address to the list of emails.
+     */
     @PreAuthorize("hasPermission(#id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Event'), 'WRITE')")
     public void addEmailToList(Long id, String email) throws DataAccessException;
 
+    /**
+     * Removes an email address from the list of emails.
+     */
     @PreAuthorize("hasPermission(#id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Event'), 'WRITE')")
     public void removeEmailFromList(Long id, String email) throws DataAccessException;
 

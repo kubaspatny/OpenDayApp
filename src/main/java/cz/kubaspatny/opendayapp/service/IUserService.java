@@ -43,14 +43,23 @@ public interface IUserService {
     @Transactional(readOnly = true)
     public boolean isEmailFree(String email) throws DataAccessException;
 
+    /**
+     * Returns a user with @username.
+     */
     @Transactional(readOnly = true)
     @PostAuthorize("hasPermission(returnObject.id, returnObject.ACLObjectIdentityClass, 'READ')")
     public UserDto getUser(String username) throws DataAccessException;
 
+    /**
+     * Returns a user with @id.
+     */
     @Transactional(readOnly = true)
     @PostAuthorize("hasPermission(returnObject.id, returnObject.ACLObjectIdentityClass, 'READ')")
     public UserDto getUser(Long id) throws DataAccessException;
 
+    /**
+     * Creates a new user profile.
+     */
     public Long createUser(UserDto userDto) throws DataAccessException;
 
     /**
@@ -60,6 +69,9 @@ public interface IUserService {
      */
     public Long createGeneratedUser(String emailAddress) throws DataAccessException;
 
+    /**
+     * Updates an existing user. @userDto.id cannot be null!
+     */
     @PreAuthorize("hasPermission(#userDto.id, #userDto.ACLObjectIdentityClass, 'WRITE')")
     public void updateUser(UserDto userDto) throws DataAccessException;
 

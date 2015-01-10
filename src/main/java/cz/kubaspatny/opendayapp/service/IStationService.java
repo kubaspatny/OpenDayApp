@@ -30,16 +30,28 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface IStationService {
 
+    /**
+     * Returns station with specified id.
+     */
     @Transactional(readOnly = true)
     @PostAuthorize("hasPermission(returnObject.id, returnObject.ACLObjectIdentityClass, 'READ')")
     public StationDto getStation(Long id) throws DataAccessException;
 
+    /**
+     * Add a new station to the route specified by @routeId.
+     */
     @PreAuthorize("hasPermission(#routeId, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Route'), 'WRITE')")
     public Long addStation(Long routeId, StationDto stationDto) throws DataAccessException;
 
+    /**
+     * Updates a station, @stationDto must have non-null id.
+     */
     @PreAuthorize("hasPermission(#stationDto.id, #stationDto.ACLObjectIdentityClass, 'WRITE')")
     public void updateStation(StationDto stationDto) throws DataAccessException;
 
+    /**
+     * Removes station with specified id.
+     */
     @PreAuthorize("hasPermission(#id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Station'), 'WRITE')")
     public void removeStation(Long id) throws DataAccessException;
 

@@ -35,15 +35,35 @@ import java.util.List;
 @Transactional
 public interface IRouteService {
 
+    /**
+     * Returns a RouteDto object for the specified id.
+     */
     @Transactional(readOnly = true)
     @PostAuthorize("hasPermission(returnObject.id, returnObject.ACLObjectIdentityClass, 'READ')")
     public RouteDto getRoute(Long id) throws DataAccessException;
 
+    /**
+     * Creates a route in several copies. The method created as many routes as @routeStartingTimes.size(), where each route
+     * has different starting time from @routeStartingTimes. All routes have all @stations that are also created and saved, groups created from @startingPosition_guideEmail
+     * and station managers with emails @stationManagerEmails. Guides' and station managers' profiles must be created before calling this method!
+     * @param eventId               id of the parent Event
+     * @param name                  name of the create route(s)
+     * @param hexColor              color code in hexadecimal format, e.g. "0266C8"
+     * @param information           route information
+     * @param routeStartingTimes    list of starting times for created route(s)
+     * @param stations              stations
+     * @param startingPosition_guideEmail   map of guides' emails and starting position, e.g. {1, "example@gmail.com"}
+     * @param stationManagerEmails  email addresses of station managers at this route
+     * @return  List of ids of created Route(s)
+     */
     @PreAuthorize("hasPermission(#eventId, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Event'), 'WRITE')")
     public List<Long> saveRoute(Long eventId, String name, String hexColor, String information, List<DateTime> routeStartingTimes,
                           List<StationDto> stations, HashMap<Integer, String> startingPosition_guideEmail,
                           List<String> stationManagerEmails) throws DataAccessException;
 
+    /**
+     * Removes route with specified Id.
+     */
     @PreAuthorize("hasPermission(#id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Route'), 'WRITE')")
     public void removeRoute(Long id) throws DataAccessException;
 

@@ -31,22 +31,40 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface IGroupService {
 
+    /**
+     * Adds a new group to the @route for @guide with @startingPosition.
+     */
     @PreAuthorize("hasPermission(#route.id, #route.ACLObjectIdentityClass, 'WRITE')")
     public Long addGroup(RouteDto route, Integer startingPosition, UserDto guide) throws DataAccessException;
 
+    /**
+     * Adds a new group to the route with specified id for @guide with @startingPosition.
+     */
     @PreAuthorize("hasPermission(#routeId, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Route'), 'WRITE')")
     public Long addGroup(Long routeId, Integer startingPosition, Long guideId) throws DataAccessException;
 
+    /**
+     * Returns a group with specified id.
+     */
     @Transactional(readOnly = true)
     @PostAuthorize("hasPermission(returnObject.id, returnObject.ACLObjectIdentityClass, 'READ')")
     public GroupDto getGroup(Long id, boolean latest, boolean fullLists) throws DataAccessException;
 
+    /**
+     * Sets group's starting position parameter.
+     */
     @PreAuthorize("hasPermission(#groupID, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Group'), 'WRITE') or hasPermission(#groupID, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Group'), 'ADMINISTRATION')")
     public void setGroupStartingPosition(Long groupID, Integer startingPosition) throws DataAccessException;
 
+    /**
+     * Removes group with specified id.
+     */
     @PreAuthorize("hasPermission(#id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Group'), 'WRITE')")
     public void removeGroup(Long id) throws DataAccessException;
 
+    /**
+     * Adds location update according to the passed object @locationUpdate. @locationUpdate object's parameters cannot be null!
+     */
     @PreAuthorize("hasPermission(#locationUpdate.group.id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Group'), 'ADMINISTRATION')")
     public Long addLocationUpdate(LocationUpdateDto locationUpdate) throws DataAccessException;
 
