@@ -180,4 +180,36 @@ public class RouteService extends DataAccessService implements IRouteService {
         dao.saveOrUpdate(RouteDto.map(route, r, null));
 
     }
+
+    @Override
+    public void addStationManager(Long id, String stationManagerEmail) throws DataAccessException {
+
+        Route r = dao.getById(id, Route.class);
+        User stationManager = dao.getByPropertyUnique("email", stationManagerEmail, User.class);
+        r.addStationManager(stationManager);
+
+        Sid sid = new PrincipalSid(stationManager.getUsername());
+        addPermission(new ObjectIdentityImpl(Route.class, r.getId()), sid, BasePermission.READ);                        // Route                                // Route
+        addPermission(new ObjectIdentityImpl(Event.class, r.getEvent().getId()), sid, BasePermission.READ);             // Event
+
+        dao.saveOrUpdate(r);
+
+    }
+
+    @Override
+    public void removeStationManager(Long id, String stationManagerEmail) throws DataAccessException {
+
+        Route r = dao.getById(id, Route.class);
+        User stationManager = dao.getByPropertyUnique("email", stationManagerEmail, User.class);
+        r.removeStationManager(stationManager);
+
+        Sid sid = new PrincipalSid(stationManager.getUsername());
+        removePermissionEntry(new ObjectIdentityImpl(Route.class, r.getId()), sid, BasePermission.READ);                // Route                                // Route
+        removePermissionEntry(new ObjectIdentityImpl(Event.class, r.getEvent().getId()), sid, BasePermission.READ);     // Event
+
+        dao.saveOrUpdate(r);
+
+    }
+
+
 }

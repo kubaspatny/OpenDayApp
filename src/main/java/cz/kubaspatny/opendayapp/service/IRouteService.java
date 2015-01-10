@@ -75,4 +75,16 @@ public interface IRouteService {
     @PreAuthorize("hasPermission(#route.id, #route.ACLObjectIdentityClass, 'WRITE')")
     public void updateRoute(RouteDto route) throws DataAccessException;
 
+    /**
+     * Adds a station manager to the route.
+     */
+    @PreAuthorize("hasPermission(#id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Route'), 'WRITE')")
+    public void addStationManager(Long id, String stationManagerEmail) throws DataAccessException;
+
+    /**
+     * Removes a station manager to the route.
+     */
+    @PreAuthorize("hasPermission(#id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Route'), 'WRITE')")
+    public void removeStationManager(Long id, String stationManagerEmail) throws DataAccessException;
+
 }

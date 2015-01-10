@@ -327,4 +327,75 @@ public class SecuredRouteServiceTest extends AbstractSecuredTest {
 
     }
 
+    @Test
+    public void testAddRemoveStationManager() throws Exception {
+        String newUsername = "newUser";
+        userService.createGeneratedUser(newUsername + "@example.com");
+
+        UserDto u = userService.getUser(username);
+        Long eventId = u.getEvents().get(0).getId();
+
+        String name = "CREATED_ROUTE";
+        String hexColor = "006080";
+        String info = "This is route information.";
+
+        List<DateTime> times = new ArrayList<DateTime>();
+        times.add(DateTime.now().plusHours(1));
+
+        HashMap<Integer, String> guides = new HashMap<Integer, String>();
+
+        List<StationDto> stations = new ArrayList<StationDto>();
+        for (int i = 1; i <= 2; i++) {
+
+            StationDto s = new StationDto(true);
+            s.setName("Station " + i);
+            s.setSequencePosition(i);
+            s.setLocation("K-00" + i);
+            s.setRelocationTime(i*10);
+            s.setTimeLimit(i*100);
+
+            guides.put(i, "guide"+ i +"@gmail.com");
+            stations.add(s);
+
+        }
+
+        List<String> stationManagerEmails = new ArrayList<String>();
+
+        List<Long> routeIds = routeService.saveRoute(eventId, name, hexColor, info, times, stations, guides, stationManagerEmails);
+        Assert.assertEquals(times.size(), routeIds.size());
+        Assert.assertEquals(1, routeIds.size());
+
+        Long routeId = routeIds.get(0);
+
+        try {
+            setUser(newUsername);
+            eventService.getEvent(eventId);
+            Assert.fail("Should have thrown exception!");
+        } catch (AccessDeniedException e){
+            // correct
+        }
+
+        setUser(username);
+        routeService.addStationManager(routeId, newUsername + "@example.com");
+
+        try {
+            setUser(newUsername);
+            eventService.getEvent(eventId);
+        } catch (AccessDeniedException e){
+            Assert.fail("Should NOT have thrown exception!");
+        }
+
+        setUser(username);
+        routeService.removeStationManager(routeId, newUsername + "@example.com");
+
+        try {
+            setUser(newUsername);
+            eventService.getEvent(eventId);
+            Assert.fail("Should have thrown exception!");
+        } catch (AccessDeniedException e){
+            // correct (station manager doesn't have rights anymore)
+        }
+
+    }
+
 }

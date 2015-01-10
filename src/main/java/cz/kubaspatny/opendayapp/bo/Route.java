@@ -134,6 +134,13 @@ public class Route extends AbstractBusinessObject {
         stationManager.addManagedRoute(this);
     }
 
+    public void removeStationManager(User stationManager){
+        if(stationManagers == null || stationManagers.contains(stationManager)) return;
+
+        stationManagers.remove(stationManager);
+        stationManager.removeManagedRoute(this);
+    }
+
     public List<Group> getGroups() {
         return groups;
     }
