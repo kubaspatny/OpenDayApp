@@ -153,6 +153,21 @@ public class RouteService extends DataAccessService implements IRouteService {
 
     @Override
     public void removeRoute(Long id) throws DataAccessException {
+
+        Route r = dao.getById(id, Route.class);
+
+        if(r.getGroups() != null){
+            for(Group g : r.getGroups()){
+                removePermissionEntry(new ObjectIdentityImpl(Event.class, r.getEvent().getId()), new PrincipalSid(g.getGuide().getUsername()), BasePermission.READ);
+            }
+        }
+
+        if(r.getStationManagers() != null){
+            for(User u : r.getStationManagers()){
+                removePermissionEntry(new ObjectIdentityImpl(Event.class, r.getEvent().getId()), new PrincipalSid(u.getUsername()), BasePermission.READ);
+            }
+        }
+
         dao.removeById(id, Route.class);
         aclService.deleteAcl(new ObjectIdentityImpl(Route.class, id), true);
     }

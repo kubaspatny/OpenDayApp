@@ -64,8 +64,6 @@ public class SecuredRouteServiceTest extends AbstractSecuredTest {
     private String stationManager1 = "stationManager1@gmail.com";
     private String stationManager2 = "stationManager2@gmail.com";
 
-    private Long routeId;
-
     @Before
     public void setUp() throws Exception {
 
@@ -207,6 +205,20 @@ public class SecuredRouteServiceTest extends AbstractSecuredTest {
         Long id = routeIds.get(0);
 
         try {
+            setUser("stationManager1");
+            eventService.getEvent(eventId);
+        } catch (AccessDeniedException e){
+            Assert.fail("Should NOT have thrown exception!");
+        }
+
+        try {
+            setUser("guide1");
+            eventService.getEvent(eventId);
+        } catch (AccessDeniedException e){
+            Assert.fail("Should NOT have thrown exception!");
+        }
+
+        try {
             setUser("guide1");
             routeService.removeRoute(id);
             Assert.fail("Should have thrown an exception!");
@@ -227,6 +239,22 @@ public class SecuredRouteServiceTest extends AbstractSecuredTest {
             routeService.removeRoute(id);
         } catch (AccessDeniedException e){
             Assert.fail("Should NOT have thrown exception!");
+        }
+
+        try {
+            setUser("stationManager1");
+            eventService.getEvent(eventId);
+            Assert.fail("Should have thrown exception!");
+        } catch (AccessDeniedException e){
+            // correct (station manager doesn't have access anymore)
+        }
+
+        try {
+            setUser("guide1");
+            eventService.getEvent(eventId);
+            Assert.fail("Should have thrown exception!");
+        } catch (AccessDeniedException e){
+            // correct (guide doesn't have access anymore)
         }
 
     }
