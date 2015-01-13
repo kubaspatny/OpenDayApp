@@ -2,7 +2,6 @@
 <project version="4">
   <component name="AjcSettings">
     <option name="ajcPath" value="C:\Users\Kuba\.m2\repository\org\aspectj\aspectjtools\1.6.11\aspectjtools-1.6.11.jar" />
-    <option name="explicitAspectPath" value="true" />
     <option name="delegateToJavac" value="true" />
   </component>
   <component name="CompilerConfiguration">
@@ -35,4 +34,3 @@
     </bytecodeTargetLevel>
   </component>
 </project>
-
