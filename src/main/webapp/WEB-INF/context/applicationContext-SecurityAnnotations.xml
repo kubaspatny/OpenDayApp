@@ -13,17 +13,6 @@
                         http://www.springframework.org/schema/security/oauth2
                         http://www.springframework.org/schema/security/spring-security-oauth2.xsd">
 
-    <!--&lt;!&ndash; Access voters &ndash;&gt;-->
-    <!--<beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased">-->
-        <!--<beans:constructor-arg>-->
-            <!--<beans:list>-->
-                <!--<beans:bean class="org.springframework.security.oauth2.provider.vote.ScopeVoter"/>-->
-                <!--<beans:bean class="org.springframework.security.access.vote.RoleVoter"/>-->
-                <!--<beans:bean class="org.springframework.security.access.vote.AuthenticatedVoter"/>-->
-            <!--</beans:list>-->
-        <!--</beans:constructor-arg>-->
-    <!--</beans:bean>-->
-
     <sec:global-method-security jsr250-annotations="enabled" secured-annotations="enabled" pre-post-annotations="enabled"
                                 authentication-manager-ref="userAuthenticationManager" >
         <!-- Reference to a custom expression handler with ACL support -->

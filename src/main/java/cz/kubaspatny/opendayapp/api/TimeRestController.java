@@ -50,7 +50,6 @@ public class TimeRestController {
 
 
     @RequestMapping(value = "/secured", method = RequestMethod.GET, produces = "text/plain")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getSecuredTime(){
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -59,8 +58,7 @@ public class TimeRestController {
         return "SECURED TIME: " + dateFormat.format(cal.getTime());
     }
 
-    @RequestMapping(value = "/secured2", method = RequestMethod.GET, produces = "text/plain")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = "/secured2", method = RequestMethod.GET, produces = "application/json")
     public String getSecuredTime2(){
 
         testService.getSomeText();

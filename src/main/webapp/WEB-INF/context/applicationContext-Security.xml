@@ -15,8 +15,6 @@
 
     <beans:bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener" />
 
-    <!-- DELETE THESE IF NEEDED -->
-
     <oauth:client-details-service id="client-details-service">
 
         <!-- Allow access to test clients -->
@@ -112,18 +110,10 @@
 
     <!-- REST API Endpoints -->
     <sec:http auto-config="true" pattern="/api/**" create-session="never" entry-point-ref="oauthAuthenticationEntryPoint" xmlns="http://www.springframework.org/schema/security">
+        <sec:intercept-url pattern="/api/**" access="ROLE_USER" />
         <sec:custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER"/>
         <sec:access-denied-handler ref="oauthAccessDeniedHandler"/>
     </sec:http>
-
-    <!-- DELETE NO FURTHER -->
-    <!-- DELETE NO FURTHER -->
-    <!-- DELETE NO FURTHER -->
-    <!-- DELETE NO FURTHER -->
-    <!-- DELETE NO FURTHER -->
-    <!-- DELETE NO FURTHER -->
-    <!-- DELETE NO FURTHER -->
-    <!-- DELETE NO FURTHER -->
 
     <sec:http auto-config="true" authentication-manager-ref="userAuthenticationManager">
         <sec:intercept-url pattern="/web/index.xhtml" access="IS_AUTHENTICATED_ANONYMOUSLY" />
