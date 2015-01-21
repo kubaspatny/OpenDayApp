@@ -40,7 +40,7 @@ import java.util.Set;
 public class User extends AbstractBusinessObject {
 
     public enum UserRole {
-        ROLE_ORGANIZER, ROLE_STATIONMANAGER, ROLE_GUIDE;
+        ROLE_ORGANIZER, ROLE_STATIONMANAGER, ROLE_GUIDE, ROLE_USER;
     }
 
     @Autowired private transient SaltProvider saltProvider;

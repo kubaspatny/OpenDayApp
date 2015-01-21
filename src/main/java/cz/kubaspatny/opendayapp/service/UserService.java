@@ -109,6 +109,9 @@ public class UserService extends DataAccessService implements IUserService {
 
         String password = PasswordGenerator.generatePassword(8);
         User.Builder builder = new User.Builder(usernameCandidate, emailAddress, password);
+        builder.addUserRole(User.UserRole.ROLE_USER);
+        builder.addUserRole(User.UserRole.ROLE_GUIDE);
+        builder.addUserRole(User.UserRole.ROLE_STATIONMANAGER);
 
         Long id = dao.saveOrUpdate(builder.build()).getId();
         emailService.sendCredentials(usernameCandidate, emailAddress, password);

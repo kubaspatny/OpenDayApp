@@ -249,6 +249,7 @@ public class UserDto extends BaseDto {
         target.setFirstName(source.getFirstName());
         target.setLastName(source.getLastName());
         target.setOrganization(source.getOrganization());
+        target.setUserRoles(source.getUserRoles());
 
         return target;
     }
