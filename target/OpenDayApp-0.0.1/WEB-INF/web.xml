@@ -8,34 +8,76 @@
          version="3.0">
     <display-name>Open Day App</display-name>
 
+    <context-param>
+        <description>Application Context</description>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/context/applicationContext*.xml</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
+
     <servlet>
-        <servlet-name>dispatcher</servlet-name>
+        <servlet-name>rest</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
         <async-supported>true</async-supported>
     </servlet>
 
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <filter>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+
+    <!-- Set up Spring security filter chain -->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <param-name>contextAttribute</param-name>
+            <param-value>org.springframework.web.servlet.FrameworkServlet.CONTEXT.spring</param-value>
+        </init-param>
+    </filter>
+
     <servlet-mapping>
-        <servlet-name>dispatcher</servlet-name>
+        <servlet-name>rest</servlet-name>
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 
-    <!-- ================= SPRING FRAMEWORK - START ================= -->
-    <context-param>
-        <description>Spring configuration files</description>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/context/*.xml</param-value>
-    </context-param>
+    <filter-mapping>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
-    <listener>
-        <description>Nahodi Spring context po startu serveru</description>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
-    <listener>
-        <description>Asociuje requesty s prislusnym vlaknem dotazu (slouzi predevsim jako podpora web frameworku)</description>
-        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-    </listener>
-    <!-- ================= SPRING FRAMEWORK - END ================= -->
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.jsf</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
 
     <session-config>
         <session-timeout>
@@ -47,21 +89,19 @@
         <welcome-file>web/index.xhtml</welcome-file>
     </welcome-file-list>
 
-    <!-- JSF servlet mapping -->
-    <!-- JSF servlet configuration and servlet mappings-->
+    <!-- The Spring Security servlet-->
     <servlet>
-        <servlet-name>Faces Servlet</servlet-name>
-        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
+        <servlet-name>spring</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/security/servlet-context.xml</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>*.jsf</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>*.xhtml</url-pattern>
+        <servlet-name>spring</servlet-name>
+        <url-pattern>/oauth/token</url-pattern>
     </servlet-mapping>
 
     <context-param>
@@ -73,20 +113,5 @@
         <param-name>primefaces.THEME</param-name>
         <param-value>bootstrap</param-value>
     </context-param>
-
-    <!--<context-param>-->
-        <!--<param-name>javax.faces.CONFIG_FILES</param-name>-->
-        <!--<param-value>/WEB-INF/spring/dispatcher-servlet.xml</param-value>-->
-    <!--</context-param>-->
-
-    <filter>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
 
 </web-app>
