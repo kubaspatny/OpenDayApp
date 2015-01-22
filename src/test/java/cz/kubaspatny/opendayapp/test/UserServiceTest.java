@@ -64,6 +64,27 @@ public class UserServiceTest extends AbstractTest {
 
     }
 
+    //@Test
+    public void addTestUserAccounts() throws Exception {
+
+        User u =  new User.Builder("login1", "login1@email.com", "login1").
+                setFirstName("Mr.").
+                setLastName("Jarvis").
+                setOrganization("Stark Industries").
+                addUserRole(User.UserRole.ROLE_USER).addUserRole(User.UserRole.ROLE_GUIDE).addUserRole(User.UserRole.ROLE_STATIONMANAGER).build();
+
+        userID = dao.saveOrUpdate(u).getId();
+
+        u =  new User.Builder("login2", "login2@email.com", "login2").
+                setFirstName("Mr.").
+                setLastName("Stark").
+                setOrganization("Stark Industries").
+                addUserRole(User.UserRole.ROLE_USER).addUserRole(User.UserRole.ROLE_ORGANIZER).build();
+
+        userID = dao.saveOrUpdate(u).getId();
+
+    }
+
     @Test
     public void testCreateGeneratedUser() throws Exception {
         String username = "opendayapptest@gmail.com";

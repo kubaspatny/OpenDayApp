@@ -3,6 +3,7 @@ package cz.kubaspatny.opendayapp.test;
 import cz.kubaspatny.opendayapp.bo.AbstractBusinessObject;
 import cz.kubaspatny.opendayapp.bo.Event;
 import cz.kubaspatny.opendayapp.bo.Route;
+import cz.kubaspatny.opendayapp.bo.User;
 import cz.kubaspatny.opendayapp.dto.EventDto;
 import cz.kubaspatny.opendayapp.dto.RouteDto;
 import cz.kubaspatny.opendayapp.dto.StationDto;
@@ -89,11 +90,22 @@ public class SecuredServiceTest extends AbstractSecuredTest {
         }
 
         UserDto u = new UserDto();
+        u.setUsername("admin");
+        u.setPassword("admin");
+        u.setEmail("admin@email.com");
+        u.addUserRole(User.UserRole.ROLE_USER);
+        u.addUserRole(User.UserRole.ROLE_ORGANIZER);
+
+        userService.createUser(u);
+
+        u = new UserDto();
         u.setUsername("user");
         u.setPassword("user");
         u.setEmail("email@email.com");
 
         Long userID = userService.createUser(u);
+
+
 
         EventDto e = new EventDto();
         e.setName("name");

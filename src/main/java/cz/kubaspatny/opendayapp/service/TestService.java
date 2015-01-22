@@ -52,7 +52,7 @@ public class TestService extends DataAccessService {
     @Autowired private IEventService eventService;
     @Autowired private IRouteService routeService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ORGANIZER')")
     public String getSomeText(){
         return "Hello!";
     }

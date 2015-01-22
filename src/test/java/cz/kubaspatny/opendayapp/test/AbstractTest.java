@@ -40,10 +40,7 @@ import java.util.List;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:applicationContext.xml","classpath:applicationContext-Security.xml",
-        "classpath*:oauth-client-details.xml"
-
-})
+@ContextConfiguration(locations = {"classpath:applicationContext.xml","classpath:applicationContext-Security.xml"})
 @TransactionConfiguration(defaultRollback=true, transactionManager="txManager")
 @Transactional
 public abstract class AbstractTest {

@@ -86,7 +86,7 @@
     </session-config>
 
     <welcome-file-list>
-        <welcome-file>web/index.xhtml</welcome-file>
+        <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
 
     <!-- The Spring Security servlet-->
