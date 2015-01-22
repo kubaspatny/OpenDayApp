@@ -1,5 +1,11 @@
 package cz.kubaspatny.opendayapp.service;
 
+import cz.kubaspatny.opendayapp.bo.User;
+import cz.kubaspatny.opendayapp.dao.GenericDao;
+import cz.kubaspatny.opendayapp.exception.DataAccessException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -8,6 +14,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,36 +43,60 @@ import java.util.List;
  */
 public class AuthProvider implements AuthenticationProvider {
 
+    private static final Logger LOG = LoggerFactory.getLogger(AuthProvider.class);
+    private GenericDao genericDao;
+    private TransactionTemplate transactionTemplate;
+
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
 
-        if(authentication.getPrincipal().equals("user")&& authentication.getCredentials().equals("user"))
-        {
+        return (Authentication) transactionTemplate.execute(new TransactionCallback() {
 
-            List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
-            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), grantedAuthorities);
-            return auth;
+            @Override
+            public Object doInTransaction(TransactionStatus status) {
 
-        }
-        else if(authentication.getPrincipal().equals("admin")&& authentication.getCredentials().equals("admin"))
-        {
-            List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
-            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), grantedAuthorities);
-            return auth;
-        }
-        else if(authentication.getPrincipal().equals("user1")&& authentication.getCredentials().equals("user1"))
-        {
-            List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
-            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), grantedAuthorities);
-            return auth;
-        }
-        else{
-            throw new BadCredentialsException("Bad User Credentials.");
-        }
+                try {
+
+                    UsernamePasswordAuthenticationToken auth = null;
+                    User u;
+
+                    try {
+                        u = genericDao.getByPropertyUnique("username", authentication.getPrincipal(), User.class);
+                    } catch (DataAccessException e){
+                        throw new BadCredentialsException("Wrong username or password.");
+                    }
+
+                    String password = (String) authentication.getCredentials();
+
+                    if(u == null || !u.isLoginCorrect(password)){
+                        throw new BadCredentialsException("Wrong username or password.");
+                    } else {
+
+                        List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
+
+                        if(u.getUserRoles() != null){
+                            for(User.UserRole role : u.getUserRoles()){
+                                grantedAuthorities.add(new SimpleGrantedAuthority(role.name()));
+                            }
+                        }
+
+                        auth = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), grantedAuthorities);
+
+                    }
+
+                    return auth;
+
+                } catch (AuthenticationException e){
+                    status.setRollbackOnly();
+                    throw e;
+                } catch (Exception e){
+                    LOG.error("Error occured during authenticate call!", e);
+                    status.setRollbackOnly();
+                    throw new RuntimeException(e);
+                }
+
+            }
+        });
 
     }
 
@@ -72,4 +105,11 @@ public class AuthProvider implements AuthenticationProvider {
         return true;
     }
 
+    public void setGenericDao(GenericDao genericDao) {
+        this.genericDao = genericDao;
+    }
+
+    public void setTransactionTemplate(TransactionTemplate transactionTemplate) {
+        this.transactionTemplate = transactionTemplate;
+    }
 }
