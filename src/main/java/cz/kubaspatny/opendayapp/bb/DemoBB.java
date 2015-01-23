@@ -10,7 +10,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -83,4 +85,5 @@ public class DemoBB {
     public void submit(){
         securedText = testService.getSomeText();
     }
+
 }

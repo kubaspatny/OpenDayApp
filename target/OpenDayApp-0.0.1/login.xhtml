@@ -3,7 +3,8 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 
@@ -18,33 +19,37 @@
     </f:facet>
 
     <h:outputScript library="primefaces" name="jquery/jquery.js"/>
-
-    <h:outputStylesheet name="css/bootstrap.min.css" />
-    <h:outputStylesheet name="css/login.css" />
-
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'/>
 
 </h:head>
-
 <h:body>
+    <!-- You need to ensure that your CSS is loaded after the PrimeFaces one. You can achieve this by placing the
+         <h:outputStylesheet> referencing your CSS file inside <h:body> instead of <h:head>. JSF will automatically
+         relocate the stylesheet to the end of the generated HTML <head> and this will thus ensure that the stylesheet
+         is loaded after the PrimeFaces' default styles. This way the selectors in your CSS file which are exactly the
+         same as in PrimeFaces CSS file will get precedence over the PrimeFaces one. -->
+    <h:outputStylesheet name="css/bootstrap.css" />
+    <h:outputStylesheet name="css/login.css" />
 
     <div class="container">
 
-        <form class="form-signin">
-            <h2 class="form-signin-heading">Please sign in</h2>
-            <label for="inputEmail" class="sr-only">Email address</label>
-            <input type="email" id="inputEmail" class="form-control" placeholder="Email address"/>
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password"/>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" value="remember-me"> Remember me </input>
-                </label>
-            </div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        </form>
+        <h:form styleClass="form-signin">
 
-    </div> <!-- /container -->
+            <h2><h:outputText value="OPEN DAYS"/></h2>
+
+            <h:outputLabel for="j_username" styleClass="sr-only" value="Username"/>
+            <p:inputText id="j_username" styleClass="form-control" placeholder="Username" required="true"/>
+
+            <h:outputLabel for="j_password" styleClass="sr-only" value="Username"/>
+            <p:password id="j_password" styleClass="form-control" placeholder="Password" required="true"/>
+
+            <p:commandButton type="submit" styleClass="btn btn-lg btn-primary btn-block" value="Sign in"/>
+
+        </h:form>
+
+    </div>
+
+
 
 
 </h:body>
