@@ -124,7 +124,10 @@
         <sec:intercept-url pattern="/login.xhtml" access="IS_AUTHENTICATED_ANONYMOUSLY" />
         <sec:intercept-url pattern="/javax.faces.resource/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <sec:intercept-url pattern="/**" access="ROLE_USER" />
-        <sec:logout logout-url="/logout" logout-success-url="/index.xhtml" invalidate-session="true"/>
+        <sec:form-login login-page="/login.xhtml"
+                        default-target-url="/demo.xhtml"
+                        authentication-failure-url="/login.xhtml?error"/>
+        <sec:logout logout-url="/logout" logout-success-url="/login.xhtml?logout" invalidate-session="true"/>
     </sec:http>
 
     <!--ACCESS CONTROL LIST-->

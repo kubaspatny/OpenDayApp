@@ -1,0 +1,13 @@
+@font-face{
+    font-family: 'AmericanCaptain';
+    src: url('#{resource["fonts/AmericanCaptain.otf"]}');
+    src: url('#{resource["fonts/AmericanCaptain.ttf"]}') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+#logo {
+    font-family: 'AmericanCaptain';
+    font-weight: bold;
+}
