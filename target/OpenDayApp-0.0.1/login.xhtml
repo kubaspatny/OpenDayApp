@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en"
+<html lang="#{localeBean.language}"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-
+<f:view locale="#{localeBean.locale}">
 <h:head>
 
     <meta charset="utf-8"/>
@@ -18,7 +18,7 @@
         <h:outputScript name="js/bootstrap.js"/>
     </f:facet>
 
-    <h:outputScript library="primefaces" name="jquery/jquery.js"/>
+    <h:outputScript library="primefaces" name="jquery/jquery.js" target="head"/>
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'/>
 
 </h:head>
@@ -31,8 +31,22 @@
     <h:outputStylesheet name="css/bootstrap.css" />
     <h:outputStylesheet name="css/login.css" />
     <h:outputStylesheet name="css/logo.css" />
+    <h:outputStylesheet name="css/langbox.css" />
 
-    <div class="container">
+    <div class="langbox pull-right">
+        <h:form>
+            <ul>
+                <li class="#{localeBean.language=='cs_cz' ? 'selected' : ''}">
+                    <h:commandLink action="#{localeBean.setLanguage('cs_cz')}" value="CZ" />
+                </li>
+                <li class="#{localeBean.language=='en' ? 'selected' : ''}">
+                    <h:commandLink action="#{localeBean.setLanguage('en')}" value="EN" />
+                </li>
+            </ul>
+        </h:form>
+    </div>
+
+    <div class="container container-login">
 
         <form class="form-signin" action="/j_spring_security_check" method="post">
 
@@ -41,32 +55,33 @@
             </div>
 
             <h:panelGroup layout="block" styleClass="alert alert-danger" rendered="#{param.error != null}">
-                Wrong username or password.
+                <h:outputText value="#{strings['login.error']}"/>
             </h:panelGroup>
 
             <h:panelGroup layout="block" styleClass="alert alert-info" rendered="#{param.logout != null}">
-                You have been successfully logged out.
+                <h:outputText value="#{strings['login.logout']}"/>
             </h:panelGroup>
 
-            <h:outputLabel for="j_username" styleClass="sr-only" value="Username"/>
-            <p:inputText id="j_username" styleClass="form-control" placeholder="Username" required="true"/>
+            <h:panelGroup layout="block" styleClass="alert alert-info" rendered="#{param.registered != null}">
+                <h:outputText value="#{strings['login.registered']}"/>
+            </h:panelGroup>
 
-            <h:outputLabel for="j_password" styleClass="sr-only" value="Username"/>
-            <p:password id="j_password" styleClass="form-control" placeholder="Password" required="true"/>
+            <h:outputLabel for="j_username" styleClass="sr-only" value="#{strings['username']}"/>
+            <p:inputText id="j_username" styleClass="form-control" placeholder="#{strings['username']}" required="true"/>
 
-            <h:commandButton type="submit" styleClass="btn btn-lg btn-primary btn-block" value="Sign in"/>
+            <h:outputLabel for="j_password" styleClass="sr-only" value="#{strings['password']}"/>
+            <p:password id="j_password" styleClass="form-control" placeholder="#{strings['password']}" required="true"/>
+
+            <h:commandButton type="submit" styleClass="btn btn-lg btn-primary btn-block" value="#{strings['signin']}"/>
 
             <div class="help-signin">
-                <div class="floatleft">Don’t have an accound? Register.</div>
-                <div class="floatright">Forgot password?</div>
+                <div class="floatleft"><h:outputText value="#{strings['noaccount']} "/> <h:link value="#{strings['register']}" outcome="register"/></div>
+                <div class="floatright"><h:outputText value="#{strings['forgotpassword']}"/></div>
             </div>
         </form>
 
     </div>
 
-
-
-
 </h:body>
-
+</f:view>
 </html>

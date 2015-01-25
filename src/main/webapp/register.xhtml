@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="#{localeBean.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<f:view locale="#{localeBean.locale}">
+<h:head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>Registration to Open Days</title>
+
+    <f:facet name="first">
+        <h:outputScript name="js/bootstrap.js"/>
+    </f:facet>
+
+    <h:outputScript library="primefaces" name="jquery/jquery.js"/>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'/>
+
+</h:head>
+<h:body>
+    <h:outputStylesheet name="css/bootstrap.css" />
+    <h:outputStylesheet name="css/register.css" />
+    <h:outputStylesheet name="css/logo.css" />
+    <h:outputStylesheet name="css/langbox.css" />
+
+    <div class="langbox pull-right">
+        <h:form>
+            <ul>
+                <li class="#{localeBean.language=='cs_cz' ? 'selected' : ''}">
+                    <h:commandLink action="#{localeBean.setLanguage('cs_cz')}" value="CZ" />
+                </li>
+                <li class="#{localeBean.language=='en' ? 'selected' : ''}">
+                    <h:commandLink action="#{localeBean.setLanguage('en')}" value="EN" />
+                </li>
+            </ul>
+        </h:form>
+    </div>
+
+    <div class="container container-register">
+
+        <h:form class="form-register" method="post">
+
+            <h1><h:outputText value="#{strings['registration']}"/></h1>
+
+            <p:messages id="msgs" />
+
+            <h:panelGrid id="panel" columns="3" cellpadding="5">
+
+                <p:outputLabel for="username" value="USERNAME:" />
+                <p:inputText id="username" value="#{registrationBB.username}" label="Username" >
+                    <f:validator validatorId="requiredValidator"/>
+                    <f:attribute name="requiredMessage" value="Username is required!"/>
+                    <f:validateLength minimum="2" />
+
+                </p:inputText>
+                <p:message for="username" id="msgUsername" display="text"/>
+
+                <p:outputLabel for="email" value="EMAIL:" />
+                <p:inputText id="email" value="#{registrationBB.email}" label="Email" >
+                    <f:validator validatorId="requiredValidator"/>
+                    <f:attribute name="requiredMessage" value="Email is required!"/>
+                    <f:validateLength minimum="2" />
+                    <p:ajax update="msgEmail" event="keyup" />
+                </p:inputText>
+                <p:message for="email" id="msgEmail" display="text"/>
+
+                <p:outputLabel for="firstname" value="FIRST NAME:" />
+                <p:inputText id="firstname" value="#{registrationBB.firstName}" label="First name" >
+                    <f:validator validatorId="requiredValidator"/>
+                    <f:attribute name="requiredMessage" value="First name is required!"/>
+                    <f:validateLength minimum="2" />
+                </p:inputText>
+                <p:message for="firstname" id="msgFirstname" display="text"/>
+
+                <p:outputLabel for="lastname" value="LAST NAME:" />
+                <p:inputText id="lastname" value="#{registrationBB.lastName}" label="Last name" >
+                    <f:validator validatorId="requiredValidator"/>
+                    <f:attribute name="requiredMessage" value="Last name is required!"/>
+                    <f:validateLength minimum="2" />
+                </p:inputText>
+                <p:message for="lastname" id="msgLastname" display="text"/>
+
+                <p:outputLabel for="organization" value="ORGANIZATION:" />
+                <p:inputText id="organization" value="#{registrationBB.organization}" label="Organization" >
+                </p:inputText>
+                <p:message for="organization" id="msgOrganization" display="text"/>
+
+                <p:outputLabel for="password" value="PASSWORD:" />
+                <p:inputText id="password" value="#{registrationBB.password}" label="Password" >
+                    <f:validator validatorId="requiredValidator"/>
+                    <f:attribute name="requiredMessage" value="Password is required!"/>
+                    <f:validateLength minimum="6" />
+                </p:inputText>
+                <p:message for="password" id="msgPassword" display="text"/>
+
+                <p:outputLabel for="password-repeat" value="CONFIRM PASSWORD:" />
+                <p:inputText id="password-repeat" value="#{registrationBB.password}" required="true" label="Confirm Password" >
+                    <f:validator validatorId="requiredValidator"/>
+                    <f:attribute name="requiredMessage" value="Password must be confirmed!"/>
+                    <f:validateLength minimum="6"/>
+                </p:inputText>
+                <p:message for="password-repeat" id="msgPassword-repeat" display="text"/>
+
+            </h:panelGrid>
+
+            <p:commandButton value="Register" styleClass="btn btn-lg btn-primary" update="panel" action="#{registrationBB.register}"/>
+
+        </h:form>
+
+    </div>
+
+</h:body>
+</f:view>
+
+</html>

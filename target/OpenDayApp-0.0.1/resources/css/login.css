@@ -1,14 +1,18 @@
 body {
-    padding-top: 40px;
-    padding-bottom: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     background-color: #eee;
     background: #373737;
+}
+
+.container-login {
+    padding-top: 15px;
 }
 
 .form-signin {
     max-width: 390px;
     padding: 45px;
-    margin: 10% auto;
+    margin: 9% auto;
     background: #ffffff;
     border-radius: 3px;
 }

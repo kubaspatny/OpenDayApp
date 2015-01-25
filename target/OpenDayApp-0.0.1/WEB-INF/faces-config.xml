@@ -8,9 +8,16 @@
     <application>
         <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 
+        <message-bundle>CustomMessages</message-bundle>
+
+        <resource-bundle>
+            <base-name>strings</base-name>
+            <var>strings</var>
+        </resource-bundle>
+
         <locale-config>
-            <default-locale>en</default-locale>
-            <supported-locale>cs_CZ</supported-locale>
+            <default-locale>cs_cz</default-locale>
+            <supported-locale>en</supported-locale>
         </locale-config>
 
     </application>

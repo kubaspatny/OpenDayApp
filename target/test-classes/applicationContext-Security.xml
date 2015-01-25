@@ -122,6 +122,7 @@
     <sec:http auto-config="true" authentication-manager-ref="userAuthenticationManager">
         <sec:intercept-url pattern="/index.xhtml" access="IS_AUTHENTICATED_ANONYMOUSLY" />
         <sec:intercept-url pattern="/login.xhtml" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <sec:intercept-url pattern="/register.xhtml" access="IS_AUTHENTICATED_ANONYMOUSLY" />
         <sec:intercept-url pattern="/javax.faces.resource/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <sec:intercept-url pattern="/**" access="ROLE_USER" />
         <sec:form-login login-page="/login.xhtml"
