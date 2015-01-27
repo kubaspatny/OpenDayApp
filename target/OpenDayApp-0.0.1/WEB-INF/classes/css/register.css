@@ -30,9 +30,8 @@ body {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    padding: 10px;
-    font-size: 16px;
 }
+
 .form-register .form-control:focus {
     z-index: 2;
 }
@@ -42,7 +41,7 @@ body {
 }
 
 .form-register table {
-    border-spacing: 5px;
+    border-spacing: 0px 5px;
     border-collapse: separate;
 }
 
@@ -69,4 +68,21 @@ body {
     .floatright {
         float: right;
     }
+}
+
+.logo-registration h2 {
+    font-size: 600%;
+    margin-top: 10px;
+    line-height: 0.8;
+}
+
+.help-register {
+    font-size: 75%;
+    font-weight: 400;
+    margin-top: 10px;
+    color: #515151;
+}
+
+.button-register{
+    margin-top: 10px;
 }

@@ -43,25 +43,26 @@
 
     <div class="container container-register">
 
-        <h:form class="form-register" method="post">
 
-            <h1><h:outputText value="#{strings['registration']}"/></h1>
 
-            <p:messages id="msgs" />
+        <h:form id="register-form" class="form-register" method="post">
 
-            <h:panelGrid id="panel" columns="3" cellpadding="5">
+            <div class="logo-registration">
+                <h2><h:outputText styleClass="logo" value="#{strings['registration']}"/></h2>
+            </div>
 
-                <p:outputLabel for="username" value="USERNAME:" />
-                <p:inputText id="username" value="#{registrationBB.username}" label="Username" >
+            <h:panelGrid id="panel" columns="3">
+
+                <p:outputLabel for="username" value="#{strings['username']}" styleClass="sr-only"/>
+                <p:inputText id="username" value="#{registrationBB.username}" placeholder="#{strings['username']}" styleClass="form-control">
                     <f:validator validatorId="requiredValidator"/>
                     <f:attribute name="requiredMessage" value="Username is required!"/>
                     <f:validateLength minimum="2" />
-
                 </p:inputText>
                 <p:message for="username" id="msgUsername" display="text"/>
 
-                <p:outputLabel for="email" value="EMAIL:" />
-                <p:inputText id="email" value="#{registrationBB.email}" label="Email" >
+                <p:outputLabel for="email" value="#{strings['email']}" styleClass="sr-only"/>
+                <p:inputText id="email" value="#{registrationBB.email}" placeholder="#{strings['email']}" styleClass="form-control">
                     <f:validator validatorId="requiredValidator"/>
                     <f:attribute name="requiredMessage" value="Email is required!"/>
                     <f:validateLength minimum="2" />
@@ -69,46 +70,53 @@
                 </p:inputText>
                 <p:message for="email" id="msgEmail" display="text"/>
 
-                <p:outputLabel for="firstname" value="FIRST NAME:" />
-                <p:inputText id="firstname" value="#{registrationBB.firstName}" label="First name" >
+                <p:outputLabel for="firstname" value="#{strings['firstname']}" styleClass="sr-only"/>
+                <p:inputText id="firstname" value="#{registrationBB.firstName}" placeholder="#{strings['firstname']}" styleClass="form-control">
                     <f:validator validatorId="requiredValidator"/>
                     <f:attribute name="requiredMessage" value="First name is required!"/>
                     <f:validateLength minimum="2" />
                 </p:inputText>
                 <p:message for="firstname" id="msgFirstname" display="text"/>
 
-                <p:outputLabel for="lastname" value="LAST NAME:" />
-                <p:inputText id="lastname" value="#{registrationBB.lastName}" label="Last name" >
+                <p:outputLabel for="lastname" value="#{strings['lastname']}" styleClass="sr-only"/>
+                <p:inputText id="lastname" value="#{registrationBB.lastName}" placeholder="#{strings['lastname']}" styleClass="form-control">
                     <f:validator validatorId="requiredValidator"/>
                     <f:attribute name="requiredMessage" value="Last name is required!"/>
                     <f:validateLength minimum="2" />
                 </p:inputText>
                 <p:message for="lastname" id="msgLastname" display="text"/>
 
-                <p:outputLabel for="organization" value="ORGANIZATION:" />
-                <p:inputText id="organization" value="#{registrationBB.organization}" label="Organization" >
+                <p:outputLabel for="organization" value="#{strings['organization']}" styleClass="sr-only"/>
+                <p:inputText id="organization" value="#{registrationBB.organization}" placeholder="#{strings['organization']}" styleClass="form-control">
                 </p:inputText>
                 <p:message for="organization" id="msgOrganization" display="text"/>
 
-                <p:outputLabel for="password" value="PASSWORD:" />
-                <p:inputText id="password" value="#{registrationBB.password}" label="Password" >
+                <p:outputLabel for="password" value="#{strings['password']}" styleClass="sr-only"/>
+                <p:password id="password" value="#{registrationBB.password}" placeholder="#{strings['password']}" styleClass="form-control">
                     <f:validator validatorId="requiredValidator"/>
                     <f:attribute name="requiredMessage" value="Password is required!"/>
                     <f:validateLength minimum="6" />
-                </p:inputText>
+                </p:password>
                 <p:message for="password" id="msgPassword" display="text"/>
 
-                <p:outputLabel for="password-repeat" value="CONFIRM PASSWORD:" />
-                <p:inputText id="password-repeat" value="#{registrationBB.password}" required="true" label="Confirm Password" >
+                <p:outputLabel for="password-repeat" value="#{strings['confirm-password']}" styleClass="sr-only"/>
+                <p:password id="password-repeat" value="#{registrationBB.password}" placeholder="#{strings['confirm-password']}" styleClass="form-control">
                     <f:validator validatorId="requiredValidator"/>
                     <f:attribute name="requiredMessage" value="Password must be confirmed!"/>
                     <f:validateLength minimum="6"/>
-                </p:inputText>
+                </p:password>
                 <p:message for="password-repeat" id="msgPassword-repeat" display="text"/>
 
-            </h:panelGrid>
+                <p:outputLabel for="captcha" value="Captcha" styleClass="sr-only"/>
+                <p:captcha id="captcha" label="Captcha" theme="white" language="#{localeBean.language}" required="true"/>
+                <p:message for="captcha" id="msgCaptcha" display="text"/>
 
-            <p:commandButton value="Register" styleClass="btn btn-lg btn-primary" update="panel" action="#{registrationBB.register}"/>
+            </h:panelGrid>
+            <p:commandButton ajax="false" value="#{strings['button-register']}" styleClass="btn btn-primary button-register" update="register-form" action="#{registrationBB.register}"/>
+
+            <div class="help-register">
+                <div class="floatleft"><h:outputText value="#{strings['alreadyregistered']} "/> <h:link value="#{strings['gotologin']}" outcome="login"/></div>
+            </div>
 
         </h:form>
 
