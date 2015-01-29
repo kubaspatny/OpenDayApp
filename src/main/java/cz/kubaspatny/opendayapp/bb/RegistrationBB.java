@@ -1,5 +1,8 @@
 package cz.kubaspatny.opendayapp.bb;
 
+import cz.kubaspatny.opendayapp.bo.User;
+import cz.kubaspatny.opendayapp.dto.UserDto;
+import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.service.IUserService;
 import cz.kubaspatny.opendayapp.service.TestService;
 import cz.kubaspatny.opendayapp.service.UserService;
@@ -93,6 +96,24 @@ public class RegistrationBB {
     }
 
     public String register(){
+
+        UserDto user = new UserDto();
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setPassword(password);
+        user.addUserRole(User.UserRole.ROLE_USER);
+        user.addUserRole(User.UserRole.ROLE_ORGANIZER);
+        user.addUserRole(User.UserRole.ROLE_GUIDE);
+        user.addUserRole(User.UserRole.ROLE_STATIONMANAGER);
+
+        try {
+            userService.createUser(user);
+        } catch (DataAccessException e){
+            return "registration&error=1";
+        }
+
         return "login?faces-redirect=true&registered=1";
     }
 

@@ -43,8 +43,6 @@
 
     <div class="container container-register">
 
-
-
         <h:form id="register-form" class="form-register" method="post">
 
             <div class="logo-registration">
@@ -53,62 +51,55 @@
 
             <h:panelGrid id="panel" columns="3">
 
+                <h:panelGroup layout="block" styleClass="alert alert-danger" rendered="#{param.error != null}">
+                    <h:outputText value="#{strings['registration.error']}"/>
+                </h:panelGroup>
+
                 <p:outputLabel for="username" value="#{strings['username']}" styleClass="sr-only"/>
-                <p:inputText id="username" value="#{registrationBB.username}" placeholder="#{strings['username']}" styleClass="form-control">
-                    <f:validator validatorId="requiredValidator"/>
-                    <f:attribute name="requiredMessage" value="Username is required!"/>
-                    <f:validateLength minimum="2" />
+                <p:inputText id="username" value="#{registrationBB.username}" placeholder="#{strings['username']}" styleClass="form-control" required="true" requiredMessage="#{strings['required-username']}">
+                    <f:validateLength minimum="4" />
+                    <f:validator binding="#{usernameValidator}" />
+                    <p:ajax update="msgUsername" event="keyup"/>
                 </p:inputText>
                 <p:message for="username" id="msgUsername" display="text"/>
 
                 <p:outputLabel for="email" value="#{strings['email']}" styleClass="sr-only"/>
-                <p:inputText id="email" value="#{registrationBB.email}" placeholder="#{strings['email']}" styleClass="form-control">
-                    <f:validator validatorId="requiredValidator"/>
-                    <f:attribute name="requiredMessage" value="Email is required!"/>
-                    <f:validateLength minimum="2" />
-                    <p:ajax update="msgEmail" event="keyup" />
+                <p:inputText id="email" value="#{registrationBB.email}" placeholder="#{strings['email']}" styleClass="form-control" required="true" requiredMessage="#{strings['required-email']}">
+                    <f:validator binding="#{emailValidator}"/>
+                    <p:ajax update="msgEmail" event="keyup"/>
                 </p:inputText>
                 <p:message for="email" id="msgEmail" display="text"/>
 
                 <p:outputLabel for="firstname" value="#{strings['firstname']}" styleClass="sr-only"/>
-                <p:inputText id="firstname" value="#{registrationBB.firstName}" placeholder="#{strings['firstname']}" styleClass="form-control">
-                    <f:validator validatorId="requiredValidator"/>
-                    <f:attribute name="requiredMessage" value="First name is required!"/>
-                    <f:validateLength minimum="2" />
+                <p:inputText id="firstname" value="#{registrationBB.firstName}" placeholder="#{strings['firstname']}" styleClass="form-control" required="true" requiredMessage="#{strings['required-firstname']}">
+                    <p:ajax update="msgFirstname" event="keyup" />
                 </p:inputText>
                 <p:message for="firstname" id="msgFirstname" display="text"/>
 
                 <p:outputLabel for="lastname" value="#{strings['lastname']}" styleClass="sr-only"/>
-                <p:inputText id="lastname" value="#{registrationBB.lastName}" placeholder="#{strings['lastname']}" styleClass="form-control">
-                    <f:validator validatorId="requiredValidator"/>
-                    <f:attribute name="requiredMessage" value="Last name is required!"/>
-                    <f:validateLength minimum="2" />
+                <p:inputText id="lastname" value="#{registrationBB.lastName}" placeholder="#{strings['lastname']}" styleClass="form-control" required="true" requiredMessage="#{strings['required-lastname']}">
+                    <p:ajax update="msgLastname" event="keyup" />
                 </p:inputText>
                 <p:message for="lastname" id="msgLastname" display="text"/>
 
-                <p:outputLabel for="organization" value="#{strings['organization']}" styleClass="sr-only"/>
-                <p:inputText id="organization" value="#{registrationBB.organization}" placeholder="#{strings['organization']}" styleClass="form-control">
-                </p:inputText>
-                <p:message for="organization" id="msgOrganization" display="text"/>
-
                 <p:outputLabel for="password" value="#{strings['password']}" styleClass="sr-only"/>
-                <p:password id="password" value="#{registrationBB.password}" placeholder="#{strings['password']}" styleClass="form-control">
-                    <f:validator validatorId="requiredValidator"/>
-                    <f:attribute name="requiredMessage" value="Password is required!"/>
+                <p:password id="password" value="#{registrationBB.password}" placeholder="#{strings['password']}" styleClass="form-control" required="true" requiredMessage="#{strings['required-password']}">
                     <f:validateLength minimum="6" />
+                    <f:validator validatorId="passwordValidator"/>
+                    <f:attribute name="confirm" value="#{confirm}" />
+                    <p:ajax update="msgPassword" event="keyup" />
                 </p:password>
                 <p:message for="password" id="msgPassword" display="text"/>
 
                 <p:outputLabel for="password-repeat" value="#{strings['confirm-password']}" styleClass="sr-only"/>
-                <p:password id="password-repeat" value="#{registrationBB.password}" placeholder="#{strings['confirm-password']}" styleClass="form-control">
-                    <f:validator validatorId="requiredValidator"/>
-                    <f:attribute name="requiredMessage" value="Password must be confirmed!"/>
+                <p:password id="password-repeat" value="#{registrationBB.password}" placeholder="#{strings['confirm-password']}" styleClass="form-control" required="true" requiredMessage="#{strings['required-confirmpassword']}" binding="#{confirm}">
                     <f:validateLength minimum="6"/>
+                    <p:ajax update="msgPassword-repeat" event="keyup" />
                 </p:password>
                 <p:message for="password-repeat" id="msgPassword-repeat" display="text"/>
 
                 <p:outputLabel for="captcha" value="Captcha" styleClass="sr-only"/>
-                <p:captcha id="captcha" label="Captcha" theme="white" language="#{localeBean.language}" required="true"/>
+                <p:captcha id="captcha" label="Captcha" theme="white" language="#{localeBean.language}" required="true" requiredMessage="#{strings['required-captcha']}" validatorMessage="#{strings['captcha-wrong']}"/>
                 <p:message for="captcha" id="msgCaptcha" display="text"/>
 
             </h:panelGrid>
