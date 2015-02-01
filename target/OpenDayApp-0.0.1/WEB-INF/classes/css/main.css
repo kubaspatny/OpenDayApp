@@ -1,3 +1,50 @@
 body {
     padding-top: 70px;
+    background-color: #e1e1e1;
+}
+
+.navbar {
+    min-height: 60px;
+}
+
+.navbar-inverse {
+    background-color: #373737;
+    border-color: #313131;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #FFF;
+}
+
+.navbar-brand {
+    font-size: 28px;
+    height: 60px;
+    line-height: 30px;
+}
+
+.navbar-toggle {
+    margin-top: 13px;
+    margin-bottom: 13px;
+}
+
+.navbar-nav > li > a {
+    line-height: 30px;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #f3f3f3;
+    text-transform: uppercase;
+}
+
+.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+    background-color: #444444;
+}
+
+.caret {
+    margin-left: 10px;
+}
+
+.container-fluid {
+    padding-right: 30px;
+    padding-left: 30px;
 }
