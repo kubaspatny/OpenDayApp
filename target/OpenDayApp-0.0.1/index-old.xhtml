@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeBean.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<f:view locale="#{localeBean.locale}">
+<h:head>
+    <title>#{strings['index_test_name']}</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'></link>
+    <h:outputStylesheet>
+        body {background-color:#5677fc}
+        h1   {color:white; font-family: 'Source Sans Pro', sans-serif; font-size:600%; text-align: center; left: 0;
+            line-height: 200px;
+            margin: auto;
+            margin-top: -20%;
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            text-shadow: 0px 4px 0px rgba(73, 101, 214, 1);}
+    </h:outputStylesheet>
+
+</h:head>
+<h:body>
+
+<h1><h:outputText value="#{strings['index_test_name']} : #{userBB.name}"/></h1>
+
+    <h:form>
+        <h:commandLink action="#{localeBean.setLanguage('cs_cz')}" value="CZ" />
+        <h:commandLink action="#{localeBean.setLanguage('en')}" value="EN" />
+    </h:form>
+
+</h:body>
+</f:view>
+</html>
