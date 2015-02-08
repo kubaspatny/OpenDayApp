@@ -24,10 +24,19 @@
         <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet' type='text/css'/>
 
     </h:head>
+
+    <f:metadata>
+        <f:viewParam name="create" value="#{eventBean.modeCreate}" />
+        <f:viewParam name="id" value="#{eventBean.eventId}" />
+        <f:event type="preRenderView" listener="#{eventBean.init}" />
+    </f:metadata>
+
     <h:body>
         <h:outputStylesheet name="css/bootstrap.css" />
         <h:outputStylesheet name="css/logo.css" />
         <h:outputStylesheet name="css/main.css" />
+
+
 
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
@@ -39,7 +48,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand logo-navbar" href="#">OPEN DAYS</a>
+                    <h:link styleClass="navbar-brand logo-navbar" outcome="index">OPEN DAYS</h:link>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -61,7 +70,28 @@
 
         <div class="container">
 
-            <div class="row">
+            <h:panelGroup styleClass="row" layout="block" rendered="#{param.id != null}">
+                <div class="col-md-6">
+                    <div class="material-container">
+
+                        <div class="box-toolbar">
+                            <span class="left title"><h:outputText value="#{eventBean.event.name}"/></span>
+                        </div>
+
+                        <div class="box-content">
+
+                            <h:outputText value="#{eventBean.event.information}" /><br/>
+                            <h:outputText value="#{eventBean.event.date.toString('dd/MM/yyyy')}" /><br/>
+                            <h:outputText value="#{eventBean.event.organizer.username}" /><br/>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </h:panelGroup>
+
+            <h:panelGroup styleClass="row" layout="block" rendered="#{param.create != null}">
 
                 <div class="col-md-6">
 
@@ -79,24 +109,26 @@
                                 <h:panelGrid id="panel" columns="3">
 
                                     <p:outputLabel for="name" value="NAME" styleClass="sr-only"/>
-                                    <p:inputText id="name" value="#{eventBB.createEventName}" placeholder="NAME" styleClass="form-control" required="true" requiredMessage="FILL IN NAME EVENT">
+                                    <p:inputText id="name" value="#{eventBean.createEventName}" placeholder="NAME" styleClass="form-control" required="true" requiredMessage="FILL IN NAME EVENT">
                                         <p:ajax update="msgName" event="keyup"/>
                                     </p:inputText>
                                     <p:message for="name" id="msgName" display="text"/>
 
                                     <p:outputLabel for="datePicker" value="DATEPICKER" styleClass="sr-only"/>
-                                    <p:calendar lang="#{localeBean.locale}" id="datePicker" value="#{eventBB.createEventDate}" mode="popup"
+                                    <p:calendar lang="#{localeBean.locale}" id="datePicker" value="#{eventBean.createEventDate}" mode="popup"
                                                 pattern="dd/MM/yyyy"
                                                 required="true" requiredMessage="PICK A DATE" placeholder="EVENT DATE"/>
                                     <p:message for="datePicker" id="msgDatePicker" display="text"/>
 
                                     <p:outputLabel for="info" value="INFO" styleClass="sr-only"/>
-                                    <p:inputTextarea id="info" rows="6" cols="30" value="#{eventBB.createEventInfo}" styleClass="form-control" placeholder="EVENT INFORMATION"/>
+                                    <p:inputTextarea id="info" rows="6" cols="30" value="#{eventBean.createEventInfo}" styleClass="form-control" placeholder="EVENT INFORMATION"/>
 
                                 </h:panelGrid>
-                                <p:commandButton ajax="false" value="CREATE EVENT" styleClass="btn btn-primary button-register" update="register-form" action="#{eventBB.createEvent}"/>
+                                <h:commandButton value="CREATE EVENT" styleClass="btn btn-primary button-register" update="register-form" action="#{eventBean.createEvent}">
+                                    <f:param name="create" value="true" />
+                                </h:commandButton>
 
-                                <h:panelGroup layout="block" styleClass="alert alert-danger" rendered="#{eventBB.errorCreatingEvent}" >
+                                <h:panelGroup layout="block" styleClass="alert alert-danger" rendered="#{eventBean.errorCreatingEvent}" >
                                     <h:outputText value="ERROR CREATING EVENT"/>
                                 </h:panelGroup>
 
@@ -107,7 +139,7 @@
                     </div>
                 </div>
 
-            </div>
+            </h:panelGroup>
 
         </div>
 

@@ -29,7 +29,11 @@ import org.springframework.stereotype.Component;
 public class NavigationBB {
 
     public String goCreateEvent(){
-        return "event?faces-redirect=true&create=1";
+        return "event?faces-redirect=true&create=true";
+    }
+
+    public String goEvent(String id){
+        return "event?faces-redirect=true&id=" + id;
     }
 
 }
