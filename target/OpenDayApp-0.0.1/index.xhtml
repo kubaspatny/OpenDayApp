@@ -20,8 +20,7 @@
         </h:outputScript>
 
         <h:outputScript name="js/bootstrap.js"/>
-
-        <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'/>
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet' type='text/css'/>
 
     </h:head>
     <h:body>
@@ -64,15 +63,64 @@
             <div class="row">
 
                 <div class="col-md-6">
+
                     <div class="material-container">
 
                         <div class="box-toolbar">
                             <span class="left title">EVENTS</span>
-                            <span class="right button">ADD</span>
+                            <h:form>
+                                <h:commandLink class="right material-button-flat no-select" action="#{navBB.goCreateEvent}">NEW</h:commandLink>
+                            </h:form>
                         </div>
 
+
                         <div class="box-content">
-                            <p>This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. This is text. </p>
+
+                            <h:form id="events">
+                            <p:dataTable var="event" value="#{indexBB.events}" rendered="#{not empty indexBB.events}" styleClass="no-header">
+                                <p:column styleClass="event-name">
+                                    <h:outputText value="#{event.name}" />
+                                </p:column>
+
+                                <p:column styleClass="event-date">
+                                    <h:outputText value="#{event.eventDate}" />
+                                </p:column>
+
+                                <p:column>
+                                    <div class="right">
+
+                                        <p:commandButton styleClass="material-button-image image-button-edit ui-button-icon-only no-select" action="#{indexBB.edit(event.name)}" value=""/>
+                                        <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
+                                                         actionListener="#{indexBB.deleteEvent(event.id)}" value="" update="@form">
+                                            <p:confirm header="Confirmation" message="Do you really want to delete event?" icon="icon-empty"/>
+                                        </p:commandButton>
+
+                                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        </p:confirmDialog>
+                                        <!--<p:commandLink action="">-->
+                                            <!--<h:graphicImage name="images/edit18.png" styleClass="material-button-image"/>-->
+                                        <!--</p:commandLink>-->
+
+                                        <!--<p:commandLink action="">-->
+                                            <!--<h:graphicImage name="images/delete18.png" styleClass="material-button-image margin-left-20"/>-->
+                                        <!--</p:commandLink>-->
+                                    </div>
+                                </p:column>
+
+                            </p:dataTable>
+
+                            <h:panelGroup layout="block" styleClass="alert alert-info" rendered="#{empty indexBB.events and not indexBB.eventLoadingError}" >
+                                <h:outputText value="#{strings['noevents']}"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup layout="block" styleClass="alert alert-danger" rendered="#{indexBB.eventLoadingError}" >
+                                <h:outputText value="#{strings['error-eventloading']}"/>
+                            </h:panelGroup>
+
+                            </h:form>
+
                         </div>
 
                     </div>
@@ -86,14 +134,12 @@
 
             </div>
 
+            <h:form>
+                <h1><h:outputText value="#{demoBB.text}"/></h1>
+                <p:poll interval="1" listener="#{demoBB.update()}" update="@form"/>
+            </h:form>
+
         </div>
-
-        <h:form>
-            <h1><h:outputText value="#{demoBB.text}"/></h1>
-            <p:poll interval="1" listener="#{demoBB.update()}" update="@form"/>
-        </h:form>
-
-
 
     </h:body>
 </f:view>

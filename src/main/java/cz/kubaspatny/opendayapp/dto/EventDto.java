@@ -52,6 +52,10 @@ public class EventDto extends BaseDto {
         return date;
     }
 
+    public String getEventDate(){
+        return getDate().toString("dd.MM.yyyy");
+    }
+
     public void setDate(DateTime date) {
         this.date = date;
     }
