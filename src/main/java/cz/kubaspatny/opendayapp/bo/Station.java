@@ -1,5 +1,7 @@
 package cz.kubaspatny.opendayapp.bo;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -33,6 +35,8 @@ public class Station extends AbstractBusinessObject {
 
     @Column(nullable = false)
     private String location;
+
+    @Type(type="text")
     private String information;
     private boolean closed = false;
 

@@ -70,27 +70,138 @@
 
         <div class="container">
 
+            <!-- VIEW MODE -->
+            <!-- SIDE PANEL WITH TABS+VIEWS -->
             <h:panelGroup styleClass="row" layout="block" rendered="#{param.id != null}">
-                <div class="col-md-6">
-                    <div class="material-container">
 
-                        <div class="box-toolbar">
-                            <span class="left title"><h:outputText value="#{eventBean.event.name}"/></span>
-                        </div>
+                <div class="col-md-2 no-padding">
 
-                        <div class="box-content">
+                    <ul class="nav nav-tabs side-nav" data-tabs="tabs">
+                        <li class="active">
+                            <a data-toggle="tab" href="#red">
+                                <h:graphicImage value="#{resource['images/edit18.png']}"/>
+                                <span>Information</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#orange">
+                                <h:graphicImage value="#{resource['images/delete18.png']}"/>
+                                <span>Routes</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#yellow">
+                                <h:graphicImage value="#{resource['images/75.png']}"/>
+                                <span>People</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#green">
+                                <h:graphicImage value="#{resource['images/delete18.png']}"/>
+                                <span>Statistics</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#blue">
+                                <h:graphicImage value="#{resource['images/edit18.png']}"/>
+                                <span>Live</span>
+                            </a>
+                        </li>
+                    </ul>
 
-                            <h:outputText value="#{eventBean.event.information}" /><br/>
-                            <h:outputText value="#{eventBean.event.date.toString('dd/MM/yyyy')}" /><br/>
-                            <h:outputText value="#{eventBean.event.organizer.username}" /><br/>
-
-                        </div>
-                    </div>
                 </div>
 
+                <div class="col-md-10 top-padding">
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="red">
+
+                            <div class="material-container">
+
+                                <div class="box-toolbar">
+                                    <span class="left title"><h:outputText value="#{eventBean.event.name}"/></span>
+                                </div>
+
+                                <div class="box-content">
+
+                                    <h:outputText value="Information: #{eventBean.event.information}" /><br/>
+                                    <h:outputText value="Date: #{eventBean.event.date.toString('dd/MM/yyyy')}" /><br/>
+                                    <h:outputText value="Organizer: #{eventBean.event.organizer.username}" /><br/>
+
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="tab-pane" id="orange">
+                            <div class="material-container">
+
+                                <div class="box-toolbar">
+                                    <span class="left title"><h:outputText value="#{eventBean.event.name} - #{eventBean.event.date.toString('dd/MM/yyyy')}"/></span>
+                                </div>
+
+                                <div class="box-content">
+
+                                    <h:outputText value="Information: #{eventBean.event.information}" /><br/>
+                                    <h:outputText value="Organizer: #{eventBean.event.organizer.username}" /><br/>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="yellow">
+                            <div class="material-container">
+
+                                <div class="box-toolbar">
+                                    <span class="left title"><h:outputText value="#{eventBean.event.ACLObjectIdentityClass}"/></span>
+                                </div>
+
+                                <div class="box-content">
+
+                                    <h:outputText value="Information: #{eventBean.event.information}" /><br/>
+                                    <h:outputText value="Date: #{eventBean.event.date.toString('dd/MM/yyyy')}" /><br/>
+                                    <h:outputText value="Organizer: #{eventBean.event.organizer.username}" /><br/>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="green">
+                            <div class="material-container">
+
+                                <div class="box-toolbar">
+                                    <span class="left title"><h:outputText value="[#{eventBean.event.id}]"/></span>
+                                </div>
+
+                                <div class="box-content">
+
+                                    <h:outputText value="Information: #{eventBean.event.information}" /><br/>
+                                    <h:outputText value="Date: #{eventBean.event.date.toString('dd/MM/yyyy')}" /><br/>
+                                    <h:outputText value="Organizer: #{eventBean.event.organizer.username}" /><br/>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="blue">
+                            <div class="material-container" style="background-color: #23527c;">
+
+                                <div class="box-toolbar">
+                                    <span class="left title"><h:outputText value="BLUE: #{eventBean.event.name}"/></span>
+                                </div>
+
+                                <div class="box-content">
+
+                                    <h:outputText value="Information: #{eventBean.event.information}" /><br/>
+                                    <h:outputText value="Date: #{eventBean.event.date.toString('dd/MM/yyyy')}" /><br/>
+                                    <h:outputText value="Organizer: #{eventBean.event.organizer.username}" /><br/>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
 
             </h:panelGroup>
 
+            <!-- CREATE MODE -->
             <h:panelGroup styleClass="row" layout="block" rendered="#{param.create != null}">
 
                 <div class="col-md-6">

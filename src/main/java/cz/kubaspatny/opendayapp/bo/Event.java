@@ -39,6 +39,7 @@ public class Event extends AbstractBusinessObject {
     @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     private DateTime date;
 
+    @Type(type="text")
     private String information;
 
     @ManyToOne

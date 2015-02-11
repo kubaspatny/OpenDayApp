@@ -37,6 +37,7 @@ public class Route extends AbstractBusinessObject {
     @Column(nullable = false)
     private String hexColor;
 
+    @Type(type="text")
     private String information;
 
     @Column(nullable = false)

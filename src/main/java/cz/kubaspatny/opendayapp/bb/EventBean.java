@@ -44,18 +44,33 @@ import java.util.Date;
 @ViewScoped
 public class EventBean implements Serializable {
 
+    private enum EventViewMode {
+        VIEW, EDIT, CREATE;
+    }
+
     @Autowired
     transient IEventService eventService;
 
+    private EventViewMode mode;
+
     @PostConstruct
-    public void init() throws IOException {
+    public void init() {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         ServletContext servletContext = (ServletContext) externalContext.getContext();
         WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext).
                 getAutowireCapableBeanFactory().
                 autowireBean(this);
 
-        if(eventId != null) loadEvent();
+        // todo: check mode -> if no mode is set -> redirect to 404
+        // use Enum mode = null;
+
+        if(eventId != null) {
+            try {
+                loadEvent();
+            } catch (IOException e){
+                // TODO: log message (couldn't redirect to error code)
+            }
+        }
     }
 
     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
@@ -157,7 +172,6 @@ public class EventBean implements Serializable {
             facesContext.responseComplete();
         }
 
-        System.out.println("event is null: " + (event == null));
     }
 
     public EventDto getEvent() {
