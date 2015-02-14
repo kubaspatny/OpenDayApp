@@ -78,31 +78,31 @@
 
                     <ul class="nav nav-tabs side-nav" data-tabs="tabs">
                         <li class="active">
-                            <a data-toggle="tab" href="#red">
+                            <a data-toggle="tab" href="#information">
                                 <h:graphicImage value="#{resource['images/edit18.png']}"/>
                                 <span>Information</span>
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tab" href="#orange">
+                            <a data-toggle="tab" href="#routes">
                                 <h:graphicImage value="#{resource['images/delete18.png']}"/>
                                 <span>Routes</span>
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tab" href="#yellow">
-                                <h:graphicImage value="#{resource['images/75.png']}"/>
+                            <a data-toggle="tab" href="#people">
+                                <h:graphicImage value="#{resource['images/edit18.png']}"/>
                                 <span>People</span>
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tab" href="#green">
+                            <a data-toggle="tab" href="#statistics">
                                 <h:graphicImage value="#{resource['images/delete18.png']}"/>
                                 <span>Statistics</span>
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tab" href="#blue">
+                            <a data-toggle="tab" href="#live">
                                 <h:graphicImage value="#{resource['images/edit18.png']}"/>
                                 <span>Live</span>
                             </a>
@@ -114,7 +114,7 @@
                 <div class="col-md-10 top-padding">
 
                     <div class="tab-content">
-                        <div class="tab-pane active" id="red">
+                        <div class="tab-pane active" id="information">
 
                             <div class="material-container">
 
@@ -124,74 +124,61 @@
 
                                 <div class="box-content">
 
-                                    <h:outputText value="Information: #{eventBean.event.information}" /><br/>
-                                    <h:outputText value="Date: #{eventBean.event.date.toString('dd/MM/yyyy')}" /><br/>
-                                    <h:outputText value="Organizer: #{eventBean.event.organizer.username}" /><br/>
+                                    <h:outputText styleClass="font500" value="Information:"/><br/>
+                                    <h:outputText styleClass="font300" value="#{eventBean.event.information}"/>
+                                    <h:outputText styleClass="font300 italic" value="No information added yet." rendered="#{empty eventBean.event.information}"/><br/><br/>
+
+                                    <h:outputText styleClass="font500" value="Date:"/><br/>
+                                    <h:outputText styleClass="font300" value="#{eventBean.event.date.toString('dd/MM/yyyy')}" /><br/><br/>
+
+                                    <h:outputText styleClass="font500" value="Organizer:"/><br/>
+                                    <h:outputText styleClass="font300" value="#{eventBean.event.organizer.username}" /><br/><br/>
 
                                 </div>
                             </div>
                             
                         </div>
-                        <div class="tab-pane" id="orange">
+                        <div class="tab-pane" id="routes">
                             <div class="material-container">
 
                                 <div class="box-toolbar">
-                                    <span class="left title"><h:outputText value="#{eventBean.event.name} - #{eventBean.event.date.toString('dd/MM/yyyy')}"/></span>
+                                    <span class="left title"><h:outputText value="ROUTES"/></span>
                                 </div>
 
                                 <div class="box-content">
-
-                                    <h:outputText value="Information: #{eventBean.event.information}" /><br/>
-                                    <h:outputText value="Organizer: #{eventBean.event.organizer.username}" /><br/>
-
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane" id="yellow">
+                        <div class="tab-pane" id="people">
                             <div class="material-container">
 
                                 <div class="box-toolbar">
-                                    <span class="left title"><h:outputText value="#{eventBean.event.ACLObjectIdentityClass}"/></span>
+                                    <span class="left title"><h:outputText value="PEOPLE"/></span>
                                 </div>
 
                                 <div class="box-content">
-
-                                    <h:outputText value="Information: #{eventBean.event.information}" /><br/>
-                                    <h:outputText value="Date: #{eventBean.event.date.toString('dd/MM/yyyy')}" /><br/>
-                                    <h:outputText value="Organizer: #{eventBean.event.organizer.username}" /><br/>
-
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane" id="green">
+                        <div class="tab-pane" id="statistics">
                             <div class="material-container">
 
                                 <div class="box-toolbar">
-                                    <span class="left title"><h:outputText value="[#{eventBean.event.id}]"/></span>
+                                    <span class="left title"><h:outputText value="STATS"/></span>
                                 </div>
 
                                 <div class="box-content">
-
-                                    <h:outputText value="Information: #{eventBean.event.information}" /><br/>
-                                    <h:outputText value="Date: #{eventBean.event.date.toString('dd/MM/yyyy')}" /><br/>
-                                    <h:outputText value="Organizer: #{eventBean.event.organizer.username}" /><br/>
-
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane" id="blue">
-                            <div class="material-container" style="background-color: #23527c;">
+                        <div class="tab-pane" id="live">
+                            <div class="material-container" style="background-color: rgba(0, 124, 10, 0.65);">
 
                                 <div class="box-toolbar">
-                                    <span class="left title"><h:outputText value="BLUE: #{eventBean.event.name}"/></span>
+                                    <span class="left title"><h:outputText value="LIVE"/></span>
                                 </div>
 
                                 <div class="box-content">
-
-                                    <h:outputText value="Information: #{eventBean.event.information}" /><br/>
-                                    <h:outputText value="Date: #{eventBean.event.date.toString('dd/MM/yyyy')}" /><br/>
-                                    <h:outputText value="Organizer: #{eventBean.event.organizer.username}" /><br/>
-
                                 </div>
                             </div>
                         </div>

@@ -20,6 +20,7 @@
         </h:outputScript>
 
         <h:outputScript name="js/bootstrap.js"/>
+        <h:outputScript name="js/primefaces-calendar.js"/>
         <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet' type='text/css'/>
 
     </h:head>
@@ -28,6 +29,7 @@
         <h:outputStylesheet name="css/logo.css" />
         <h:outputStylesheet name="css/main.css" />
 
+        <!-- TOOLBAR -->
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
@@ -69,10 +71,41 @@
                         <div class="box-toolbar">
                             <span class="left title">EVENTS</span>
                             <h:form>
-                                <h:commandLink class="right material-button-flat no-select" action="#{navBB.goCreateEvent}">NEW</h:commandLink>
+                                <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('dlg').show();">NEW</h:outputLink>
                             </h:form>
-                        </div>
 
+                            <p:dialog header="New Event" widgetVar="dlg" resizable="false" draggable="false" modal="true">
+                                <h:form styleClass="form-table">
+
+                                    <h:panelGrid id="panel" columns="3">
+
+                                        <p:outputLabel for="name" value="NAME" styleClass="sr-only"/>
+                                        <p:inputText id="name" value="#{createEventBean.createEventName}" placeholder="NAME" styleClass="form-control" required="true" requiredMessage="FILL IN NAME EVENT">
+                                            <p:ajax update="msgName" event="keyup"/>
+                                        </p:inputText>
+                                        <p:message for="name" id="msgName" display="text"/>
+
+                                        <p:outputLabel for="datePicker" value="DATEPICKER" styleClass="sr-only"/>
+                                        <p:calendar lang="#{localeBean.locale}" id="datePicker" value="#{createEventBean.createEventDate}" mode="popup"
+                                                    pattern="dd/MM/yyyy"
+                                                    required="true" requiredMessage="PICK A DATE" placeholder="EVENT DATE"/>
+                                        <p:message for="datePicker" id="msgDatePicker" display="text"/>
+
+                                        <p:outputLabel for="info" value="INFO" styleClass="sr-only"/>
+                                        <p:inputTextarea id="info" rows="6" cols="30" value="#{createEventBean.createEventInfo}" styleClass="form-control" placeholder="EVENT INFORMATION"/>
+
+                                    </h:panelGrid>
+                                    <p:commandButton value="CREATE EVENT" styleClass="margin-top-10" update="@form :events"
+                                                     actionListener="#{createEventBean.createEvent}"
+                                                     oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorCreatingEvent) PF('dlg').hide()"/>
+
+                                    <h:panelGroup layout="block" styleClass="alert alert-danger margin-top-10" rendered="#{createEventBean.errorCreatingEvent}">
+                                        <h:outputText value="ERROR CREATING EVENT"/>
+                                    </h:panelGroup>
+                                </h:form>
+                            </p:dialog>
+
+                        </div>
 
                         <div class="box-content">
 
@@ -99,13 +132,6 @@
                                             <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                                             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                                         </p:confirmDialog>
-                                        <!--<p:commandLink action="">-->
-                                            <!--<h:graphicImage name="images/edit18.png" styleClass="material-button-image"/>-->
-                                        <!--</p:commandLink>-->
-
-                                        <!--<p:commandLink action="">-->
-                                            <!--<h:graphicImage name="images/delete18.png" styleClass="material-button-image margin-left-20"/>-->
-                                        <!--</p:commandLink>-->
                                     </div>
                                 </p:column>
 
@@ -134,10 +160,10 @@
 
             </div>
 
-            <h:form>
-                <h1><h:outputText value="#{demoBB.text}"/></h1>
-                <p:poll interval="1" listener="#{demoBB.update()}" update="@form"/>
-            </h:form>
+            <!--<h:form>-->
+                <!--<h1><h:outputText value="{demoBB.text}"/></h1>-->
+                <!--<p:poll interval="1" listener="{demoBB.update()}" update="@form"/>-->
+            <!--</h:form>-->
 
         </div>
 

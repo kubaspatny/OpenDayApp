@@ -149,6 +149,26 @@ a {
     margin-left: 20px;
 }
 
+.margin-top-10 {
+    margin-top: 10px;
+}
+
+.font500 {
+    font-weight: 500;
+}
+
+.font400 {
+    font-weight: 400;
+}
+
+.font300 {
+    font-weight: 300;
+}
+
+.italic {
+    font-style: italic;
+}
+
 .no-header table thead tr {
     display: none;
 }
