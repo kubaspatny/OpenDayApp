@@ -3,7 +3,9 @@ package cz.kubaspatny.opendayapp.bb;
 import cz.kubaspatny.opendayapp.dto.EventDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.service.IEventService;
+import cz.kubaspatny.opendayapp.service.IUserService;
 import org.joda.time.DateTime;
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -14,6 +16,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -45,11 +48,14 @@ import java.util.Date;
 public class EventBean implements Serializable {
 
     private enum EventViewMode {
-        VIEW, EDIT, CREATE;
+        VIEW, EDIT;
     }
 
     @Autowired
     transient IEventService eventService;
+
+    @Autowired
+    transient IUserService userService;
 
     private EventViewMode mode;
 
@@ -81,12 +87,11 @@ public class EventBean implements Serializable {
     private String modeCreate;
     private String eventId;
 
-    private String createEventName;
-    private Date createEventDate;
-    private String createEventInfo;
-    private boolean errorCreatingEvent;
+    private boolean errorRegisteringUser;
 
     private EventDto event;
+
+    private String newPersonEmail;
 
     public String getModeCreate() {
         return modeCreate;
@@ -104,48 +109,16 @@ public class EventBean implements Serializable {
         this.eventId = eventId;
     }
 
-    public String getCreateEventName() {
-        return createEventName;
+    public boolean isErrorRegisteringUser() {
+        return errorRegisteringUser;
     }
 
-    public void setCreateEventName(String createEventName) {
-        this.createEventName = createEventName;
+    public String getNewPersonEmail() {
+        return newPersonEmail;
     }
 
-    public Date getCreateEventDate() {
-        return createEventDate;
-    }
-
-    public void setCreateEventDate(Date createEventDate) {
-        this.createEventDate = createEventDate;
-    }
-
-    public String getCreateEventInfo() {
-        return createEventInfo;
-    }
-
-    public void setCreateEventInfo(String createEventInfo) {
-        this.createEventInfo = createEventInfo;
-    }
-
-    public boolean isErrorCreatingEvent() {
-        return errorCreatingEvent;
-    }
-
-    public String createEvent(){
-        EventDto e = new EventDto();
-        e.setName(createEventName);
-        e.setDate(new DateTime(createEventDate));
-        e.setInformation(createEventInfo);
-
-        try {
-            eventService.addEvent(e);
-        } catch (DataAccessException ex){
-            errorCreatingEvent = true;
-            return "";
-        }
-
-        return "index?faces-redirect=true";
+    public void setNewPersonEmail(String newPersonEmail) {
+        this.newPersonEmail = newPersonEmail;
     }
 
     public void loadEvent() throws IOException {
@@ -181,4 +154,54 @@ public class EventBean implements Serializable {
     public void setEvent(EventDto event) {
         this.event = event;
     }
+
+    public boolean isRegistered(String email){
+        try {
+            return !userService.isEmailFree(email);
+        } catch (DataAccessException e){
+            // log exception
+            return false;
+        }
+    }
+
+    public String addNewPersonToEmailList(){
+
+        try {
+            if(!isRegistered(newPersonEmail)){
+                userService.createGeneratedUser(newPersonEmail);
+            }
+            eventService.addEmailToList(event.id, newPersonEmail);
+        } catch (DataAccessException e){
+            RequestContext.getCurrentInstance().addCallbackParam("errorRegisteringUser", true);
+            errorRegisteringUser = true;
+            return "";
+        }
+
+        try {
+            loadEvent();
+            FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("people-form");
+        } catch (IOException e){
+            // TODO: log message (couldn't redirect to error code)
+        }
+
+        newPersonEmail = null;
+        return "";
+    }
+
+    public void removePersonFromEmailList(String email){
+
+        try {
+            eventService.removeEmailFromList(event.getId(), email);
+        } catch (DataAccessException e){
+            // TODO display error
+        }
+
+        try {
+            loadEvent();
+        } catch (IOException e){
+            // TODO: log message (couldn't redirect to error code)
+        }
+
+    }
+
 }

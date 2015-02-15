@@ -26,7 +26,6 @@
     </h:head>
 
     <f:metadata>
-        <f:viewParam name="create" value="#{eventBean.modeCreate}" />
         <f:viewParam name="id" value="#{eventBean.eventId}" />
         <f:event type="preRenderView" listener="#{eventBean.init}" />
     </f:metadata>
@@ -36,7 +35,49 @@
         <h:outputStylesheet name="css/logo.css" />
         <h:outputStylesheet name="css/main.css" />
 
+        <!-- DIALOGS -->
+        <p:dialog header="Add person to this event" widgetVar="add-person-dlg" resizable="false" draggable="false" modal="true">
+            <h:form id="add-person-form" styleClass="form-table">
 
+                <h:panelGrid id="panel" columns="3">
+
+                    <p:outputLabel for="email" value="NAME" styleClass="sr-only"/>
+                    <p:inputText id="email" value="#{eventBean.newPersonEmail}" placeholder="Email" styleClass="form-control" required="true" requiredMessage="FILL IN EMAIL">
+                        <f:validator binding="#{emailFormatValidator}"/>
+                        <p:ajax update="errorEmail @form:submit" event="keyup"/>
+                    </p:inputText>
+
+                    <h:panelGroup layout="block" id="errorEmail">
+                        <h:panelGroup layout="block" styleClass="alert alert-success dialog-alert" rendered="#{eventBean.isRegistered(eventBean.newPersonEmail)}">
+                            <span class="glyphicon glyphicon-ok margin-right-10"/>
+                            <h:outputText value="User is registered"/>
+                        </h:panelGroup>
+
+                        <h:panelGroup layout="block" styleClass="alert alert-warning dialog-alert" rendered="#{not empty eventBean.newPersonEmail and not eventBean.isRegistered(eventBean.newPersonEmail)}">
+                            <span class="glyphicon glyphicon-flag margin-right-10"/>
+                            <h:outputText value="User will be registered"/>
+                        </h:panelGroup>
+                        <p:message for="email" id="msgEmail" display="text"/>
+
+                    </h:panelGroup>
+
+                </h:panelGrid>
+                <p:commandButton id="submit" value="#{not empty eventBean.newPersonEmail and not eventBean.isRegistered(eventBean.newPersonEmail) ? 'Register and add user' : 'Add user'}" styleClass="margin-top-10" update="@form"
+                                 action="#{eventBean.addNewPersonToEmailList}"
+                                 oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorCreatingEvent) PF('add-person-dlg').hide()">
+                    <f:param name="id" value="#{eventBean.eventId}" />
+                </p:commandButton>
+
+                <h:panelGroup layout="block" styleClass="alert alert-danger margin-top-10" rendered="#{createEventBean.errorCreatingEvent}">
+                    <h:outputText value="ERROR CREATING EVENT"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
 
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
@@ -68,7 +109,7 @@
             </div>
         </nav>
 
-        <div class="container">
+        <h:panelGroup styleClass="container" layout="block">
 
             <!-- VIEW MODE -->
             <!-- SIDE PANEL WITH TABS+VIEWS -->
@@ -154,10 +195,40 @@
 
                                 <div class="box-toolbar">
                                     <span class="left title"><h:outputText value="PEOPLE"/></span>
+                                    <h:form>
+                                        <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('add-person-dlg').show();">NEW</h:outputLink>
+                                    </h:form>
                                 </div>
 
                                 <div class="box-content">
+
+                                    <h:form id="people-form">
+                                        <p:dataTable var="person" value="#{eventBean.event.emailList}" rendered="#{not empty eventBean.event.emailList}" styleClass="no-header">
+
+                                            <p:column styleClass="event-date">
+                                                <h:outputText value="#{person}" />
+                                            </p:column>
+
+                                            <p:column>
+                                                <div class="right">
+                                                    <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
+                                                                     actionListener="#{eventBean.removePersonFromEmailList(person)}" value="" update="@form">
+                                                        <p:confirm header="Confirmation" message="Do you really want to delete this email?" icon="icon-empty"/>
+                                                        <f:param name="id" value="#{eventBean.eventId}"/>
+                                                    </p:commandButton>
+                                                </div>
+                                            </p:column>
+
+                                        </p:dataTable>
+
+                                        <h:panelGroup layout="block" styleClass="alert alert-info" rendered="#{empty eventBean.event.emailList}" >
+                                            <h:outputText value="No people added yet."/>
+                                        </h:panelGroup>
+
+                                    </h:form>
+
                                 </div>
+
                             </div>
                         </div>
                         <div class="tab-pane" id="statistics">
@@ -188,58 +259,7 @@
 
             </h:panelGroup>
 
-            <!-- CREATE MODE -->
-            <h:panelGroup styleClass="row" layout="block" rendered="#{param.create != null}">
-
-                <div class="col-md-6">
-
-                    <div class="material-container">
-
-                        <div class="box-toolbar">
-                            <span class="left title">NEW EVENT</span>
-                        </div>
-
-
-                        <div class="box-content form-group">
-
-                            <h:form id="events" styleClass="form-table">
-
-                                <h:panelGrid id="panel" columns="3">
-
-                                    <p:outputLabel for="name" value="NAME" styleClass="sr-only"/>
-                                    <p:inputText id="name" value="#{eventBean.createEventName}" placeholder="NAME" styleClass="form-control" required="true" requiredMessage="FILL IN NAME EVENT">
-                                        <p:ajax update="msgName" event="keyup"/>
-                                    </p:inputText>
-                                    <p:message for="name" id="msgName" display="text"/>
-
-                                    <p:outputLabel for="datePicker" value="DATEPICKER" styleClass="sr-only"/>
-                                    <p:calendar lang="#{localeBean.locale}" id="datePicker" value="#{eventBean.createEventDate}" mode="popup"
-                                                pattern="dd/MM/yyyy"
-                                                required="true" requiredMessage="PICK A DATE" placeholder="EVENT DATE"/>
-                                    <p:message for="datePicker" id="msgDatePicker" display="text"/>
-
-                                    <p:outputLabel for="info" value="INFO" styleClass="sr-only"/>
-                                    <p:inputTextarea id="info" rows="6" cols="30" value="#{eventBean.createEventInfo}" styleClass="form-control" placeholder="EVENT INFORMATION"/>
-
-                                </h:panelGrid>
-                                <h:commandButton value="CREATE EVENT" styleClass="btn btn-primary button-register" update="register-form" action="#{eventBean.createEvent}">
-                                    <f:param name="create" value="true" />
-                                </h:commandButton>
-
-                                <h:panelGroup layout="block" styleClass="alert alert-danger" rendered="#{eventBean.errorCreatingEvent}" >
-                                    <h:outputText value="ERROR CREATING EVENT"/>
-                                </h:panelGroup>
-
-                            </h:form>
-
-                        </div>
-
-                    </div>
-                </div>
-
-            </h:panelGroup>
-
-        </div>
+        </h:panelGroup>
 
     </h:body>
 </f:view>

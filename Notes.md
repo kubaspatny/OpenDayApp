@@ -21,4 +21,8 @@ EMAILS
 
 - opendayapp@gmail.com, h=&estecA!uY+da2uGa2ephu*!8pejUx
 - opendayapptest@gmail.com, h=&estecA!uY+da2uGa2ephu*!8pejUx
+- opendays.guide1@gmail.com
+- opendays.guide2@email.cz
+- opendays.guide3@email.cz
+- opendays.guide4@seznam.cz
 

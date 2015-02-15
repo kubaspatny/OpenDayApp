@@ -49,10 +49,10 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><h:outputText value="#{userBB.name}"/><span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Profile</a></li>
-                                <li><a href="#">Settings</a></li>
+                                <li><a href="#"><h:outputText value="#{strings['profile']}"/></a></li>
+                                <li><a href="#"><h:outputText value="#{strings['settings']}"/></a></li>
                                 <li class="divider"></li>
-                                <li><h:outputLink value="#{root}/logout">Sign out</h:outputLink></li>
+                                <li><h:outputLink value="#{root}/logout"><h:outputText value="#{strings['signout']}"/></h:outputLink></li>
                             </ul>
                         </li>
                     </ul>
@@ -92,7 +92,7 @@
                                         <p:message for="datePicker" id="msgDatePicker" display="text"/>
 
                                         <p:outputLabel for="info" value="INFO" styleClass="sr-only"/>
-                                        <p:inputTextarea id="info" rows="6" cols="30" value="#{createEventBean.createEventInfo}" styleClass="form-control" placeholder="EVENT INFORMATION"/>
+                                        <p:inputTextarea id="info" autoResize="false" rows="6" cols="30" value="#{createEventBean.createEventInfo}" styleClass="form-control" placeholder="EVENT INFORMATION"/>
 
                                     </h:panelGrid>
                                     <p:commandButton value="CREATE EVENT" styleClass="margin-top-10" update="@form :events"
@@ -145,7 +145,7 @@
                                 <h:outputText value="#{strings['error-eventloading']}"/>
                             </h:panelGroup>
 
-                            </h:form>
+                        </h:form>
 
                         </div>
 
