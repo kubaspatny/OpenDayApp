@@ -20,6 +20,7 @@ import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -164,6 +165,14 @@ public class EventBean implements Serializable {
         }
     }
 
+    public boolean areAllEmailsRegistered(ArrayList<String> emails){
+        for(String e : emails){
+            if(!isRegistered(e)) return false;
+        }
+
+        return true;
+    }
+
     public String addNewPersonToEmailList(){
 
         try {
@@ -186,6 +195,35 @@ public class EventBean implements Serializable {
 
         newPersonEmail = null;
         return "";
+    }
+
+    public String addEmailsToEmailList(ArrayList<String> emails){
+
+        for(String email : emails){
+
+            try {
+                if(!isRegistered(email)){
+                    userService.createGeneratedUser(email);
+                }
+                eventService.addEmailToList(event.id, email);
+            } catch (DataAccessException e){
+                RequestContext.getCurrentInstance().addCallbackParam("errorRegisteringUser", true);
+                errorRegisteringUser = true;
+                return "";
+            }
+
+        }
+
+        try {
+            loadEvent();
+            RequestContext.getCurrentInstance().addCallbackParam("uploadFinished", true);
+            FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("people-form");
+        } catch (IOException e){
+            // TODO: log message (couldn't redirect to error code)
+        }
+
+        return "";
+
     }
 
     public void removePersonFromEmailList(String email){

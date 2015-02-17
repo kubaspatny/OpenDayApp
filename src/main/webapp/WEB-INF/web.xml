@@ -54,6 +54,11 @@
         </init-param>
     </filter>
 
+    <filter>
+        <filter-name>PrimeFaces FileUpload Filter</filter-name>
+        <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+    </filter>
+
     <servlet-mapping>
         <servlet-name>rest</servlet-name>
         <url-pattern>/api/*</url-pattern>
@@ -83,6 +88,11 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <filter-mapping>
+        <filter-name>PrimeFaces FileUpload Filter</filter-name>
+        <servlet-name>Faces Servlet</servlet-name>
+    </filter-mapping>
 
     <session-config>
         <session-timeout>

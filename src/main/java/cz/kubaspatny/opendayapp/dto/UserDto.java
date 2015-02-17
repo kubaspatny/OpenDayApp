@@ -239,7 +239,7 @@ public class UserDto extends BaseDto {
         }
 
         if(!ignoredProperties.contains("email")){
-            target.setEmail(source.getEmail());
+            target.setEmail(source.getEmail().toLowerCase());
         }
 
         if(!ignoredProperties.contains("password")){

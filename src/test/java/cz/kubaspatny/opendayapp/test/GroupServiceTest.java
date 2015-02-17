@@ -271,7 +271,7 @@ public class GroupServiceTest extends AbstractTest {
         user = dao.getByPropertyUnique("username", username, User.class);
         user.print();
 
-        user2 = dao.getByPropertyUnique("email", guide1, User.class);
+        user2 = dao.getByPropertyUnique("email", guide1.toLowerCase(), User.class);
         user2.print();
 
         // ADD TEST TO NUMBER OF GROUPS IN ROUTE AND GUIDE

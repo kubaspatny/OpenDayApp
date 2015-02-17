@@ -106,6 +106,10 @@ public class Dao implements GenericDao {
             throw new DataAccessException("Search paramaters cannot be null!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         }
 
+        if(property.equals("email")){
+            value = value.toString().toLowerCase();
+        }
+
         String queryString = "SELECT e FROM " + entity_class.getSimpleName() + " e WHERE e." + property + " = :" + property;
         Query q = getEntityManager().createQuery(queryString).setParameter(property, value);
 

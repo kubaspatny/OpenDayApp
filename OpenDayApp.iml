@@ -128,5 +128,7 @@
     <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
     <orderEntry type="library" name="Maven: javax.annotation:jsr250-api:1.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.2.4" level="project" />
+    <orderEntry type="library" name="Maven: commons-io:commons-io:2.4" level="project" />
+    <orderEntry type="library" name="Maven: commons-fileupload:commons-fileupload:1.2.2" level="project" />
   </component>
 </module>

@@ -74,6 +74,72 @@
             </h:form>
         </p:dialog>
 
+        <p:dialog id="file-upload-dialog" header="Upload file with emails" widgetVar="file-upload-dlg" resizable="false" draggable="false" modal="true">
+            <h:form id="file-upload-form" styleClass="form-table" enctype="multipart/form-data" rendered="#{empty CSVFileUploadBean.emails}">
+                <h:panelGrid id="file-upload-panel" columns="1">
+
+                    <p:fileUpload value="#{CSVFileUploadBean.file}"
+                                  mode="advanced"
+                                  skinSimple="true"
+                                  allowTypes="/(\.|\/)(txt|csv)$/"
+                                  sizeLimit="100000"
+                                  fileUploadListener="#{CSVFileUploadBean.upload}"
+                                  update="@form :file-upload-dialog :file-add-emails-form"
+                                  required="true"
+                                  oncomplete="PF('file-upload-dlg').show()">
+                        <f:param name="id" value="#{eventBean.eventId}" />
+                    </p:fileUpload>
+
+                    <h:panelGroup layout="block" styleClass="alert alert-danger dialog-alert" rendered="#{CSVFileUploadBean.uploadedEmptyFile}">
+                        <span class="glyphicon glyphicon-remove margin-right-10"/>
+                        <h:outputText value="File doesn't contain any valid emails. [do i18n!]"/>
+                    </h:panelGroup>
+
+                </h:panelGrid>
+
+            </h:form>
+
+            <h:form id="file-add-emails-form" styleClass="form-table" rendered="#{not empty CSVFileUploadBean.emails}">
+
+                <h:dataTable value="#{CSVFileUploadBean.emails}" var="e" styleClass="no-header" style="line-height: 28px">
+
+                    <p:column styleClass="event-date">
+                        <h:outputText value="#{e}" />
+                    </p:column>
+
+                    <p:column>
+                        <h:panelGroup layout="block" styleClass="alert alert-success dialog-alert-smaller margin-left-20" rendered="#{eventBean.isRegistered(e)}">
+                            <span class="glyphicon glyphicon-ok margin-right-10"/>
+                            <h:outputText value="User is registered"/>
+                        </h:panelGroup>
+
+                        <h:panelGroup layout="block" styleClass="alert alert-warning dialog-alert-smaller margin-left-20" rendered="#{not eventBean.isRegistered(e)}">
+                            <span class="glyphicon glyphicon-flag margin-right-10"/>
+                            <h:outputText value="User will be registered"/>
+                        </h:panelGroup>
+                    </p:column>
+
+                    <p:column>
+                        <div class="right padding-left-20">
+                            <p:commandButton ajax="true" styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
+                                             actionListener="#{CSVFileUploadBean.removeEmail(e)}" value=""
+                                             update="@form :file-upload-dialog :file-add-emails-form"
+                                             oncomplete="PF('file-upload-dlg').show()">
+                                <f:param name="id" value="#{eventBean.eventId}"/>
+                            </p:commandButton>
+                        </div>
+                    </p:column>
+
+                </h:dataTable>
+
+                <p:commandButton id="submit-file" value="#{eventBean.areAllEmailsRegistered(CSVFileUploadBean.emails) ? 'Add emails [i18n]' : 'Register and add emails [i18n]'}" styleClass="margin-top-10" update="@form"
+                                 oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorCreatingEvent &amp;&amp; args.uploadFinished) PF('file-upload-dlg').hide()"
+                                 action="#{eventBean.addEmailsToEmailList(CSVFileUploadBean.emails)}">
+                    <f:param name="id" value="#{eventBean.eventId}" />
+                </p:commandButton>
+            </h:form>
+        </p:dialog>
+
         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
             <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
@@ -197,6 +263,7 @@
                                     <span class="left title"><h:outputText value="PEOPLE"/></span>
                                     <h:form>
                                         <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('add-person-dlg').show();">NEW</h:outputLink>
+                                        <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('file-upload-dlg').show();">UPLOAD</h:outputLink>
                                     </h:form>
                                 </div>
 
@@ -250,6 +317,12 @@
                                 </div>
 
                                 <div class="box-content">
+                                    <h:form id="live-form">
+                                        <h1><h:outputText value="#{demoBB.text}"/></h1>
+                                        <p:poll interval="1" listener="#{demoBB.update()}" update="@form">
+                                            <f:param name="id" value="#{eventBean.eventId}" />
+                                        </p:poll>
+                                    </h:form>
                                 </div>
                             </div>
                         </div>

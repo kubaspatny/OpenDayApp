@@ -50,7 +50,7 @@ public class EmailValidator implements Validator {
 
         ResourceBundle bundle = ResourceBundle.getBundle("strings", context.getViewRoot().getLocale());
 
-        if (!isEmailFormatOK(email)) {
+        if (!EmailFormatValidator.isEmailFormatOK(email)) {
             FacesMessage msg = new FacesMessage(bundle.getString("email-wrongformat"));
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
@@ -68,10 +68,6 @@ public class EmailValidator implements Validator {
             throw new ValidatorException(msg);
         }
 
-    }
-
-    private static boolean isEmailFormatOK(String email) {
-        return email.matches("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
     }
 
 }

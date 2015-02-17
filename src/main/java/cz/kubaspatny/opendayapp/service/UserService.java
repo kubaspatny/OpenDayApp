@@ -47,7 +47,7 @@ public class UserService extends DataAccessService implements IUserService {
 
     @Override
     public boolean isEmailFree(String email) throws DataAccessException {
-        return dao.countByProperty("email", email, User.class).equals(new Long(0));
+        return dao.countByProperty("email", email.toLowerCase(), User.class).equals(new Long(0));
     }
 
     @Override
@@ -87,7 +87,7 @@ public class UserService extends DataAccessService implements IUserService {
     @Override
     public Long createGeneratedUser(String emailAddress) throws DataAccessException  {
 
-        if(emailAddress == null || !emailAddress.contains("@")){
+        if(emailAddress == null || !emailAddress.contains("@")){ // TODO validate using EmailFormatValidator
             throw new DataAccessException("Invalid email address: " + emailAddress, DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         }
 
@@ -108,7 +108,7 @@ public class UserService extends DataAccessService implements IUserService {
         }
 
         String password = PasswordGenerator.generatePassword(8);
-        User.Builder builder = new User.Builder(usernameCandidate, emailAddress, password);
+        User.Builder builder = new User.Builder(usernameCandidate, emailAddress.toLowerCase(), password);
         builder.addUserRole(User.UserRole.ROLE_USER);
         builder.addUserRole(User.UserRole.ROLE_GUIDE);
         builder.addUserRole(User.UserRole.ROLE_STATIONMANAGER);
