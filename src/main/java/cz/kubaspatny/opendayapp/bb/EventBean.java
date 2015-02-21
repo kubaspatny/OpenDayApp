@@ -60,7 +60,6 @@ public class EventBean implements Serializable {
 
     private EventViewMode mode;
 
-    @PostConstruct
     public void init() {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         ServletContext servletContext = (ServletContext) externalContext.getContext();
@@ -68,12 +67,17 @@ public class EventBean implements Serializable {
                 getAutowireCapableBeanFactory().
                 autowireBean(this);
 
-        // todo: check mode -> if no mode is set -> redirect to 404
-        // use Enum mode = null;
-
         if(eventId != null) {
             try {
                 loadEvent();
+            } catch (IOException e){
+                // TODO: log message (couldn't redirect to error code)
+            }
+        } else {
+            try {
+                FacesContext facesContext = FacesContext.getCurrentInstance();
+                facesContext.getExternalContext().responseSendError(404, "ID parameter missing!");
+                facesContext.responseComplete();
             } catch (IOException e){
                 // TODO: log message (couldn't redirect to error code)
             }

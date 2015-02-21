@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeBean.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<f:view locale="#{localeBean.locale}">
+    <h:head>
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+        <title>Open Days</title>
+
+        <h:outputScript library="primefaces" name="jquery/jquery.js" target="head"/>
+        <h:outputScript target="head">
+            $ = jQuery;
+        </h:outputScript>
+
+        <h:outputScript name="js/bootstrap.js"/>
+        <h:outputScript name="js/primefaces-calendar.js"/>
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet' type='text/css'/>
+
+    </h:head>
+
+    <f:metadata>
+        <f:viewParam name="eventId" value="#{createRouteBean.eventId}" />
+        <f:event type="preRenderView" listener="#{createRouteBean.init}" />
+    </f:metadata>
+
+    <h:body>
+        <h:outputStylesheet name="css/bootstrap.css" />
+        <h:outputStylesheet name="css/logo.css" />
+        <h:outputStylesheet name="css/main.css" />
+
+        <!-- DIALOGS -->
+        <p:dialog header="Add time" widgetVar="add-time-dlg" resizable="false" draggable="false" modal="true">
+            <h:form id="add-time-form" styleClass="form-table">
+
+                <h:panelGrid id="add-time-panel" columns="1">
+
+                    <h:panelGroup layout="block">
+                        <h:outputText styleClass="font500" value="Hours: "/>
+                        <h:outputText styleClass="font300" id="time-output-hour" value="#{createRouteBean.newTimeHour}"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block">
+                        <h:outputText styleClass="font500" value="Minutes: "/>
+                        <h:outputText styleClass="font300" id="time-output-minute" value="#{createRouteBean.newTimeMinute}"/>
+                    </h:panelGroup>
+
+
+                    <h:inputHidden id="hour" value="#{createRouteBean.newTimeHour}" />
+                    <p:slider for="hour" minValue="0" maxValue="23" display="time-output-hour" style="width: 200px" displayTemplate="{value}" />
+
+                    <h:inputHidden id="minute" value="#{createRouteBean.newTimeMinute}" />
+                    <p:slider for="minute" minValue="0" maxValue="59" display="time-output-minute" style="width: 200px" displayTemplate="{value}" />
+
+                    <h:panelGroup layout="block" styleClass="alert alert-danger margin-top-10" rendered="#{createRouteBean.errorDuplicateTime}">
+                        <h:outputText value="DUPLICATE TIMES"/>
+                    </h:panelGroup>
+
+                </h:panelGrid>
+                <p:commandButton id="submit" value="Add time" styleClass="margin-top-10" update="add-time-form"
+                                 action="#{createRouteBean.addNewTime}"
+                                 oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorDuplicateTime) PF('add-time-dlg').hide()">
+                    <f:param name="eventId" value="#{createRouteBean.eventId}" />
+                </p:commandButton>
+
+            </h:form>
+        </p:dialog>
+
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+
+        <!-- TOOLBAR -->
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <h:link styleClass="navbar-brand logo-navbar" outcome="index">OPEN DAYS</h:link>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><h:outputText value="#{userBB.name}"/><span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#"><h:outputText value="#{strings['profile']}"/></a></li>
+                                <li><a href="#"><h:outputText value="#{strings['settings']}"/></a></li>
+                                <li class="divider"></li>
+                                <li><h:outputLink value="#{root}/logout"><h:outputText value="#{strings['signout']}"/></h:outputLink></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-12">
+
+                    <div class="material-container">
+
+                        <div class="box-toolbar">
+                            <span class="left title">CREATE EVENT</span>
+                            <h:form>
+                                <p:commandLink styleClass="right material-button-flat no-select" action="#{navBB.goEvent(createRouteBean.eventId)}">
+                                    <span class="glyphicon glyphicon-chevron-left margin-right-10"/><h:outputText value="#{createRouteBean.event.name}"/>
+                                    <p:confirm header="Confirmation" message="Are you sure you want to leave without saving?" icon="icon-empty"/>
+                                    <f:param name="create" value="true"/>
+                                    <f:param name="eventId" value="#{createRouteBean.eventId}"/>
+                                </p:commandLink>
+                            </h:form>
+                        </div>
+
+                        <div class="box-content">
+                            <h:form id="createRouteForm" styleClass="form-table">
+
+                                <div class="row">
+
+                                    <div class="col-md-6 material-container">
+
+                                        <div class="box-toolbar divider">
+                                            <span class="left title"><h:outputText value="Route Information"/></span>
+                                        </div>
+
+                                        <h:panelGrid id="panel" columns="3">
+                                            <p:outputLabel for="colorPicker" value="COLORPICKER" styleClass="sr-only"/>
+                                            <p:colorPicker id="colorPicker" value="#{createRouteBean.routeColor}"/>
+                                            <p:message for="colorPicker" id="msgColorPicker" display="text"/>
+
+                                            <p:outputLabel for="routeName" value="ROUTENAME" styleClass="sr-only"/>
+                                            <p:inputText id="routeName" value="#{createRouteBean.routeName}" placeholder="Route name" styleClass="form-control"/>
+                                            <p:message for="routeName" id="msgRouteName" display="text"/>
+
+                                            <p:outputLabel for="routeInformation" value="ROUTEINFO" styleClass="sr-only"/>
+                                            <p:inputTextarea id="routeInformation" value="#{createRouteBean.routeInfo}" placeholder="Route information" rows="10" cols="50" styleClass="form-control"/>
+                                            <p:message for="routeInformation" id="msgRouteInformation" display="text"/>
+                                        </h:panelGrid>
+
+                                    </div>
+                                    <div class="col-md-6 material-container">
+                                        <div class="box-toolbar divider">
+                                            <span class="left title"><h:outputText value="Route Times"/></span>
+                                            <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('add-time-dlg').show();">ADD</h:outputLink>
+                                        </div>
+
+
+                                        <h:panelGrid id="panel3" columns="1">
+                                            <p:dataTable var="time" value="#{createRouteBean.routeTimes}" rendered="#{not empty createRouteBean.routeTimes}" styleClass="no-header">
+
+                                                <p:column styleClass="event-date">
+                                                    <h:outputText value="#{time.toString('HH:mm')}" />
+                                                </p:column>
+
+                                                <p:column>
+                                                        <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
+                                                                         actionListener="#{createRouteBean.removeRouteTime(time)}" value="" update="@form">
+                                                            <p:confirm header="Confirmation" message="Do you really want to delete this time?" icon="icon-empty"/>
+                                                            <f:param name="eventId" value="#{createRouteBean.eventId}"/>
+                                                        </p:commandButton>
+                                                </p:column>
+
+                                            </p:dataTable>
+
+                                            <h:panelGroup layout="block" styleClass="alert alert-info" rendered="#{empty createRouteBean.routeTimes}" >
+                                                <h:outputText value="No times added yet."/>
+                                            </h:panelGroup>
+                                        </h:panelGrid>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 material-container">
+                                        <div class="box-toolbar divider">
+                                            <span class="left title"><h:outputText value="Stations"/></span>
+                                            <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('add-time-dlg').show();">ADD</h:outputLink>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 material-container">
+                                        <div class="box-toolbar divider">
+                                            <span class="left title"><h:outputText value="Station Managers"/></span>
+                                            <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('add-time-dlg').show();">ADD</h:outputLink>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 material-container">
+                                        <div class="box-toolbar divider">
+                                            <span class="left title"><h:outputText value="Groups"/></span>
+                                            <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('add-time-dlg').show();">ADD</h:outputLink>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </h:form>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </h:body>
+</f:view>
+</html>

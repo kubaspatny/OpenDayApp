@@ -36,4 +36,8 @@ public class NavigationBB {
         return "event?faces-redirect=true&id=" + id;
     }
 
+    public String goCreateRoute(){
+        return "route?faces-redirect=true&create=true";
+    }
+
 }

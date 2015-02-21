@@ -250,6 +250,10 @@
 
                                 <div class="box-toolbar">
                                     <span class="left title"><h:outputText value="ROUTES"/></span>
+                                    <h:link styleClass="right material-button-flat no-select" value="NEW" outcome="route">
+                                        <f:param name="create" value="true"/>
+                                        <f:param name="eventId" value="#{eventBean.eventId}"/>
+                                    </h:link>
                                 </div>
 
                                 <div class="box-content">

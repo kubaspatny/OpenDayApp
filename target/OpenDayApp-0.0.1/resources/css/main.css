@@ -54,13 +54,24 @@ a {
 }
 
 .material-container {
-    border: solid 1px;
-    border-color: #a8a8a8;
+    border: 1px solid #a8a8a8;
     background-color: #FFF;
     padding: 15px;
 }
 
+.material-container .material-container {
+    border: 0px;
+}
+
 .col-md-6 {
+    padding-top: 15px;
+}
+
+.material-container .col-md-6 {
+    padding-top: 0px;
+}
+
+.col-md-12 {
     padding-top: 15px;
 }
 
@@ -96,7 +107,7 @@ a {
     font-size: 16px;
 }
 
-.box-toolbar .material-button-flat {
+.material-button-flat {
     color: #686868;
     font-weight: 500;
     font-size: 16px;
@@ -110,7 +121,7 @@ a {
     transition: background-color 100ms linear;
 }
 
-.box-toolbar .material-button-flat:hover {
+.material-button-flat:hover {
     color: #686868;
     text-decoration: none;
     background-color: rgba(0, 0, 0, 0.10);
@@ -121,7 +132,7 @@ a {
     transition: background-color 100ms linear;
 }
 
-.box-toolbar .material-button-flat:active {
+.material-button-flat:active {
     color: #686868;
     text-decoration: none;
     background-color: rgba(0, 0, 0, 0.20);
@@ -270,4 +281,18 @@ table .event-date {
     line-height: 28px;
     padding: 0px 5px;
     margin: 0 0 0 5px;
+}
+
+.circle {
+    width: 30px;
+    height: 30px;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    border-radius: 15px;
+}
+
+.material-container .divider {
+    border: 0px solid #1976D2;
+    border-top-width: 2px;
+    padding-top: 4px;
 }
