@@ -1,6 +1,10 @@
 package cz.kubaspatny.opendayapp.bb;
 
+import com.google.gson.Gson;
+import cz.kubaspatny.opendayapp.bb.validator.EmailFormatValidator;
+import cz.kubaspatny.opendayapp.bo.Station;
 import cz.kubaspatny.opendayapp.dto.EventDto;
+import cz.kubaspatny.opendayapp.dto.StationDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.service.IEventService;
 import cz.kubaspatny.opendayapp.service.IRouteService;
@@ -23,9 +27,7 @@ import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Author: Kuba Spatny
@@ -217,7 +219,7 @@ public class CreateRouteBean implements Serializable {
 
         addRouteTime(event.getDate().withHourOfDay(newTimeHour).withMinuteOfHour(newTimeMinute));
 
-        FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("createRouteForm");
+        FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("createRouteForm:panel3");
         newTimeHour = 0;
         newTimeMinute = 0;
         errorDuplicateTime = false;
@@ -228,6 +230,252 @@ public class CreateRouteBean implements Serializable {
     public String formatTime(String number){
         System.out.println("formatTime:" + number);
         return number.length() == 1  ? "0" + number : "" + number;
+    }
+
+    private List<String> stationManagers;
+
+    public List<String> getStationManagers() {
+        return stationManagers;
+    }
+
+    public void setStationManagers(List<String> stationManagers) {
+        this.stationManagers = stationManagers;
+    }
+
+    private String newGroupEmail;
+    private List<String> groups;
+    private List<String> reorderGroups;
+    private boolean errorDuplicateGroup;
+
+    public String getNewGroupEmail() {
+        return newGroupEmail;
+    }
+
+    public void setNewGroupEmail(String newGroupEmail) {
+        this.newGroupEmail = newGroupEmail;
+    }
+
+    public List<String> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<String> groups) {
+        this.groups = groups;
+    }
+
+    public void addGroup(String email){
+        if(groups == null){
+            groups = new ArrayList<String>();
+        }
+
+        groups.add(email);
+    }
+
+    public void removeGroup(String email){
+        groups.remove(email);
+    }
+
+    public List<String> getReorderGroups() {
+
+        if(reorderGroups == null){
+            reorderGroups = groups;
+        }
+
+        return reorderGroups;
+    }
+
+    public void setReorderGroups(List<String> reorderGroups) {
+        this.reorderGroups = reorderGroups;
+    }
+
+    public boolean isErrorDuplicateGroup() {
+        return errorDuplicateGroup;
+    }
+
+    public void setErrorDuplicateGroup(boolean errorDuplicateGroup) {
+        this.errorDuplicateGroup = errorDuplicateGroup;
+    }
+
+    public String addNewGroup(){
+
+        if(groups != null && groups.contains(newGroupEmail)){
+            RequestContext.getCurrentInstance().addCallbackParam("errorDuplicateGroup", true);
+            errorDuplicateGroup = true;
+            return "";
+        }
+
+        addGroup(newGroupEmail);
+
+        FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("createRouteForm:groups-container");
+        FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("reorder-group-form");
+        newGroupEmail = null;
+        errorDuplicateGroup = false;
+        return "";
+
+    }
+
+    public String reorderGroups(){
+
+        setGroups(reorderGroups);
+
+        FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("createRouteForm:groups-container");
+        return "";
+
+    }
+
+    private StationDto newStation = new StationDto();
+    private List<StationDto> stations;
+    private HashMap<String, StationDto> stationReorderMap;
+    private List<String> reorderStations;
+
+    public StationDto getNewStation() {
+        return newStation;
+    }
+
+    public void setNewStation(StationDto newStation) {
+        this.newStation = newStation;
+    }
+
+    public List<StationDto> getStations() {
+        return stations;
+    }
+
+    public void setStations(List<StationDto> stations) {
+        this.stations = stations;
+    }
+
+    public void addStation(StationDto stationDto){
+        if(stations == null){
+            stations = new ArrayList<StationDto>();
+        }
+
+        stations.add(stationDto);
+    }
+
+    public void removeStation(StationDto stationDto){
+        stations.remove(stationDto);
+        reloadStationReorderObjects();
+    }
+
+    private void reloadStationReorderObjects(){
+        reorderStations = new ArrayList<String>();
+        stationReorderMap = new HashMap<String, StationDto>();
+
+        for(StationDto s : stations){
+            reorderStations.add(s.getName());
+            stationReorderMap.put(s.getName(), s);
+        }
+    }
+
+    public List<String> getReorderStations() {
+
+        if(reorderStations == null){
+            reloadStationReorderObjects();
+        }
+
+        return reorderStations;
+    }
+
+    public void setReorderStations(List<String> reorderStations) {
+        this.reorderStations = reorderStations;
+    }
+
+    public String addNewStation(){
+
+        addStation(newStation);
+        reloadStationReorderObjects();
+
+        FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("createRouteForm:stations-container");
+        FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("createRouteForm:groups-container");
+        FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("reorder-station-form");
+        newStation = new StationDto();
+        return "";
+
+    }
+
+    public void validateStationNameUniqueConstraint(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+
+        ResourceBundle bundle = ResourceBundle.getBundle("strings", context.getViewRoot().getLocale());
+
+        if (stationReorderMap != null && stationReorderMap.containsKey(value)) {
+//            FacesMessage msg = new FacesMessage(bundle.getString("alreadyregistered"));
+            FacesMessage msg = new FacesMessage("Station with such name already exists!");
+            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+            throw new ValidatorException(msg);
+        }
+
+    }
+
+    public void validateRouteTimes(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+
+        if(routeTimes == null || routeTimes.isEmpty()){
+            FacesMessage msg = new FacesMessage("You need to add at least one route time!!");
+            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+            throw new ValidatorException(msg);
+        }
+
+    }
+
+    public void validateGroups(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+
+        if((groups != null && stations != null && groups.size() > stations.size()) || (groups != null && !groups.isEmpty() && stations == null)){
+            FacesMessage msg = new FacesMessage("There are more groups than stations!");
+            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+            throw new ValidatorException(msg);
+        }
+
+    }
+
+    public String changeStationsOrder(){
+
+        System.out.println("changeStationsOrder:" + reorderStations);
+
+        List<StationDto> newOrder = new ArrayList<StationDto>();
+        for(String key : reorderStations){
+            newOrder.add(stationReorderMap.get(key));
+        }
+
+        setStations(newOrder);
+        reloadStationReorderObjects();
+
+        FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("createRouteForm:stations-container");
+        FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("createRouteForm:groups-container");
+        return "";
+
+    }
+
+    public String createRoute(){
+
+        HashMap<Integer, String> guideMap = new HashMap<Integer, String>();
+        if(groups != null){
+            for(int i = 0; i < groups.size(); i++){
+                guideMap.put(i+1, groups.get(i));
+            }
+        }
+
+        if(stations != null){
+            for(int i = 0; i < stations.size(); i++){
+                stations.get(i).setSequencePosition(i+1);
+            }
+        }
+
+//        System.out.println("CREATE ROUTE:");
+//        System.out.println("eventId: " + eventId);
+//        System.out.println("routeName: " + routeName);
+//        System.out.println("routeColor: " + routeColor);
+//        System.out.println("routeInfo: " + routeInfo);
+//        System.out.println("routeTimes: " + routeTimes);
+//        System.out.println("stations: " + stations);
+//        System.out.println("guideMap: " + guideMap);
+//        System.out.println("stationManagers: " + stationManagers);
+
+        try {
+            routeService.saveRoute(event.getId(), routeName, "#" + routeColor, routeInfo, routeTimes, stations, guideMap, stationManagers);
+        } catch (DataAccessException e){
+            // TODO: show error
+        }
+
+        return "event?faces-redirect=true&id=" + eventId;
     }
 
 }

@@ -87,6 +87,10 @@ a {
     padding: 0px;
 }
 
+.no-margin {
+    margin: 0px;
+}
+
 .top-padding {
     padding-top: 15px;
 }
@@ -243,8 +247,17 @@ table .event-date {
 
 .ui-inputfield {
     width: 100%;
-    height: 34px;
+    min-height: 34px;
     padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+}
+
+.spinner .ui-inputfield {
+    width: 100%;
+    min-height: 34px;
+    padding: 4px 20px 4px 4px;
     font-size: 14px;
     line-height: 1.42857143;
     color: #555;
@@ -283,6 +296,12 @@ table .event-date {
     margin: 0 0 0 5px;
 }
 
+.table-alert {
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-align: center;
+}
+
 .circle {
     width: 30px;
     height: 30px;
@@ -295,4 +314,28 @@ table .event-date {
     border: 0px solid #1976D2;
     border-top-width: 2px;
     padding-top: 4px;
+}
+
+#station-manager-grid .ui-chkbox {
+    padding-right: 4px;
+}
+
+#station-manager-grid label {
+    padding-right: 10px;
+    font-weight: 400;
+}
+
+#createRouteForm .ui-datatable tbody td {
+    padding: 0px;
+}
+
+.ui-selectlistbox-filter-container .ui-icon {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+}
+
+.ui-selectlistbox-filter.ui-inputfield {
+    width: 100%;
+    margin-bottom: 10px;
 }

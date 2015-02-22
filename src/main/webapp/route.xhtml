@@ -63,9 +63,107 @@
                     </h:panelGroup>
 
                 </h:panelGrid>
-                <p:commandButton id="submit" value="Add time" styleClass="margin-top-10" update="add-time-form"
+                <p:commandButton id="submit" value="Add time" styleClass="margin-top-10" update="add-time-form" ajax="true"
                                  action="#{createRouteBean.addNewTime}"
                                  oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorDuplicateTime) PF('add-time-dlg').hide()">
+                    <f:param name="eventId" value="#{createRouteBean.eventId}" />
+                </p:commandButton>
+
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Add group" widgetVar="add-group-dlg" resizable="false" draggable="false" modal="true">
+            <h:form id="add-group-form" styleClass="form-table">
+
+                <h:panelGrid id="add-group-panel" columns="1">
+
+                    <p:selectOneListbox value="#{createRouteBean.newGroupEmail}" var="e" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{createRouteBean.event.emailList}" var="email" itemLabel="#{email}" itemValue="#{email}" />
+
+                        <p:column>
+                            <h:outputText value="#{e}" />
+                        </p:column>
+
+                    </p:selectOneListbox>
+
+                    <h:panelGroup layout="block" styleClass="alert alert-danger margin-top-10" rendered="#{createRouteBean.errorDuplicateGroup}">
+                        <h:outputText value="GROUP WITH THIS EMAIL ALREADY EXISTS"/>
+                    </h:panelGroup>
+
+                </h:panelGrid>
+                <p:commandButton value="Add group" styleClass="margin-top-10" update="add-group-form" ajax="true"
+                                 action="#{createRouteBean.addNewGroup}"
+                                 oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorDuplicateGroup) PF('add-group-dlg').hide()">
+                    <f:param name="eventId" value="#{createRouteBean.eventId}" />
+                </p:commandButton>
+
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Reorder groups" widgetVar="reorder-group-dlg" resizable="false" draggable="false" modal="true">
+            <h:form id="reorder-group-form" styleClass="form-table">
+
+                <h:panelGrid id="reorder-group-panel" columns="1">
+                    <p:orderList value="#{createRouteBean.reorderGroups}" var="gr" controlsLocation="none" itemLabel="#{gr}" itemValue="#{gr}" rendered="#{not empty createRouteBean.groups}"/>
+                </h:panelGrid>
+                <p:commandButton value="OK" styleClass="margin-top-10" update="reorder-group-form" ajax="true"
+                                 action="#{createRouteBean.reorderGroups}"
+                                 oncomplete="if (args &amp;&amp; !args.validationFailed) PF('reorder-group-dlg').hide()">
+                    <f:param name="eventId" value="#{createRouteBean.eventId}" />
+                </p:commandButton>
+
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Add station" widgetVar="add-station-dlg" resizable="false" draggable="false" modal="true">
+            <h:form id="add-station-form" styleClass="form-table">
+
+                <h:panelGrid columns="3">
+
+                    <p:outputLabel for="station-name" value="Station name" styleClass="sr-only"/>
+                    <p:inputText id="station-name" value="#{createRouteBean.newStation.name}" validator="#{createRouteBean.validateStationNameUniqueConstraint}" placeholder="Station name" styleClass="form-control" required="true" requiredMessage="Fill in Station's name">
+                        <p:ajax update="msgStationName" event="keyup"/>
+                    </p:inputText>
+                    <p:message for="station-name" id="msgStationName" display="text"/>
+
+                    <p:outputLabel for="station-location" value="NAME" styleClass="sr-only"/>
+                    <p:inputText id="station-location" value="#{createRouteBean.newStation.location}" placeholder="Station location" styleClass="form-control" required="true" requiredMessage="Fill in Station's location">
+                        <p:ajax update="msgStationLocation" event="keyup"/>
+                    </p:inputText>
+                    <p:message for="station-location" id="msgStationLocation" display="text"/>
+
+                    <p:outputLabel for="station-info" value="Station info" styleClass="sr-only"/>
+                    <p:inputTextarea id="station-info" autoResize="false" rows="6" cols="30" value="#{createRouteBean.newStation.information}" styleClass="form-control" placeholder="Station information"/>
+                    <p:message for="station-info" id="msgStationInfo" display="text"/>
+
+                    <h:outputLabel for="station-time-limit" value="Time limit" styleClass="sr-only"/>
+                    <p:spinner id="station-time-limit" value="#{createRouteBean.newStation.timeLimit}" min="0" max="1000" placeholder="Time limit" styleClass="spinner"/>
+                    <p:message for="station-info" id="msgStationTimeLimit" display="text"/>
+
+                    <h:outputLabel for="station-relocation-time" value="Relocation time" styleClass="sr-only"/>
+                    <p:spinner id="station-relocation-time" value="#{createRouteBean.newStation.relocationTime}" min="0" max="1000" placeholder="Relocation time" styleClass="spinner"/>
+                    <p:message for="station-relocation-time" id="msgStationRelocationTime" display="text"/>
+
+                </h:panelGrid>
+                <p:commandButton value="Add group" styleClass="margin-top-10" update="add-station-form" ajax="true"
+                                 action="#{createRouteBean.addNewStation}"
+                                 oncomplete="if (args &amp;&amp; !args.validationFailed) PF('add-station-dlg').hide()">
+                    <f:param name="eventId" value="#{createRouteBean.eventId}" />
+                </p:commandButton>
+
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Reorder stations" widgetVar="reorder-station-dlg" resizable="false" draggable="false" modal="true">
+            <h:form id="reorder-station-form" styleClass="form-table">
+
+                <h:panelGrid id="reorder-station-panel" columns="1">
+                    <p:orderList value="#{createRouteBean.reorderStations}" var="st" itemLabel="#{st}" itemValue="#{st}" controlsLocation="none" rendered="#{not empty createRouteBean.stations}"/>
+                </h:panelGrid>
+
+                <p:commandButton value="OK" styleClass="margin-top-10" update="reorder-station-form" ajax="true"
+                                 action="#{createRouteBean.changeStationsOrder}"
+                                 oncomplete="if (args &amp;&amp; !args.validationFailed) PF('reorder-station-dlg').hide()">
                     <f:param name="eventId" value="#{createRouteBean.eventId}" />
                 </p:commandButton>
 
@@ -117,7 +215,7 @@
                     <div class="material-container">
 
                         <div class="box-toolbar">
-                            <span class="left title">CREATE EVENT</span>
+                            <span class="left title">CREATE ROUTE</span>
                             <h:form>
                                 <p:commandLink styleClass="right material-button-flat no-select" action="#{navBB.goEvent(createRouteBean.eventId)}">
                                     <span class="glyphicon glyphicon-chevron-left margin-right-10"/><h:outputText value="#{createRouteBean.event.name}"/>
@@ -138,20 +236,21 @@
                                         <div class="box-toolbar divider">
                                             <span class="left title"><h:outputText value="Route Information"/></span>
                                         </div>
+                                        <div class="box-content">
+                                            <h:panelGrid id="panel" columns="3">
+                                                <p:outputLabel for="colorPicker" value="COLORPICKER" styleClass="sr-only"/>
+                                                <p:colorPicker id="colorPicker" value="#{createRouteBean.routeColor}" required="true" requiredMessage="Pick a color!"/>
+                                                <p:message for="colorPicker" id="msgColorPicker" display="text"/>
 
-                                        <h:panelGrid id="panel" columns="3">
-                                            <p:outputLabel for="colorPicker" value="COLORPICKER" styleClass="sr-only"/>
-                                            <p:colorPicker id="colorPicker" value="#{createRouteBean.routeColor}"/>
-                                            <p:message for="colorPicker" id="msgColorPicker" display="text"/>
+                                                <p:outputLabel for="routeName" value="ROUTENAME" styleClass="sr-only"/>
+                                                <p:inputText id="routeName" value="#{createRouteBean.routeName}" placeholder="Route name" styleClass="form-control" required="true" requiredMessage="Fill in name!"/>
+                                                <p:message for="routeName" id="msgRouteName" display="text"/>
 
-                                            <p:outputLabel for="routeName" value="ROUTENAME" styleClass="sr-only"/>
-                                            <p:inputText id="routeName" value="#{createRouteBean.routeName}" placeholder="Route name" styleClass="form-control"/>
-                                            <p:message for="routeName" id="msgRouteName" display="text"/>
-
-                                            <p:outputLabel for="routeInformation" value="ROUTEINFO" styleClass="sr-only"/>
-                                            <p:inputTextarea id="routeInformation" value="#{createRouteBean.routeInfo}" placeholder="Route information" rows="10" cols="50" styleClass="form-control"/>
-                                            <p:message for="routeInformation" id="msgRouteInformation" display="text"/>
-                                        </h:panelGrid>
+                                                <p:outputLabel for="routeInformation" value="ROUTEINFO" styleClass="sr-only"/>
+                                                <p:inputTextarea id="routeInformation" value="#{createRouteBean.routeInfo}" placeholder="Route information" rows="10" cols="50" styleClass="form-control"/>
+                                                <p:message for="routeInformation" id="msgRouteInformation" display="text"/>
+                                            </h:panelGrid>
+                                        </div>
 
                                     </div>
                                     <div class="col-md-6 material-container">
@@ -159,53 +258,137 @@
                                             <span class="left title"><h:outputText value="Route Times"/></span>
                                             <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('add-time-dlg').show();">ADD</h:outputLink>
                                         </div>
+                                        <div class="box-content">
+                                            <h:panelGrid id="panel3" columns="1">
+                                                <p:dataTable var="time" value="#{createRouteBean.routeTimes}" rendered="#{not empty createRouteBean.routeTimes}" styleClass="no-header">
 
+                                                    <p:column styleClass="event-date">
+                                                        <h:outputText value="#{time.toString('HH:mm')}" />
+                                                    </p:column>
 
-                                        <h:panelGrid id="panel3" columns="1">
-                                            <p:dataTable var="time" value="#{createRouteBean.routeTimes}" rendered="#{not empty createRouteBean.routeTimes}" styleClass="no-header">
+                                                    <p:column>
+                                                            <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
+                                                                             actionListener="#{createRouteBean.removeRouteTime(time)}" value="" update="@form" immediate="true">
+                                                                <p:confirm header="Confirmation" message="Do you really want to delete this time?" icon="icon-empty"/>
+                                                                <f:param name="eventId" value="#{createRouteBean.eventId}"/>
+                                                            </p:commandButton>
+                                                    </p:column>
 
-                                                <p:column styleClass="event-date">
-                                                    <h:outputText value="#{time.toString('HH:mm')}" />
-                                                </p:column>
+                                                </p:dataTable>
 
-                                                <p:column>
-                                                        <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
-                                                                         actionListener="#{createRouteBean.removeRouteTime(time)}" value="" update="@form">
-                                                            <p:confirm header="Confirmation" message="Do you really want to delete this time?" icon="icon-empty"/>
-                                                            <f:param name="eventId" value="#{createRouteBean.eventId}"/>
-                                                        </p:commandButton>
-                                                </p:column>
+                                                <h:panelGroup layout="block" styleClass="alert alert-info" rendered="#{empty createRouteBean.routeTimes}" >
+                                                    <h:outputText value="No times added yet."/>
+                                                </h:panelGroup>
 
-                                            </p:dataTable>
+                                                <h:inputHidden id="routeTimeHidden" validator="#{createRouteBean.validateRouteTimes}"/>
+                                                <p:message for="routeTimeHidden" id="msgRouteTimeHidden" display="text"/>
 
-                                            <h:panelGroup layout="block" styleClass="alert alert-info" rendered="#{empty createRouteBean.routeTimes}" >
-                                                <h:outputText value="No times added yet."/>
-                                            </h:panelGroup>
-                                        </h:panelGrid>
+                                            </h:panelGrid>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-6 material-container">
+                                    <h:panelGroup layout="block" id="stations-container" class="col-md-6 material-container">
                                         <div class="box-toolbar divider">
                                             <span class="left title"><h:outputText value="Stations"/></span>
-                                            <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('add-time-dlg').show();">ADD</h:outputLink>
+                                            <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('add-station-dlg').show();">ADD</h:outputLink>
+                                            <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('reorder-station-dlg').show();" rendered="#{not empty createRouteBean.stations}">REORDER</h:outputLink>
                                         </div>
-                                    </div>
+                                        <div class="box-content">
+                                            <h:panelGrid id="panel5" columns="1">
+                                                <p:dataTable var="station" value="#{createRouteBean.stations}" rendered="#{not empty createRouteBean.stations}" styleClass="no-header" rowIndexVar="row">
+
+                                                    <p:column styleClass="event-date">
+                                                        <h:outputText value="#{row+1}" />
+                                                    </p:column>
+
+                                                    <p:column styleClass="event-date">
+                                                        <h:outputText value="#{station.name}" />
+                                                    </p:column>
+
+                                                    <p:column styleClass="event-date">
+                                                        <h:outputText value="#{station.location}" />
+                                                    </p:column>
+
+                                                    <p:column>
+                                                        <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
+                                                                         actionListener="#{createRouteBean.removeStation(station)}" value="" update="@form :reorder-station-form" immediate="true">
+                                                            <p:confirm header="Confirmation" message="Do you really want to delete this station?" icon="icon-empty"/>
+                                                            <f:param name="eventId" value="#{createRouteBean.eventId}"/>
+                                                        </p:commandButton>
+                                                    </p:column>
+                                                </p:dataTable>
+
+                                                <h:panelGroup layout="block" styleClass="alert alert-info" rendered="#{empty createRouteBean.stations}" >
+                                                    <h:outputText value="No stations added yet."/>
+                                                </h:panelGroup>
+                                            </h:panelGrid>
+
+                                        </div>
+
+                                    </h:panelGroup>
 
                                     <div class="col-md-6 material-container">
                                         <div class="box-toolbar divider">
                                             <span class="left title"><h:outputText value="Station Managers"/></span>
-                                            <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('add-time-dlg').show();">ADD</h:outputLink>
+                                        </div>
+                                        <div id="station-manager-grid" class="box-content">
+
+                                            <p:selectManyCheckbox id="grid" value="#{createRouteBean.stationManagers}" layout="grid" columns="2" style="margin-right: 10px;">
+                                                <f:selectItems value="#{createRouteBean.event.emailList}" var="email" itemLabel="#{email}" itemValue="#{email}"/>
+                                            </p:selectManyCheckbox>
+
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6 material-container">
+                                    <h:panelGroup layout="block" id="groups-container" class="col-md-6 material-container">
                                         <div class="box-toolbar divider">
                                             <span class="left title"><h:outputText value="Groups"/></span>
-                                            <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('add-time-dlg').show();">ADD</h:outputLink>
+                                            <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('add-group-dlg').show();">ADD</h:outputLink>
+                                            <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('reorder-group-dlg').show();" rendered="#{not empty createRouteBean.groups}">REORDER</h:outputLink>
                                         </div>
+                                        <div class="box-content">
+                                            <h:panelGrid id="panel4" columns="1">
+                                                <p:dataTable var="group" value="#{createRouteBean.groups}" rendered="#{not empty createRouteBean.groups}" styleClass="no-header" rowIndexVar="row">
+
+                                                    <p:column styleClass="event-date">
+                                                        <h:outputText value="#{group}" />
+                                                    </p:column>
+
+                                                    <p:column styleClass="event-date">
+                                                        <h:outputText value="#{createRouteBean.stations.get(row).name}" rendered="#{createRouteBean.stations.size() gt row}"/>
+
+                                                        <h:panelGroup layout="block" styleClass="table-alert alert-danger" rendered="#{empty createRouteBean.stations or createRouteBean.stations.size() le row}">
+                                                            <h:outputText value="NO STATION"/>
+                                                        </h:panelGroup>
+                                                    </p:column>
+
+                                                    <p:column>
+                                                        <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
+                                                                         actionListener="#{createRouteBean.removeGroup(group)}" value="" update="@form :reorder-group-form" immediate="true">
+                                                            <p:confirm header="Confirmation" message="Do you really want to delete this group?" icon="icon-empty"/>
+                                                            <f:param name="eventId" value="#{createRouteBean.eventId}"/>
+                                                        </p:commandButton>
+                                                    </p:column>
+                                                </p:dataTable>
+
+                                                <h:panelGroup layout="block" styleClass="alert alert-info" rendered="#{empty createRouteBean.groups}" >
+                                                    <h:outputText value="No groups added yet."/>
+                                                </h:panelGroup>
+
+                                                <h:inputHidden id="groupsHidden" validator="#{createRouteBean.validateGroups}"/>
+                                                <p:message for="groupsHidden" id="msgGroupsHidden" display="text" styleClass="no-margin"/>
+                                            </h:panelGrid>
+                                        </div>
+                                    </h:panelGroup>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 material-container">
+                                        <p:commandButton ajax="false" value="Create route" styleClass="btn btn-primary button-register" update="@form" action="#{createRouteBean.createRoute}">
+                                            <f:param name="eventId" value="#{createRouteBean.eventId}"/>
+                                        </p:commandButton>
                                     </div>
                                 </div>
 

@@ -3,6 +3,7 @@ package cz.kubaspatny.opendayapp.bb;
 import cz.kubaspatny.opendayapp.dto.EventDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.service.IEventService;
+import cz.kubaspatny.opendayapp.service.IRouteService;
 import cz.kubaspatny.opendayapp.service.IUserService;
 import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
@@ -52,11 +53,9 @@ public class EventBean implements Serializable {
         VIEW, EDIT;
     }
 
-    @Autowired
-    transient IEventService eventService;
-
-    @Autowired
-    transient IUserService userService;
+    @Autowired transient IEventService eventService;
+    @Autowired transient IRouteService routeService;
+    @Autowired transient IUserService userService;
 
     private EventViewMode mode;
 
@@ -234,6 +233,22 @@ public class EventBean implements Serializable {
 
         try {
             eventService.removeEmailFromList(event.getId(), email);
+        } catch (DataAccessException e){
+            // TODO display error
+        }
+
+        try {
+            loadEvent();
+        } catch (IOException e){
+            // TODO: log message (couldn't redirect to error code)
+        }
+
+    }
+
+    public void removeRoute(Long id){
+
+        try {
+            routeService.removeRoute(id);
         } catch (DataAccessException e){
             // TODO display error
         }

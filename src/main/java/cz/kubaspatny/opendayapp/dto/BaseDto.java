@@ -1,5 +1,7 @@
 package cz.kubaspatny.opendayapp.dto;
 
+import java.io.Serializable;
+
 /**
  * Author: Kuba Spatny
  * Web: kubaspatny.cz
