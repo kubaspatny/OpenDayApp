@@ -27,7 +27,8 @@
 
     <f:metadata>
         <f:viewParam name="eventId" value="#{routeBean.eventId}" />
-        <f:viewParam name="create" value="#{routeBean.create}" />
+        <f:viewParam name="routeId" value="#{routeBean.routeId}" />
+        <f:viewParam name="mode" value="#{routeBean.mode}" />
         <f:event type="preRenderView" listener="#{routeBean.init}" />
     </f:metadata>
 
@@ -68,7 +69,7 @@
                                  action="#{routeBean.addNewTime}"
                                  oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorDuplicateTime) PF('add-time-dlg').hide()">
                     <f:param name="eventId" value="#{routeBean.eventId}" />
-                    <f:param name="create" value="true"/>
+                    <f:param name="mode" value="create"/>
                 </p:commandButton>
 
             </h:form>
@@ -97,7 +98,7 @@
                                  action="#{routeBean.addNewGroup}"
                                  oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorDuplicateGroup) PF('add-group-dlg').hide()">
                     <f:param name="eventId" value="#{routeBean.eventId}" />
-                    <f:param name="create" value="true"/>
+                    <f:param name="mode" value="create"/>
                 </p:commandButton>
 
             </h:form>
@@ -113,7 +114,7 @@
                                  action="#{routeBean.reorderGroups}"
                                  oncomplete="if (args &amp;&amp; !args.validationFailed) PF('reorder-group-dlg').hide()">
                     <f:param name="eventId" value="#{routeBean.eventId}" />
-                    <f:param name="create" value="true"/>
+                    <f:param name="mode" value="create"/>
                 </p:commandButton>
 
             </h:form>
@@ -153,7 +154,7 @@
                                  action="#{routeBean.addNewStation}"
                                  oncomplete="if (args &amp;&amp; !args.validationFailed) PF('add-station-dlg').hide()">
                     <f:param name="eventId" value="#{routeBean.eventId}" />
-                    <f:param name="create" value="true"/>
+                    <f:param name="mode" value="create"/>
                 </p:commandButton>
 
             </h:form>
@@ -170,7 +171,7 @@
                                  action="#{routeBean.changeStationsOrder}"
                                  oncomplete="if (args &amp;&amp; !args.validationFailed) PF('reorder-station-dlg').hide()">
                     <f:param name="eventId" value="#{routeBean.eventId}" />
-                    <f:param name="create" value="true"/>
+                    <f:param name="mode" value="create"/>
                 </p:commandButton>
 
             </h:form>
@@ -214,13 +215,109 @@
 
         <div class="container">
 
-            <h:panelGroup layout="group" class="row" rendered="#{empty param.create and not empty param.id}">
+            <h:panelGroup layout="group" class="row" rendered="#{param.mode == 'view'}">
+                <div class="col-md-12">
+                    <div class="material-container">
+                        <div class="box-toolbar">
+                            <span class="left title-big"><h:outputText value="#{routeBean.route.name}"/></span>
+                            <h:form>
+                                <p:commandLink styleClass="right material-button-flat no-select" action="#{navBB.goEvent(routeBean.eventId)}">
+                                    <span class="glyphicon glyphicon-chevron-left margin-right-10"/><h:outputText value="#{routeBean.event.name}"/>
+                                    <f:param name="eventId" value="#{routeBean.eventId}"/>
+                                    <f:param name="mode" value="view"/>
+                                </p:commandLink>
+                            </h:form>
+                        </div>
 
+                        <div class="box-content">
 
+                            <div class="row">
+                                <div class="col-md-6 material-container">
+                                    <h:panelGroup layout="block" styleClass="box-toolbar divider" style="border-color: #{routeBean.route.hexColor}">
+                                        <span class="left title"><h:outputText value="Route Information"/></span>
+                                    </h:panelGroup>
+                                    <div class="box-content">
+                                        <h:outputText styleClass="font500" value="Time:"/><br/>
+                                        <h:outputText styleClass="font300" value="#{routeBean.route.date.toString('HH:mm')}"/><br/><br/>
 
+                                        <h:outputText styleClass="font500" value="Information:"/><br/>
+                                        <h:outputText styleClass="font300" value="#{routeBean.route.information}"/><br/><br/>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 material-container">
+                                    <h:panelGroup layout="block" styleClass="box-toolbar divider" style="border-color: #{routeBean.route.hexColor}">
+                                        <span class="left title"><h:outputText value="Stations"/></span>
+                                    </h:panelGroup>
+                                    <div class="box-content">
+                                        <p:dataTable value="#{routeBean.route.stations}" var="station" rowIndexVar="row" style="text-align: center;">
+                                            <p:column headerText="Sequence Position">
+                                                <h:outputText value="#{station.sequencePosition}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Name">
+                                                <h:outputText value="#{station.name}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Location">
+                                                <h:outputText value="#{station.location}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Time limit">
+                                                <h:outputText value="#{station.timeLimit} min"/>
+                                            </p:column>
+
+                                            <p:column headerText="Relocation time">
+                                                <h:outputText value="#{station.relocationTime} min"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 material-container">
+                                    <h:panelGroup layout="block" styleClass="box-toolbar divider" style="border-color: #{routeBean.route.hexColor}">
+                                        <span class="left title"><h:outputText value="Groups"/></span>
+                                    </h:panelGroup>
+                                    <div class="box-content">
+                                        <p:dataTable value="#{routeBean.route.groups}" var="group" style="text-align: center;">
+                                            <p:column headerText="Group leader">
+                                                <h:outputText value="#{group.guide.email}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Starts at">
+                                                <h:outputText value="#{routeBean.route.stations.get(group.startingPosition - 1).name}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Start number">
+                                                <h:outputText value="#{group.startingPosition}"/>
+                                            </p:column>
+
+                                        </p:dataTable>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 material-container">
+                                    <h:panelGroup layout="block" styleClass="box-toolbar divider" style="border-color: #{routeBean.route.hexColor}">
+                                        <span class="left title"><h:outputText value="Station Managers"/></span>
+                                    </h:panelGroup>
+                                    <div class="box-content">
+                                        <p:dataTable value="#{routeBean.route.stationManagers}" var="manager" styleClass="no-header">
+                                            <p:column>
+                                                <h:outputText value="#{manager.email}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </h:panelGroup>
 
-            <h:panelGroup layout="group" class="row" rendered="#{not empty param.create and empty param.id}">
+            <h:panelGroup layout="group" class="row" rendered="#{param.mode == 'create'}">
 
                 <div class="col-md-12">
 
@@ -232,8 +329,8 @@
                                 <p:commandLink styleClass="right material-button-flat no-select" action="#{navBB.goEvent(routeBean.eventId)}">
                                     <span class="glyphicon glyphicon-chevron-left margin-right-10"/><h:outputText value="#{routeBean.event.name}"/>
                                     <p:confirm header="Confirmation" message="Are you sure you want to leave without saving?" icon="icon-empty"/>
-                                    <f:param name="create" value="true"/>
                                     <f:param name="eventId" value="#{routeBean.eventId}"/>
+                                    <f:param name="mode" value="create"/>
                                 </p:commandLink>
                             </h:form>
                         </div>
@@ -283,7 +380,7 @@
                                                                              actionListener="#{routeBean.cvo.removeRouteTime(time)}" value="" update="@form" immediate="true">
                                                                 <p:confirm header="Confirmation" message="Do you really want to delete this time?" icon="icon-empty"/>
                                                                 <f:param name="eventId" value="#{routeBean.eventId}"/>
-                                                                <f:param name="create" value="true"/>
+                                                                <f:param name="mode" value="create"/>
                                                             </p:commandButton>
                                                     </p:column>
 
@@ -329,7 +426,7 @@
                                                                          actionListener="#{routeBean.cvo.removeStation(station)}" value="" update="@form :reorder-station-form" immediate="true">
                                                             <p:confirm header="Confirmation" message="Do you really want to delete this station?" icon="icon-empty"/>
                                                             <f:param name="eventId" value="#{routeBean.eventId}"/>
-                                                            <f:param name="create" value="true"/>
+                                                            <f:param name="mode" value="create"/>
                                                         </p:commandButton>
                                                     </p:column>
                                                 </p:dataTable>
@@ -384,7 +481,7 @@
                                                                          actionListener="#{routeBean.cvo.removeGroup(group)}" value="" update="@form :reorder-group-form" immediate="true">
                                                             <p:confirm header="Confirmation" message="Do you really want to delete this group?" icon="icon-empty"/>
                                                             <f:param name="eventId" value="#{routeBean.eventId}"/>
-                                                            <f:param name="create" value="true"/>
+                                                            <f:param name="mode" value="create"/>
                                                         </p:commandButton>
                                                     </p:column>
                                                 </p:dataTable>
@@ -403,7 +500,7 @@
                                     <div class="col-md-6 material-container">
                                         <p:commandButton ajax="false" value="Create route" styleClass="btn btn-primary button-register" update="@form" action="#{routeBean.createRoute}">
                                             <f:param name="eventId" value="#{routeBean.eventId}"/>
-                                            <f:param name="create" value="true"/>
+                                            <f:param name="mode" value="create"/>
                                         </p:commandButton>
                                     </div>
                                 </div>

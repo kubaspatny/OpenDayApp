@@ -251,7 +251,7 @@
                                 <div class="box-toolbar">
                                     <span class="left title"><h:outputText value="ROUTES"/></span>
                                     <h:link styleClass="right material-button-flat no-select" value="NEW" outcome="route">
-                                        <f:param name="create" value="true"/>
+                                        <f:param name="mode" value="create"/>
                                         <f:param name="eventId" value="#{eventBean.eventId}"/>
                                     </h:link>
                                 </div>
@@ -261,12 +261,16 @@
                                     <h:form id="routes-form">
                                         <p:dataTable var="route" value="#{eventBean.event.routes}" rendered="#{not empty eventBean.event.routes}" styleClass="no-header">
 
-                                            <p:column styleClass="event-date" style="background-color: #{route.hexColor}">
-                                                <h:outputText value="#{route.hexColor}" />
+                                            <p:column styleClass="event-date" style="width: 40px;">
+                                                <h:panelGroup layout="block" styleClass="circle" style="background-color: #{route.hexColor};"/>
                                             </p:column>
 
                                             <p:column styleClass="event-date">
-                                                <h:outputText value="#{route.name}" />
+                                                <h:link styleClass="event-name" value="#{route.name}" outcome="route">
+                                                    <f:param name="mode" value="view"/>
+                                                    <f:param name="eventId" value="#{eventBean.eventId}"/>
+                                                    <f:param name="routeId" value="#{route.id}"/>
+                                                </h:link>
                                             </p:column>
 
                                             <p:column styleClass="event-date">

@@ -4,6 +4,7 @@ import cz.kubaspatny.opendayapp.dto.StationDto;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -79,6 +80,7 @@ public class CreateRouteValueObject {
     }
 
     public void setRouteTimes(List<DateTime> routeTimes) {
+        Collections.sort(routeTimes);
         this.routeTimes = routeTimes;
     }
 
@@ -88,6 +90,7 @@ public class CreateRouteValueObject {
         }
 
         routeTimes.add(time);
+        Collections.sort(routeTimes);
     }
 
     public void removeRouteTime(DateTime time){

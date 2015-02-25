@@ -5,10 +5,7 @@ import cz.kubaspatny.opendayapp.bo.Route;
 import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Author: Kuba Spatny
@@ -118,6 +115,7 @@ public class EventDto extends BaseDto {
                 routeDtos.add(RouteDto.map(r, new RouteDto(), routeIgnoredProperties));
             }
 
+            Collections.sort(routeDtos, RouteDto.RouteDateComparator);
             target.routes = routeDtos;
 
         }

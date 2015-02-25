@@ -111,6 +111,13 @@ a {
     font-size: 16px;
 }
 
+.box-toolbar .title-big {
+    color: #1e1e1e;
+    font-size: 24px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
 .material-button-flat {
     color: #686868;
     font-weight: 500;
@@ -303,11 +310,11 @@ table .event-date {
 }
 
 .circle {
-    width: 30px;
-    height: 30px;
-    -moz-border-radius: 15px;
-    -webkit-border-radius: 15px;
-    border-radius: 15px;
+    width: 20px;
+    height: 20px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
 }
 
 .material-container .divider {

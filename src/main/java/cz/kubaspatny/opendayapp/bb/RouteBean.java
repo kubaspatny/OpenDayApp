@@ -2,6 +2,7 @@ package cz.kubaspatny.opendayapp.bb;
 
 import cz.kubaspatny.opendayapp.bb.valueobject.CreateRouteValueObject;
 import cz.kubaspatny.opendayapp.dto.EventDto;
+import cz.kubaspatny.opendayapp.dto.RouteDto;
 import cz.kubaspatny.opendayapp.dto.StationDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.service.IEventService;
@@ -52,8 +53,10 @@ public class RouteBean implements Serializable {
     @Autowired transient IEventService eventService;
 
     private String eventId;
-    private boolean create;
+    private String routeId;
+    private String mode;
     private EventDto event;
+    private RouteDto route;
 
     private CreateRouteValueObject cvo;
 
@@ -93,28 +96,48 @@ public class RouteBean implements Serializable {
 
     public void loadEvent() throws IOException {
 
-        long id = -1;
+        if(mode == null || !(mode.equals("view") || mode.equals("create") || mode.equals("edit"))){
+            redirectToError(404, "Wrong mode selected!");
+            return;
+        }
 
+        // load Event
         try {
-            id = Long.parseLong(eventId);
+            long parsedEventId = Long.parseLong(eventId);
+            event = eventService.getEvent(parsedEventId);
         } catch (NumberFormatException e){
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.getExternalContext().responseSendError(404, "Number format exception!");
-            facesContext.responseComplete();
-        }
-
-        try {
-            event = eventService.getEvent(id);
+            redirectToError(404, "Number format exception!");
+            return;
         } catch (DataAccessException e){
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.getExternalContext().responseSendError(404, "Event not found!");
-            facesContext.responseComplete();
+            redirectToError(404, "Event not found!");
+            return;
         } catch (AccessDeniedException e){
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.getExternalContext().responseSendError(401, "Access denied!");
-            facesContext.responseComplete();
+            redirectToError(401, "Access to event denied!");
+            return;
         }
 
+        if(mode.equals("view") || mode.equals("edit")){
+            try {
+                long parsedRouteId = Long.parseLong(routeId);
+                route = routeService.getRoute(parsedRouteId);
+            } catch (NumberFormatException e){
+                redirectToError(404, "Number format exception!");
+                return;
+            } catch (DataAccessException e){
+                redirectToError(404, "Route not found!");
+                return;
+            } catch (AccessDeniedException e){
+                redirectToError(401, "Access to route denied!");
+                return;
+            }
+        }
+
+    }
+
+    private void redirectToError(int code, String message) throws IOException {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        facesContext.getExternalContext().responseSendError(code, message);
+        facesContext.responseComplete();
     }
 
     public CreateRouteValueObject getCvo() {
@@ -129,12 +152,20 @@ public class RouteBean implements Serializable {
         this.eventId = eventId;
     }
 
-    public boolean isCreate() {
-        return create;
+    public String getRouteId() {
+        return routeId;
     }
 
-    public void setCreate(boolean create) {
-        this.create = create;
+    public void setRouteId(String routeId) {
+        this.routeId = routeId;
+    }
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 
     public EventDto getEvent() {
@@ -143,6 +174,14 @@ public class RouteBean implements Serializable {
 
     public void setEvent(EventDto event) {
         this.event = event;
+    }
+
+    public RouteDto getRoute() {
+        return route;
+    }
+
+    public void setRoute(RouteDto route) {
+        this.route = route;
     }
 
     public String addNewTime(){

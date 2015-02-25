@@ -8,6 +8,7 @@ import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -207,4 +208,11 @@ public class RouteDto extends BaseDto {
         sb.append('}');
         return sb.toString();
     }
+
+    public static Comparator<RouteDto> RouteDateComparator = new Comparator<RouteDto>() {
+        public int compare(RouteDto route1, RouteDto route2) {
+            return route1.getDate().compareTo(route2.getDate());
+        }
+    };
+
 }
