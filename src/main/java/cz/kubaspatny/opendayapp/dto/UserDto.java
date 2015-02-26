@@ -184,7 +184,10 @@ public class UserDto extends BaseDto {
         if(!ignoredProperties.contains("managedRoutes") && source.getManagedRoutes() != null) {
 
             List<RouteDto> routeDtos = new ArrayList<RouteDto>();
-            List<String> routeIgnoredProperties = DtoMapperUtil.getRouteIgnoredProperties();
+            List<String> routeIgnoredProperties = new ArrayList<String>();
+            routeIgnoredProperties.add("stations");
+            routeIgnoredProperties.add("stationManagers");
+            routeIgnoredProperties.add("groups");
 
             for(Route r : source.getManagedRoutes()){
                 routeDtos.add(RouteDto.map(r, new RouteDto(), routeIgnoredProperties));

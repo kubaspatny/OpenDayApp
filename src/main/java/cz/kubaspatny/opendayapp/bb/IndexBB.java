@@ -1,6 +1,7 @@
 package cz.kubaspatny.opendayapp.bb;
 
 import cz.kubaspatny.opendayapp.bo.Event;
+import cz.kubaspatny.opendayapp.bo.User;
 import cz.kubaspatny.opendayapp.dto.EventDto;
 import cz.kubaspatny.opendayapp.dto.UserDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
@@ -48,22 +49,7 @@ public class IndexBB {
     private boolean eventLoadingError;
 
     private List<EventDto> events;
-
-    private List<EventDto> testEvents(){
-        List<EventDto> eventDtos = new ArrayList<EventDto>();
-
-        for (int i = 1; i <= 6; i++) {
-
-            EventDto event = new EventDto();
-            event.setName("Event " + i);
-            event.setDate(DateTime.now().plusDays(i));
-            event.setInformation("This is basic information.");
-
-            eventDtos.add(event);
-        }
-
-        return eventDtos;
-    }
+    private UserDto userDto;
 
     public void deleteEvent(Long id){
 
@@ -78,8 +64,6 @@ public class IndexBB {
     }
 
     private void loadEvents(){
-
-        UserDto userDto;
 
         try {
             userDto = userService.getUser(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -104,5 +88,13 @@ public class IndexBB {
 
     public void edit(String name){
         System.out.println("EDIT: " + name);
+    }
+
+    public UserDto getUserDto() {
+        return userDto;
+    }
+
+    public void setUserDto(UserDto userDto) {
+        this.userDto = userDto;
     }
 }

@@ -1,6 +1,7 @@
 package cz.kubaspatny.opendayapp.bb;
 
 import cz.kubaspatny.opendayapp.dto.EventDto;
+import cz.kubaspatny.opendayapp.dto.RouteDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.service.IEventService;
 import cz.kubaspatny.opendayapp.service.IRouteService;
@@ -23,6 +24,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Author: Kuba Spatny
@@ -139,6 +141,7 @@ public class EventBean implements Serializable {
 
         try {
             event = eventService.getEvent(id);
+            routes = routeService.getRoutes(id);
         } catch (DataAccessException e){
             FacesContext facesContext = FacesContext.getCurrentInstance();
             facesContext.getExternalContext().responseSendError(404, "Event not found!");
@@ -261,4 +264,13 @@ public class EventBean implements Serializable {
 
     }
 
+    private List<RouteDto> routes;
+
+    public List<RouteDto> getRoutes() {
+        return routes;
+    }
+
+    public void setRoutes(List<RouteDto> routes) {
+        this.routes = routes;
+    }
 }

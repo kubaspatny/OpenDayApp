@@ -5,6 +5,7 @@ import cz.kubaspatny.opendayapp.dto.StationDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import org.joda.time.DateTime;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -86,5 +87,9 @@ public interface IRouteService {
      */
     @PreAuthorize("hasPermission(#id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Route'), 'WRITE')")
     public void removeStationManager(Long id, String stationManagerEmail) throws DataAccessException;
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostFilter("hasPermission(filterObject.id, filterObject.ACLObjectIdentityClass, 'READ')")
+    public List<RouteDto> getRoutes(Long eventId) throws DataAccessException;
 
 }

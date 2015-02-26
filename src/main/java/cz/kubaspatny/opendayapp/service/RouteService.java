@@ -211,5 +211,28 @@ public class RouteService extends DataAccessService implements IRouteService {
 
     }
 
+    @Override
+    public List<RouteDto> getRoutes(Long eventId) throws DataAccessException {   // TODO: add a method to DAO -> searchByProperty with sortBy attribute
 
+        Event event = new Event();
+        event.setId(eventId);
+
+        Map<String, Object> searchAttrs = new HashMap<String, Object>();
+        searchAttrs.put("event", event);
+
+        List<Route> routes = dao.searchByProperty(searchAttrs, Route.class);
+        List<RouteDto> routeDtos = new ArrayList<RouteDto>();
+
+        List<String> routeIgnoredProperties = new ArrayList<String>();
+        routeIgnoredProperties.add("stations");
+        routeIgnoredProperties.add("stationManagers");
+        routeIgnoredProperties.add("groups");
+
+        for(Route r : routes){
+            routeDtos.add(RouteDto.map(r, new RouteDto(), null));
+        }
+
+        return routeDtos;
+
+    }
 }

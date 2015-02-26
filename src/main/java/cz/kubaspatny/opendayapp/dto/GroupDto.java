@@ -105,7 +105,13 @@ public class GroupDto extends BaseDto {
     public static GroupDto map(Group source, GroupDto target, List<String> ignoredProperties){
 
         target.id = source.getId();
-        target.route = RouteDto.map(source.getRoute(), new RouteDto(), DtoMapperUtil.getRouteIgnoredProperties());
+
+        List<String> routeIgnoredProperties = new ArrayList<String>();
+        routeIgnoredProperties.add("stations");
+        routeIgnoredProperties.add("stationManagers");
+        routeIgnoredProperties.add("groups");
+        target.route = RouteDto.map(source.getRoute(), new RouteDto(), routeIgnoredProperties);
+
         target.guide = UserDto.map(source.getGuide(), new UserDto(), DtoMapperUtil.getUserIgnoredProperties());
         target.startingPosition = source.getStartingPosition();
         target.active = source.isActive();

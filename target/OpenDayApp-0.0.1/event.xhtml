@@ -5,6 +5,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:sec="http://www.springframework.org/security/facelets/tags"
       xmlns:p="http://primefaces.org/ui">
 <f:view locale="#{localeBean.locale}">
     <h:head>
@@ -290,6 +291,58 @@
                                         </p:dataTable>
 
                                         <h:panelGroup layout="block" styleClass="alert alert-info" rendered="#{empty eventBean.event.routes}" >
+                                            <h:outputText value="No routes added yet."/>
+                                        </h:panelGroup>
+
+                                    </h:form>
+
+                                </div>
+                            </div>
+
+                            <div class="material-container">
+
+                                <div class="box-toolbar">
+                                    <span class="left title"><h:outputText value="ROUTES FILTERED"/></span>
+                                    <h:link styleClass="right material-button-flat no-select" value="NEW" outcome="route">
+                                        <f:param name="mode" value="create"/>
+                                        <f:param name="eventId" value="#{eventBean.eventId}"/>
+                                    </h:link>
+                                </div>
+
+                                <div class="box-content">
+
+                                    <h:form id="routes-filtered-form">
+                                        <p:dataTable var="route" value="#{eventBean.routes}" rendered="#{not empty eventBean.routes}" styleClass="no-header">
+
+                                            <p:column styleClass="event-date" style="width: 40px;">
+                                                <h:panelGroup layout="block" styleClass="circle" style="background-color: #{route.hexColor};"/>
+                                            </p:column>
+
+                                            <p:column styleClass="event-date">
+                                                <h:link styleClass="event-name" value="#{route.name}" outcome="route">
+                                                    <f:param name="mode" value="view"/>
+                                                    <f:param name="eventId" value="#{eventBean.eventId}"/>
+                                                    <f:param name="routeId" value="#{route.id}"/>
+                                                </h:link>
+                                            </p:column>
+
+                                            <p:column styleClass="event-date">
+                                                <h:outputText value="#{route.date.toString('HH:mm')}" />
+                                            </p:column>
+
+                                            <p:column>
+                                                <div class="right">
+                                                    <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
+                                                                     actionListener="#{eventBean.removeRoute(route.id)}" value="" update="@form">
+                                                        <p:confirm header="Confirmation" message="Do you really want to delete this route?" icon="icon-empty"/>
+                                                        <f:param name="id" value="#{eventBean.eventId}"/>
+                                                    </p:commandButton>
+                                                </div>
+                                            </p:column>
+
+                                        </p:dataTable>
+
+                                        <h:panelGroup layout="block" styleClass="alert alert-info" rendered="#{empty eventBean.routes}" >
                                             <h:outputText value="No routes added yet."/>
                                         </h:panelGroup>
 
