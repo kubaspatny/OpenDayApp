@@ -197,18 +197,22 @@
                                 <span>Routes</span>
                             </a>
                         </li>
+                        <h:panelGroup layout="block" rendered="#{acl.hasPermission(eventBean.event.id, eventBean.event.ACLObjectIdentityClass, 'WRITE')}">
                         <li>
                             <a data-toggle="tab" href="#people">
                                 <h:graphicImage value="#{resource['images/edit18.png']}"/>
                                 <span>People</span>
                             </a>
                         </li>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" rendered="#{acl.hasPermission(eventBean.event.id, eventBean.event.ACLObjectIdentityClass, 'WRITE')}">
                         <li>
                             <a data-toggle="tab" href="#statistics">
                                 <h:graphicImage value="#{resource['images/delete18.png']}"/>
                                 <span>Statistics</span>
                             </a>
                         </li>
+                        </h:panelGroup>
                         <li>
                             <a data-toggle="tab" href="#live">
                                 <h:graphicImage value="#{resource['images/edit18.png']}"/>
@@ -237,10 +241,7 @@
                                     <h:outputText styleClass="font300 italic" value="No information added yet." rendered="#{empty eventBean.event.information}"/><br/><br/>
 
                                     <h:outputText styleClass="font500" value="Date:"/><br/>
-                                    <h:outputText styleClass="font300" value="#{eventBean.event.date.toString('dd/MM/yyyy')}" /><br/><br/>
-
-                                    <h:outputText styleClass="font500" value="Organizer:"/><br/>
-                                    <h:outputText styleClass="font300" value="#{eventBean.event.organizer.username}" /><br/><br/>
+                                    <h:outputText styleClass="font300" value="#{eventBean.event.date.toString('dd.MM.yyyy')}" /><br/><br/>
 
                                 </div>
                             </div>
@@ -251,59 +252,7 @@
 
                                 <div class="box-toolbar">
                                     <span class="left title"><h:outputText value="ROUTES"/></span>
-                                    <h:link styleClass="right material-button-flat no-select" value="NEW" outcome="route">
-                                        <f:param name="mode" value="create"/>
-                                        <f:param name="eventId" value="#{eventBean.eventId}"/>
-                                    </h:link>
-                                </div>
-
-                                <div class="box-content">
-
-                                    <h:form id="routes-form">
-                                        <p:dataTable var="route" value="#{eventBean.event.routes}" rendered="#{not empty eventBean.event.routes}" styleClass="no-header">
-
-                                            <p:column styleClass="event-date" style="width: 40px;">
-                                                <h:panelGroup layout="block" styleClass="circle" style="background-color: #{route.hexColor};"/>
-                                            </p:column>
-
-                                            <p:column styleClass="event-date">
-                                                <h:link styleClass="event-name" value="#{route.name}" outcome="route">
-                                                    <f:param name="mode" value="view"/>
-                                                    <f:param name="eventId" value="#{eventBean.eventId}"/>
-                                                    <f:param name="routeId" value="#{route.id}"/>
-                                                </h:link>
-                                            </p:column>
-
-                                            <p:column styleClass="event-date">
-                                                <h:outputText value="#{route.date.toString('HH:mm')}" />
-                                            </p:column>
-
-                                            <p:column>
-                                                <div class="right">
-                                                    <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
-                                                                     actionListener="#{eventBean.removeRoute(route.id)}" value="" update="@form">
-                                                        <p:confirm header="Confirmation" message="Do you really want to delete this route?" icon="icon-empty"/>
-                                                        <f:param name="id" value="#{eventBean.eventId}"/>
-                                                    </p:commandButton>
-                                                </div>
-                                            </p:column>
-
-                                        </p:dataTable>
-
-                                        <h:panelGroup layout="block" styleClass="alert alert-info" rendered="#{empty eventBean.event.routes}" >
-                                            <h:outputText value="No routes added yet."/>
-                                        </h:panelGroup>
-
-                                    </h:form>
-
-                                </div>
-                            </div>
-
-                            <div class="material-container">
-
-                                <div class="box-toolbar">
-                                    <span class="left title"><h:outputText value="ROUTES FILTERED"/></span>
-                                    <h:link styleClass="right material-button-flat no-select" value="NEW" outcome="route">
+                                    <h:link styleClass="right material-button-flat no-select" value="NEW" outcome="route" rendered="#{acl.hasPermission(eventBean.event.id, eventBean.event.ACLObjectIdentityClass, 'WRITE')}">
                                         <f:param name="mode" value="create"/>
                                         <f:param name="eventId" value="#{eventBean.eventId}"/>
                                     </h:link>
@@ -330,7 +279,7 @@
                                                 <h:outputText value="#{route.date.toString('HH:mm')}" />
                                             </p:column>
 
-                                            <p:column>
+                                            <p:column rendered="#{acl.hasPermission(eventBean.event.id, eventBean.event.ACLObjectIdentityClass, 'WRITE')}">
                                                 <div class="right">
                                                     <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
                                                                      actionListener="#{eventBean.removeRoute(route.id)}" value="" update="@form">
@@ -351,7 +300,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane" id="people">
+                        <h:panelGroup layout="block" styleClass="tab-pane" id="people" rendered="#{acl.hasPermission(eventBean.event.id, eventBean.event.ACLObjectIdentityClass, 'WRITE')}">
                             <div class="material-container">
 
                                 <div class="box-toolbar">
@@ -392,8 +341,8 @@
                                 </div>
 
                             </div>
-                        </div>
-                        <div class="tab-pane" id="statistics">
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" styleClass="tab-pane" id="statistics" rendered="#{acl.hasPermission(eventBean.event.id, eventBean.event.ACLObjectIdentityClass, 'WRITE')}">
                             <div class="material-container">
 
                                 <div class="box-toolbar">
@@ -403,7 +352,7 @@
                                 <div class="box-content">
                                 </div>
                             </div>
-                        </div>
+                        </h:panelGroup>
                         <div class="tab-pane" id="live">
                             <div class="material-container" style="background-color: rgba(0, 124, 10, 0.65);">
 

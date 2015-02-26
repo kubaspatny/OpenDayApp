@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -141,7 +142,7 @@ public class EventBean implements Serializable {
 
         try {
             event = eventService.getEvent(id);
-            routes = routeService.getRoutes(id);
+            setRoutes(routeService.getRoutes(id));
         } catch (DataAccessException e){
             FacesContext facesContext = FacesContext.getCurrentInstance();
             facesContext.getExternalContext().responseSendError(404, "Event not found!");
@@ -271,6 +272,7 @@ public class EventBean implements Serializable {
     }
 
     public void setRoutes(List<RouteDto> routes) {
+        Collections.sort(routes, RouteDto.RouteDateComparator);
         this.routes = routes;
     }
 }
