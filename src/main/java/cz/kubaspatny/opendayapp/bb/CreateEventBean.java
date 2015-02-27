@@ -124,4 +124,8 @@ public class CreateEventBean implements Serializable {
         return "index?faces-redirect=true";
     }
 
+    public Date getCurrentDate(){
+        return new Date();
+    }
+
 }

@@ -146,6 +146,39 @@
             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
 
+        <p:dialog header="Edit Event" widgetVar="edit-event-dlg" resizable="false" draggable="false" modal="true">
+            <h:form styleClass="form-table">
+                <h:panelGrid id="edit-event-panel" columns="3">
+
+                    <p:outputLabel for="name" value="NAME" styleClass="sr-only"/>
+                    <p:inputText id="name" value="#{eventBean.editEvent.name}" placeholder="NAME" styleClass="form-control" required="true" requiredMessage="FILL IN NAME EVENT">
+                        <p:ajax update="msgName" event="keyup"/>
+                    </p:inputText>
+                    <p:message for="name" id="msgName" display="text"/>
+
+                    <p:outputLabel for="datePicker" value="DATEPICKER" styleClass="sr-only"/>
+                    <p:calendar lang="#{localeBean.locale}" id="datePicker" value="#{eventBean.editEvent.date}" mode="popup"
+                                pattern="dd/MM/yyyy"
+                                mindate="#{eventBean.currentDate}"
+                                required="true" requiredMessage="PICK A DATE" placeholder="EVENT DATE"/>
+                    <p:message for="datePicker" id="msgDatePicker" display="text"/>
+
+                    <p:outputLabel for="info" value="INFO" styleClass="sr-only"/>
+                    <p:inputTextarea id="info" autoResize="false" rows="6" cols="30" value="#{eventBean.editEvent.information}" styleClass="form-control" placeholder="EVENT INFORMATION"/>
+
+                </h:panelGrid>
+                <p:commandButton value="UPDATE EVENT" styleClass="margin-top-10" update="@form :information-form :routes-form"
+                                 actionListener="#{eventBean.updateEvent}"
+                                 oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorUpdatingEvent) PF('edit-event-dlg').hide()">
+                    <f:param name="id" value="#{eventBean.eventId}" />
+                </p:commandButton>
+
+                <h:panelGroup layout="block" styleClass="alert alert-danger margin-top-10" rendered="#{eventBean.errorUpdatingEvent}">
+                    <h:outputText value="ERROR UPDATING EVENT"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
@@ -226,12 +259,13 @@
                 <div class="col-md-10 top-padding">
 
                     <div class="tab-content">
-                        <div class="tab-pane active" id="information">
-
+                        <h:panelGroup layout="block" styleClass="tab-pane active" id="information">
+                            <h:form id="information-form">
                             <div class="material-container">
 
                                 <div class="box-toolbar">
                                     <span class="left title"><h:outputText value="#{eventBean.event.name}"/></span>
+                                    <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('edit-event-dlg').show();">EDIT</h:outputLink>
                                 </div>
 
                                 <div class="box-content">
@@ -245,8 +279,8 @@
 
                                 </div>
                             </div>
-                            
-                        </div>
+                            </h:form>
+                        </h:panelGroup>
                         <div class="tab-pane" id="routes">
                             <div class="material-container">
 
@@ -260,7 +294,7 @@
 
                                 <div class="box-content">
 
-                                    <h:form id="routes-filtered-form">
+                                    <h:form id="routes-form">
                                         <p:dataTable var="route" value="#{eventBean.routes}" rendered="#{not empty eventBean.routes}" styleClass="no-header">
 
                                             <p:column styleClass="event-date" style="width: 40px;">
@@ -302,7 +336,6 @@
                         </div>
                         <h:panelGroup layout="block" styleClass="tab-pane" id="people" rendered="#{acl.hasPermission(eventBean.event.id, eventBean.event.ACLObjectIdentityClass, 'WRITE')}">
                             <div class="material-container">
-
                                 <div class="box-toolbar">
                                     <span class="left title"><h:outputText value="PEOPLE"/></span>
                                     <h:form>
@@ -312,7 +345,6 @@
                                 </div>
 
                                 <div class="box-content">
-
                                     <h:form id="people-form">
                                         <p:dataTable var="person" value="#{eventBean.event.emailList}" rendered="#{not empty eventBean.event.emailList}" styleClass="no-header">
 

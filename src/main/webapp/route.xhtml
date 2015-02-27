@@ -177,6 +177,23 @@
             </h:form>
         </p:dialog>
 
+        <p:dialog id="station-info-dlg" header="Station information" widgetVar="station-info-dlg" resizable="false" draggable="false" dynamic="true" modal="true" style="max-width: 500px;">
+            <h:form id="station-info-form" styleClass="form-table">
+
+                <h:outputText styleClass="font500" value="Name:"/><br/>
+                <h:outputText styleClass="font300" value="#{routeBean.route.stations.get(routeBean.selectedStation).name}"/><br/><br/>
+                <h:outputText styleClass="font500" value="Location:"/><br/>
+                <h:outputText styleClass="font300" value="#{routeBean.route.stations.get(routeBean.selectedStation).location}"/><br/><br/>
+                <h:outputText styleClass="font500" value="Information:"/><br/>
+                <h:outputText styleClass="font300" value="#{routeBean.route.stations.get(routeBean.selectedStation).information}"/><br/><br/>
+                <h:outputText styleClass="font500" value="Time limit:"/><br/>
+                <h:outputText styleClass="font300" value="#{routeBean.route.stations.get(routeBean.selectedStation).timeLimit} min"/><br/><br/>
+                <h:outputText styleClass="font500" value="Time needed to next station:"/><br/>
+                <h:outputText styleClass="font300" value="#{routeBean.route.stations.get(routeBean.selectedStation).relocationTime} min"/><br/><br/>
+
+            </h:form>
+        </p:dialog>
+
         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
             <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
@@ -256,7 +273,13 @@
                                             </p:column>
 
                                             <p:column headerText="Name">
-                                                <h:outputText value="#{station.name}"/>
+                                                <h:form>
+                                                    <p:commandLink styleClass="material-button-flat no-select" value="#{station.name}" action="#{routeBean.showStation(row)}" update=":station-info-dlg" oncomplete="PF('station-info-dlg').show();">
+                                                        <f:param name="eventId" value="#{routeBean.eventId}"/>
+                                                        <f:param name="routeId" value="#{routeBean.routeId}"/>
+                                                        <f:param name="mode" value="view"/>
+                                                    </p:commandLink>
+                                                </h:form>
                                             </p:column>
 
                                             <p:column headerText="Location">

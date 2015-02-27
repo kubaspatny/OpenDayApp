@@ -89,6 +89,7 @@
                                         <p:outputLabel for="datePicker" value="DATEPICKER" styleClass="sr-only"/>
                                         <p:calendar lang="#{localeBean.locale}" id="datePicker" value="#{createEventBean.createEventDate}" mode="popup"
                                                     pattern="dd/MM/yyyy"
+                                                    mindate="#{createEventBean.currentDate}"
                                                     required="true" requiredMessage="PICK A DATE" placeholder="EVENT DATE"/>
                                         <p:message for="datePicker" id="msgDatePicker" display="text"/>
 
@@ -123,7 +124,6 @@
                                 <p:column>
                                     <div class="right">
 
-                                        <p:commandButton styleClass="material-button-image image-button-edit ui-button-icon-only no-select" action="#{indexBB.edit(event.name)}" value=""/>
                                         <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
                                                          actionListener="#{indexBB.deleteEvent(event.id)}" value="" update="@form">
                                             <p:confirm header="Confirmation" message="Do you really want to delete event?" icon="icon-empty"/>

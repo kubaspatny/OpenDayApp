@@ -320,4 +320,18 @@ public class RouteBean implements Serializable {
         return "event?faces-redirect=true&id=" + eventId;
     }
 
+    private int selectedStation;
+
+    public int getSelectedStation() {
+        return selectedStation;
+    }
+
+    public void setSelectedStation(int selectedStation) {
+        this.selectedStation = selectedStation;
+    }
+
+    public void showStation(int selectedStation){
+        System.out.println("Show station: " + selectedStation);
+        setSelectedStation(selectedStation);
+    }
 }

@@ -1,5 +1,6 @@
 package cz.kubaspatny.opendayapp.bb;
 
+import cz.kubaspatny.opendayapp.bb.valueobject.EditEventHolder;
 import cz.kubaspatny.opendayapp.dto.EventDto;
 import cz.kubaspatny.opendayapp.dto.RouteDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
@@ -52,15 +53,9 @@ import java.util.List;
 @ViewScoped
 public class EventBean implements Serializable {
 
-    private enum EventViewMode {
-        VIEW, EDIT;
-    }
-
     @Autowired transient IEventService eventService;
     @Autowired transient IRouteService routeService;
     @Autowired transient IUserService userService;
-
-    private EventViewMode mode;
 
     public void init() {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
@@ -95,9 +90,8 @@ public class EventBean implements Serializable {
     private String eventId;
 
     private boolean errorRegisteringUser;
-
+    private boolean errorUpdatingEvent;
     private EventDto event;
-
     private String newPersonEmail;
 
     public String getModeCreate() {
@@ -118,6 +112,10 @@ public class EventBean implements Serializable {
 
     public boolean isErrorRegisteringUser() {
         return errorRegisteringUser;
+    }
+
+    public boolean isErrorUpdatingEvent() {
+        return errorUpdatingEvent;
     }
 
     public String getNewPersonEmail() {
@@ -143,6 +141,9 @@ public class EventBean implements Serializable {
         try {
             event = eventService.getEvent(id);
             setRoutes(routeService.getRoutes(id));
+
+            editEvent = new EditEventHolder(event.getName(), event.getDate().toDate(), event.getInformation());
+
         } catch (DataAccessException e){
             FacesContext facesContext = FacesContext.getCurrentInstance();
             facesContext.getExternalContext().responseSendError(404, "Event not found!");
@@ -275,4 +276,59 @@ public class EventBean implements Serializable {
         Collections.sort(routes, RouteDto.RouteDateComparator);
         this.routes = routes;
     }
+
+    private EditEventHolder editEvent;
+
+    public EditEventHolder getEditEvent() {
+        return editEvent;
+    }
+
+    public void setEditEvent(EditEventHolder editEvent) {
+        this.editEvent = editEvent;
+    }
+
+    public void updateEvent() throws IOException {
+
+        try {
+            event = eventService.getEvent(event.getId());
+        } catch (DataAccessException e){
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            facesContext.getExternalContext().responseSendError(404, "Event not found!");
+            facesContext.responseComplete();
+        } catch (AccessDeniedException e){
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            facesContext.getExternalContext().responseSendError(401, "Access denied!");
+            facesContext.responseComplete();
+        }
+
+        try {
+            event.setName(editEvent.getName());
+            event.setDate(new DateTime(editEvent.getDate()));
+            event.setInformation(editEvent.getInformation());
+            eventService.updateEvent(event);
+
+            for(RouteDto r : routes){
+                r.setDate(event.getDate().withTime(r.getDate().getHourOfDay(), r.getDate().getMinuteOfHour(), 0, 0));
+                routeService.updateRoute(r);
+            }
+
+            loadEvent();
+        } catch (DataAccessException e){
+            RequestContext.getCurrentInstance().addCallbackParam("errorUpdatingEvent", true);
+            errorUpdatingEvent = true;
+            return;
+        } catch (AccessDeniedException e){
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            facesContext.getExternalContext().responseSendError(401, "Access denied!");
+            facesContext.responseComplete();
+        }
+
+        errorUpdatingEvent = false;
+
+    }
+
+    public Date getCurrentDate(){
+        return new Date();
+    }
+
 }
