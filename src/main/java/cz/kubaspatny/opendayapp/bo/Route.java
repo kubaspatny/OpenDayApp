@@ -136,7 +136,7 @@ public class Route extends AbstractBusinessObject {
     }
 
     public void removeStationManager(User stationManager){
-        if(stationManagers == null || stationManagers.contains(stationManager)) return;
+        if(stationManagers == null || !stationManagers.contains(stationManager)) return;
 
         stationManagers.remove(stationManager);
         stationManager.removeManagedRoute(this);

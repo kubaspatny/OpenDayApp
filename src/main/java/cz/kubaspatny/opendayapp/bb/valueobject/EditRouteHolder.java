@@ -39,6 +39,8 @@ public class EditRouteHolder {
     private HashMap<String, StationDto> stationReorderMap;
     private List<String> reorderStations;
 
+    private String newStationManager;
+
     public EditRouteHolder() {
     }
 
@@ -124,5 +126,13 @@ public class EditRouteHolder {
 
     public void setReorderStations(List<String> reorderStations) {
         this.reorderStations = reorderStations;
+    }
+
+    public String getNewStationManager() {
+        return newStationManager;
+    }
+
+    public void setNewStationManager(String newStationManager) {
+        this.newStationManager = newStationManager;
     }
 }

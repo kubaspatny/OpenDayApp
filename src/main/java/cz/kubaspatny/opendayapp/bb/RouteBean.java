@@ -6,6 +6,7 @@ import cz.kubaspatny.opendayapp.bb.valueobject.EditRouteHolder;
 import cz.kubaspatny.opendayapp.dto.EventDto;
 import cz.kubaspatny.opendayapp.dto.RouteDto;
 import cz.kubaspatny.opendayapp.dto.StationDto;
+import cz.kubaspatny.opendayapp.dto.UserDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.service.IEventService;
 import cz.kubaspatny.opendayapp.service.IRouteService;
@@ -314,6 +315,16 @@ public class RouteBean implements Serializable {
 
     }
 
+    public void removeStationManager(String email) throws IOException {
+        try {
+            routeService.removeStationManager(route.id, email);
+            loadEvent();
+        } catch (DataAccessException e){
+            e.printStackTrace();
+            // TODO display error
+        }
+    }
+
     public void validateStationNameUniqueConstraint(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 
         ResourceBundle bundle = ResourceBundle.getBundle("strings", context.getViewRoot().getLocale());
@@ -359,6 +370,18 @@ public class RouteBean implements Serializable {
             throw new ValidatorException(msg);
         }
 
+    }
+
+    public void validateStationManagerUniqueConstraint(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        if((route.getStationManagers() != null && !route.getStationManagers().isEmpty())){
+            for(UserDto m : route.getStationManagers()){
+                if(m.getEmail().equals(value)){
+                    FacesMessage msg = new FacesMessage("This station manager was already added!");
+                    msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+                    throw new ValidatorException(msg);
+                }
+            }
+        }
     }
 
     public String changeStationsOrder(){
@@ -524,5 +547,22 @@ public class RouteBean implements Serializable {
 
         editRouteHolder.setReorderStations(reorderStations);
         editRouteHolder.setStationReorderMap(reorderStationMap);
+    }
+
+    public void setUpEmptyRouteHolder(){
+        editRouteHolder = new EditRouteHolder();
+    }
+
+    public void addNewStationManager() throws IOException {
+        try {
+            routeService.addStationManager(route.id, editRouteHolder.getNewStationManager());
+            loadEvent();
+        } catch (DataAccessException e){
+            RequestContext.getCurrentInstance().addCallbackParam("errorAddingStationManager", true);
+            return;
+        } catch (AccessDeniedException e){
+            redirectToError(401, "Access to route denied!");
+            return;
+        }
     }
 }

@@ -201,7 +201,6 @@
             </h:form>
         </p:dialog>
 
-
         <p:dialog header="Reorder stations" widgetVar="reorder-station-dlg" resizable="false" draggable="false" modal="true">
             <h:form id="reorder-station-form" styleClass="form-table">
 
@@ -339,6 +338,35 @@
                                  oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorUpdatingStation) PF('edit-station-dlg').hide()">
                     <f:param name="eventId" value="#{routeBean.eventId}"/>
                     <f:param name="routeId" value="#{routeBean.routeId}"/>
+                    <f:param name="mode" value="view"/>
+                </p:commandButton>
+
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="add-stationmanager-dlg" header="Add station manager" widgetVar="add-stationmanager-dlg" resizable="false" draggable="false" modal="true">
+            <h:form id="add-stationmanager-form" styleClass="form-table">
+
+                <h:panelGrid id="add-stationmanager-panel" columns="1">
+
+                    <p:selectOneListbox id="select-stationmanager" value="#{routeBean.editRouteHolder.newStationManager}" var="e" filter="true" filterMatchMode="contains"
+                            validator="#{routeBean.validateStationManagerUniqueConstraint}">
+                        <f:selectItems value="#{routeBean.event.emailList}" var="email" itemLabel="#{email}" itemValue="#{email}" />
+
+                        <p:column>
+                            <h:outputText value="#{e}" />
+                        </p:column>
+
+                    </p:selectOneListbox>
+
+                    <p:message for="select-stationmanager" id="msgSelectStationManager" display="text"/>
+
+                </h:panelGrid>
+                <p:commandButton value="Add station manager" styleClass="margin-top-10" update="@form :route-view-container" ajax="true"
+                                 action="#{routeBean.addNewStationManager}"
+                                 oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorAddingStationManager) PF('add-stationmanager-dlg').hide()">
+                    <f:param name="eventId" value="#{routeBean.eventId}" />
+                    <f:param name="routeId" value="#{routeBean.routeId}" />
                     <f:param name="mode" value="view"/>
                 </p:commandButton>
 
@@ -519,11 +547,32 @@
                                 <div class="col-md-6 material-container">
                                     <h:panelGroup layout="block" styleClass="box-toolbar divider" style="border-color: #{routeBean.route.hexColor}">
                                         <span class="left title"><h:outputText value="Station Managers"/></span>
+                                        <h:form>
+                                            <p:commandLink styleClass="right material-button-flat no-select" value="ADD" action="#{routeBean.setUpEmptyRouteHolder}" update=":add-stationmanager-dlg" oncomplete="PF('add-stationmanager-dlg').show();">
+                                                <f:param name="eventId" value="#{routeBean.eventId}"/>
+                                                <f:param name="routeId" value="#{routeBean.routeId}"/>
+                                                <f:param name="mode" value="view"/>
+                                            </p:commandLink>
+                                        </h:form>
                                     </h:panelGroup>
                                     <div class="box-content">
                                         <p:dataTable value="#{routeBean.route.stationManagers}" var="manager" styleClass="no-header">
                                             <p:column>
                                                 <h:outputText value="#{manager.email}"/>
+                                            </p:column>
+
+                                            <p:column rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE')}">
+                                                <div class="right">
+                                                    <h:form>
+                                                        <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
+                                                                         actionListener="#{routeBean.removeStationManager(manager.email)}" value="" update="@form :route-view-container">
+                                                            <p:confirm header="Confirmation" message="Do you really want to delete this station manager?" icon="icon-empty"/>
+                                                            <f:param name="eventId" value="#{routeBean.eventId}"/>
+                                                            <f:param name="routeId" value="#{routeBean.routeId}"/>
+                                                            <f:param name="mode" value="view"/>
+                                                        </p:commandButton>
+                                                    </h:form>
+                                                </div>
                                             </p:column>
                                         </p:dataTable>
                                     </div>
