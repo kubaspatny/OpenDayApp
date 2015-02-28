@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0980f5f7-92ed-4fde-8869-3c37b7ebaab1" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/valueobject/EditRouteHolder.java" afterPath="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/valueobject/EditRouteHolder.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/RouteBean.java" afterPath="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/RouteBean.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/StationDto.java" afterPath="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/StationDto.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/route.xhtml" afterPath="$PROJECT_DIR$/src/main/webapp/route.xhtml" />
     </list>
     <ignored path="OpenDayApp.iws" />
@@ -77,29 +79,14 @@
       <file leaf-file-name="route.xhtml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/route.xhtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.50555557" vertical-offset="1325" max-vertical-offset="7905">
-              <caret line="203" column="101" selection-start-line="203" selection-start-column="101" selection-end-line="203" selection-end-column="101" />
+            <state vertical-scroll-proportion="0.65507245" vertical-offset="4716" max-vertical-offset="10404">
+              <caret line="435" column="103" selection-start-line="435" selection-start-column="102" selection-end-line="435" selection-end-column="102" />
               <folding>
-                <element signature="n#p:dialog#1;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="n#p:dialog#2;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="n#p:dialog#3;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#p:dialog#4;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#p:dialog#5;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#p:dialog#8;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="n#p:confirmDialog#0;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="n#nav#0;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="event.xhtml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/event.xhtml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-18.307692" vertical-offset="1360" max-vertical-offset="6001">
-              <caret line="175" column="120" selection-start-line="175" selection-start-column="120" selection-end-line="175" selection-end-column="120" />
-              <folding>
-                <element signature="n#p:dialog#1;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#p:confirmDialog#0;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -108,26 +95,26 @@
       <file leaf-file-name="RouteBean.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/RouteBean.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3315" max-vertical-offset="3910">
-              <caret line="378" column="65" selection-start-line="378" selection-start-column="65" selection-end-line="378" selection-end-column="65" />
+            <state vertical-scroll-proportion="-22.48276" vertical-offset="4754" max-vertical-offset="5814">
+              <caret line="510" column="9" selection-start-line="510" selection-start-column="5" selection-end-line="510" selection-end-column="5" />
               <folding>
                 <element signature="method#readObject#0;class#RouteBean#0" expanded="false" />
-                <element signature="e#5427#5428#0" expanded="true" />
-                <element signature="e#5465#5466#0" expanded="true" />
-                <element signature="e#5510#5511#0" expanded="true" />
-                <element signature="e#5551#5552#0" expanded="true" />
                 <element signature="method#addNewTime#0;class#RouteBean#0" expanded="false" />
                 <element signature="method#formatTime#0;class#RouteBean#0" expanded="false" />
                 <element signature="method#addNewGroup#0;class#RouteBean#0" expanded="false" />
                 <element signature="method#reorderGroups#0;class#RouteBean#0" expanded="false" />
                 <element signature="method#addNewStation#0;class#RouteBean#0" expanded="false" />
-                <element signature="method#validateStationNameUniqueConstraint#0;class#RouteBean#0" expanded="false" />
+                <element signature="e#8916#8917#0" expanded="true" />
+                <element signature="e#8987#8988#0" expanded="true" />
+                <element signature="method#updateStation#0;class#RouteBean#0" expanded="false" />
+                <element signature="method#removeStation#0;class#RouteBean#0" expanded="false" />
                 <element signature="method#validateRouteTimes#0;class#RouteBean#0" expanded="false" />
                 <element signature="method#validateGroups#0;class#RouteBean#0" expanded="false" />
-                <element signature="method#changeStationsOrder#0;class#RouteBean#0" expanded="false" />
                 <element signature="method#createRoute#0;class#RouteBean#0" expanded="false" />
-                <element signature="e#11939#11940#0" expanded="true" />
-                <element signature="e#11990#11991#0" expanded="true" />
+                <element signature="e#14278#14279#0" expanded="true" />
+                <element signature="e#14329#14330#0" expanded="true" />
+                <element signature="e#17993#18001#0" expanded="true" />
+                <element signature="e#18072#18092#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -136,14 +123,56 @@
       <file leaf-file-name="CreateRouteValueObject.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/valueobject/CreateRouteValueObject.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2312" max-vertical-offset="2924">
-              <caret line="38" column="30" selection-start-line="37" selection-start-column="4" selection-end-line="38" selection-end-column="30" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="2890">
+              <caret line="51" column="41" selection-start-line="49" selection-start-column="4" selection-end-line="51" selection-end-column="41" />
               <folding>
                 <element signature="method#setRouteTimes#0;class#CreateRouteValueObject#0" expanded="false" />
                 <element signature="method#addRouteTime#0;class#CreateRouteValueObject#0" expanded="false" />
-                <element signature="e#3691#3692#0" expanded="true" />
-                <element signature="e#3727#3728#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EditRouteHolder.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/valueobject/EditRouteHolder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="547" max-vertical-offset="1870">
+              <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2467#2468#0" expanded="true" />
+                <element signature="e#2497#2498#0" expanded="true" />
+                <element signature="e#2630#2631#0" expanded="true" />
+                <element signature="e#2661#2662#0" expanded="true" />
+                <element signature="e#2719#2720#0" expanded="true" />
+                <element signature="e#2759#2760#0" expanded="true" />
+                <element signature="e#2824#2825#0" expanded="true" />
+                <element signature="e#2864#2865#0" expanded="true" />
+                <element signature="e#3057#3058#0" expanded="true" />
+                <element signature="e#3095#3096#0" expanded="true" />
+                <element signature="e#3163#3164#0" expanded="true" />
+                <element signature="e#3217#3218#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RegistrationBB.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/RegistrationBB.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="260" max-vertical-offset="1547">
+              <caret line="97" column="18" selection-start-line="97" selection-start-column="18" selection-end-line="97" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PasswordValidator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/validator/PasswordValidator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="318" max-vertical-offset="952">
+              <caret line="39" column="71" selection-start-line="38" selection-start-column="8" selection-end-line="39" selection-end-column="71" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -151,8 +180,8 @@
       <file leaf-file-name="EventBean.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/EventBean.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2507" max-vertical-offset="3213">
-              <caret line="318" column="19" selection-start-line="316" selection-start-column="12" selection-end-line="318" selection-end-column="19" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2202" max-vertical-offset="3502">
+              <caret line="275" column="47" selection-start-line="275" selection-start-column="47" selection-end-line="275" selection-end-column="47" />
               <folding>
                 <element signature="method#init#0;class#EventBean#0" expanded="false" />
                 <element signature="method#readObject#0;class#EventBean#0" expanded="false" />
@@ -160,8 +189,32 @@
                 <element signature="method#areAllEmailsRegistered#0;class#EventBean#0" expanded="false" />
                 <element signature="method#addEmailsToEmailList#0;class#EventBean#0" expanded="false" />
                 <element signature="method#removePersonFromEmailList#0;class#EventBean#0" expanded="false" />
-                <element signature="method#removeRoute#0;class#EventBean#0" expanded="false" />
-                <element signature="method#setRoutes#0;class#EventBean#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RouteDto.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/RouteDto.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2593" max-vertical-offset="3077">
+              <caret line="215" column="6" selection-start-line="211" selection-start-column="4" selection-end-line="215" selection-end-column="6" />
+              <folding>
+                <element signature="e#6364#6536#0" expanded="true" />
+                <element signature="e#6535#6536#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StationDto.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/StationDto.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2491" max-vertical-offset="2975">
+              <caret line="212" column="101" selection-start-line="212" selection-start-column="101" selection-end-line="212" selection-end-column="101" />
+              <folding>
+                <element signature="e#6411#6632#0" expanded="true" />
+                <element signature="e#6631#6632#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -170,40 +223,9 @@
       <file leaf-file-name="EditEventHolder.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/valueobject/EditEventHolder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="276" max-vertical-offset="884">
+            <state vertical-scroll-proportion="0.0" vertical-offset="203" max-vertical-offset="884">
               <caret line="58" column="1" selection-start-line="58" selection-start-column="1" selection-end-line="58" selection-end-column="1" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EditRouteHolder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/valueobject/EditRouteHolder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="352" max-vertical-offset="1428">
-              <caret line="30" column="111" selection-start-line="30" selection-start-column="111" selection-end-line="30" selection-end-column="111" />
-              <folding>
-                <element signature="e#1271#1272#0" expanded="true" />
-                <element signature="e#1298#1299#0" expanded="true" />
-                <element signature="e#1338#1339#0" expanded="true" />
-                <element signature="e#1370#1371#0" expanded="true" />
-                <element signature="e#1405#1406#0" expanded="true" />
-                <element signature="e#1439#1440#0" expanded="true" />
-                <element signature="e#1490#1491#0" expanded="true" />
-                <element signature="e#1536#1537#0" expanded="true" />
-                <element signature="e#1573#1574#0" expanded="true" />
-                <element signature="e#1609#1610#0" expanded="true" />
-                <element signature="e#1664#1665#0" expanded="true" />
-                <element signature="e#1714#1715#0" expanded="true" />
-                <element signature="e#1752#1753#0" expanded="true" />
-                <element signature="e#1786#1787#0" expanded="true" />
-                <element signature="e#1840#1841#0" expanded="true" />
-                <element signature="e#1886#1887#0" expanded="true" />
-                <element signature="e#1918#1919#0" expanded="true" />
-                <element signature="e#1946#1947#0" expanded="true" />
-                <element signature="e#1988#1989#0" expanded="true" />
-                <element signature="e#2022#2023#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -221,7 +243,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/webapp/resources/CustomMessages_en.properties" />
         <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/RegistrationBB.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/resources/css/logo.css" />
         <option value="$PROJECT_DIR$/src/main/webapp/login.xhtml" />
@@ -269,6 +290,7 @@
         <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/valueobject/EditEventHolder.java" />
         <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/EventBean.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/event.xhtml" />
+        <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/StationDto.java" />
         <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/valueobject/EditRouteHolder.java" />
         <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/RouteBean.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/route.xhtml" />
@@ -441,14 +463,6 @@
               <option name="myItemId" value="main" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WEB-INF" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -468,93 +482,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
+              <option name="myItemId" value="java" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="WEB-INF" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="security" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OpenDayApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OpenDayApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WEB-INF" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="properties" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OpenDayApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OpenDayApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WEB-INF" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="context" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OpenDayApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OpenDayApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
+              <option name="myItemId" value="opendayapp" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -577,6 +509,78 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="opendayapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="service" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenDayApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenDayApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="opendayapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenDayApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenDayApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="opendayapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="valueobject" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -645,30 +649,7 @@
       <recent name="cz.kubaspatny.opendayapp.test" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in OpenDayApp (5)">
-    <configuration default="false" name="All in OpenDayApp (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="OpenDayApp" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="package" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="JUnit.All in OpenDayApp (3)">
     <configuration default="false" name="All in OpenDayApp" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="OpenDayApp" />
@@ -739,6 +720,29 @@
       <method />
     </configuration>
     <configuration default="false" name="All in OpenDayApp (5)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="OpenDayApp" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="All in OpenDayApp (3)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="OpenDayApp" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -1208,19 +1212,19 @@
       <item index="1" class="java.lang.String" itemvalue="JUnit.StationServiceTest.testGetStation" />
       <item index="2" class="java.lang.String" itemvalue="JUnit.SandBox.testDeleteRouteStationManagerPart" />
       <item index="3" class="java.lang.String" itemvalue="Tomcat Server.Tomcat 7.0" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (1)" />
-      <item index="5" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp" />
-      <item index="6" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (4)" />
-      <item index="7" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (2)" />
-      <item index="8" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (5)" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (4)" />
+      <item index="6" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (2)" />
+      <item index="7" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (5)" />
+      <item index="8" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (3)" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (5)" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (2)" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (4)" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (1)" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (3)" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (5)" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (2)" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp (4)" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.All in OpenDayApp" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
@@ -1333,12 +1337,12 @@
       <workItem from="1424933179392" duration="5242000" />
       <workItem from="1424975270822" duration="7883000" />
       <workItem from="1425060186078" duration="14055000" />
-      <workItem from="1425111309489" duration="7202000" />
+      <workItem from="1425111309489" duration="20888000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="769303000" />
+    <option name="totallyTimeSpent" value="782989000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1383,18 +1387,18 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32838285" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32995495" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26218098" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.08816706" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32995495" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3277027" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25970873" sideWeight="0.49927008" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2669903" sideWeight="0.49927008" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32830626" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13716814" sideWeight="0.5007299" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24962178" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32838285" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1465,27 +1469,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/test/java/cz/kubaspatny/opendayapp/test/GroupServiceTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.52327746" vertical-offset="3816" max-vertical-offset="6154">
-          <caret line="258" column="60" selection-start-line="258" selection-start-column="60" selection-end-line="258" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/validator/EmailFormatValidator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7447447" vertical-offset="490" max-vertical-offset="1156">
-          <caret line="58" column="34" selection-start-line="58" selection-start-column="34" selection-end-line="58" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/css/bootstrap.min.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.10104012" vertical-offset="0" max-vertical-offset="673">
-          <caret line="4" column="21751" selection-start-line="4" selection-start-column="21751" selection-end-line="4" selection-end-column="21751" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/css/bootstrap.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33229813" vertical-offset="32409" max-vertical-offset="111843">
@@ -1532,13 +1515,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.59965634" vertical-offset="416" max-vertical-offset="1139">
           <caret line="56" column="9" selection-start-line="50" selection-start-column="8" selection-end-line="56" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/StationDto.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.17056856" vertical-offset="306" max-vertical-offset="2856">
-          <caret line="29" column="35" selection-start-line="29" selection-start-column="35" selection-end-line="29" selection-end-column="35" />
         </state>
       </provider>
     </entry>
@@ -1614,18 +1590,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/RegistrationBB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3538663" vertical-offset="784" max-vertical-offset="1547">
-          <caret line="97" column="18" selection-start-line="97" selection-start-column="18" selection-end-line="97" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/register.xhtml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-16.423077" vertical-offset="1358" max-vertical-offset="2108">
           <caret line="105" column="177" selection-start-line="105" selection-start-column="177" selection-end-line="105" selection-end-column="177" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1656,6 +1625,33 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="2193">
           <caret line="33" column="37" selection-start-line="33" selection-start-column="37" selection-end-line="33" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1483#1484#0" expanded="false" />
+            <element signature="e#1510#1511#0" expanded="false" />
+            <element signature="e#1550#1551#0" expanded="false" />
+            <element signature="e#1582#1583#0" expanded="false" />
+            <element signature="e#1615#1616#0" expanded="false" />
+            <element signature="e#1642#1643#0" expanded="false" />
+            <element signature="e#1684#1685#0" expanded="false" />
+            <element signature="e#1716#1717#0" expanded="false" />
+            <element signature="e#1754#1755#0" expanded="false" />
+            <element signature="e#1788#1789#0" expanded="false" />
+            <element signature="e#1842#1843#0" expanded="false" />
+            <element signature="e#1888#1889#0" expanded="false" />
+            <element signature="e#1922#1923#0" expanded="false" />
+            <element signature="e#1954#1955#0" expanded="false" />
+            <element signature="e#2002#2003#0" expanded="false" />
+            <element signature="e#2044#2045#0" expanded="false" />
+            <element signature="e#2082#2083#0" expanded="false" />
+            <element signature="e#2111#2112#0" expanded="false" />
+            <element signature="e#2160#2161#0" expanded="false" />
+            <element signature="e#2196#2197#0" expanded="false" />
+            <element signature="e#2643#2644#0" expanded="false" />
+            <element signature="e#2675#2676#0" expanded="false" />
+            <element signature="e#2730#2731#0" expanded="false" />
+            <element signature="e#2772#2773#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1677,6 +1673,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5049505" vertical-offset="3264" max-vertical-offset="6001">
           <caret line="210" column="50" selection-start-line="210" selection-start-column="19" selection-end-line="210" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1730,6 +1727,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.5928574" vertical-offset="1505" max-vertical-offset="2397">
           <caret line="44" column="42" selection-start-line="44" selection-start-column="37" selection-end-line="44" selection-end-column="37" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1755,14 +1753,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/EventDto.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33282673" vertical-offset="1634" max-vertical-offset="2516">
-          <caret line="140" column="24" selection-start-line="140" selection-start-column="24" selection-end-line="140" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/IndexBB.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.84798807" vertical-offset="723" max-vertical-offset="1411">
@@ -1783,6 +1773,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-21.038462" vertical-offset="2921" max-vertical-offset="4692">
           <caret line="204" column="23" selection-start-line="204" selection-start-column="23" selection-end-line="204" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1793,39 +1784,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/RouteDto.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/IStationService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="325" max-vertical-offset="3043">
-          <caret line="42" column="31" selection-start-line="42" selection-start-column="31" selection-end-line="42" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.6255507" vertical-offset="339" max-vertical-offset="1020">
+          <caret line="49" column="16" selection-start-line="49" selection-start-column="16" selection-end-line="49" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/EventBean.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/service/StationService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2507" max-vertical-offset="3213">
-          <caret line="318" column="19" selection-start-line="316" selection-start-column="12" selection-end-line="318" selection-end-column="19" />
-          <folding>
-            <element signature="method#init#0;class#EventBean#0" expanded="false" />
-            <element signature="method#readObject#0;class#EventBean#0" expanded="false" />
-            <element signature="method#isRegistered#0;class#EventBean#0" expanded="false" />
-            <element signature="method#areAllEmailsRegistered#0;class#EventBean#0" expanded="false" />
-            <element signature="method#addEmailsToEmailList#0;class#EventBean#0" expanded="false" />
-            <element signature="method#removePersonFromEmailList#0;class#EventBean#0" expanded="false" />
-            <element signature="method#removeRoute#0;class#EventBean#0" expanded="false" />
-            <element signature="method#setRoutes#0;class#EventBean#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/event.xhtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.307692" vertical-offset="1360" max-vertical-offset="6001">
-          <caret line="175" column="120" selection-start-line="175" selection-start-column="120" selection-end-line="175" selection-end-column="120" />
-          <folding>
-            <element signature="n#p:dialog#1;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#p:confirmDialog#0;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.73952097" vertical-offset="492" max-vertical-offset="1258">
+          <caret line="65" column="37" selection-start-line="65" selection-start-column="37" selection-end-line="65" selection-end-column="37" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1837,84 +1808,145 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/valueobject/EditRouteHolder.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/RegistrationBB.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="352" max-vertical-offset="1428">
-          <caret line="30" column="111" selection-start-line="30" selection-start-column="111" selection-end-line="30" selection-end-column="111" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="260" max-vertical-offset="1547">
+          <caret line="97" column="18" selection-start-line="97" selection-start-column="18" selection-end-line="97" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/validator/PasswordValidator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="318" max-vertical-offset="952">
+          <caret line="39" column="71" selection-start-line="38" selection-start-column="8" selection-end-line="39" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/EventDto.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.22196797" vertical-offset="311" max-vertical-offset="2516">
+          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/EventBean.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2202" max-vertical-offset="3502">
+          <caret line="275" column="47" selection-start-line="275" selection-start-column="47" selection-end-line="275" selection-end-column="47" />
           <folding>
-            <element signature="e#1271#1272#0" expanded="true" />
-            <element signature="e#1298#1299#0" expanded="true" />
-            <element signature="e#1338#1339#0" expanded="true" />
-            <element signature="e#1370#1371#0" expanded="true" />
-            <element signature="e#1405#1406#0" expanded="true" />
-            <element signature="e#1439#1440#0" expanded="true" />
-            <element signature="e#1490#1491#0" expanded="true" />
-            <element signature="e#1536#1537#0" expanded="true" />
-            <element signature="e#1573#1574#0" expanded="true" />
-            <element signature="e#1609#1610#0" expanded="true" />
-            <element signature="e#1664#1665#0" expanded="true" />
-            <element signature="e#1714#1715#0" expanded="true" />
-            <element signature="e#1752#1753#0" expanded="true" />
-            <element signature="e#1786#1787#0" expanded="true" />
-            <element signature="e#1840#1841#0" expanded="true" />
-            <element signature="e#1886#1887#0" expanded="true" />
-            <element signature="e#1918#1919#0" expanded="true" />
-            <element signature="e#1946#1947#0" expanded="true" />
-            <element signature="e#1988#1989#0" expanded="true" />
-            <element signature="e#2022#2023#0" expanded="true" />
+            <element signature="method#init#0;class#EventBean#0" expanded="false" />
+            <element signature="method#readObject#0;class#EventBean#0" expanded="false" />
+            <element signature="method#isRegistered#0;class#EventBean#0" expanded="false" />
+            <element signature="method#areAllEmailsRegistered#0;class#EventBean#0" expanded="false" />
+            <element signature="method#addEmailsToEmailList#0;class#EventBean#0" expanded="false" />
+            <element signature="method#removePersonFromEmailList#0;class#EventBean#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/RouteDto.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2593" max-vertical-offset="3077">
+          <caret line="215" column="6" selection-start-line="211" selection-start-column="4" selection-end-line="215" selection-end-column="6" />
+          <folding>
+            <element signature="e#6364#6536#0" expanded="true" />
+            <element signature="e#6535#6536#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/StationDto.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2491" max-vertical-offset="2975">
+          <caret line="212" column="101" selection-start-line="212" selection-start-column="101" selection-end-line="212" selection-end-column="101" />
+          <folding>
+            <element signature="e#6411#6632#0" expanded="true" />
+            <element signature="e#6631#6632#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/event.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33719248" vertical-offset="5020" max-vertical-offset="6001">
+          <caret line="376" column="80" selection-start-line="376" selection-start-column="79" selection-end-line="376" selection-end-column="80" />
+          <folding>
+            <element signature="n#p:dialog#1;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#p:confirmDialog#0;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/valueobject/CreateRouteValueObject.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="2924">
-          <caret line="38" column="30" selection-start-line="37" selection-start-column="4" selection-end-line="38" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="2890">
+          <caret line="51" column="41" selection-start-line="49" selection-start-column="4" selection-end-line="51" selection-end-column="41" />
           <folding>
             <element signature="method#setRouteTimes#0;class#CreateRouteValueObject#0" expanded="false" />
             <element signature="method#addRouteTime#0;class#CreateRouteValueObject#0" expanded="false" />
-            <element signature="e#3691#3692#0" expanded="true" />
-            <element signature="e#3727#3728#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/valueobject/EditRouteHolder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="547" max-vertical-offset="1870">
+          <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2467#2468#0" expanded="true" />
+            <element signature="e#2497#2498#0" expanded="true" />
+            <element signature="e#2630#2631#0" expanded="true" />
+            <element signature="e#2661#2662#0" expanded="true" />
+            <element signature="e#2719#2720#0" expanded="true" />
+            <element signature="e#2759#2760#0" expanded="true" />
+            <element signature="e#2824#2825#0" expanded="true" />
+            <element signature="e#2864#2865#0" expanded="true" />
+            <element signature="e#3057#3058#0" expanded="true" />
+            <element signature="e#3095#3096#0" expanded="true" />
+            <element signature="e#3163#3164#0" expanded="true" />
+            <element signature="e#3217#3218#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/RouteBean.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3096" max-vertical-offset="3910">
-          <caret line="378" column="65" selection-start-line="378" selection-start-column="65" selection-end-line="378" selection-end-column="65" />
+        <state vertical-scroll-proportion="-22.48276" vertical-offset="4754" max-vertical-offset="5814">
+          <caret line="510" column="9" selection-start-line="510" selection-start-column="5" selection-end-line="510" selection-end-column="5" />
           <folding>
             <element signature="method#readObject#0;class#RouteBean#0" expanded="false" />
-            <element signature="e#5427#5428#0" expanded="true" />
-            <element signature="e#5465#5466#0" expanded="true" />
-            <element signature="e#5510#5511#0" expanded="true" />
-            <element signature="e#5551#5552#0" expanded="true" />
             <element signature="method#addNewTime#0;class#RouteBean#0" expanded="false" />
             <element signature="method#formatTime#0;class#RouteBean#0" expanded="false" />
             <element signature="method#addNewGroup#0;class#RouteBean#0" expanded="false" />
             <element signature="method#reorderGroups#0;class#RouteBean#0" expanded="false" />
             <element signature="method#addNewStation#0;class#RouteBean#0" expanded="false" />
-            <element signature="method#validateStationNameUniqueConstraint#0;class#RouteBean#0" expanded="false" />
+            <element signature="e#8916#8917#0" expanded="true" />
+            <element signature="e#8987#8988#0" expanded="true" />
+            <element signature="method#updateStation#0;class#RouteBean#0" expanded="false" />
+            <element signature="method#removeStation#0;class#RouteBean#0" expanded="false" />
             <element signature="method#validateRouteTimes#0;class#RouteBean#0" expanded="false" />
             <element signature="method#validateGroups#0;class#RouteBean#0" expanded="false" />
-            <element signature="method#changeStationsOrder#0;class#RouteBean#0" expanded="false" />
             <element signature="method#createRoute#0;class#RouteBean#0" expanded="false" />
-            <element signature="e#11939#11940#0" expanded="true" />
-            <element signature="e#11990#11991#0" expanded="true" />
+            <element signature="e#14278#14279#0" expanded="true" />
+            <element signature="e#14329#14330#0" expanded="true" />
+            <element signature="e#17993#18001#0" expanded="true" />
+            <element signature="e#18072#18092#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/route.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.50555557" vertical-offset="1325" max-vertical-offset="7905">
-          <caret line="203" column="101" selection-start-line="203" selection-start-column="101" selection-end-line="203" selection-end-column="101" />
+        <state vertical-scroll-proportion="0.65507245" vertical-offset="4716" max-vertical-offset="10404">
+          <caret line="435" column="103" selection-start-line="435" selection-start-column="102" selection-end-line="435" selection-end-column="102" />
           <folding>
-            <element signature="n#p:dialog#1;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#p:dialog#2;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#p:dialog#3;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#p:dialog#4;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#p:dialog#5;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#p:dialog#8;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#p:confirmDialog#0;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#nav#0;n#h:body#0;n#f:view#0;n#html#0;n#!!top" expanded="false" />
           </folding>

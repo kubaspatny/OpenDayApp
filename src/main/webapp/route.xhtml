@@ -160,6 +160,48 @@
             </h:form>
         </p:dialog>
 
+        <p:dialog header="Add station" id="view-add-station-dlg" widgetVar="view-add-station-dlg" resizable="false" draggable="false" modal="true">
+            <h:form id="view-add-station-form" styleClass="form-table">
+
+                <h:panelGrid columns="3">
+
+                    <p:outputLabel for="add-station-name" value="Station name" styleClass="sr-only"/>
+                    <p:inputText id="add-station-name" value="#{routeBean.editRouteHolder.station.name}" validator="#{routeBean.validateStationNameUniqueConstraint}" placeholder="Station name" styleClass="form-control" required="true" requiredMessage="Fill in Station's name">
+                        <p:ajax update="msgAddStationName" event="keyup"/>
+                    </p:inputText>
+                    <p:message for="add-station-name" id="msgAddStationName" display="text"/>
+
+                    <p:outputLabel for="add-station-location" value="NAME" styleClass="sr-only"/>
+                    <p:inputText id="add-station-location" value="#{routeBean.editRouteHolder.station.location}" placeholder="Station location" styleClass="form-control" required="true" requiredMessage="Fill in Station's location">
+                        <p:ajax update="msgAddStationLocation" event="keyup"/>
+                    </p:inputText>
+                    <p:message for="add-station-location" id="msgAddStationLocation" display="text"/>
+
+                    <p:outputLabel for="add-station-info" value="Station info" styleClass="sr-only"/>
+                    <p:inputTextarea id="add-station-info" autoResize="false" rows="6" cols="30" value="#{routeBean.editRouteHolder.station.information}" styleClass="form-control" placeholder="Station information"/>
+                    <p:message for="add-station-info" id="msgAddStationInfo" display="text"/>
+
+                    <h:outputLabel for="add-station-time-limit" value="Time limit" styleClass="sr-only"/>
+                    <p:spinner id="add-station-time-limit" value="#{routeBean.editRouteHolder.station.timeLimit}" min="0" max="1000" placeholder="Time limit" styleClass="spinner"/>
+                    <p:message for="add-station-info" id="msgAddStationTimeLimit" display="text"/>
+
+                    <h:outputLabel for="add-station-relocation-time" value="Relocation time" styleClass="sr-only"/>
+                    <p:spinner id="add-station-relocation-time" value="#{routeBean.editRouteHolder.station.relocationTime}" min="0" max="1000" placeholder="Relocation time" styleClass="spinner"/>
+                    <p:message for="add-station-relocation-time" id="msgAddStationRelocationTime" display="text"/>
+
+                </h:panelGrid>
+                <p:commandButton value="Add group" styleClass="margin-top-10" update="@form :route-view-container" ajax="true"
+                                 action="#{routeBean.addNewStationToExistingRoute}"
+                                 oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorAddingStation) PF('view-add-station-dlg').hide()">
+                    <f:param name="eventId" value="#{routeBean.eventId}"/>
+                    <f:param name="routeId" value="#{routeBean.routeId}"/>
+                    <f:param name="mode" value="view"/>
+                </p:commandButton>
+
+            </h:form>
+        </p:dialog>
+
+
         <p:dialog header="Reorder stations" widgetVar="reorder-station-dlg" resizable="false" draggable="false" modal="true">
             <h:form id="reorder-station-form" styleClass="form-table">
 
@@ -172,6 +214,24 @@
                                  oncomplete="if (args &amp;&amp; !args.validationFailed) PF('reorder-station-dlg').hide()">
                     <f:param name="eventId" value="#{routeBean.eventId}" />
                     <f:param name="mode" value="create"/>
+                </p:commandButton>
+
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Reorder stations" id="view-reorder-station-dlg" widgetVar="view-reorder-station-dlg" resizable="false" draggable="false" modal="true">
+            <h:form id="view-reorder-station-form" styleClass="form-table">
+
+                <h:panelGrid id="view-reorder-station-panel" columns="1">
+                    <p:orderList value="#{routeBean.editRouteHolder.reorderStations}" var="st" itemLabel="#{st}" itemValue="#{st}" controlsLocation="none" rendered="#{not empty routeBean.editRouteHolder.stations}"/>
+                </h:panelGrid>
+
+                <p:commandButton value="Update order" styleClass="margin-top-10" update="@form :route-view-container" ajax="true"
+                                 action="#{routeBean.changeStationsOrderExistingRoute}"
+                                 oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorUpdateStationOrder) PF('view-reorder-station-dlg').hide()">
+                    <f:param name="eventId" value="#{routeBean.eventId}" />
+                    <f:param name="routeId" value="#{routeBean.routeId}" />
+                    <f:param name="mode" value="view"/>
                 </p:commandButton>
 
             </h:form>
@@ -244,6 +304,46 @@
             </h:form>
         </p:dialog>
 
+        <p:dialog header="Edit station" id="edit-station-dlg" widgetVar="edit-station-dlg" resizable="false" draggable="false" modal="true">
+            <h:form id="edit-station-form" styleClass="form-table">
+
+                <h:panelGrid columns="3">
+
+                    <p:outputLabel for="edit-station-name" value="Station name" styleClass="sr-only"/>
+                    <p:inputText id="edit-station-name" value="#{routeBean.editRouteHolder.station.name}" validator="#{routeBean.validateStationNameUniqueConstraint}" placeholder="Station name" styleClass="form-control" required="true" requiredMessage="Fill in Station's name">
+                        <p:ajax update="msgEditStationName" event="keyup"/>
+                    </p:inputText>
+                    <p:message for="edit-station-name" id="msgEditStationName" display="text"/>
+
+                    <p:outputLabel for="edit-station-location" value="Location" styleClass="sr-only"/>
+                    <p:inputText id="edit-station-location" value="#{routeBean.editRouteHolder.station.location}" placeholder="Station location" styleClass="form-control" required="true" requiredMessage="Fill in Station's location">
+                        <p:ajax update="msgEditStationLocation" event="keyup"/>
+                    </p:inputText>
+                    <p:message for="edit-station-location" id="msgEditStationLocation" display="text"/>
+
+                    <p:outputLabel for="edit-station-info" value="Station info" styleClass="sr-only"/>
+                    <p:inputTextarea id="edit-station-info" autoResize="false" rows="6" cols="30" value="#{routeBean.editRouteHolder.station.information}" styleClass="form-control" placeholder="Station information"/>
+                    <p:message for="edit-station-info" id="msgEditStationInfo" display="text"/>
+
+                    <h:outputLabel for="edit-station-time-limit" value="Time limit" styleClass="sr-only"/>
+                    <p:spinner id="edit-station-time-limit" value="#{routeBean.editRouteHolder.station.timeLimit}" min="0" max="1000" placeholder="Time limit" styleClass="spinner"/>
+                    <p:message for="edit-station-info" id="msgEditStationTimeLimit" display="text"/>
+
+                    <h:outputLabel for="edit-station-relocation-time" value="Relocation time" styleClass="sr-only"/>
+                    <p:spinner id="edit-station-relocation-time" value="#{routeBean.editRouteHolder.station.relocationTime}" min="0" max="1000" placeholder="Relocation time" styleClass="spinner"/>
+                    <p:message for="edit-station-relocation-time" id="msgEditStationRelocationTime" display="text"/>
+
+                </h:panelGrid>
+                <p:commandButton value="Update station" styleClass="margin-top-10" update="@form :route-view-container" ajax="true"
+                                 action="#{routeBean.updateStation}"
+                                 oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorUpdatingStation) PF('edit-station-dlg').hide()">
+                    <f:param name="eventId" value="#{routeBean.eventId}"/>
+                    <f:param name="routeId" value="#{routeBean.routeId}"/>
+                    <f:param name="mode" value="view"/>
+                </p:commandButton>
+
+            </h:form>
+        </p:dialog>
 
         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
             <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
@@ -292,6 +392,7 @@
                                 <p:commandLink styleClass="right material-button-flat no-select" action="#{navBB.goEvent(routeBean.eventId)}">
                                     <span class="glyphicon glyphicon-chevron-left margin-right-10"/><h:outputText value="#{routeBean.event.name}"/>
                                     <f:param name="eventId" value="#{routeBean.eventId}"/>
+                                    <f:param name="routeId" value="#{routeBean.routeId}"/>
                                     <f:param name="mode" value="view"/>
                                 </p:commandLink>
                             </h:form>
@@ -322,21 +423,34 @@
                                 <div class="col-md-6 material-container">
                                     <h:panelGroup layout="block" styleClass="box-toolbar divider" style="border-color: #{routeBean.route.hexColor}">
                                         <span class="left title"><h:outputText value="Stations"/></span>
+                                        <h:form>
+                                            <p:commandLink styleClass="right material-button-flat no-select" value="ADD" action="#{routeBean.clearStation}" update=":view-add-station-dlg" oncomplete="PF('view-add-station-dlg').show();">
+                                                <f:param name="eventId" value="#{routeBean.eventId}"/>
+                                                <f:param name="routeId" value="#{routeBean.routeId}"/>
+                                                <f:param name="mode" value="view"/>
+                                            </p:commandLink>
+                                            <p:commandLink styleClass="right material-button-flat no-select" value="REORDER" action="#{routeBean.setUpReorderMap}"
+                                                           update=":view-reorder-station-dlg" oncomplete="PF('view-reorder-station-dlg').show();"
+                                                           rendered="#{routeBean.route.stations.size() gt 1}">
+                                                <f:param name="eventId" value="#{routeBean.eventId}"/>
+                                                <f:param name="routeId" value="#{routeBean.routeId}"/>
+                                                <f:param name="mode" value="view"/>
+                                            </p:commandLink>
+                                        </h:form>
                                     </h:panelGroup>
                                     <div class="box-content">
+                                        <h:form>
                                         <p:dataTable value="#{routeBean.route.stations}" var="station" rowIndexVar="row" style="text-align: center;">
                                             <p:column headerText="Sequence Position">
                                                 <h:outputText value="#{station.sequencePosition}"/>
                                             </p:column>
 
                                             <p:column headerText="Name">
-                                                <h:form>
                                                     <p:commandLink styleClass="material-button-flat no-select" value="#{station.name}" action="#{routeBean.showStation(row)}" update=":station-info-dlg" oncomplete="PF('station-info-dlg').show();">
                                                         <f:param name="eventId" value="#{routeBean.eventId}"/>
                                                         <f:param name="routeId" value="#{routeBean.routeId}"/>
                                                         <f:param name="mode" value="view"/>
                                                     </p:commandLink>
-                                                </h:form>
                                             </p:column>
 
                                             <p:column headerText="Location">
@@ -350,7 +464,28 @@
                                             <p:column headerText="Relocation time">
                                                 <h:outputText value="#{station.relocationTime} min"/>
                                             </p:column>
+
+                                            <p:column headerText="Actions" rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE')}">
+                                                <div class="right">
+                                                    <p:commandButton styleClass="material-button-image image-button-edit ui-button-icon-only no-select"
+                                                                     action="#{routeBean.editStation(station.id)}" value="" update=":edit-station-dlg" oncomplete="PF('edit-station-dlg').show();">
+                                                        <f:param name="eventId" value="#{routeBean.eventId}"/>
+                                                        <f:param name="routeId" value="#{routeBean.routeId}"/>
+                                                        <f:param name="mode" value="view"/>
+                                                    </p:commandButton>
+
+                                                    <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
+                                                                     actionListener="#{routeBean.removeStation(station.id)}" value="" update="@form :route-view-container">
+                                                        <p:confirm header="Confirmation" message="Do you really want to delete this station?" icon="icon-empty"/>
+                                                        <f:param name="eventId" value="#{routeBean.eventId}"/>
+                                                        <f:param name="routeId" value="#{routeBean.routeId}"/>
+                                                        <f:param name="mode" value="view"/>
+                                                    </p:commandButton>
+                                                </div>
+                                            </p:column>
+
                                         </p:dataTable>
+                                        </h:form>
                                     </div>
                                 </div>
                             </div>
@@ -367,7 +502,10 @@
                                             </p:column>
 
                                             <p:column headerText="Starts at">
-                                                <h:outputText value="#{routeBean.route.stations.get(group.startingPosition - 1).name}"/>
+                                                <h:outputText value="#{routeBean.route.stations.get(group.startingPosition - 1).name}" rendered="#{(group.startingPosition - 1) lt routeBean.route.stations.size()}"/>
+                                                <h:panelGroup layout="block" styleClass="table-alert alert-danger" rendered="#{(group.startingPosition - 1) ge routeBean.route.stations.size()}">
+                                                    <h:outputText value="NO STATION"/>
+                                                </h:panelGroup>
                                             </p:column>
 
                                             <p:column headerText="Start number">

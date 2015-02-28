@@ -5,6 +5,7 @@ import cz.kubaspatny.opendayapp.bo.Station;
 import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -206,4 +207,11 @@ public class StationDto extends BaseDto {
         sb.append('}');
         return sb.toString();
     }
+
+    public static Comparator<StationDto> StationSequencePosistionComparator = new Comparator<StationDto>() {
+        public int compare(StationDto station1, StationDto station2) {
+            return ((Integer)station1.getSequencePosition()).compareTo(station2.getSequencePosition());
+        }
+    };
+
 }

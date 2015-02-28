@@ -1,14 +1,15 @@
 package cz.kubaspatny.opendayapp.bb;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import cz.kubaspatny.opendayapp.bb.valueobject.CreateRouteValueObject;
 import cz.kubaspatny.opendayapp.bb.valueobject.EditRouteHolder;
-import cz.kubaspatny.opendayapp.bo.Route;
 import cz.kubaspatny.opendayapp.dto.EventDto;
 import cz.kubaspatny.opendayapp.dto.RouteDto;
 import cz.kubaspatny.opendayapp.dto.StationDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.service.IEventService;
 import cz.kubaspatny.opendayapp.service.IRouteService;
+import cz.kubaspatny.opendayapp.service.IStationService;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -22,7 +23,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.ServletContext;
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -53,6 +53,7 @@ import java.util.*;
 public class RouteBean implements Serializable {
 
     @Autowired transient IRouteService routeService;
+    @Autowired transient IStationService stationService;
     @Autowired transient IEventService eventService;
 
     private String eventId;
@@ -65,6 +66,7 @@ public class RouteBean implements Serializable {
     private EditRouteHolder editRouteHolder;
 
     private boolean errorUpdatingRoute;
+    private boolean errorUpdatingStation;
 
     public void init() {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
@@ -126,6 +128,7 @@ public class RouteBean implements Serializable {
             try {
                 long parsedRouteId = Long.parseLong(routeId);
                 route = routeService.getRoute(parsedRouteId);
+                Collections.sort(route.getStations(), StationDto.StationSequencePosistionComparator);
             } catch (NumberFormatException e){
                 redirectToError(404, "Number format exception!");
                 return;
@@ -261,15 +264,79 @@ public class RouteBean implements Serializable {
 
     }
 
+    public void clearStation(){
+        editRouteHolder = new EditRouteHolder(new StationDto());
+    }
+
+    public void updateStation() throws IOException {
+
+        try {
+            stationService.updateStation(editRouteHolder.getStation());
+            loadEvent();
+        } catch (DataAccessException e){
+            RequestContext.getCurrentInstance().addCallbackParam("errorUpdatingStation", true);
+            errorUpdatingStation = true;
+            return;
+        } catch (AccessDeniedException e){
+            redirectToError(401, "Access to route denied!");
+            return;
+        }
+
+        errorUpdatingStation = false;
+
+    }
+
+    public void removeStation(Long id){
+
+        try {
+            stationService.removeStation(id);
+
+            List<StationDto> stationDtos = routeService.getRoute(route.id).getStations();
+            if(stationDtos != null && !stationDtos.isEmpty()){
+                Collections.sort(stationDtos, StationDto.StationSequencePosistionComparator);
+
+                for(int i = 0; i < stationDtos.size(); i++){
+                    stationDtos.get(i).setSequencePosition(i + 1);
+                    stationService.updateStation(stationDtos.get(i));
+                }
+
+            }
+
+        } catch (DataAccessException e){
+            // TODO display error
+        }
+
+        try {
+            loadEvent();
+        } catch (IOException e){
+            // TODO: log message (couldn't redirect to error code)
+        }
+
+    }
+
     public void validateStationNameUniqueConstraint(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 
         ResourceBundle bundle = ResourceBundle.getBundle("strings", context.getViewRoot().getLocale());
 
-        if (cvo.getStationReorderMap() != null && cvo.getStationReorderMap().containsKey(value)) {
+        if(mode.equals("create")){
+            if (cvo.getStationReorderMap() != null && cvo.getStationReorderMap().containsKey(value)) {
 //            FacesMessage msg = new FacesMessage(bundle.getString("alreadyregistered"));
-            FacesMessage msg = new FacesMessage("Station with such name already exists!");
-            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-            throw new ValidatorException(msg);
+                FacesMessage msg = new FacesMessage("Station with such name already exists!");
+                msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+                throw new ValidatorException(msg);
+            }
+        } else if(mode.equals("view")){
+
+            for(StationDto s : route.getStations()){
+                if(s.getName().equals(value) && !s.getId().equals(editRouteHolder.getStation().getId())){
+
+//                    FacesMessage msg = new FacesMessage(bundle.getString("alreadyregistered"));
+                    FacesMessage msg = new FacesMessage("Station with such name already exists!");
+                    msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+                    throw new ValidatorException(msg);
+
+                }
+            }
         }
 
     }
@@ -348,6 +415,18 @@ public class RouteBean implements Serializable {
         setSelectedStation(selectedStation);
     }
 
+    public void editStation(Long id) throws IOException {
+        try {
+            editRouteHolder = new EditRouteHolder(stationService.getStation(id));
+        } catch (DataAccessException e){
+            redirectToError(404, "Route not found!");
+            return;
+        } catch (AccessDeniedException e){
+            redirectToError(401, "Access to route denied!");
+            return;
+        }
+    }
+
     public void editRouteInfo(){
         editRouteHolder = new EditRouteHolder(route.getName(),
                 route.getDate().getHourOfDay(),
@@ -391,5 +470,59 @@ public class RouteBean implements Serializable {
 
         errorUpdatingRoute = false;
 
+    }
+
+    public void addNewStationToExistingRoute() throws IOException {
+
+        try {
+            editRouteHolder.getStation().setSequencePosition(route.getStations().size() + 1);
+            stationService.addStation(route.id, editRouteHolder.getStation());
+            loadEvent();
+        } catch (DataAccessException e){
+            RequestContext.getCurrentInstance().addCallbackParam("errorAddingStation", true);
+            return;
+        } catch (AccessDeniedException e){
+            redirectToError(401, "Access to route denied!");
+            return;
+        }
+
+    }
+
+    public void changeStationsOrderExistingRoute() throws IOException {
+        System.out.println("changing order...");
+        String key;
+        StationDto station;
+
+        try {
+            for(int i = 0; i < editRouteHolder.getReorderStations().size(); i++){
+                key = editRouteHolder.getReorderStations().get(i);
+                station = editRouteHolder.getStationReorderMap().get(key);
+                station.setSequencePosition(i + 1);
+                stationService.updateStation(station);
+            }
+            loadEvent();
+        } catch (DataAccessException e){
+            RequestContext.getCurrentInstance().addCallbackParam("errorUpdatingStationOrder", true);
+            return;
+        } catch (AccessDeniedException e){
+            redirectToError(401, "Access to route denied!");
+            return;
+        }
+    }
+
+    public void setUpReorderMap(){
+        editRouteHolder = new EditRouteHolder();
+        editRouteHolder.setStations(route.getStations());
+
+        List<String> reorderStations = new ArrayList<String>();
+        HashMap<String, StationDto> reorderStationMap = new HashMap<String, StationDto>();
+
+        for(StationDto s : route.getStations()){
+            reorderStations.add(s.getName());
+            reorderStationMap.put(s.getName(), s);
+        }
+
+        editRouteHolder.setReorderStations(reorderStations);
+        editRouteHolder.setStationReorderMap(reorderStationMap);
     }
 }

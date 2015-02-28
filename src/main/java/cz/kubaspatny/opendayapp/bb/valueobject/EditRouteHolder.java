@@ -1,5 +1,10 @@
 package cz.kubaspatny.opendayapp.bb.valueobject;
 
+import cz.kubaspatny.opendayapp.dto.StationDto;
+
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * Author: Kuba Spatny
  * Web: kubaspatny.cz
@@ -28,12 +33,25 @@ public class EditRouteHolder {
     private String information;
     private String color;
 
+    private StationDto station;
+
+    private List<StationDto> stations;
+    private HashMap<String, StationDto> stationReorderMap;
+    private List<String> reorderStations;
+
+    public EditRouteHolder() {
+    }
+
     public EditRouteHolder(String name, int newTimeHour, int newTimeMinute, String information, String color) {
         this.name = name;
         this.newTimeHour = newTimeHour;
         this.newTimeMinute = newTimeMinute;
         this.information = information;
         this.color = color;
+    }
+
+    public EditRouteHolder(StationDto editStation) {
+        this.station = editStation;
     }
 
     public String getName() {
@@ -74,5 +92,37 @@ public class EditRouteHolder {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public StationDto getStation() {
+        return station;
+    }
+
+    public void setStation(StationDto station) {
+        this.station = station;
+    }
+
+    public List<StationDto> getStations() {
+        return stations;
+    }
+
+    public void setStations(List<StationDto> stations) {
+        this.stations = stations;
+    }
+
+    public HashMap<String, StationDto> getStationReorderMap() {
+        return stationReorderMap;
+    }
+
+    public void setStationReorderMap(HashMap<String, StationDto> stationReorderMap) {
+        this.stationReorderMap = stationReorderMap;
+    }
+
+    public List<String> getReorderStations() {
+        return reorderStations;
+    }
+
+    public void setReorderStations(List<String> reorderStations) {
+        this.reorderStations = reorderStations;
     }
 }
