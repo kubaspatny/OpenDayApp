@@ -1,6 +1,8 @@
 package cz.kubaspatny.opendayapp.bb;
 
 import cz.kubaspatny.opendayapp.bb.valueobject.CreateRouteValueObject;
+import cz.kubaspatny.opendayapp.bb.valueobject.EditRouteHolder;
+import cz.kubaspatny.opendayapp.bo.Route;
 import cz.kubaspatny.opendayapp.dto.EventDto;
 import cz.kubaspatny.opendayapp.dto.RouteDto;
 import cz.kubaspatny.opendayapp.dto.StationDto;
@@ -20,6 +22,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.ServletContext;
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -59,6 +62,9 @@ public class RouteBean implements Serializable {
     private RouteDto route;
 
     private CreateRouteValueObject cvo;
+    private EditRouteHolder editRouteHolder;
+
+    private boolean errorUpdatingRoute;
 
     public void init() {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
@@ -142,6 +148,14 @@ public class RouteBean implements Serializable {
 
     public CreateRouteValueObject getCvo() {
         return cvo;
+    }
+
+    public EditRouteHolder getEditRouteHolder() {
+        return editRouteHolder;
+    }
+
+    public boolean isErrorUpdatingRoute() {
+        return errorUpdatingRoute;
     }
 
     public String getEventId() {
@@ -331,7 +345,51 @@ public class RouteBean implements Serializable {
     }
 
     public void showStation(int selectedStation){
-        System.out.println("Show station: " + selectedStation);
         setSelectedStation(selectedStation);
+    }
+
+    public void editRouteInfo(){
+        editRouteHolder = new EditRouteHolder(route.getName(),
+                route.getDate().getHourOfDay(),
+                route.getDate().getMinuteOfHour(),
+                route.getInformation(),
+                route.getHexColor().replace("#",""));
+    }
+
+    public void updateRouteInfo() throws IOException {
+        RouteDto routeDto;
+
+        try {
+            routeDto = routeService.getRoute(route.getId());
+        } catch (NumberFormatException e){
+            redirectToError(404, "Number format exception!");
+            return;
+        } catch (DataAccessException e){
+            redirectToError(404, "Route not found!");
+            return;
+        } catch (AccessDeniedException e){
+            redirectToError(401, "Access to route denied!");
+            return;
+        }
+
+        try {
+            routeDto.setName(editRouteHolder.getName());
+            routeDto.setDate(routeDto.getDate().withTime(editRouteHolder.getNewTimeHour(), editRouteHolder.getNewTimeMinute(), 0, 0));
+            routeDto.setInformation(editRouteHolder.getInformation());
+            routeDto.setHexColor("#" + editRouteHolder.getColor());
+
+            routeService.updateRoute(routeDto);
+            loadEvent();
+        } catch (DataAccessException e){
+            RequestContext.getCurrentInstance().addCallbackParam("errorUpdatingRoute", true);
+            errorUpdatingRoute = true;
+            return;
+        } catch (AccessDeniedException e){
+            redirectToError(401, "Access to route denied!");
+            return;
+        }
+
+        errorUpdatingRoute = false;
+
     }
 }

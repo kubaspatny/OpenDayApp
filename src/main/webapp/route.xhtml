@@ -177,7 +177,7 @@
             </h:form>
         </p:dialog>
 
-        <p:dialog id="station-info-dlg" header="Station information" widgetVar="station-info-dlg" resizable="false" draggable="false" dynamic="true" modal="true" style="max-width: 500px;">
+        <p:dialog id="station-info-dlg" header="Station information" widgetVar="station-info-dlg" resizable="false" draggable="false" modal="true" style="max-width: 500px;">
             <h:form id="station-info-form" styleClass="form-table">
 
                 <h:outputText styleClass="font500" value="Name:"/><br/>
@@ -193,6 +193,57 @@
 
             </h:form>
         </p:dialog>
+
+        <p:dialog id="edit-route-info-dlg" header="Edit route information" widgetVar="edit-route-info-dlg" resizable="false" draggable="false" modal="true">
+            <h:form id="edit-route-info-form" styleClass="form-table">
+
+                <h:form styleClass="form-table">
+                    <h:panelGrid id="edit-route-info-panel" columns="3">
+
+                        <p:outputLabel for="edit-colorPicker" value="COLORPICKER" styleClass="sr-only"/>
+                        <p:colorPicker id="edit-colorPicker" value="#{routeBean.editRouteHolder.color}" required="true" requiredMessage="Pick a color!"/>
+                        <p:message for="edit-colorPicker" id="msgEditColorPicker" display="text"/>
+
+                        <p:outputLabel for="name" value="NAME" styleClass="sr-only"/>
+                        <p:inputText id="name" value="#{routeBean.editRouteHolder.name}" placeholder="NAME" styleClass="form-control" required="true" requiredMessage="FILL IN NAME OF THE ROUTE">
+                            <p:ajax update="msgName" event="keyup"/>
+                        </p:inputText>
+                        <p:message for="name" id="msgName" display="text"/>
+
+                        <span/>
+                        <h:panelGrid layout="block" columns="4">
+                            <h:outputText styleClass="font500" value="Hours: "/>
+                            <h:outputText styleClass="font300" id="edit-time-output-hour" value="#{routeBean.editRouteHolder.newTimeHour}"/>
+                            <h:inputHidden id="edit-hour" value="#{routeBean.editRouteHolder.newTimeHour}" />
+                            <p:slider for="edit-hour" minValue="0" maxValue="23" display="edit-time-output-hour" style="width: 200px" displayTemplate="{value}" />
+
+                            <h:outputText styleClass="font500" value="Minutes: "/>
+                            <h:outputText styleClass="font300" id="edit-time-output-minute" value="#{routeBean.editRouteHolder.newTimeMinute}"/>
+                            <h:inputHidden id="edit-minute" value="#{routeBean.editRouteHolder.newTimeMinute}" />
+                            <p:slider for="edit-minute" minValue="0" maxValue="59" display="edit-time-output-minute" style="width: 200px" displayTemplate="{value}" />
+                        </h:panelGrid>
+                        <span/>
+
+                        <p:outputLabel for="info" value="INFO" styleClass="sr-only"/>
+                        <p:inputTextarea id="info" autoResize="false" rows="6" cols="30" value="#{routeBean.editRouteHolder.information}" styleClass="form-control" placeholder="Route INFORMATION"/>
+
+                    </h:panelGrid>
+                    <p:commandButton value="UPDATE ROUTE INFORMATION" styleClass="margin-top-10" update="@form :route-view-container"
+                                     actionListener="#{routeBean.updateRouteInfo}"
+                                     oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorUpdatingRoute) PF('edit-route-info-dlg').hide()">
+                        <f:param name="eventId" value="#{routeBean.eventId}"/>
+                        <f:param name="routeId" value="#{routeBean.routeId}"/>
+                        <f:param name="mode" value="view"/>
+                    </p:commandButton>
+
+                    <h:panelGroup layout="block" styleClass="alert alert-danger margin-top-10" rendered="#{routeBean.errorUpdatingRoute}">
+                        <h:outputText value="ERROR UPDATING ROUTE"/>
+                    </h:panelGroup>
+                </h:form>
+
+            </h:form>
+        </p:dialog>
+
 
         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
             <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
@@ -232,7 +283,7 @@
 
         <div class="container">
 
-            <h:panelGroup layout="group" class="row" rendered="#{param.mode == 'view'}">
+            <h:panelGroup id="route-view-container" layout="group" class="row" rendered="#{param.mode == 'view'}">
                 <div class="col-md-12">
                     <div class="material-container">
                         <div class="box-toolbar">
@@ -247,11 +298,17 @@
                         </div>
 
                         <div class="box-content">
-
                             <div class="row">
                                 <div class="col-md-6 material-container">
                                     <h:panelGroup layout="block" styleClass="box-toolbar divider" style="border-color: #{routeBean.route.hexColor}">
                                         <span class="left title"><h:outputText value="Route Information"/></span>
+                                        <h:form>
+                                            <p:commandLink styleClass="right material-button-flat no-select" value="EDIT" action="#{routeBean.editRouteInfo}" update=":edit-route-info-dlg" oncomplete="PF('edit-route-info-dlg').show();">
+                                                <f:param name="eventId" value="#{routeBean.eventId}"/>
+                                                <f:param name="routeId" value="#{routeBean.routeId}"/>
+                                                <f:param name="mode" value="view"/>
+                                            </p:commandLink>
+                                        </h:form>
                                     </h:panelGroup>
                                     <div class="box-content">
                                         <h:outputText styleClass="font500" value="Time:"/><br/>
