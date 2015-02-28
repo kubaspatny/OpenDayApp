@@ -3,14 +3,9 @@ package cz.kubaspatny.opendayapp.bb;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import cz.kubaspatny.opendayapp.bb.valueobject.CreateRouteValueObject;
 import cz.kubaspatny.opendayapp.bb.valueobject.EditRouteHolder;
-import cz.kubaspatny.opendayapp.dto.EventDto;
-import cz.kubaspatny.opendayapp.dto.RouteDto;
-import cz.kubaspatny.opendayapp.dto.StationDto;
-import cz.kubaspatny.opendayapp.dto.UserDto;
+import cz.kubaspatny.opendayapp.dto.*;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
-import cz.kubaspatny.opendayapp.service.IEventService;
-import cz.kubaspatny.opendayapp.service.IRouteService;
-import cz.kubaspatny.opendayapp.service.IStationService;
+import cz.kubaspatny.opendayapp.service.*;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -56,6 +51,7 @@ public class RouteBean implements Serializable {
     @Autowired transient IRouteService routeService;
     @Autowired transient IStationService stationService;
     @Autowired transient IEventService eventService;
+    @Autowired transient IGroupService groupService;
 
     private String eventId;
     private String routeId;
@@ -130,6 +126,7 @@ public class RouteBean implements Serializable {
                 long parsedRouteId = Long.parseLong(routeId);
                 route = routeService.getRoute(parsedRouteId);
                 Collections.sort(route.getStations(), StationDto.StationSequencePosistionComparator);
+                Collections.sort(route.getGroups(), GroupDto.GroupStartingPosistionComparator);
             } catch (NumberFormatException e){
                 redirectToError(404, "Number format exception!");
                 return;
@@ -325,6 +322,26 @@ public class RouteBean implements Serializable {
         }
     }
 
+    public void removeGroup(Long groupId) throws IOException {
+        try {
+            groupService.removeGroup(groupId);
+
+            List<GroupDto> groupDtos = routeService.getRoute(route.id).getGroups();
+            if(groupDtos != null && !groupDtos.isEmpty()){
+                Collections.sort(groupDtos, GroupDto.GroupStartingPosistionComparator);
+
+                for(int i = 0; i < groupDtos.size(); i++){
+                    groupService.setGroupStartingPosition(groupDtos.get(i).id, i + 1);
+                }
+            }
+
+            loadEvent();
+        } catch (DataAccessException e){
+            e.printStackTrace();
+            // TODO display error
+        }
+    }
+
     public void validateStationNameUniqueConstraint(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 
         ResourceBundle bundle = ResourceBundle.getBundle("strings", context.getViewRoot().getLocale());
@@ -350,6 +367,21 @@ public class RouteBean implements Serializable {
             }
         }
 
+    }
+
+    public void validateGroupUniqueConstraint(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        ResourceBundle bundle = ResourceBundle.getBundle("strings", context.getViewRoot().getLocale());
+
+        if(route.getGroups() != null && !route.getGroups().isEmpty()){
+            for(GroupDto g : route.getGroups()){
+                if(g.getGuide().getEmail().equals(value)){
+//                    FacesMessage msg = new FacesMessage(bundle.getString("alreadyregistered"));
+                    FacesMessage msg = new FacesMessage("Group with such name already exists!");
+                    msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+                    throw new ValidatorException(msg);
+                }
+            }
+        }
     }
 
     public void validateRouteTimes(FacesContext context, UIComponent component, Object value) throws ValidatorException {
@@ -511,8 +543,22 @@ public class RouteBean implements Serializable {
 
     }
 
+    public void addNewGroupToExistingRoute() throws IOException {
+
+        try {
+            groupService.addGroup(route.getId(), route.getGroups().size() + 1, editRouteHolder.getNewGroupEmail());
+            loadEvent();
+        } catch (DataAccessException e){
+            RequestContext.getCurrentInstance().addCallbackParam("errorAddingGroup", true);
+            return;
+        } catch (AccessDeniedException e){
+            redirectToError(401, "Access to route denied!");
+            return;
+        }
+
+    }
+
     public void changeStationsOrderExistingRoute() throws IOException {
-        System.out.println("changing order...");
         String key;
         StationDto station;
 
@@ -533,7 +579,27 @@ public class RouteBean implements Serializable {
         }
     }
 
-    public void setUpReorderMap(){
+    public void changeGroupOrderExistingRoute() throws IOException {
+        String key;
+        GroupDto group;
+
+        try {
+            for(int i = 0; i < editRouteHolder.getReorderGroups().size(); i++){
+                key = editRouteHolder.getReorderGroups().get(i);
+                group = editRouteHolder.getGroupReorderMap().get(key);
+                groupService.setGroupStartingPosition(group.id, i + 1);
+            }
+            loadEvent();
+        } catch (DataAccessException e){
+            RequestContext.getCurrentInstance().addCallbackParam("errorUpdateGroupOrder", true);
+            return;
+        } catch (AccessDeniedException e){
+            redirectToError(401, "Access to route denied!");
+            return;
+        }
+    }
+
+    public void setUpStationReorderMap(){
         editRouteHolder = new EditRouteHolder();
         editRouteHolder.setStations(route.getStations());
 
@@ -547,6 +613,22 @@ public class RouteBean implements Serializable {
 
         editRouteHolder.setReorderStations(reorderStations);
         editRouteHolder.setStationReorderMap(reorderStationMap);
+    }
+
+    public void setUpGroupReorderMap(){
+        editRouteHolder = new EditRouteHolder();
+        editRouteHolder.setGroups(route.getGroups());
+
+        List<String> reorderGroups = new ArrayList<String>();
+        HashMap<String, GroupDto> reorderGroupMap = new HashMap<String, GroupDto>();
+
+        for(GroupDto g : route.getGroups()){
+            reorderGroups.add(g.getGuide().getEmail());
+            reorderGroupMap.put(g.getGuide().getEmail(), g);
+        }
+
+        editRouteHolder.setReorderGroups(reorderGroups);
+        editRouteHolder.setGroupReorderMap(reorderGroupMap);
     }
 
     public void setUpEmptyRouteHolder(){

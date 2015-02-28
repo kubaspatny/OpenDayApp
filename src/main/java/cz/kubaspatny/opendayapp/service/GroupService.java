@@ -39,10 +39,16 @@ import java.util.List;
 public class GroupService extends DataAccessService implements IGroupService {
 
     @Override
+    public Long addGroup(Long routeId, Integer startingPosition, String email) throws DataAccessException {
+        User u = dao.getByPropertyUnique("email", email.toLowerCase(), User.class);
+        if(u == null || !u.isUserEnabled()) throw new DataAccessException("User was deactivated!", DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
+        return addGroup(routeId, startingPosition, u.getId());
+    }
+
+    @Override
     public Long addGroup(RouteDto route, Integer startingPosition, UserDto guide) throws DataAccessException {
         if(route == null || startingPosition == null || guide == null) throw new DataAccessException("Parameters cannot be null!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         return addGroup(route.getId(), startingPosition, guide.getId());
-
     }
 
     @Override

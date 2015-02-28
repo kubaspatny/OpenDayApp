@@ -373,6 +373,53 @@
             </h:form>
         </p:dialog>
 
+        <p:dialog id="view-add-group-dlg" header="Add group" widgetVar="view-add-group-dlg" resizable="false" draggable="false" modal="true">
+            <h:form id="view-add-group-form" styleClass="form-table">
+
+                <h:panelGrid id="view-add-group-panel" columns="1">
+
+                    <p:selectOneListbox id="add-group" value="#{routeBean.editRouteHolder.newGroupEmail}" var="e" filter="true" filterMatchMode="contains"
+                                        validator="#{routeBean.validateGroupUniqueConstraint}">
+                        <f:selectItems value="#{routeBean.event.emailList}" var="email" itemLabel="#{email}" itemValue="#{email}" />
+
+                        <p:column>
+                            <h:outputText value="#{e}" />
+                        </p:column>
+
+                    </p:selectOneListbox>
+
+                    <p:message for="add-group" id="msgSelectGroup" display="text"/>
+
+                </h:panelGrid>
+                <p:commandButton value="Add group" styleClass="margin-top-10" update="@form :route-view-container" ajax="true"
+                                 action="#{routeBean.addNewGroupToExistingRoute}"
+                                 oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorAddingGroup) PF('view-add-group-dlg').hide()">
+                    <f:param name="eventId" value="#{routeBean.eventId}" />
+                    <f:param name="routeId" value="#{routeBean.routeId}" />
+                    <f:param name="mode" value="view"/>
+                </p:commandButton>
+
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Reorder groups" id="view-reorder-groups-dlg" widgetVar="view-reorder-groups-dlg" resizable="false" draggable="false" modal="true">
+            <h:form id="view-reorder-groups-form" styleClass="form-table">
+
+                <h:panelGrid id="view-reorder-groups-panel" columns="1">
+                    <p:orderList value="#{routeBean.editRouteHolder.reorderGroups}" var="st" itemLabel="#{st}" itemValue="#{st}" controlsLocation="none" rendered="#{not empty routeBean.editRouteHolder.groups}"/>
+                </h:panelGrid>
+
+                <p:commandButton value="Update order" styleClass="margin-top-10" update="@form :route-view-container" ajax="true"
+                                 action="#{routeBean.changeGroupOrderExistingRoute}"
+                                 oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorUpdateGroupOrder) PF('view-reorder-groups-dlg').hide()">
+                    <f:param name="eventId" value="#{routeBean.eventId}" />
+                    <f:param name="routeId" value="#{routeBean.routeId}" />
+                    <f:param name="mode" value="view"/>
+                </p:commandButton>
+
+            </h:form>
+        </p:dialog>
+
         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
             <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
@@ -457,7 +504,7 @@
                                                 <f:param name="routeId" value="#{routeBean.routeId}"/>
                                                 <f:param name="mode" value="view"/>
                                             </p:commandLink>
-                                            <p:commandLink styleClass="right material-button-flat no-select" value="REORDER" action="#{routeBean.setUpReorderMap}"
+                                            <p:commandLink styleClass="right material-button-flat no-select" value="REORDER" action="#{routeBean.setUpStationReorderMap}"
                                                            update=":view-reorder-station-dlg" oncomplete="PF('view-reorder-station-dlg').show();"
                                                            rendered="#{routeBean.route.stations.size() gt 1}">
                                                 <f:param name="eventId" value="#{routeBean.eventId}"/>
@@ -522,6 +569,20 @@
                                 <div class="col-md-6 material-container">
                                     <h:panelGroup layout="block" styleClass="box-toolbar divider" style="border-color: #{routeBean.route.hexColor}">
                                         <span class="left title"><h:outputText value="Groups"/></span>
+                                        <h:form>
+                                            <p:commandLink styleClass="right material-button-flat no-select" value="ADD" action="#{routeBean.setUpEmptyRouteHolder}" update=":view-add-group-dlg" oncomplete="PF('view-add-group-dlg').show();">
+                                                <f:param name="eventId" value="#{routeBean.eventId}"/>
+                                                <f:param name="routeId" value="#{routeBean.routeId}"/>
+                                                <f:param name="mode" value="view"/>
+                                            </p:commandLink>
+                                            <p:commandLink styleClass="right material-button-flat no-select" value="REORDER" action="#{routeBean.setUpGroupReorderMap}"
+                                                           update=":view-reorder-groups-dlg" oncomplete="PF('view-reorder-groups-dlg').show();"
+                                                           rendered="#{routeBean.route.groups.size() gt 1}">
+                                                <f:param name="eventId" value="#{routeBean.eventId}"/>
+                                                <f:param name="routeId" value="#{routeBean.routeId}"/>
+                                                <f:param name="mode" value="view"/>
+                                            </p:commandLink>
+                                        </h:form>
                                     </h:panelGroup>
                                     <div class="box-content">
                                         <p:dataTable value="#{routeBean.route.groups}" var="group" style="text-align: center;">
@@ -538,6 +599,20 @@
 
                                             <p:column headerText="Start number">
                                                 <h:outputText value="#{group.startingPosition}"/>
+                                            </p:column>
+
+                                            <p:column rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE')}">
+                                                <div class="right">
+                                                    <h:form>
+                                                        <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
+                                                                         actionListener="#{routeBean.removeGroup(group.id)}" value="" update="@form :route-view-container">
+                                                            <p:confirm header="Confirmation" message="Do you really want to delete this group?" icon="icon-empty"/>
+                                                            <f:param name="eventId" value="#{routeBean.eventId}"/>
+                                                            <f:param name="routeId" value="#{routeBean.routeId}"/>
+                                                            <f:param name="mode" value="view"/>
+                                                        </p:commandButton>
+                                                    </h:form>
+                                                </div>
                                             </p:column>
 
                                         </p:dataTable>

@@ -44,6 +44,12 @@ public interface IGroupService {
     public Long addGroup(Long routeId, Integer startingPosition, Long guideId) throws DataAccessException;
 
     /**
+     * Adds a new group to the route with specified id for guide identified by @email and with @startingPosition.
+     */
+    @PreAuthorize("hasPermission(#routeId, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Route'), 'WRITE')")
+    public Long addGroup(Long routeId, Integer startingPosition, String email) throws DataAccessException;
+
+    /**
      * Returns a group with specified id.
      */
     @Transactional(readOnly = true)

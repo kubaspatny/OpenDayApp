@@ -1,5 +1,6 @@
 package cz.kubaspatny.opendayapp.bb.valueobject;
 
+import cz.kubaspatny.opendayapp.dto.GroupDto;
 import cz.kubaspatny.opendayapp.dto.StationDto;
 
 import java.util.HashMap;
@@ -39,7 +40,12 @@ public class EditRouteHolder {
     private HashMap<String, StationDto> stationReorderMap;
     private List<String> reorderStations;
 
+    private List<GroupDto> groups;
+    private HashMap<String, GroupDto> groupReorderMap;
+    private List<String> reorderGroups;
+
     private String newStationManager;
+    private String newGroupEmail;
 
     public EditRouteHolder() {
     }
@@ -128,11 +134,43 @@ public class EditRouteHolder {
         this.reorderStations = reorderStations;
     }
 
+    public List<GroupDto> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<GroupDto> groups) {
+        this.groups = groups;
+    }
+
+    public HashMap<String, GroupDto> getGroupReorderMap() {
+        return groupReorderMap;
+    }
+
+    public void setGroupReorderMap(HashMap<String, GroupDto> groupReorderMap) {
+        this.groupReorderMap = groupReorderMap;
+    }
+
+    public List<String> getReorderGroups() {
+        return reorderGroups;
+    }
+
+    public void setReorderGroups(List<String> reorderGroups) {
+        this.reorderGroups = reorderGroups;
+    }
+
     public String getNewStationManager() {
         return newStationManager;
     }
 
     public void setNewStationManager(String newStationManager) {
         this.newStationManager = newStationManager;
+    }
+
+    public String getNewGroupEmail() {
+        return newGroupEmail;
+    }
+
+    public void setNewGroupEmail(String newGroupEmail) {
+        this.newGroupEmail = newGroupEmail;
     }
 }

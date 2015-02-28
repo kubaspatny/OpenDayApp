@@ -58,6 +58,13 @@ public class UserService extends DataAccessService implements IUserService {
     }
 
     @Override
+    public UserDto getUserByEmail(String email) throws DataAccessException {
+        User u = dao.getByPropertyUnique("email", email.toLowerCase(), User.class);
+        if(u == null || !u.isUserEnabled()) throw new DataAccessException("User was deactivated!", DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
+        return UserDto.map(u, new UserDto(), null);
+    }
+
+    @Override
     public UserDto getUser(Long id) throws DataAccessException  {
         User u = dao.getById(id, User.class);
         if(u == null || !u.isUserEnabled()) throw new DataAccessException("User was deactivated!", DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);

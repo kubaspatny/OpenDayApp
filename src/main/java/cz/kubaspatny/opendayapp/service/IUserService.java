@@ -51,6 +51,13 @@ public interface IUserService {
     public UserDto getUser(String username) throws DataAccessException;
 
     /**
+     * Returns a user with @email.
+     */
+    @Transactional(readOnly = true)
+    @PostAuthorize("hasPermission(returnObject.id, returnObject.ACLObjectIdentityClass, 'READ')")
+    public UserDto getUserByEmail(String email) throws DataAccessException;
+
+    /**
      * Returns a user with @id.
      */
     @Transactional(readOnly = true)

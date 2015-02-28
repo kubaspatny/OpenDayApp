@@ -7,6 +7,7 @@ import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -169,5 +170,11 @@ public class GroupDto extends BaseDto {
         sb.append("\n}");
         return sb.toString();
     }
+
+    public static Comparator<GroupDto> GroupStartingPosistionComparator = new Comparator<GroupDto>() {
+        public int compare(GroupDto group1, GroupDto group2) {
+            return ((Integer)group1.getStartingPosition()).compareTo(group2.getStartingPosition());
+        }
+    };
 
 }
