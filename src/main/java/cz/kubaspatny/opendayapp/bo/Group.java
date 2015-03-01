@@ -29,7 +29,8 @@ import java.util.List;
  * limitations under the License.
  */
 
-@Entity(name = "StationGroups")
+@Entity
+@Table(name = "StationGroups")
 public class Group extends AbstractBusinessObject {
 
     @ManyToOne

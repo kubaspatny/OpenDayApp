@@ -207,7 +207,7 @@
                 </h:form>
             </p:dialog>
 
-            <p:dialog id="station-info-dlg" header="Station information" widgetVar="station-info-dlg" resizable="false" draggable="false" modal="true" style="max-width: 500px;">
+            <p:dialog id="station-info-dlg" header="Station information" widgetVar="station-info-dlg" resizable="false" draggable="false" modal="true" style="max-width: 500px;" rendered="#{not empty routeBean.route.stations}">
                 <h:form id="station-info-form" styleClass="form-table">
 
                     <h:outputText styleClass="font500" value="Name:"/><br/>
