@@ -1,9 +1,22 @@
 package cz.kubaspatny.opendayapp.api;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import cz.kubaspatny.opendayapp.api.json.CustomExposeExclusionStrategy;
+import cz.kubaspatny.opendayapp.api.json.DateTimeSerializer;
+import cz.kubaspatny.opendayapp.dto.GroupDto;
+import cz.kubaspatny.opendayapp.dto.UserDto;
+import cz.kubaspatny.opendayapp.exception.DataAccessException;
+import cz.kubaspatny.opendayapp.service.IGroupService;
+import cz.kubaspatny.opendayapp.service.IUserService;
 import cz.kubaspatny.opendayapp.service.TestService;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,8 +50,10 @@ import java.util.TimeZone;
 @RequestMapping("/v1/time")
 public class TimeRestController {
 
+    @Autowired TestService testService;
+    @Autowired IUserService userService;
     @Autowired
-    TestService testService;
+    IGroupService groupService;
 
     @RequestMapping(value = "/prague", method = RequestMethod.GET, produces = "text/plain")
     public String getTime(){
@@ -67,6 +82,23 @@ public class TimeRestController {
         Calendar cal = Calendar.getInstance();
         cal.setTimeZone(TimeZone.getTimeZone("Europe/Prague"));
         return "SECURED TIME: " + dateFormat.format(cal.getTime());
+    }
+
+    @RequestMapping(value = "/info", method = RequestMethod.GET, produces = "text/plain")
+    public String getUserInfo(){
+
+        Authentication a = SecurityContextHolder.getContext().getAuthentication();
+
+        try {
+            UserDto user = userService.getUser(a.getName());
+            Gson gson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeSerializer())
+                    .addSerializationExclusionStrategy(new CustomExposeExclusionStrategy())
+                    .create();
+            return gson.toJson(user.getGroups());
+        } catch (DataAccessException e){
+            return "data access exception!";
+        }
+
     }
 
 }

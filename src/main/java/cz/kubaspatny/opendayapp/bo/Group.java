@@ -131,6 +131,8 @@ public class Group extends AbstractBusinessObject {
     }
 
     public boolean isActive() {
+        if(getLastUpdated() == null) return false;
+
         Duration d = new Duration(getLastUpdated(), DateTime.now());
         return d.getStandardMinutes() < 10;
     }

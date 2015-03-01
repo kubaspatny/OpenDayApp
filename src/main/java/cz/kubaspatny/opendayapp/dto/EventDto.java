@@ -1,5 +1,6 @@
 package cz.kubaspatny.opendayapp.dto;
 
+import com.google.gson.annotations.Expose;
 import cz.kubaspatny.opendayapp.bo.Event;
 import cz.kubaspatny.opendayapp.bo.Route;
 import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
@@ -31,8 +32,8 @@ public class EventDto extends BaseDto {
 
     private String name;
     private DateTime date;
-    private String information;
-    private UserDto organizer;
+    @Expose(serialize = false) private String information;
+    @Expose(serialize = false) private UserDto organizer;
 
     private List<RouteDto> routes;
     private Set<String> emailList;

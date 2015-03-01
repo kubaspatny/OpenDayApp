@@ -1,5 +1,6 @@
 package cz.kubaspatny.opendayapp.dto;
 
+import com.google.gson.annotations.Expose;
 import cz.kubaspatny.opendayapp.bo.Event;
 import cz.kubaspatny.opendayapp.bo.Group;
 import cz.kubaspatny.opendayapp.bo.Route;
@@ -36,10 +37,10 @@ public class UserDto extends BaseDto {
 
     private String username;
     private String email;
-    private String firstName;
-    private String lastName;
-    private String organization;
-    private String password;
+    @Expose(serialize = false) private String firstName;
+    @Expose(serialize = false) private String lastName;
+    @Expose(serialize = false) private String organization;
+    @Expose(serialize = false) private String password;
 
     private Set<User.UserRole> userRoles;
 

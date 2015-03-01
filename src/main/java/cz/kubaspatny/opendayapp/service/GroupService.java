@@ -144,7 +144,7 @@ public class GroupService extends DataAccessService implements IGroupService {
         if(g == null) throw new DataAccessException("Instance not found!", DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
 
         g.setLastUpdated(time);
-        g.setInactivityNotified(true);
+        g.setInactivityNotified(false);
         dao.saveOrUpdate(g);
 
     }
