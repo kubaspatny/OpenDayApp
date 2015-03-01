@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <body>
+        <ui:composition>
+            <div class="col-md-6">
+
+                <div class="row">
+                    <div class="col-md-12" style="padding-top: 0px;">
+                        <div class="material-container">
+
+                            <div class="box-toolbar">
+                                <span class="left title">GUIDED ROUTES</span>
+                            </div>
+
+                            <div class="box-content">
+                                <h:form id="guided-events">
+                                    <p:dataTable var="group" value="#{indexBB.userDto.groups}" rendered="#{not empty indexBB.userDto.groups}" styleClass="no-header">
+
+                                        <p:column styleClass="event-date" style="width: 40px;">
+                                            <h:panelGroup layout="block" styleClass="circle" style="background-color: #{group.route.hexColor};"/>
+                                        </p:column>
+
+                                        <p:column styleClass="event-date">
+                                            <h:link styleClass="event-name" value="#{group.route.name}" outcome="route">
+                                                <f:param name="mode" value="view"/>
+                                                <f:param name="eventId" value="#{group.route.event.id}"/>
+                                                <f:param name="routeId" value="#{group.route.id}"/>
+                                            </h:link>
+                                        </p:column>
+
+                                        <p:column styleClass="event-date">
+                                            <h:link styleClass="event-date" value="#{group.route.event.name}" outcome="event">
+                                                <f:param name="id" value="#{group.route.event.id}"/>
+                                            </h:link>
+                                        </p:column>
+
+                                        <p:column styleClass="event-date">
+                                            <h:outputText value="#{group.route.date.toString('dd-MM-yyyy HH:mm')}" />
+                                        </p:column>
+
+                                    </p:dataTable>
+
+                                    <h:panelGroup layout="block" styleClass="alert alert-info" rendered="#{empty indexBB.userDto.groups and not indexBB.eventLoadingError}" >
+                                        <h:outputText value="You have no groups to guide."/>
+                                    </h:panelGroup>
+
+                                    <h:panelGroup layout="block" styleClass="alert alert-danger" rendered="#{indexBB.eventLoadingError}" >
+                                        <h:outputText value="#{strings['error-eventloading']}"/>
+                                    </h:panelGroup>
+
+                                </h:form>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="material-container">
+
+                            <div class="box-toolbar">
+                                <span class="left title">MANAGED ROUTES</span>
+                            </div>
+
+                            <div class="box-content">
+                                <h:form id="managed-events">
+                                    <p:dataTable var="route" value="#{indexBB.userDto.managedRoutes}" rendered="#{not empty indexBB.userDto.managedRoutes}" styleClass="no-header">
+
+                                        <p:column styleClass="event-date" style="width: 40px;">
+                                            <h:panelGroup layout="block" styleClass="circle" style="background-color: #{route.hexColor};"/>
+                                        </p:column>
+
+                                        <p:column styleClass="event-date">
+                                            <h:link styleClass="event-name" value="#{route.name}" outcome="route">
+                                                <f:param name="mode" value="view"/>
+                                                <f:param name="eventId" value="#{route.event.id}"/>
+                                                <f:param name="routeId" value="#{route.id}"/>
+                                            </h:link>
+                                        </p:column>
+
+                                        <p:column styleClass="event-date">
+                                            <h:link styleClass="event-date" value="#{route.event.name}" outcome="event">
+                                                <f:param name="id" value="#{route.event.id}"/>
+                                            </h:link>
+                                        </p:column>
+
+                                        <p:column styleClass="event-date">
+                                            <h:outputText value="#{route.date.toString('dd-MM-yyyy HH:mm')}" />
+                                        </p:column>
+
+                                    </p:dataTable>
+
+                                    <h:panelGroup layout="block" styleClass="alert alert-info" rendered="#{empty indexBB.userDto.managedRoutes and not indexBB.eventLoadingError}" >
+                                        <h:outputText value="You are not managing any routes yet."/>
+                                    </h:panelGroup>
+
+                                    <h:panelGroup layout="block" styleClass="alert alert-danger" rendered="#{indexBB.eventLoadingError}" >
+                                        <h:outputText value="#{strings['error-eventloading']}"/>
+                                    </h:panelGroup>
+
+                                </h:form>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </ui:composition>
+    </body>
+
+</html>

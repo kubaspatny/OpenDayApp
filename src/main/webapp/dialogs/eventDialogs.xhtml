@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <body>
+        <ui:composition>
+            <!-- DIALOGS -->
+            <p:dialog header="Add person to this event" widgetVar="add-person-dlg" resizable="false" draggable="false" modal="true">
+                <h:form id="add-person-form" styleClass="form-table">
+
+                    <h:panelGrid id="panel" columns="3">
+
+                        <p:outputLabel for="email" value="NAME" styleClass="sr-only"/>
+                        <p:inputText id="email" value="#{eventBean.newPersonEmail}" placeholder="Email" styleClass="form-control" required="true" requiredMessage="FILL IN EMAIL">
+                            <f:validator binding="#{emailFormatValidator}"/>
+                            <p:ajax update="errorEmail @form:submit" event="keyup"/>
+                        </p:inputText>
+
+                        <h:panelGroup layout="block" id="errorEmail">
+                            <h:panelGroup layout="block" styleClass="alert alert-success dialog-alert" rendered="#{eventBean.isRegistered(eventBean.newPersonEmail)}">
+                                <span class="glyphicon glyphicon-ok margin-right-10"/>
+                                <h:outputText value="User is registered"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup layout="block" styleClass="alert alert-warning dialog-alert" rendered="#{not empty eventBean.newPersonEmail and not eventBean.isRegistered(eventBean.newPersonEmail)}">
+                                <span class="glyphicon glyphicon-flag margin-right-10"/>
+                                <h:outputText value="User will be registered"/>
+                            </h:panelGroup>
+                            <p:message for="email" id="msgEmail" display="text"/>
+
+                        </h:panelGroup>
+
+                    </h:panelGrid>
+                    <p:commandButton id="submit" value="#{not empty eventBean.newPersonEmail and not eventBean.isRegistered(eventBean.newPersonEmail) ? 'Register and add user' : 'Add user'}" styleClass="margin-top-10" update="@form"
+                                     action="#{eventBean.addNewPersonToEmailList}"
+                                     oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorCreatingEvent) PF('add-person-dlg').hide()">
+                        <f:param name="id" value="#{eventBean.eventId}" />
+                    </p:commandButton>
+
+                    <h:panelGroup layout="block" styleClass="alert alert-danger margin-top-10" rendered="#{createEventBean.errorCreatingEvent}">
+                        <h:outputText value="ERROR CREATING EVENT"/>
+                    </h:panelGroup>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog id="file-upload-dialog" header="Upload file with emails" widgetVar="file-upload-dlg" resizable="false" draggable="false" modal="true">
+                <h:form id="file-upload-form" styleClass="form-table" enctype="multipart/form-data" rendered="#{empty CSVFileUploadBean.emails}">
+                    <h:panelGrid id="file-upload-panel" columns="1">
+
+                        <p:fileUpload value="#{CSVFileUploadBean.file}"
+                                      mode="advanced"
+                                      skinSimple="true"
+                                      allowTypes="/(\.|\/)(txt|csv)$/"
+                                      sizeLimit="100000"
+                                      fileUploadListener="#{CSVFileUploadBean.upload}"
+                                      update="@form :file-upload-dialog :file-add-emails-form"
+                                      required="true"
+                                      oncomplete="PF('file-upload-dlg').show()">
+                            <f:param name="id" value="#{eventBean.eventId}" />
+                        </p:fileUpload>
+
+                        <h:panelGroup layout="block" styleClass="alert alert-danger dialog-alert" rendered="#{CSVFileUploadBean.uploadedEmptyFile}">
+                            <span class="glyphicon glyphicon-remove margin-right-10"/>
+                            <h:outputText value="File doesn't contain any valid emails. [do i18n!]"/>
+                        </h:panelGroup>
+
+                    </h:panelGrid>
+
+                </h:form>
+
+                <h:form id="file-add-emails-form" styleClass="form-table" rendered="#{not empty CSVFileUploadBean.emails}">
+
+                    <h:dataTable value="#{CSVFileUploadBean.emails}" var="e" styleClass="no-header" style="line-height: 28px">
+
+                        <p:column styleClass="event-date">
+                            <h:outputText value="#{e}" />
+                        </p:column>
+
+                        <p:column>
+                            <h:panelGroup layout="block" styleClass="alert alert-success dialog-alert-smaller margin-left-20" rendered="#{eventBean.isRegistered(e)}">
+                                <span class="glyphicon glyphicon-ok margin-right-10"/>
+                                <h:outputText value="User is registered"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup layout="block" styleClass="alert alert-warning dialog-alert-smaller margin-left-20" rendered="#{not eventBean.isRegistered(e)}">
+                                <span class="glyphicon glyphicon-flag margin-right-10"/>
+                                <h:outputText value="User will be registered"/>
+                            </h:panelGroup>
+                        </p:column>
+
+                        <p:column>
+                            <div class="right padding-left-20">
+                                <p:commandButton ajax="true" styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
+                                                 actionListener="#{CSVFileUploadBean.removeEmail(e)}" value=""
+                                                 update="@form :file-upload-dialog :file-add-emails-form"
+                                                 oncomplete="PF('file-upload-dlg').show()">
+                                    <f:param name="id" value="#{eventBean.eventId}"/>
+                                </p:commandButton>
+                            </div>
+                        </p:column>
+
+                    </h:dataTable>
+
+                    <p:commandButton id="submit-file" value="#{eventBean.areAllEmailsRegistered(CSVFileUploadBean.emails) ? 'Add emails [i18n]' : 'Register and add emails [i18n]'}" styleClass="margin-top-10" update="@form"
+                                     oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorCreatingEvent &amp;&amp; args.uploadFinished) PF('file-upload-dlg').hide()"
+                                     action="#{eventBean.addEmailsToEmailList(CSVFileUploadBean.emails)}">
+                        <f:param name="id" value="#{eventBean.eventId}" />
+                    </p:commandButton>
+                </h:form>
+            </p:dialog>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+
+            <p:dialog header="Edit Event" widgetVar="edit-event-dlg" resizable="false" draggable="false" modal="true">
+                <h:form styleClass="form-table">
+                    <h:panelGrid id="edit-event-panel" columns="3">
+
+                        <p:outputLabel for="name" value="NAME" styleClass="sr-only"/>
+                        <p:inputText id="name" value="#{eventBean.editEvent.name}" placeholder="NAME" styleClass="form-control" required="true" requiredMessage="FILL IN NAME EVENT">
+                            <p:ajax update="msgName" event="keyup"/>
+                        </p:inputText>
+                        <p:message for="name" id="msgName" display="text"/>
+
+                        <p:outputLabel for="datePicker" value="DATEPICKER" styleClass="sr-only"/>
+                        <p:calendar lang="#{localeBean.locale}" id="datePicker" value="#{eventBean.editEvent.date}" mode="popup"
+                                    pattern="dd/MM/yyyy"
+                                    mindate="#{eventBean.currentDate}"
+                                    required="true" requiredMessage="PICK A DATE" placeholder="EVENT DATE"/>
+                        <p:message for="datePicker" id="msgDatePicker" display="text"/>
+
+                        <p:outputLabel for="info" value="INFO" styleClass="sr-only"/>
+                        <p:inputTextarea id="info" autoResize="false" rows="6" cols="30" value="#{eventBean.editEvent.information}" styleClass="form-control" placeholder="EVENT INFORMATION"/>
+
+                    </h:panelGrid>
+                    <p:commandButton value="UPDATE EVENT" styleClass="margin-top-10" update="@form :information-form :routes-form"
+                                     actionListener="#{eventBean.updateEvent}"
+                                     oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorUpdatingEvent) PF('edit-event-dlg').hide()">
+                        <f:param name="id" value="#{eventBean.eventId}" />
+                    </p:commandButton>
+
+                    <h:panelGroup layout="block" styleClass="alert alert-danger margin-top-10" rendered="#{eventBean.errorUpdatingEvent}">
+                        <h:outputText value="ERROR UPDATING EVENT"/>
+                    </h:panelGroup>
+                </h:form>
+            </p:dialog>
+        </ui:composition>
+    </body>
+
+</html>

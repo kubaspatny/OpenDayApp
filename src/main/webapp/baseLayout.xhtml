@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeBean.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<f:view locale="#{localeBean.locale}">
+<h:head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>Open Days</title>
+
+    <h:outputScript library="primefaces" name="jquery/jquery.js" target="head"/>
+    <h:outputScript target="head">
+        $ = jQuery;
+    </h:outputScript>
+
+    <h:outputScript name="js/bootstrap.js"/>
+    <h:outputScript name="js/primefaces-calendar.js"/>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet' type='text/css'/>
+</h:head>
+
+<ui:insert name="metadata">
+</ui:insert>
+
+<h:body>
+
+    <h:outputStylesheet name="css/bootstrap.css" />
+    <h:outputStylesheet name="css/logo.css" />
+    <h:outputStylesheet name="css/main.css" />
+
+    <div id="page">
+
+        <div id="header">
+            <ui:insert name="header" >
+                <ui:include src="defaultHeader.xhtml" />
+            </ui:insert>
+        </div>
+
+        <div id="content">
+            <ui:insert name="content" >
+                <ui:include src="defaultContent.xhtml" />
+            </ui:insert>
+        </div>
+
+    </div>
+
+</h:body>
+</f:view>
+</html>

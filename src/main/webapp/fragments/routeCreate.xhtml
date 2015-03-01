@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <body>
+        <ui:composition>
+            <h:panelGroup layout="group" class="row" rendered="#{param.mode == 'create'}">
+
+                <div class="col-md-12">
+
+                    <div class="material-container">
+
+                        <div class="box-toolbar">
+                            <span class="left title">CREATE ROUTE</span>
+                            <h:form>
+                                <p:commandLink styleClass="right material-button-flat no-select" action="#{navBB.goEvent(routeBean.eventId)}">
+                                    <span class="glyphicon glyphicon-chevron-left margin-right-10"/><h:outputText value="#{routeBean.event.name}"/>
+                                    <p:confirm header="Confirmation" message="Are you sure you want to leave without saving?" icon="icon-empty"/>
+                                    <f:param name="eventId" value="#{routeBean.eventId}"/>
+                                    <f:param name="mode" value="create"/>
+                                </p:commandLink>
+                            </h:form>
+                        </div>
+
+                        <div class="box-content">
+                            <h:form id="createRouteForm" styleClass="form-table">
+
+                                <div class="row">
+
+                                    <div class="col-md-6 material-container">
+
+                                        <div class="box-toolbar divider">
+                                            <span class="left title"><h:outputText value="Route Information"/></span>
+                                        </div>
+                                        <div class="box-content">
+                                            <h:panelGrid id="panel" columns="3">
+                                                <p:outputLabel for="colorPicker" value="COLORPICKER" styleClass="sr-only"/>
+                                                <p:colorPicker id="colorPicker" value="#{routeBean.cvo.routeColor}" required="true" requiredMessage="Pick a color!"/>
+                                                <p:message for="colorPicker" id="msgColorPicker" display="text"/>
+
+                                                <p:outputLabel for="routeName" value="ROUTENAME" styleClass="sr-only"/>
+                                                <p:inputText id="routeName" value="#{routeBean.cvo.routeName}" placeholder="Route name" styleClass="form-control" required="true" requiredMessage="Fill in name!"/>
+                                                <p:message for="routeName" id="msgRouteName" display="text"/>
+
+                                                <p:outputLabel for="routeInformation" value="ROUTEINFO" styleClass="sr-only"/>
+                                                <p:inputTextarea id="routeInformation" value="#{routeBean.cvo.routeInfo}" placeholder="Route information" rows="10" cols="50" styleClass="form-control"/>
+                                                <p:message for="routeInformation" id="msgRouteInformation" display="text"/>
+                                            </h:panelGrid>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6 material-container">
+                                        <div class="box-toolbar divider">
+                                            <span class="left title"><h:outputText value="Route Times"/></span>
+                                            <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('add-time-dlg').show();">ADD</h:outputLink>
+                                        </div>
+                                        <div class="box-content">
+                                            <h:panelGrid id="panel3" columns="1">
+                                                <p:dataTable var="time" value="#{routeBean.cvo.routeTimes}" rendered="#{not empty routeBean.cvo.routeTimes}" styleClass="no-header">
+
+                                                    <p:column styleClass="event-date">
+                                                        <h:outputText value="#{time.toString('HH:mm')}" />
+                                                    </p:column>
+
+                                                    <p:column>
+                                                        <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
+                                                                         actionListener="#{routeBean.cvo.removeRouteTime(time)}" value="" update="@form" immediate="true">
+                                                            <p:confirm header="Confirmation" message="Do you really want to delete this time?" icon="icon-empty"/>
+                                                            <f:param name="eventId" value="#{routeBean.eventId}"/>
+                                                            <f:param name="mode" value="create"/>
+                                                        </p:commandButton>
+                                                    </p:column>
+
+                                                </p:dataTable>
+
+                                                <h:panelGroup layout="block" styleClass="alert alert-info" rendered="#{empty routeBean.cvo.routeTimes}" >
+                                                    <h:outputText value="No times added yet."/>
+                                                </h:panelGroup>
+
+                                                <h:inputHidden id="routeTimeHidden" validator="#{routeBean.validateRouteTimes}"/>
+                                                <p:message for="routeTimeHidden" id="msgRouteTimeHidden" display="text"/>
+
+                                            </h:panelGrid>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <h:panelGroup layout="block" id="stations-container" class="col-md-6 material-container">
+                                        <div class="box-toolbar divider">
+                                            <span class="left title"><h:outputText value="Stations"/></span>
+                                            <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('add-station-dlg').show();">ADD</h:outputLink>
+                                            <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('reorder-station-dlg').show();" rendered="#{not empty routeBean.cvo.stations}">REORDER</h:outputLink>
+                                        </div>
+                                        <div class="box-content">
+                                            <h:panelGrid id="panel5" columns="1">
+                                                <p:dataTable var="station" value="#{routeBean.cvo.stations}" rendered="#{not empty routeBean.cvo.stations}" styleClass="no-header" rowIndexVar="row">
+
+                                                    <p:column styleClass="event-date">
+                                                        <h:outputText value="#{row+1}" />
+                                                    </p:column>
+
+                                                    <p:column styleClass="event-date">
+                                                        <h:outputText value="#{station.name}" />
+                                                    </p:column>
+
+                                                    <p:column styleClass="event-date">
+                                                        <h:outputText value="#{station.location}" />
+                                                    </p:column>
+
+                                                    <p:column>
+                                                        <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
+                                                                         actionListener="#{routeBean.cvo.removeStation(station)}" value="" update="@form :reorder-station-form" immediate="true">
+                                                            <p:confirm header="Confirmation" message="Do you really want to delete this station?" icon="icon-empty"/>
+                                                            <f:param name="eventId" value="#{routeBean.eventId}"/>
+                                                            <f:param name="mode" value="create"/>
+                                                        </p:commandButton>
+                                                    </p:column>
+                                                </p:dataTable>
+
+                                                <h:panelGroup layout="block" styleClass="alert alert-info" rendered="#{empty routeBean.cvo.stations}" >
+                                                    <h:outputText value="No stations added yet."/>
+                                                </h:panelGroup>
+                                            </h:panelGrid>
+
+                                        </div>
+
+                                    </h:panelGroup>
+
+                                    <div class="col-md-6 material-container">
+                                        <div class="box-toolbar divider">
+                                            <span class="left title"><h:outputText value="Station Managers"/></span>
+                                        </div>
+                                        <div id="station-manager-grid" class="box-content">
+
+                                            <p:selectManyCheckbox id="grid" value="#{routeBean.cvo.stationManagers}" layout="grid" columns="2" style="margin-right: 10px;">
+                                                <f:selectItems value="#{routeBean.event.emailList}" var="email" itemLabel="#{email}" itemValue="#{email}"/>
+                                            </p:selectManyCheckbox>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <h:panelGroup layout="block" id="groups-container" class="col-md-6 material-container">
+                                        <div class="box-toolbar divider">
+                                            <span class="left title"><h:outputText value="Groups"/></span>
+                                            <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('add-group-dlg').show();">ADD</h:outputLink>
+                                            <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('reorder-group-dlg').show();" rendered="#{not empty routeBean.cvo.groups}">REORDER</h:outputLink>
+                                        </div>
+                                        <div class="box-content">
+                                            <h:panelGrid id="panel4" columns="1">
+                                                <p:dataTable var="group" value="#{routeBean.cvo.groups}" rendered="#{not empty routeBean.cvo.groups}" styleClass="no-header" rowIndexVar="row">
+
+                                                    <p:column styleClass="event-date">
+                                                        <h:outputText value="#{group}" />
+                                                    </p:column>
+
+                                                    <p:column styleClass="event-date">
+                                                        <h:outputText value="#{routeBean.cvo.stations.get(row).name}" rendered="#{routeBean.cvo.stations.size() gt row}"/>
+
+                                                        <h:panelGroup layout="block" styleClass="table-alert alert-danger" rendered="#{empty routeBean.cvo.stations or routeBean.cvo.stations.size() le row}">
+                                                            <h:outputText value="NO STATION"/>
+                                                        </h:panelGroup>
+                                                    </p:column>
+
+                                                    <p:column>
+                                                        <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
+                                                                         actionListener="#{routeBean.cvo.removeGroup(group)}" value="" update="@form :reorder-group-form" immediate="true">
+                                                            <p:confirm header="Confirmation" message="Do you really want to delete this group?" icon="icon-empty"/>
+                                                            <f:param name="eventId" value="#{routeBean.eventId}"/>
+                                                            <f:param name="mode" value="create"/>
+                                                        </p:commandButton>
+                                                    </p:column>
+                                                </p:dataTable>
+
+                                                <h:panelGroup layout="block" styleClass="alert alert-info" rendered="#{empty routeBean.cvo.groups}" >
+                                                    <h:outputText value="No groups added yet."/>
+                                                </h:panelGroup>
+
+                                                <h:inputHidden id="groupsHidden" validator="#{routeBean.validateGroups}"/>
+                                                <p:message for="groupsHidden" id="msgGroupsHidden" display="text" styleClass="no-margin"/>
+                                            </h:panelGrid>
+                                        </div>
+                                    </h:panelGroup>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 material-container">
+                                        <p:commandButton ajax="false" value="Create route" styleClass="btn btn-primary button-register" update="@form" action="#{routeBean.createRoute}">
+                                            <f:param name="eventId" value="#{routeBean.eventId}"/>
+                                            <f:param name="mode" value="create"/>
+                                        </p:commandButton>
+                                    </div>
+                                </div>
+
+                            </h:form>
+                        </div>
+
+                    </div>
+                </div>
+
+            </h:panelGroup>
+        </ui:composition>
+    </body>
+
+</html>
