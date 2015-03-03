@@ -4,8 +4,11 @@ import cz.kubaspatny.opendayapp.dto.*;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import org.joda.time.DateTime;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Author: Kuba Spatny
@@ -79,5 +82,14 @@ public interface IGroupService {
      * a group.
      */
     public void setLastUpdated(Long groupId, DateTime time) throws DataAccessException;
+
+    /**
+     * Returns a number of groups user with given username guides.
+     */
+    public Long getGroupCount(String username) throws DataAccessException;
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostFilter("hasPermission(filterObject.id, filterObject.ACLObjectIdentityClass, 'READ')")
+    public List<GroupDto> getGroups(String username, int page, int pageSize) throws DataAccessException;
 
 }

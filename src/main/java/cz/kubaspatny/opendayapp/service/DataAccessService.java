@@ -1,6 +1,7 @@
 package cz.kubaspatny.opendayapp.service;
 
 import cz.kubaspatny.opendayapp.bo.AbstractBusinessObject;
+import cz.kubaspatny.opendayapp.dao.ConcreteDao;
 import cz.kubaspatny.opendayapp.dao.GenericDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
@@ -38,6 +39,9 @@ public class DataAccessService {
     @Autowired
     protected GenericDao dao;
 
+    @Autowired
+    protected ConcreteDao concreteDao;
+
     protected JdbcMutableAclService aclService;
 
     public DataAccessService() {
@@ -56,6 +60,14 @@ public class DataAccessService {
 
     public void setDao(GenericDao dao) {
         this.dao = dao;
+    }
+
+    public ConcreteDao getConcreteDao() {
+        return concreteDao;
+    }
+
+    public void setConcreteDao(ConcreteDao concreteDao) {
+        this.concreteDao = concreteDao;
     }
 
     public JdbcMutableAclService getAclService() {

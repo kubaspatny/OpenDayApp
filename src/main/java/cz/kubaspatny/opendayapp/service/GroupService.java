@@ -3,7 +3,9 @@ package cz.kubaspatny.opendayapp.service;
 import cz.kubaspatny.opendayapp.bo.*;
 import cz.kubaspatny.opendayapp.dto.*;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
+import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
@@ -37,6 +39,9 @@ import java.util.List;
 
 @Component("groupService")
 public class GroupService extends DataAccessService implements IGroupService {
+
+    @Autowired
+    IUserService userService;
 
     @Override
     public Long addGroup(Long routeId, Integer startingPosition, String email) throws DataAccessException {
@@ -146,6 +151,26 @@ public class GroupService extends DataAccessService implements IGroupService {
         g.setLastUpdated(time);
         g.setInactivityNotified(false);
         dao.saveOrUpdate(g);
+
+    }
+
+    @Override
+    public Long getGroupCount(String username) throws DataAccessException {
+        UserDto u = userService.getUser(username);
+        return concreteDao.countGroups(username);
+    }
+
+    @Override
+    public List<GroupDto> getGroups(String username, int page, int pageSize) throws DataAccessException {
+        UserDto u = userService.getUser(username);
+        List<Group> groups = concreteDao.getGroups(username, page, pageSize);
+        List<GroupDto> groupDtos = new ArrayList<GroupDto>();
+
+        for(Group g : groups){
+            groupDtos.add(GroupDto.map(g, new GroupDto(), DtoMapperUtil.getGroupIgnoredProperties()));
+        }
+
+        return groupDtos;
 
     }
 }

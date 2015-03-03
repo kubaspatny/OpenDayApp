@@ -1,6 +1,8 @@
 package cz.kubaspatny.opendayapp.test;
 
 import cz.kubaspatny.opendayapp.bo.*;
+import cz.kubaspatny.opendayapp.dao.ConcreteDao;
+import cz.kubaspatny.opendayapp.dao.Dao;
 import cz.kubaspatny.opendayapp.dao.GenericDao;
 import cz.kubaspatny.opendayapp.dto.EventDto;
 import cz.kubaspatny.opendayapp.dto.UserDto;
@@ -41,6 +43,7 @@ import java.util.List;
 public class SandBox extends AbstractTest {
 
     @Autowired private GenericDao dao;
+    @Autowired private ConcreteDao dao2;
 
     private String username = "kuba.spatny@gmail.com";
     private String username2 = "guide@gmail.com";
@@ -127,9 +130,29 @@ public class SandBox extends AbstractTest {
     }
 
     @Test
+    public void testGet() throws Exception {
+
+        System.out.println("COUNT IS: " + dao2.countGroups("login4"));
+
+        List<Group> g = dao2.getGroups("login4");
+        System.out.println("////////////////////////////////////////////////////");
+        for(Group gr : g){
+            System.out.println(gr.getId() + "\t" + gr.getGuide().getUsername() + "\t" + gr.getRoute().getDate().toString("dd-MM-yyyy HH:mm"));
+        }
+
+        g = dao2.getGroups("login4", 3, 2);
+        System.out.println("////////////////////////////////////////////////////");
+        for(Group gr : g){
+            System.out.println(gr.getId() + "\t" + gr.getGuide().getUsername() + "\t" + gr.getRoute().getDate().toString("dd-MM-yyyy HH:mm"));
+        }
+
+
+    }
+
+    @Test
     public void testAddStationManager() throws Exception {
 
-        User u = dao.getByPropertyUnique("username",username, User.class);
+        User u = dao.getByPropertyUnique("username", username, User.class);
         u.print();
         System.out.println("--------------------------------------------");
 
