@@ -51,7 +51,10 @@
 
     </oauth:client-details-service>
 
-    <beans:bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore"/>
+    <!--<beans:bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore"/>-->
+    <beans:bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.JdbcTokenStore">
+        <beans:constructor-arg ref="dataSource" />
+    </beans:bean>
 
     <oauth:authorization-server client-details-service-ref="client-details-service" token-services-ref="tokenServices">
         <oauth:authorization-code />
