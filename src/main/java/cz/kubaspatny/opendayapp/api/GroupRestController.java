@@ -2,28 +2,24 @@ package cz.kubaspatny.opendayapp.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import cz.kubaspatny.opendayapp.api.json.CustomExposeExclusionStrategy;
 import cz.kubaspatny.opendayapp.api.json.DateTimeSerializer;
-import cz.kubaspatny.opendayapp.dto.GroupDto;
+import cz.kubaspatny.opendayapp.api.json.JsonWrapper;
+import cz.kubaspatny.opendayapp.dto.LocationUpdateDto;
+import cz.kubaspatny.opendayapp.dto.RouteDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.service.IGroupService;
+import cz.kubaspatny.opendayapp.service.IRouteService;
+import cz.kubaspatny.opendayapp.service.IStationService;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.crypto.Data;
-import java.util.List;
 
 /**
  * Author: Kuba Spatny
  * Web: kubaspatny.cz
  * E-mail: kuba.spatny@gmail.com
- * Date: 3/3/2015
- * Time: 21:20
+ * Date: 4/3/2015
+ * Time: 19:16
  * Copyright 2015 Jakub Spatny
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,64 +34,21 @@ import java.util.List;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 @RestController
-@RequestMapping("/v1/user")
-public class GroupRestController {
+@RequestMapping("/v1/group")
+public class GroupRestController extends ExceptionHandlingController {
 
-    @Autowired private IGroupService groupService;
+    @Autowired IGroupService groupService;
 
-    @RequestMapping(value = "/{username}/groups")
+    @RequestMapping(value = "/locationUpdate", method = RequestMethod.POST)
     @ResponseBody
-    public String getGroups(@PathVariable String username, @RequestParam("page") int page, @RequestParam("pageSize") int pageSize) throws DataAccessException {
+    public String getRoute(@RequestBody String locationJson) throws DataAccessException {
 
-        List<GroupDto> groups = groupService.getGroups(username, page, pageSize);
+        Gson gson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeSerializer()).create();
+        LocationUpdateDto updateDto = gson.fromJson(locationJson, LocationUpdateDto.class);
 
-        Gson gson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeSerializer())
-                .addSerializationExclusionStrategy(new CustomExposeExclusionStrategy())
-                .create();
+        return groupService.addLocationUpdate(updateDto).toString();
 
-        return gson.toJson(groups);
-
-    }
-
-    @RequestMapping(value = "/{username}/groups/count")
-    @ResponseBody
-    public String getGroupCount(@PathVariable String username) throws DataAccessException {
-
-        Gson gson = new Gson();
-        return gson.toJson(groupService.getGroupCount(username));
-
-    }
-
-    @RequestMapping(value = "/error")
-    @ResponseBody
-    public String error() throws DataAccessException {
-        throw new DataAccessException("Error!");
-    }
-
-    @ExceptionHandler(DataAccessException.class)
-    @ResponseBody
-    public String handleDataAccessException(HttpServletResponse response, DataAccessException e) {
-        switch (e.getErrorCode()){
-            case INSTANCE_NOT_FOUND:
-                response.setStatus(HttpStatus.NOT_FOUND.value());
-                return "Instance not found! " + e.getLocalizedMessage();
-            case ILLEGAL_ARGUMENT:
-                response.setStatus(HttpStatus.BAD_REQUEST.value());
-                return "Wrong parameters! "+ e.getLocalizedMessage();
-            default:
-                response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-                return "Oops! Something went wrong..";
-        }
-    }
-
-    @ExceptionHandler(AccessDeniedException.class)
-    @ResponseBody
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    public String handleAccessDeniedException(HttpServletResponse response, AccessDeniedException e) {
-
-        return "Access denied! Seems like you're trying to access something that's not yours..";
     }
 
 }

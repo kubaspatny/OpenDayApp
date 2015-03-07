@@ -25,4 +25,5 @@ EMAILS
 - opendays.guide2@email.cz
 - opendays.guide3@email.cz
 - opendays.guide4@seznam.cz
+- opendayapp@email.cz
 

@@ -4,7 +4,7 @@
     <groupId>OpenDayApp</groupId>
     <artifactId>OpenDayApp</artifactId>
     <packaging>war</packaging>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <name>OpenDayApp Maven Webapp</name>
     <url>http://maven.apache.org</url>
 
@@ -193,12 +193,10 @@
             <version>1.6.1</version>
         </dependency>
 
-
-        <!-- Driver pro PostgreSQL, pokud pouzivate jinou databazi, tak jej vymente -->
         <dependency>
-            <groupId>postgresql</groupId>
+            <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>9.1-901.jdbc4</version>
+            <version>9.2-1003-jdbc4</version>
         </dependency>
 
         <!-- Connection pool -->

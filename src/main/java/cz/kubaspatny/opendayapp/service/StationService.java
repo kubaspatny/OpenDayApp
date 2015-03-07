@@ -9,6 +9,9 @@ import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Author: Kuba Spatny
  * Web: kubaspatny.cz
@@ -72,4 +75,15 @@ public class StationService extends DataAccessService implements IStationService
         aclService.deleteAcl(new ObjectIdentityImpl(Station.class, id), false);
     }
 
+    @Override
+    public List<StationDto> getStations(Long routeId) throws DataAccessException {
+        Route r = dao.getById(routeId, Route.class);
+        List<StationDto> stationDtos = new ArrayList<StationDto>();
+
+        for(Station s : r.getStations()){
+            stationDtos.add(StationDto.map(s, new StationDto(), DtoMapperUtil.getStationIgnoredProperties()));
+        }
+
+        return stationDtos;
+    }
 }

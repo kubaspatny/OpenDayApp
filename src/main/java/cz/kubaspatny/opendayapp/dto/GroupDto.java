@@ -7,6 +7,7 @@ import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -106,18 +107,24 @@ public class GroupDto extends BaseDto {
     public static GroupDto map(Group source, GroupDto target, List<String> ignoredProperties){
 
         target.id = source.getId();
-
-        List<String> routeIgnoredProperties = new ArrayList<String>();
-        routeIgnoredProperties.add("stations");
-        routeIgnoredProperties.add("stationManagers");
-        routeIgnoredProperties.add("groups");
-        target.route = RouteDto.map(source.getRoute(), new RouteDto(), routeIgnoredProperties);
-
-        target.guide = UserDto.map(source.getGuide(), new UserDto(), DtoMapperUtil.getUserIgnoredProperties());
         target.startingPosition = source.getStartingPosition();
         target.active = source.isActive();
 
         if(ignoredProperties == null) ignoredProperties = new ArrayList<String>();
+
+        if(!ignoredProperties.contains("route")){
+            List<String> routeIgnoredProperties = new ArrayList<String>();
+            routeIgnoredProperties.add("stations");
+            routeIgnoredProperties.add("stationManagers");
+            routeIgnoredProperties.add("groups");
+            target.route = RouteDto.map(source.getRoute(), new RouteDto(), routeIgnoredProperties);
+        }
+
+        if(!ignoredProperties.contains("guide")){
+            target.guide = UserDto.map(source.getGuide(), new UserDto(), DtoMapperUtil.getUserIgnoredProperties());
+        }
+
+        if(source.getGroupSizes() != null) Collections.sort(source.getGroupSizes(), GroupSize.GroupSizeTimeComparator);
 
         if(!ignoredProperties.contains("groupSizes") && source.getGroupSizes() != null){
 
@@ -134,6 +141,8 @@ public class GroupDto extends BaseDto {
             target.latestGroupSize = GroupSizeDto.map(source.getGroupSizes().get(source.getGroupSizes().size() - 1), new GroupSizeDto(), null);
         }
 
+        if(source.getLocationUpdates() != null) Collections.sort(source.getLocationUpdates(), LocationUpdate.LocationUpdateComparator);
+
         if(!ignoredProperties.contains("locationUpdates") && source.getLocationUpdates() != null){
 
             List<LocationUpdateDto> locationUpdateDtos = new ArrayList<LocationUpdateDto>();
@@ -144,7 +153,7 @@ public class GroupDto extends BaseDto {
             target.locationUpdates = locationUpdateDtos;
         }
 
-        if(!ignoredProperties.contains("locationUpdates") && source.getLocationUpdates() != null && source.getLocationUpdates().size() > 0){
+        if(!ignoredProperties.contains("latestLocationUpdate") && source.getLocationUpdates() != null && source.getLocationUpdates().size() > 0){
             target.latestLocationUpdate = LocationUpdateDto.map(source.getLocationUpdates().get(source.getLocationUpdates().size() - 1), new LocationUpdateDto(), null);
         }
 
@@ -159,6 +168,7 @@ public class GroupDto extends BaseDto {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("GroupDto{");
+        sb.append("\n\tid=").append(id);
         sb.append("\n\troute=").append(route);
         sb.append("\n\tguide=").append(guide);
         sb.append("\n\tstartingPosition=").append(startingPosition);

@@ -1,5 +1,6 @@
 package cz.kubaspatny.opendayapp.dto;
 
+import com.google.gson.annotations.Expose;
 import cz.kubaspatny.opendayapp.bo.LocationUpdate;
 import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
 import org.joda.time.DateTime;
@@ -32,7 +33,7 @@ public class LocationUpdateDto extends BaseDto {
     private DateTime timestamp;
     private LocationUpdate.Type type;
     private StationDto station;
-    private GroupDto group;
+    @Expose(serialize = false) private GroupDto group;
 
     public DateTime getTimestamp() {
         return timestamp;

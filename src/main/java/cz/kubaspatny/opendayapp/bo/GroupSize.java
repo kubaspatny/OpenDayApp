@@ -6,6 +6,7 @@ import org.joda.time.DateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import java.util.Comparator;
 
 /**
  * Author: Kuba Spatny
@@ -72,4 +73,11 @@ public class GroupSize extends AbstractBusinessObject {
         sb.append('}');
         return sb.toString();
     }
+
+    public static Comparator<GroupSize> GroupSizeTimeComparator = new Comparator<GroupSize>() {
+        public int compare(GroupSize groupSize1, GroupSize groupSize2) {
+            return groupSize1.getTimestamp().compareTo(groupSize2.getTimestamp());
+        }
+    };
+
 }

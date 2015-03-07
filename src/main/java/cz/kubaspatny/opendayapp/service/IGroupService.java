@@ -92,4 +92,7 @@ public interface IGroupService {
     @PostFilter("hasPermission(filterObject.id, filterObject.ACLObjectIdentityClass, 'READ')")
     public List<GroupDto> getGroups(String username, int page, int pageSize) throws DataAccessException;
 
+    @PreAuthorize("hasPermission(#routeId, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Route'), 'READ')")
+    public List<GroupDto> getGroupsWithCurrentLocation(Long routeId) throws DataAccessException;
+
 }

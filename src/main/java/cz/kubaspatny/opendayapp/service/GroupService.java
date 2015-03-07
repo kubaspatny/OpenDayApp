@@ -166,11 +166,34 @@ public class GroupService extends DataAccessService implements IGroupService {
         List<Group> groups = concreteDao.getGroups(username, page, pageSize);
         List<GroupDto> groupDtos = new ArrayList<GroupDto>();
 
+        List<String> ignore = DtoMapperUtil.getGroupIgnoredProperties();
+        ignore.add("guide");
+
         for(Group g : groups){
-            groupDtos.add(GroupDto.map(g, new GroupDto(), DtoMapperUtil.getGroupIgnoredProperties()));
+            groupDtos.add(GroupDto.map(g, new GroupDto(), ignore));
         }
 
         return groupDtos;
+
+    }
+
+    @Override
+    public List<GroupDto> getGroupsWithCurrentLocation(Long routeId) throws DataAccessException {
+
+        Route r = dao.getById(routeId, Route.class);
+
+        List<String> ignore = new ArrayList<String>();
+        ignore.add("route");
+        ignore.add("groupSizes");
+        ignore.add("locationUpdates");
+
+        List<GroupDto> groups = new ArrayList<GroupDto>();
+
+        for(Group g : r.getGroups()){
+            groups.add(GroupDto.map(g, new GroupDto(), ignore));
+        }
+
+        return groups;
 
     }
 }

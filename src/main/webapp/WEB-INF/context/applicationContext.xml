@@ -33,7 +33,9 @@
     <task:executor id="myExecutorService" pool-size="10" queue-capacity="100"></task:executor>
     <task:scheduler id="mySchedulerService" pool-size="10"></task:scheduler>
 
+     <!--LOCAL TESTING -->
     <context:property-placeholder location="classpath:credentials_localhost.properties" />
+    <!--<context:property-placeholder location="classpath:db.properties" />-->
 
     <!-- Connection pool -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
@@ -44,6 +46,19 @@
         <property name="initialSize" value="2" />
         <property name="minIdle" value="2" />
     </bean>
+     <!--LOCAL TESTING END -->
+
+    <!--&lt;!&ndash; OPEN SHIFT &ndash;&gt;-->
+    <!--<context:property-placeholder location="classpath:db.properties" />-->
+    <!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">-->
+        <!--<property name="driverClassName" value="org.postgresql.Driver"/>-->
+        <!--<property name="url" value="jdbc:postgresql://${OPENSHIFT_POSTGRESQL_DB_HOST}:${OPENSHIFT_POSTGRESQL_DB_PORT}/resttime"/>-->
+        <!--<property name="username" value="${OPENSHIFT_POSTGRESQL_DB_USERNAME}"/>-->
+        <!--<property name="password" value="${OPENSHIFT_POSTGRESQL_DB_PASSWORD}"/>-->
+        <!--<property name="initialSize" value="2" />-->
+        <!--<property name="minIdle" value="2" />-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; OPEN SHIFT END &ndash;&gt;-->
 
     <jdbc:initialize-database data-source="dataSource">
         <jdbc:script location="classpath*:initializeACLSchema.sql"/>

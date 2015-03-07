@@ -53,7 +53,6 @@ public class StationDto extends BaseDto {
         creationId = System.nanoTime();
     }
 
-
     public String getName() {
         return name;
     }

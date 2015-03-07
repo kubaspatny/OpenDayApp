@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import java.util.Comparator;
 
 /**
  * Author: Kuba Spatny
@@ -90,4 +91,11 @@ public class LocationUpdate extends AbstractBusinessObject {
         sb.append('}');
         return sb.toString();
     }
+
+    public static Comparator<LocationUpdate> LocationUpdateComparator = new Comparator<LocationUpdate>() {
+        public int compare(LocationUpdate locationUpdate1, LocationUpdate locationUpdate2) {
+            return locationUpdate1.getTimestamp().compareTo(locationUpdate2.getTimestamp());
+        }
+    };
+
 }

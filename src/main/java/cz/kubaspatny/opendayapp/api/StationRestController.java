@@ -1,14 +1,15 @@
-package cz.kubaspatny.opendayapp.dto;
+package cz.kubaspatny.opendayapp.api;
 
-import java.io.Serializable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Author: Kuba Spatny
  * Web: kubaspatny.cz
  * E-mail: kuba.spatny@gmail.com
- * Date: 19/11/2014
- * Time: 10:12
- * Copyright 2014 Jakub Spatny
+ * Date: 4/3/2015
+ * Time: 18:27
+ * Copyright 2015 Jakub Spatny
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,21 +23,7 @@ import java.io.Serializable;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public abstract class BaseDto {
-
-    public Long id;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * Returns a string representation of DTO's business object class which is used in ObjectIdentities in Spring Security ACL.
-     * @return
-     */
-    public abstract String getACLObjectIdentityClass();
+@RestController
+@RequestMapping("/v1/station")
+public class StationRestController extends ExceptionHandlingController {
 }

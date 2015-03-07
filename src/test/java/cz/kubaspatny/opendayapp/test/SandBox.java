@@ -1,11 +1,16 @@
 package cz.kubaspatny.opendayapp.test;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import cz.kubaspatny.opendayapp.api.json.DateTimeSerializer;
+import cz.kubaspatny.opendayapp.api.json.JsonWrapper;
 import cz.kubaspatny.opendayapp.bo.*;
 import cz.kubaspatny.opendayapp.dao.ConcreteDao;
 import cz.kubaspatny.opendayapp.dao.Dao;
 import cz.kubaspatny.opendayapp.dao.GenericDao;
-import cz.kubaspatny.opendayapp.dto.EventDto;
-import cz.kubaspatny.opendayapp.dto.UserDto;
+import cz.kubaspatny.opendayapp.dto.*;
+import cz.kubaspatny.opendayapp.service.IGroupService;
+import cz.kubaspatny.opendayapp.service.IStationService;
 import cz.kubaspatny.opendayapp.utils.EventDateComparator;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -44,6 +49,7 @@ public class SandBox extends AbstractTest {
 
     @Autowired private GenericDao dao;
     @Autowired private ConcreteDao dao2;
+    @Autowired private IGroupService groupService;
 
     private String username = "kuba.spatny@gmail.com";
     private String username2 = "guide@gmail.com";
@@ -132,19 +138,43 @@ public class SandBox extends AbstractTest {
     @Test
     public void testGet() throws Exception {
 
-        System.out.println("COUNT IS: " + dao2.countGroups("login4"));
+//        System.out.println("COUNT IS: " + dao2.countGroups("login4"));
+//
+//        List<Group> g = dao2.getGroups("login4");
+//        System.out.println("////////////////////////////////////////////////////");
+//        for(Group gr : g){
+//            System.out.println(gr.getId() + "\t" + gr.getGuide().getUsername() + "\t" + gr.getRoute().getDate().toString("dd-MM-yyyy HH:mm"));
+//        }
+//
+//        g = dao2.getGroups("login4", 3, 2);
+//        System.out.println("////////////////////////////////////////////////////");
+//        for(Group gr : g){
+//            System.out.println(gr.getId() + "\t" + gr.getGuide().getUsername() + "\t" + gr.getRoute().getDate().toString("dd-MM-yyyy HH:mm"));
+//        }
 
-        List<Group> g = dao2.getGroups("login4");
-        System.out.println("////////////////////////////////////////////////////");
-        for(Group gr : g){
-            System.out.println(gr.getId() + "\t" + gr.getGuide().getUsername() + "\t" + gr.getRoute().getDate().toString("dd-MM-yyyy HH:mm"));
-        }
+//        List<StationDto> stationDtos = stationService.getStations(251123l);
+//        System.out.println(stationDtos);
 
-        g = dao2.getGroups("login4", 3, 2);
-        System.out.println("////////////////////////////////////////////////////");
-        for(Group gr : g){
-            System.out.println(gr.getId() + "\t" + gr.getGuide().getUsername() + "\t" + gr.getRoute().getDate().toString("dd-MM-yyyy HH:mm"));
-        }
+//        LocationUpdateDto updateDto = new LocationUpdateDto();
+//        updateDto.setTimestamp(new DateTime());
+//        StationDto s = new StationDto();
+//        s.setId(268811l);
+//        updateDto.setStation(s);
+//        updateDto.setType(LocationUpdate.Type.CHECKIN);
+//        GroupDto g = new GroupDto();
+//        g.setId(268814l);
+//        updateDto.setGroup(g);
+//
+//        Gson gson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeSerializer()).create();
+//
+//        String json = gson.toJson(updateDto);
+//
+//        System.out.println(gson.toJson(new JsonWrapper(json)));
+//
+//        updateDto = gson.fromJson(json, LocationUpdateDto.class);
+//        System.out.println(updateDto);
+
+
 
 
     }

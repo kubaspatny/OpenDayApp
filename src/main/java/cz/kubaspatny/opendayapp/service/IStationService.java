@@ -6,6 +6,8 @@ import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 /**
  * Author: Kuba Spatny
@@ -54,5 +56,8 @@ public interface IStationService {
      */
     @PreAuthorize("hasPermission(#id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Station'), 'WRITE')")
     public void removeStation(Long id) throws DataAccessException;
+
+    @PreAuthorize("hasPermission(#routeId, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Route'), 'READ')")
+    public List<StationDto> getStations(Long routeId) throws DataAccessException;
 
 }

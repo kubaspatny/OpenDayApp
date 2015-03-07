@@ -1,14 +1,12 @@
-package cz.kubaspatny.opendayapp.dto;
-
-import java.io.Serializable;
+package cz.kubaspatny.opendayapp.api.json;
 
 /**
  * Author: Kuba Spatny
  * Web: kubaspatny.cz
  * E-mail: kuba.spatny@gmail.com
- * Date: 19/11/2014
- * Time: 10:12
- * Copyright 2014 Jakub Spatny
+ * Date: 4/3/2015
+ * Time: 20:09
+ * Copyright 2015 Jakub Spatny
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,21 +20,20 @@ import java.io.Serializable;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public abstract class BaseDto {
+public class JsonWrapper {
 
-    public Long id;
+    private String json;
 
-    public Long getId() {
-        return id;
+    public JsonWrapper(String json) {
+        this.json = json;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getJson() {
+        return json;
     }
 
-    /**
-     * Returns a string representation of DTO's business object class which is used in ObjectIdentities in Spring Security ACL.
-     * @return
-     */
-    public abstract String getACLObjectIdentityClass();
+    public void setJson(String json) {
+        this.json = json;
+    }
+
 }
