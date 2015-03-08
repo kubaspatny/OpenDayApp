@@ -33,7 +33,7 @@
     <task:executor id="myExecutorService" pool-size="10" queue-capacity="100"></task:executor>
     <task:scheduler id="mySchedulerService" pool-size="10"></task:scheduler>
 
-     <!--LOCAL TESTING -->
+    <!--LOCAL TESTING -->
     <context:property-placeholder location="classpath:credentials_localhost.properties" />
     <!--<context:property-placeholder location="classpath:db.properties" />-->
 
@@ -48,7 +48,7 @@
     </bean>
      <!--LOCAL TESTING END -->
 
-    <!--&lt;!&ndash; OPEN SHIFT &ndash;&gt;-->
+    <!-- OPEN SHIFT -->
     <!--<context:property-placeholder location="classpath:db.properties" />-->
     <!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">-->
         <!--<property name="driverClassName" value="org.postgresql.Driver"/>-->
@@ -58,7 +58,7 @@
         <!--<property name="initialSize" value="2" />-->
         <!--<property name="minIdle" value="2" />-->
     <!--</bean>-->
-    <!--&lt;!&ndash; OPEN SHIFT END &ndash;&gt;-->
+    <!-- OPEN SHIFT END -->
 
     <jdbc:initialize-database data-source="dataSource">
         <jdbc:script location="classpath*:initializeACLSchema.sql"/>
