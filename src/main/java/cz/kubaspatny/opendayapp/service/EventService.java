@@ -4,6 +4,7 @@ import cz.kubaspatny.opendayapp.bo.Event;
 import cz.kubaspatny.opendayapp.bo.User;
 import cz.kubaspatny.opendayapp.dto.EventDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
@@ -37,7 +38,6 @@ import java.nio.file.AccessDeniedException;
 
 @Component("eventService")
 public class EventService extends DataAccessService implements IEventService {
-
 
     @Override
     public EventDto getEvent(Long id) throws DataAccessException {

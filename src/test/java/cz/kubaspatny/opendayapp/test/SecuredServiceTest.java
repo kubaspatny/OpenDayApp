@@ -69,6 +69,7 @@ public class SecuredServiceTest extends AbstractSecuredTest {
     public void setUp() throws Exception {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new GrantedAuthorityImpl("ROLE_ORGANIZER"));
+        authorities.add(new GrantedAuthorityImpl("ROLE_USER"));
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("user", "user", authorities);
 
         SecurityContextHolder.getContext().setAuthentication(token);

@@ -9,6 +9,7 @@ import cz.kubaspatny.opendayapp.dao.ConcreteDao;
 import cz.kubaspatny.opendayapp.dao.Dao;
 import cz.kubaspatny.opendayapp.dao.GenericDao;
 import cz.kubaspatny.opendayapp.dto.*;
+import cz.kubaspatny.opendayapp.service.IGcmService;
 import cz.kubaspatny.opendayapp.service.IGroupService;
 import cz.kubaspatny.opendayapp.service.IStationService;
 import cz.kubaspatny.opendayapp.utils.EventDateComparator;

@@ -326,6 +326,13 @@
             <version>1.2.2</version>
         </dependency>
 
+        <!-- Google Cloud Messaging -->
+        <dependency>
+            <groupId>com.ganyo</groupId>
+            <artifactId>gcm-server</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
     </dependencies>
 
     <repositories>

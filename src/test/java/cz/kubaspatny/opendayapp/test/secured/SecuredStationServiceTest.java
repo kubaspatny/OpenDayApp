@@ -83,6 +83,7 @@ public class SecuredStationServiceTest extends AbstractSecuredTest {
 
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new GrantedAuthorityImpl("ROLE_ORGANIZER"));
+        authorities.add(new GrantedAuthorityImpl("ROLE_USER"));
         setUser(username, authorities);
 
         EventDto eventDto = new EventDto();

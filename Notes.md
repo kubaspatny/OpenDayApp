@@ -19,7 +19,7 @@ BUGS
 EMAILS
 ===
 
-- opendayapp@gmail.com, h=&estecA!uY+da2uGa2ephu*!8pejUx
+- opendayapp@gmail.com, h=&estecA!uY+da2uGa2ephu*!8pejUx     // BLOCKED
 - opendayapptest@gmail.com, h=&estecA!uY+da2uGa2ephu*!8pejUx
 - opendays.guide1@gmail.com
 - opendays.guide2@email.cz

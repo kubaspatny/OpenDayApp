@@ -25,13 +25,13 @@
     <!-- Annotation @Configurable -->
     <context:spring-configured></context:spring-configured>
 
-    <!-- async support -->
-    <task:annotation-driven executor="myExecutorService" scheduler="mySchedulerService"></task:annotation-driven>
-    <!--<task:executor eventId="myExecutorService" pool-size="5-10" queue-capacity="10"></task:executor>-->
-    <!--<task:scheduler eventId="mySchedulerService" pool-size="10"></task:scheduler>-->
+    <!--&lt;!&ndash; async support &ndash;&gt;-->
+    <!--<task:annotation-driven executor="myExecutorService" scheduler="mySchedulerService"></task:annotation-driven>-->
+    <!--&lt;!&ndash;<task:executor eventId="myExecutorService" pool-size="5-10" queue-capacity="10"></task:executor>&ndash;&gt;-->
+    <!--&lt;!&ndash;<task:scheduler eventId="mySchedulerService" pool-size="10"></task:scheduler>&ndash;&gt;-->
 
-    <task:executor id="myExecutorService" pool-size="10" queue-capacity="100"></task:executor>
-    <task:scheduler id="mySchedulerService" pool-size="10"></task:scheduler>
+    <!--<task:executor id="myExecutorService" pool-size="10" queue-capacity="100"></task:executor>-->
+    <!--<task:scheduler id="mySchedulerService" pool-size="10"></task:scheduler>-->
 
     <!--LOCAL TESTING -->
     <context:property-placeholder location="classpath:credentials_localhost.properties" />

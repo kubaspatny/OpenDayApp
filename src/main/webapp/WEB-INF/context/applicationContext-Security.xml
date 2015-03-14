@@ -45,16 +45,16 @@
                 authorized-grant-types="password,refresh_token"
                 authorities="ROLE_ANDROID"
                 scope="read, write"
-                access-token-validity="300"
-                refresh-token-validity="6000"
+                access-token-validity="150"
+                refresh-token-validity="300"
                 />
 
     </oauth:client-details-service>
 
-    <!--<beans:bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore"/>-->
-    <beans:bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.JdbcTokenStore">
-        <beans:constructor-arg ref="dataSource" />
-    </beans:bean>
+    <beans:bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore"/>
+    <!--<beans:bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.JdbcTokenStore">-->
+        <!--<beans:constructor-arg ref="dataSource" />-->
+    <!--</beans:bean>-->
 
     <oauth:authorization-server client-details-service-ref="client-details-service" token-services-ref="tokenServices">
         <oauth:authorization-code />
@@ -85,6 +85,7 @@
     <beans:bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
         <beans:property name="tokenStore" ref="tokenStore"/>
         <beans:property name="supportRefreshToken" value="true"/>
+        <beans:property name="reuseRefreshToken" value="false"/>
         <beans:property name="clientDetailsService" ref="client-details-service"/>
     </beans:bean>
 

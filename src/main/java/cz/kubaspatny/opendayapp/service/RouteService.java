@@ -5,6 +5,8 @@ import cz.kubaspatny.opendayapp.dto.RouteDto;
 import cz.kubaspatny.opendayapp.dto.StationDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
@@ -12,10 +14,7 @@ import org.springframework.security.acls.model.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Author: Kuba Spatny
@@ -41,6 +40,9 @@ import java.util.Map;
 @Component("routeService")
 public class RouteService extends DataAccessService implements IRouteService {
 
+    @Autowired
+    private IGcmService gcmService;
+
     @Override
     public RouteDto getRoute(Long id) throws DataAccessException {
 
@@ -62,6 +64,7 @@ public class RouteService extends DataAccessService implements IRouteService {
         if(name == null || name.isEmpty() || hexColor == null || hexColor.isEmpty() || routeStartingTimes == null || routeStartingTimes.size() == 0) throw new DataAccessException("Paramaters name, hexColor and routeStartingTimes cannot be null or empty!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
 
         List<Long> routeIds = new ArrayList<Long>(routeStartingTimes.size());
+        Set<String> guideUsernames = new HashSet<String>();//TODO
 
         Event e = dao.getById(eventId, Event.class);
 
@@ -114,6 +117,8 @@ public class RouteService extends DataAccessService implements IRouteService {
 
                     User guide = dao.getByPropertyUnique("email", entry.getValue(), User.class);
 
+                    guideUsernames.add(guide.getUsername()); // TODO
+
                     Group g = new Group();
                     g.setStartingPosition(entry.getKey());
                     g.setGuide(guide);
@@ -147,6 +152,16 @@ public class RouteService extends DataAccessService implements IRouteService {
             }
 
         }
+
+        //TODO
+        List<String> regIds = new ArrayList<String>();
+        for(String username : guideUsernames.toArray(new String[guideUsernames.size()])){
+            regIds.addAll(gcmService.getRegisteredDevices(username));
+        }
+
+        Map<String, String> data = new HashMap<String, String>();
+        data.put("message", "sync");
+        gcmService.sendNotification(data, regIds);
 
         return routeIds;
     }
