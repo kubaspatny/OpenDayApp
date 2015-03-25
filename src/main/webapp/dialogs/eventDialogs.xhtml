@@ -38,12 +38,12 @@
                     </h:panelGrid>
                     <p:commandButton id="submit" value="#{not empty eventBean.newPersonEmail and not eventBean.isRegistered(eventBean.newPersonEmail) ? 'Register and add user' : 'Add user'}" styleClass="margin-top-10" update="@form"
                                      action="#{eventBean.addNewPersonToEmailList}"
-                                     oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorCreatingEvent) PF('add-person-dlg').hide()">
+                                     oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorRegisteringUser) PF('add-person-dlg').hide()">
                         <f:param name="id" value="#{eventBean.eventId}" />
                     </p:commandButton>
 
-                    <h:panelGroup layout="block" styleClass="alert alert-danger margin-top-10" rendered="#{createEventBean.errorCreatingEvent}">
-                        <h:outputText value="ERROR CREATING EVENT"/>
+                    <h:panelGroup layout="block" styleClass="alert alert-danger margin-top-10" rendered="#{eventBean.errorRegisteringUser}">
+                        <h:outputText value="ERROR REGISTERING USER"/>
                     </h:panelGroup>
                 </h:form>
             </p:dialog>

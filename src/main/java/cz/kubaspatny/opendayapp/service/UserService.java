@@ -121,11 +121,16 @@ public class UserService extends DataAccessService implements IUserService {
         builder.addUserRole(User.UserRole.ROLE_STATIONMANAGER);
 
         Long id = dao.saveOrUpdate(builder.build()).getId();
-        emailService.sendCredentials(usernameCandidate, emailAddress, password);
 
         saveOrUpdateACL(new ObjectIdentityImpl(User.class, id), null, false);
         addPermission(new ObjectIdentityImpl(User.class, id), new PrincipalSid(usernameCandidate), BasePermission.READ);
         addPermission(new ObjectIdentityImpl(User.class, id), new PrincipalSid(usernameCandidate), BasePermission.WRITE);
+
+        try{
+            emailService.sendCredentials(usernameCandidate, emailAddress, password);
+        } catch (Exception e){
+            throw new RuntimeException(e.getLocalizedMessage());
+        }
 
         return id;
     }

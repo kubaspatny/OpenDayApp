@@ -1,20 +1,9 @@
 package cz.kubaspatny.opendayapp.api;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import cz.kubaspatny.opendayapp.api.json.DateTimeSerializer;
-import cz.kubaspatny.opendayapp.dto.LocationUpdateDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.service.IGcmService;
-import cz.kubaspatny.opendayapp.service.IGroupService;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Author: Kuba Spatny
@@ -46,7 +35,6 @@ public class GcmRestController extends ExceptionHandlingController {
     @RequestMapping(value = "/android-device", method = RequestMethod.POST)
      @ResponseBody
      public void registerDevice(@RequestBody String registrationId) throws DataAccessException {
-        System.out.println("Registration id: " + registrationId);
         gcmService.registerAndroidDevice(registrationId);
     }
 

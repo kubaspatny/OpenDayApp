@@ -16,7 +16,7 @@
          Use Spring dispatcher-servlet for the rest api package
          Look into the use of Spring MVC
     -->
-    <context:component-scan base-package="cz.kubaspatny.opendayapp" />
+    <!--<context:component-scan base-package="cz.kubaspatny.opendayapp" />-->
     <mvc:annotation-driven />
 
     <!-- async support -->

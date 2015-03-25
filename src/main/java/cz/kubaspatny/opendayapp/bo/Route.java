@@ -186,12 +186,6 @@ public class Route extends AbstractBusinessObject {
     @PreRemove
     private void preRemove(){
 
-        // remove Route from Event
-        if(getEvent() != null){
-            getEvent().removeRoute(this);
-            setEvent(null);
-        }
-
         // remove Route from users' managedRoutes
         if(stationManagers != null){
             for(User u : stationManagers){
@@ -212,7 +206,6 @@ public class Route extends AbstractBusinessObject {
                 g.setRoute(null);
             }
         }
-
 
     }
 }

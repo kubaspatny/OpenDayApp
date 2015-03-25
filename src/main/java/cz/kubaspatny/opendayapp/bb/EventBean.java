@@ -188,7 +188,7 @@ public class EventBean implements Serializable {
                 userService.createGeneratedUser(newPersonEmail);
             }
             eventService.addEmailToList(event.id, newPersonEmail);
-        } catch (DataAccessException e){
+        } catch (Exception e){
             RequestContext.getCurrentInstance().addCallbackParam("errorRegisteringUser", true);
             errorRegisteringUser = true;
             return "";

@@ -67,11 +67,13 @@ public class GcmService extends DataAccessService implements IGcmService {
 
         if(registrationId == null || registrationId.isEmpty() || username == null || username.isEmpty()) throw new DataAccessException("Illegal argument.", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
 
+        AndroidDevice device = null;
         if(dao.countByProperty("registrationId", registrationId, AndroidDevice.class) != 0){
-            dao.remove(dao.getByPropertyUnique("registrationId", registrationId, AndroidDevice.class));
+            device = dao.getByPropertyUnique("registrationId", registrationId, AndroidDevice.class);
+            device.setUsername(username);
         }
 
-        AndroidDevice device = new AndroidDevice(registrationId, username);
+        if(device == null) device = new AndroidDevice(registrationId, username);
         dao.saveOrUpdate(device);
 
     }
