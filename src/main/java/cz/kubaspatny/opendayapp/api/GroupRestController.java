@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import cz.kubaspatny.opendayapp.api.json.DateTimeSerializer;
 import cz.kubaspatny.opendayapp.api.json.JsonWrapper;
+import cz.kubaspatny.opendayapp.dto.GroupSizeDto;
+import cz.kubaspatny.opendayapp.dto.GroupStartingPosition;
 import cz.kubaspatny.opendayapp.dto.LocationUpdateDto;
 import cz.kubaspatny.opendayapp.dto.RouteDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
@@ -13,6 +15,8 @@ import cz.kubaspatny.opendayapp.service.IStationService;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.xml.crypto.Data;
 
 /**
  * Author: Kuba Spatny
@@ -48,6 +52,34 @@ public class GroupRestController extends ExceptionHandlingController {
         LocationUpdateDto updateDto = gson.fromJson(locationJson, LocationUpdateDto.class);
 
         return groupService.addLocationUpdate(updateDto).toString();
+
+    }
+
+    @RequestMapping(value = "/startingPosition", method = RequestMethod.POST)
+    @ResponseBody
+    public void setGroupStartingPosition(@RequestBody String startingPositionJson) throws DataAccessException {
+
+        Gson gson = new GsonBuilder().create();
+        GroupStartingPosition position = gson.fromJson(startingPositionJson, GroupStartingPosition.class);
+
+        if(position == null || position.getGroupId() == null || position.getGroupId().equals(new Long(0)) ||
+            position.getStartingPosition() == null) throw new DataAccessException("Wrong arguments!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
+
+        groupService.setGroupStartingPosition(position.getGroupId(), position.getStartingPosition());
+
+    }
+
+    @RequestMapping(value = "/groupSize", method = RequestMethod.POST)
+    @ResponseBody
+    public void addGroupSize(@RequestBody String groupSizeJson) throws DataAccessException {
+
+        Gson gson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeSerializer()).create();
+        GroupSizeDto size = gson.fromJson(groupSizeJson, GroupSizeDto.class);
+
+        if(size == null || size.getGroupId() == null || size.getGroupId().equals(new Long(0)) ||
+                size.getTimestamp() == null) throw new DataAccessException("Wrong arguments!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
+
+        groupService.addGroupSize(size.getGroupId(), size);
 
     }
 

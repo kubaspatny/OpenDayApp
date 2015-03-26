@@ -27,6 +27,7 @@ import java.util.List;
  */
 public class GroupSizeDto extends BaseDto {
 
+    private Long groupId;
     private DateTime timestamp;
     private int size;
 
@@ -46,6 +47,14 @@ public class GroupSizeDto extends BaseDto {
         this.size = size;
     }
 
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
+    }
+
     /**
      * Maps BO to DTO leaving variables specified in @ignoredProperties set to null.
      * @param source Object to be mapped to DTO
@@ -56,11 +65,19 @@ public class GroupSizeDto extends BaseDto {
     public static GroupSizeDto map(GroupSize source, GroupSizeDto target, List<String> ignoredProperties){
 
         target.id = source.getId();
+        target.groupId = source.getGroup().getId();
         target.timestamp = source.getTimestamp();
         target.size = source.getSize();
 
         return target;
     }
+
+    public static GroupSize map(GroupSizeDto source, GroupSize target, List<String> ignoredProperties){
+        target.setSize(source.getSize());
+        target.setTimestamp(source.getTimestamp());
+        return target;
+    }
+
 
     @Override
     public String getACLObjectIdentityClass() {

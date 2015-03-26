@@ -12,8 +12,10 @@ import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.security.acls.model.Sid;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -42,6 +44,9 @@ public class GroupService extends DataAccessService implements IGroupService {
 
     @Autowired
     IUserService userService;
+
+    @Autowired
+    private IGcmService gcmService;
 
     @Override
     public Long addGroup(Long routeId, Integer startingPosition, String email) throws DataAccessException {
@@ -117,6 +122,23 @@ public class GroupService extends DataAccessService implements IGroupService {
     }
 
     @Override
+    public void addGroupSize(Long groupID, GroupSizeDto size) throws DataAccessException {
+
+        Group g = dao.getById(groupID, Group.class);
+
+        if(g == null || size == null) throw new DataAccessException("Instance not found!", DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
+
+        GroupSize groupSize = GroupSizeDto.map(size, new GroupSize(), null);
+        int before = g.getGroupSizes().size();
+        g.addGroupSize(groupSize);
+        int after = g.getGroupSizes().size();
+        System.out.println(before + " -> " + after);
+
+        dao.saveOrUpdate(g);
+
+    }
+
+    @Override
     public void removeGroup(Long id) throws DataAccessException {
         Group g = dao.getById(id, Group.class);
 
@@ -139,7 +161,37 @@ public class GroupService extends DataAccessService implements IGroupService {
         Group g = dao.getById(locationUpdate.getGroup().getId(), Group.class);
         g.addLocationUpdate(update);
 
+        sendSyncNotification(g.getRoute());
+
         return dao.saveOrUpdate(update).getId();
+    }
+
+    private void sendSyncNotification(Route route){
+
+        try {
+            List<String> usernames = new ArrayList<String>();
+            List<String> regIds = new ArrayList<String>();
+
+            for(Group g : route.getGroups()){
+                usernames.add(g.getGuide().getUsername());
+            }
+
+            for(String u : usernames){
+                try {
+                    regIds.addAll(gcmService.getRegisteredDevices(u));
+                } catch (Exception e){
+                }
+            }
+
+            HashMap<String, String> data = new HashMap<String, String>();
+            data.put("message", "sync");
+            data.put("routeId", route.getId().toString());
+
+            gcmService.sendNotification(data, regIds);
+        } catch (Exception e){
+            System.out.println("Error sending notification:" + e.getLocalizedMessage());
+        }
+
     }
 
     @Override

@@ -66,6 +66,12 @@ public interface IGroupService {
     public void setGroupStartingPosition(Long groupID, Integer startingPosition) throws DataAccessException;
 
     /**
+     * Sets group's current size.
+     */
+    @PreAuthorize("hasPermission(#groupID, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Group'), 'WRITE') or hasPermission(#groupID, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Group'), 'ADMINISTRATION')")
+    public void addGroupSize(Long groupID, GroupSizeDto size) throws DataAccessException;
+
+    /**
      * Removes group with specified id.
      */
     @PreAuthorize("hasPermission(#id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Group'), 'WRITE')")
