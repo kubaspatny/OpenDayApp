@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -94,7 +95,7 @@ public class ConcreteDao {
         return getEntityManager().createQuery("SELECT e FROM Group e JOIN e.route r WHERE e.guide = :guide and r.date >= :date order by r.date")
                 .setParameter("guide", u)
                 .setParameter("date", new DateTime().withTime(0, 0, 0, 0))
-                .setFirstResult(page*pageSize)
+                .setFirstResult(page * pageSize)
                 .setMaxResults(pageSize)
                 .getResultList();
     }
@@ -140,8 +141,11 @@ public class ConcreteDao {
             throw new DataAccessException("Non-positive pageSize!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         }
 
+        List<Route> managedRoutes = u.getManagedRoutes();
+        if(managedRoutes == null || managedRoutes.isEmpty()) return new ArrayList<Route>();
+
         return getEntityManager().createQuery("SELECT e FROM Route e WHERE e in (:list) and e.date >= :date order by e.date")
-                .setParameter("list", u.getManagedRoutes())
+                .setParameter("list", managedRoutes)
                 .setParameter("date", new DateTime().withTime(0, 0, 0, 0))
                 .setFirstResult(page*pageSize)
                 .setMaxResults(pageSize)
@@ -151,6 +155,8 @@ public class ConcreteDao {
 
     public Long countUpcomingManagedRoutes(String username) throws DataAccessException {
         User u = dao.getByPropertyUnique("username", username, User.class);
+        List<Route> managedRoutes = u.getManagedRoutes();
+        if(managedRoutes == null || managedRoutes.isEmpty()) return 0l;
 
         Query q = getEntityManager().createQuery("SELECT count(distinct e) FROM Route e WHERE e in (:list) and e.date >= :date")
                 .setParameter("list", u.getManagedRoutes())
