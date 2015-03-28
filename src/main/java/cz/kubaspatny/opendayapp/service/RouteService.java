@@ -3,7 +3,9 @@ package cz.kubaspatny.opendayapp.service;
 import cz.kubaspatny.opendayapp.bo.*;
 import cz.kubaspatny.opendayapp.dto.RouteDto;
 import cz.kubaspatny.opendayapp.dto.StationDto;
+import cz.kubaspatny.opendayapp.dto.UserDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
+import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -42,6 +44,9 @@ public class RouteService extends DataAccessService implements IRouteService {
 
     @Autowired
     private IGcmService gcmService;
+
+    @Autowired
+    private IUserService userService;
 
     @Override
     public RouteDto getRoute(Long id) throws DataAccessException {
@@ -245,6 +250,28 @@ public class RouteService extends DataAccessService implements IRouteService {
 
         for(Route r : routes){
             routeDtos.add(RouteDto.map(r, new RouteDto(), null));
+        }
+
+        return routeDtos;
+
+    }
+
+    @Override
+    public Long countUpcomingManagedRoutes(String username) throws DataAccessException {
+        UserDto u = userService.getUser(username);
+        return concreteDao.countUpcomingManagedRoutes(username);
+    }
+
+    @Override
+    public List<RouteDto> getUpcomingManagedRoutes(String username, int page, int pageSize) throws DataAccessException {
+        UserDto u = userService.getUser(username);
+        List<Route> routes = concreteDao.getUpcomingManagedRoutes(username, page, pageSize);
+        List<RouteDto> routeDtos = new ArrayList<RouteDto>();
+
+        List<String> ignore = DtoMapperUtil.getRouteIgnoredProperties();
+
+        for(Route r : routes){
+            routeDtos.add(RouteDto.map(r, new RouteDto(), ignore));
         }
 
         return routeDtos;

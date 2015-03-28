@@ -209,13 +209,13 @@ public class GroupService extends DataAccessService implements IGroupService {
     @Override
     public Long getGroupCount(String username) throws DataAccessException {
         UserDto u = userService.getUser(username);
-        return concreteDao.countGroups(username);
+        return concreteDao.countUpcomingEventsGroups(username);
     }
 
     @Override
     public List<GroupDto> getGroups(String username, int page, int pageSize) throws DataAccessException {
         UserDto u = userService.getUser(username);
-        List<Group> groups = concreteDao.getGroups(username, page, pageSize);
+        List<Group> groups = concreteDao.getUpcomingEventsGroups(username, page, pageSize);
         List<GroupDto> groupDtos = new ArrayList<GroupDto>();
 
         List<String> ignore = DtoMapperUtil.getGroupIgnoredProperties();

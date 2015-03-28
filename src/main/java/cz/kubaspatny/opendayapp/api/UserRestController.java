@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import cz.kubaspatny.opendayapp.api.json.CustomExposeExclusionStrategy;
 import cz.kubaspatny.opendayapp.api.json.DateTimeSerializer;
 import cz.kubaspatny.opendayapp.dto.GroupDto;
+import cz.kubaspatny.opendayapp.dto.RouteDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.service.IGroupService;
 import cz.kubaspatny.opendayapp.service.IRouteService;
@@ -45,6 +46,7 @@ import java.util.List;
 public class UserRestController extends ExceptionHandlingController {
 
     @Autowired private IGroupService groupService;
+    @Autowired private IRouteService routeService;
 
     @RequestMapping(value = "/{username}/groups")
     @ResponseBody
@@ -65,6 +67,27 @@ public class UserRestController extends ExceptionHandlingController {
     public String getGroupCount(@PathVariable String username) throws DataAccessException {
         Gson gson = new Gson();
         return gson.toJson(groupService.getGroupCount(username));
+    }
+
+    @RequestMapping(value = "/{username}/managedroutes")
+    @ResponseBody
+    public String getManagedRoutes(@PathVariable String username, @RequestParam("page") int page, @RequestParam("pageSize") int pageSize) throws DataAccessException {
+
+        List<RouteDto> routes = routeService.getUpcomingManagedRoutes(username, page, pageSize);
+
+        Gson gson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeSerializer())
+                .addSerializationExclusionStrategy(new CustomExposeExclusionStrategy())
+                .create();
+
+        return gson.toJson(routes);
+
+    }
+
+    @RequestMapping(value = "/{username}/managedroutes/count")
+    @ResponseBody
+    public String getManagedRoutesCount(@PathVariable String username) throws DataAccessException {
+        Gson gson = new Gson();
+        return gson.toJson(routeService.countUpcomingManagedRoutes(username));
     }
 
 }

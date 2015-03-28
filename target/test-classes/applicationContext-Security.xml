@@ -85,7 +85,6 @@
     <beans:bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
         <beans:property name="tokenStore" ref="tokenStore"/>
         <beans:property name="supportRefreshToken" value="true"/>
-        <beans:property name="reuseRefreshToken" value="false"/>
         <beans:property name="clientDetailsService" ref="client-details-service"/>
     </beans:bean>
 

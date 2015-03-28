@@ -92,4 +92,11 @@ public interface IRouteService {
     @PostFilter("hasPermission(filterObject.id, filterObject.ACLObjectIdentityClass, 'READ')")
     public List<RouteDto> getRoutes(Long eventId) throws DataAccessException;
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public Long countUpcomingManagedRoutes(String username) throws DataAccessException;
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostFilter("hasPermission(filterObject.id, filterObject.ACLObjectIdentityClass, 'READ')")
+    public List<RouteDto> getUpcomingManagedRoutes(String username, int page, int pageSize) throws DataAccessException;
+
 }

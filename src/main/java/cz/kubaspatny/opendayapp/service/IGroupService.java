@@ -92,6 +92,7 @@ public interface IGroupService {
     /**
      * Returns a number of groups user with given username guides.
      */
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Long getGroupCount(String username) throws DataAccessException;
 
     @PreAuthorize("hasRole('ROLE_USER')")

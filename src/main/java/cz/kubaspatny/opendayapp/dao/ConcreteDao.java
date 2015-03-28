@@ -2,6 +2,7 @@ package cz.kubaspatny.opendayapp.dao;
 
 import cz.kubaspatny.opendayapp.bo.AbstractBusinessObject;
 import cz.kubaspatny.opendayapp.bo.Group;
+import cz.kubaspatny.opendayapp.bo.Route;
 import cz.kubaspatny.opendayapp.bo.User;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import org.joda.time.DateTime;
@@ -78,12 +79,24 @@ public class ConcreteDao {
 
     }
 
-    public List<Group> getUpcomingEventsGroups(String username) throws DataAccessException {
+    public List<Group> getUpcomingEventsGroups(String username, int page, int pageSize) throws DataAccessException {
 
         User u = dao.getByPropertyUnique("username", username, User.class);
 
+        if(page < 0){
+            throw new DataAccessException("Negative page number!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
+        }
+
+        if(pageSize <= 0) {
+            throw new DataAccessException("Non-positive pageSize!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
+        }
+
         return getEntityManager().createQuery("SELECT e FROM Group e JOIN e.route r WHERE e.guide = :guide and r.date >= :date order by r.date")
-                .setParameter("guide", u).setParameter("date", new DateTime().withTime(0,0,0,0)).getResultList();
+                .setParameter("guide", u)
+                .setParameter("date", new DateTime().withTime(0, 0, 0, 0))
+                .setFirstResult(page*pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
     }
 
     public Long countGroups(String username) throws DataAccessException {
@@ -104,7 +117,44 @@ public class ConcreteDao {
         User u = dao.getByPropertyUnique("username", username, User.class);
 
         Query q = getEntityManager().createQuery("SELECT count(distinct e) FROM Group e JOIN e.route r WHERE e.guide = :guide and r.date >= :date")
-                .setParameter("guide", u).setParameter("date", new DateTime().withTime(0,0,0,0));
+                .setParameter("guide", u)
+                .setParameter("date", new DateTime().withTime(0,0,0,0));
+
+        try {
+            return (Long) q.getSingleResult();
+        } catch (EmptyResultDataAccessException e){
+            return 0l;
+        }
+
+    }
+
+    public List<Route> getUpcomingManagedRoutes(String username, int page, int pageSize) throws DataAccessException {
+
+        User u = dao.getByPropertyUnique("username", username, User.class);
+
+        if(page < 0){
+            throw new DataAccessException("Negative page number!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
+        }
+
+        if(pageSize <= 0) {
+            throw new DataAccessException("Non-positive pageSize!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
+        }
+
+        return getEntityManager().createQuery("SELECT e FROM Route e WHERE e in (:list) and e.date >= :date order by e.date")
+                .setParameter("list", u.getManagedRoutes())
+                .setParameter("date", new DateTime().withTime(0, 0, 0, 0))
+                .setFirstResult(page*pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
+
+    }
+
+    public Long countUpcomingManagedRoutes(String username) throws DataAccessException {
+        User u = dao.getByPropertyUnique("username", username, User.class);
+
+        Query q = getEntityManager().createQuery("SELECT count(distinct e) FROM Route e WHERE e in (:list) and e.date >= :date")
+                .setParameter("list", u.getManagedRoutes())
+                .setParameter("date", new DateTime().withTime(0,0,0,0));
 
         try {
             return (Long) q.getSingleResult();
