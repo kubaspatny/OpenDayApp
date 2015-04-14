@@ -3,6 +3,8 @@ package cz.kubaspatny.opendayapp.bb;
 import cz.kubaspatny.opendayapp.bo.Event;
 import cz.kubaspatny.opendayapp.bo.User;
 import cz.kubaspatny.opendayapp.dto.EventDto;
+import cz.kubaspatny.opendayapp.dto.GroupDto;
+import cz.kubaspatny.opendayapp.dto.RouteDto;
 import cz.kubaspatny.opendayapp.dto.UserDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.service.IEventService;
@@ -17,6 +19,7 @@ import sun.util.calendar.CalendarUtils;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -74,6 +77,9 @@ public class IndexBB {
             return;
         }
 
+        Collections.sort(userDto.getEvents(), EventDto.EventDateComparator);
+        Collections.sort(userDto.getGroups(), GroupDto.GroupDateComparator);
+        Collections.sort(userDto.getManagedRoutes(), RouteDto.RouteDateComparator);
         events = userDto.getEvents();
 
     }

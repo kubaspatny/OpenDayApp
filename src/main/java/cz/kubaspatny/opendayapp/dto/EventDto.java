@@ -173,4 +173,10 @@ public class EventDto extends BaseDto {
         return Event.class.getName();
     }
 
+    public static Comparator<EventDto> EventDateComparator = new Comparator<EventDto>() {
+        public int compare(EventDto event1, EventDto event2) {
+            return event1.getDate().compareTo(event2.getDate());
+        }
+    };
+
 }

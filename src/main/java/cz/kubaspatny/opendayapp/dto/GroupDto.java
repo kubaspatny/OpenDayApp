@@ -187,4 +187,10 @@ public class GroupDto extends BaseDto {
         }
     };
 
+    public static Comparator<GroupDto> GroupDateComparator = new Comparator<GroupDto>() {
+        public int compare(GroupDto group1, GroupDto group2) {
+            return RouteDto.RouteDateComparator.compare(group1.getRoute(), group2.getRoute());
+        }
+    };
+
 }
