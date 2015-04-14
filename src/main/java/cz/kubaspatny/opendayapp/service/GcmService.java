@@ -39,6 +39,21 @@ import java.util.*;
 @Service
 public class GcmService extends DataAccessService implements IGcmService {
 
+    public final static int TYPE_SYNC_ALL = 1;
+    public final static int TYPE_SYNC_ROUTE = 2;
+    public final static int TYPE_MESSAGE = 3;
+    public final static int TYPE_LOCATION_UPDATE = 4;
+
+    public final static String EXTRA_ROUTE_ID = "routeId";
+    public final static String EXTRA_GROUP_BEFORE = "groupBefore";
+    public final static String EXTRA_GROUP_AFTER = "groupAfter";
+    public final static String EXTRA_STATION_ID = "stationId";
+    public final static String EXTRA_UPDATE_TYPE = "updateType";
+    public final static String EXTRA_MESSAGE = "message";
+    public final static String EXTRA_NOTIFICATION_TYPE = "notificationType";
+
+
+
     @Value("${gcm.API_KEY}") private String API_KEY;
 
     @Async

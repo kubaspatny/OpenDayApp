@@ -162,8 +162,77 @@ public class GroupService extends DataAccessService implements IGroupService {
         g.addLocationUpdate(update);
 
         sendSyncNotification(g.getRoute());
+        sendCloseGroupNotification(g.getRoute(), g.getStartingPosition(), s.getId(), update.getType());
 
         return dao.saveOrUpdate(update).getId();
+    }
+
+    private static int getAfterIndex(int current, int total){
+        return (current + 1) % total;
+    }
+
+    private static int getBeforeIndex(int current, int total){
+        int result = (current - 1) % total;
+        if(result <= 0) result += total;
+        return result;
+    }
+
+    private void sendCloseGroupNotification(Route route, int groupStartingPosition, Long stationId, LocationUpdate.Type updateType){
+        try {
+
+            System.out.println("sendCloseGroupNotification");
+
+            String groupBefore = null;
+            List<String> groupBeforeIds = null;
+            int groupBeforeIndex = getBeforeIndex(groupStartingPosition, route.getStations().size());
+
+            String groupAfter = null;
+            List<String> groupAfterIds = null;
+            int groupAfterIndex = getAfterIndex(groupStartingPosition, route.getStations().size());
+
+
+            for(Group g : route.getGroups()){
+                if(groupStartingPosition != groupBeforeIndex && g.getStartingPosition().equals(groupBeforeIndex)){
+                    groupBefore = g.getGuide().getUsername();
+                } else if(groupStartingPosition != groupAfterIndex && g.getStartingPosition().equals(groupAfterIndex)){
+                    groupAfter = g.getGuide().getUsername();
+                }
+            }
+
+            if(groupBefore != null){
+                System.out.println("groupBefore is not null");
+                groupBeforeIds = gcmService.getRegisteredDevices(groupBefore);
+
+                HashMap<String, String> data = new HashMap<String, String>();
+                data.put(GcmService.EXTRA_NOTIFICATION_TYPE, GcmService.TYPE_LOCATION_UPDATE + "");
+                data.put(GcmService.EXTRA_ROUTE_ID, route.getId().toString());
+                data.put(GcmService.EXTRA_STATION_ID, stationId.toString());
+                data.put(GcmService.EXTRA_UPDATE_TYPE, updateType.toString());
+                // From the recipient's point of view, the group after
+                // has sent a new location update
+                data.put(GcmService.EXTRA_GROUP_AFTER, "true");
+                gcmService.sendNotification(data, groupBeforeIds);
+            }
+
+            if(groupAfter != null){
+                System.out.println("groupAfter is not null");
+                groupAfterIds = gcmService.getRegisteredDevices(groupBefore);
+
+                HashMap<String, String> data = new HashMap<String, String>();
+                data.put(GcmService.EXTRA_NOTIFICATION_TYPE, GcmService.TYPE_LOCATION_UPDATE + "");
+                data.put(GcmService.EXTRA_ROUTE_ID, route.getId().toString());
+                data.put(GcmService.EXTRA_STATION_ID, stationId.toString());
+                data.put(GcmService.EXTRA_UPDATE_TYPE, updateType.toString());
+                // From the recipient's point of view, the group after
+                // has sent a new location updateauth
+                data.put(GcmService.EXTRA_GROUP_BEFORE, "true");
+                gcmService.sendNotification(data, groupAfterIds);
+            }
+
+        } catch (Exception e){
+            System.out.println("Error sending notification:" + e.getLocalizedMessage());
+        }
+
     }
 
     private void sendSyncNotification(Route route){
@@ -184,8 +253,8 @@ public class GroupService extends DataAccessService implements IGroupService {
             }
 
             HashMap<String, String> data = new HashMap<String, String>();
-            data.put("message", "sync");
-            data.put("routeId", route.getId().toString());
+            data.put(GcmService.EXTRA_NOTIFICATION_TYPE, GcmService.TYPE_SYNC_ROUTE + "");
+            data.put(GcmService.EXTRA_ROUTE_ID, route.getId().toString());
 
             gcmService.sendNotification(data, regIds);
         } catch (Exception e){

@@ -148,6 +148,8 @@ public class RouteService extends DataAccessService implements IRouteService {
                     User stationManager = dao.getByPropertyUnique("email", email, User.class);
                     r.addStationManager(stationManager);
 
+                    guideUsernames.add(stationManager.getUsername()); // TODO
+
                     Sid sid = new PrincipalSid(stationManager.getUsername());
                     addPermission(new ObjectIdentityImpl(Route.class, r.getId()), sid, BasePermission.READ);    // Route                                // Route
                     addPermission(new ObjectIdentityImpl(Event.class, eventId), sid, BasePermission.READ);      // Event
@@ -165,7 +167,8 @@ public class RouteService extends DataAccessService implements IRouteService {
         }
 
         Map<String, String> data = new HashMap<String, String>();
-        data.put("message", "sync");
+        data.put(GcmService.EXTRA_NOTIFICATION_TYPE, GcmService.TYPE_SYNC_ALL + "");
+        data.put(GcmService.EXTRA_MESSAGE, "New route: " + name);
         gcmService.sendNotification(data, regIds);
 
         return routeIds;
