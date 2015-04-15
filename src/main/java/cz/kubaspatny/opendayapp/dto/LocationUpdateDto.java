@@ -115,4 +115,26 @@ public class LocationUpdateDto extends BaseDto {
         sb.append('}');
         return sb.toString();
     }
+
+    public String getElapsedDuration(){
+        DateTime now = DateTime.now();
+        long difSec = (now.getMillis() - timestamp.getMillis()) / 1000;
+
+        long hours = (difSec / 3600);
+        long minutes = (difSec % 3600) / 60;
+        long seconds = difSec % 60;
+
+
+        return formatTime(hours, minutes, seconds);
+    }
+
+    private static String formatTime(long hours, long minutes, long seconds){
+
+        if(hours >= 24) return "> 24 hrs";
+
+        DateTime time = new DateTime().withTime((int)hours, (int)minutes, (int)seconds, 0);
+        return time.toString("HH:mm:ss");
+
+    }
+
 }

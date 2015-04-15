@@ -43,6 +43,8 @@ public class GroupDto extends BaseDto {
     private List<GroupSizeDto> groupSizes;
     private List<LocationUpdateDto> locationUpdates;
 
+    private Integer lastStation;
+
     private boolean active;
 
     public RouteDto getRoute() {
@@ -95,6 +97,26 @@ public class GroupDto extends BaseDto {
 
     public boolean isActive() {
         return active;
+    }
+
+    public Integer getLastStation() {
+        return lastStation;
+    }
+
+    public void setLastStation(Integer lastStation) {
+        this.lastStation = lastStation;
+    }
+
+    public void computeLastStation(int numberStations){
+        int n = startingPosition - 1;
+        if(n <= 0) n = n + numberStations;
+        setLastStation(n);
+    }
+
+    public boolean isAfterLast(int currentStation){
+        return getLastStation().equals(currentStation)
+                && (getLatestLocationUpdate() != null)
+                && (getLatestLocationUpdate().getType() == LocationUpdate.Type.SKIP || getLatestLocationUpdate().getType() == LocationUpdate.Type.CHECKOUT);
     }
 
     /**

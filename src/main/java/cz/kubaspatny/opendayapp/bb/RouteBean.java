@@ -3,6 +3,8 @@ package cz.kubaspatny.opendayapp.bb;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import cz.kubaspatny.opendayapp.bb.valueobject.CreateRouteValueObject;
 import cz.kubaspatny.opendayapp.bb.valueobject.EditRouteHolder;
+import cz.kubaspatny.opendayapp.bo.Group;
+import cz.kubaspatny.opendayapp.bo.LocationUpdate;
 import cz.kubaspatny.opendayapp.dto.*;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.service.*;
@@ -58,6 +60,8 @@ public class RouteBean implements Serializable {
     private String mode;
     private EventDto event;
     private RouteDto route;
+
+    private List<StationWrapper> liveStations;
 
     private CreateRouteValueObject cvo;
     private EditRouteHolder editRouteHolder;
@@ -141,6 +145,97 @@ public class RouteBean implements Serializable {
 
     }
 
+    private HashMap<Long, List<GroupDto>> processGroups(List<GroupDto> groups){
+
+        HashMap<Long, List<GroupDto>> groupMap = new HashMap<Long, List<GroupDto>>();
+
+        for(GroupDto g : groups){
+
+            if(g.getLatestLocationUpdate() == null){ // Group hasn't sent any location updates yet..
+                continue;
+            }
+
+            Long stationId = g.getLatestLocationUpdate().getStation().getId();
+
+            if(groupMap.containsKey(stationId)){
+                groupMap.get(stationId).add(g);
+            } else {
+                List<GroupDto> groupsAtStation = new ArrayList<GroupDto>();
+                groupsAtStation.add(g);
+                groupMap.put(stationId, groupsAtStation);
+            }
+
+        }
+
+        return groupMap;
+    }
+
+    public void refreshRoute() throws IOException {
+
+        try {
+            if(mode != null && mode.equals("view") && route != null){
+                route = routeService.getRoute(route.getId());
+                route.setGroups(groupService.getGroupsWithCurrentLocation(route.getId()));
+                Collections.sort(route.getStations(), StationDto.StationSequencePosistionComparator);
+                Collections.sort(route.getGroups(), GroupDto.GroupStartingPosistionComparator);
+
+                HashMap<Long, List<GroupDto>> groups = processGroups(route.getGroups());
+
+                List<StationWrapper> stationWrappers = new ArrayList<StationWrapper>();
+
+                StationWrapper stationWrapper;
+                for(StationDto s : route.getStations()){
+
+                    stationWrapper = new StationWrapper();
+                    stationWrapper.station = s;
+
+                    List<GroupDto> groupsAtStation;
+                    List<GroupDto> groupsAfterStation;
+
+                    if(groups.containsKey(s.getId())){
+
+                        groupsAtStation = new ArrayList<GroupDto>();
+                        groupsAfterStation = new ArrayList<GroupDto>();
+
+                        Iterator<GroupDto> groupIterator = groups.get(s.getId()).iterator();
+                        while(groupIterator.hasNext()){
+                            GroupDto g = groupIterator.next();
+                            g.computeLastStation(route.getStations().size());
+                            if(!g.isAfterLast(s.getSequencePosition())){
+                                if(g.getLatestLocationUpdate().getType() == LocationUpdate.Type.CHECKIN){
+                                    groupsAtStation.add(g);
+                                } else {
+                                    groupsAfterStation.add(g);
+                                }
+                            }
+                        }
+                        stationWrapper.groupsAtStation = groupsAtStation;
+                        stationWrapper.groupsAfterStation = groupsAfterStation;
+                    } else {
+                        stationWrapper.groupsAtStation = Collections.emptyList();
+                        stationWrapper.groupsAfterStation = Collections.emptyList();
+                    }
+
+                    stationWrappers.add(stationWrapper);
+
+                }
+
+                liveStations = stationWrappers;
+
+            }
+        } catch (NumberFormatException e){
+            redirectToError(404, "Number format exception!");
+            return;
+        } catch (DataAccessException e){
+            redirectToError(404, "Route not found!");
+            return;
+        } catch (AccessDeniedException e){
+            redirectToError(401, "Access to route denied!");
+            return;
+        }
+
+    }
+
     private void redirectToError(int code, String message) throws IOException {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         facesContext.getExternalContext().responseSendError(code, message);
@@ -197,6 +292,14 @@ public class RouteBean implements Serializable {
 
     public void setRoute(RouteDto route) {
         this.route = route;
+    }
+
+    public List<StationWrapper> getLiveStations() {
+        return liveStations;
+    }
+
+    public void setLiveStations(List<StationWrapper> liveStations) {
+        this.liveStations = liveStations;
     }
 
     public String addNewTime(){
