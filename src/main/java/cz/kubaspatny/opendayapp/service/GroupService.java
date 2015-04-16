@@ -317,6 +317,19 @@ public class GroupService extends DataAccessService implements IGroupService {
         return groups;
 
     }
+
+    @Override
+    public void updateLastUpdated(String username) throws DataAccessException {
+        long count = getGroupCount(username);
+        List<GroupDto> groups = getGroups(username, 0, (int) count);
+        DateTime now = DateTime.now();
+
+        if(groups != null && !groups.isEmpty()){
+            for(GroupDto g : groups){
+                setLastUpdated(g.getId(), now);
+            }
+        }
+    }
 }
 
 

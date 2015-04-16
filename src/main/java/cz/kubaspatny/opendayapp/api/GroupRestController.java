@@ -14,6 +14,8 @@ import cz.kubaspatny.opendayapp.service.IRouteService;
 import cz.kubaspatny.opendayapp.service.IStationService;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.crypto.Data;
@@ -47,17 +49,20 @@ public class GroupRestController extends ExceptionHandlingController {
     @RequestMapping(value = "/locationUpdate", method = RequestMethod.POST)
     @ResponseBody
     public String getRoute(@RequestBody String locationJson) throws DataAccessException {
+        Authentication a = SecurityContextHolder.getContext().getAuthentication();
+        groupService.updateLastUpdated(a.getName());
 
         Gson gson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeSerializer()).create();
         LocationUpdateDto updateDto = gson.fromJson(locationJson, LocationUpdateDto.class);
 
         return groupService.addLocationUpdate(updateDto).toString();
-
     }
 
     @RequestMapping(value = "/startingPosition", method = RequestMethod.POST)
     @ResponseBody
     public void setGroupStartingPosition(@RequestBody String startingPositionJson) throws DataAccessException {
+        Authentication a = SecurityContextHolder.getContext().getAuthentication();
+        groupService.updateLastUpdated(a.getName());
 
         Gson gson = new GsonBuilder().create();
         GroupStartingPosition position = gson.fromJson(startingPositionJson, GroupStartingPosition.class);
@@ -66,12 +71,13 @@ public class GroupRestController extends ExceptionHandlingController {
             position.getStartingPosition() == null) throw new DataAccessException("Wrong arguments!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
 
         groupService.setGroupStartingPosition(position.getGroupId(), position.getStartingPosition());
-
     }
 
     @RequestMapping(value = "/groupSize", method = RequestMethod.POST)
     @ResponseBody
     public void addGroupSize(@RequestBody String groupSizeJson) throws DataAccessException {
+        Authentication a = SecurityContextHolder.getContext().getAuthentication();
+        groupService.updateLastUpdated(a.getName());
 
         Gson gson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeSerializer()).create();
         GroupSizeDto size = gson.fromJson(groupSizeJson, GroupSizeDto.class);
@@ -80,7 +86,6 @@ public class GroupRestController extends ExceptionHandlingController {
                 size.getTimestamp() == null) throw new DataAccessException("Wrong arguments!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
 
         groupService.addGroupSize(size.getGroupId(), size);
-
     }
 
 }

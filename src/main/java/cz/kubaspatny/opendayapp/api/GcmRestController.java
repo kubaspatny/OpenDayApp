@@ -33,8 +33,8 @@ public class GcmRestController extends ExceptionHandlingController {
     IGcmService gcmService;
 
     @RequestMapping(value = "/android-device", method = RequestMethod.POST)
-     @ResponseBody
-     public void registerDevice(@RequestBody String registrationId) throws DataAccessException {
+    @ResponseBody
+    public void registerDevice(@RequestBody String registrationId) throws DataAccessException {
         gcmService.registerAndroidDevice(registrationId);
     }
 

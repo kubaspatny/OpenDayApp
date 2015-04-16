@@ -13,6 +13,8 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,9 +53,10 @@ public class UserRestController extends ExceptionHandlingController {
     @RequestMapping(value = "/{username}/groups")
     @ResponseBody
     public String getGroups(@PathVariable String username, @RequestParam("page") int page, @RequestParam("pageSize") int pageSize) throws DataAccessException {
+        Authentication a = SecurityContextHolder.getContext().getAuthentication();
+        groupService.updateLastUpdated(a.getName());
 
         List<GroupDto> groups = groupService.getGroups(username, page, pageSize);
-
         Gson gson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeSerializer())
                 .addSerializationExclusionStrategy(new CustomExposeExclusionStrategy())
                 .create();
@@ -65,6 +68,9 @@ public class UserRestController extends ExceptionHandlingController {
     @RequestMapping(value = "/{username}/groups/count")
     @ResponseBody
     public String getGroupCount(@PathVariable String username) throws DataAccessException {
+        Authentication a = SecurityContextHolder.getContext().getAuthentication();
+        groupService.updateLastUpdated(a.getName());
+
         Gson gson = new Gson();
         return gson.toJson(groupService.getGroupCount(username));
     }
@@ -72,9 +78,10 @@ public class UserRestController extends ExceptionHandlingController {
     @RequestMapping(value = "/{username}/managedroutes")
     @ResponseBody
     public String getManagedRoutes(@PathVariable String username, @RequestParam("page") int page, @RequestParam("pageSize") int pageSize) throws DataAccessException {
+        Authentication a = SecurityContextHolder.getContext().getAuthentication();
+        groupService.updateLastUpdated(a.getName());
 
         List<RouteDto> routes = routeService.getUpcomingManagedRoutes(username, page, pageSize);
-
         Gson gson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeSerializer())
                 .addSerializationExclusionStrategy(new CustomExposeExclusionStrategy())
                 .create();
@@ -86,6 +93,9 @@ public class UserRestController extends ExceptionHandlingController {
     @RequestMapping(value = "/{username}/managedroutes/count")
     @ResponseBody
     public String getManagedRoutesCount(@PathVariable String username) throws DataAccessException {
+        Authentication a = SecurityContextHolder.getContext().getAuthentication();
+        groupService.updateLastUpdated(a.getName());
+
         Gson gson = new Gson();
         return gson.toJson(routeService.countUpcomingManagedRoutes(username));
     }

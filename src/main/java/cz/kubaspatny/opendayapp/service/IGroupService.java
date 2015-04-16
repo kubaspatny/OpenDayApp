@@ -102,4 +102,7 @@ public interface IGroupService {
     @PreAuthorize("hasPermission(#routeId, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Route'), 'READ')")
     public List<GroupDto> getGroupsWithCurrentLocation(Long routeId) throws DataAccessException;
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public void updateLastUpdated(String username) throws DataAccessException;
+
 }

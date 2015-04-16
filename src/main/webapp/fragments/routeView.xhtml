@@ -247,7 +247,8 @@
 
                                                 <ui:repeat value="#{wrapper.groupsAtStation}" var="group" rendered="#{not empty wrapper.groupsAtStation}">
                                                     <h:panelGroup layout="block">
-                                                        <h:graphicImage value="#{resource['images/ic_account_box_blue_18dp.png']}" styleClass="icon-text margin-left-10"/>
+                                                        <h:graphicImage value="#{resource['images/ic_account_box_blue_18dp.png']}" styleClass="icon-text margin-left-10" rendered="#{group.active}"/>
+                                                        <h:graphicImage value="#{resource['images/ic_account_box_grey600_18dp.png']}" styleClass="icon-text margin-left-10" rendered="#{not group.active}"/>
                                                         <h:outputText value="#{group.guide.username}" styleClass="padding-left-10"/>
                                                     </h:panelGroup>
 
@@ -265,7 +266,8 @@
                                                     <ui:repeat value="#{wrapper.groupsAfterStation}" var="group" rendered="#{not empty wrapper.groupsAfterStation}">
                                                         <h:panelGroup layout="block" styleClass="max-width margin-top-10">
                                                             <h:panelGroup layout="block">
-                                                                <h:graphicImage value="#{resource['images/ic_account_box_blue_18dp.png']}" styleClass="icon-text"/>
+                                                                <h:graphicImage value="#{resource['images/ic_account_box_blue_18dp.png']}" styleClass="icon-text" rendered="#{group.active}"/>
+                                                                <h:graphicImage value="#{resource['images/ic_account_box_grey600_18dp.png']}" styleClass="icon-text" rendered="#{not group.active}"/>
                                                                 <h:outputText value="#{group.guide.username}" styleClass="padding-left-10"/>
                                                             </h:panelGroup>
 

@@ -13,6 +13,8 @@ import cz.kubaspatny.opendayapp.service.IRouteService;
 import cz.kubaspatny.opendayapp.service.IStationService;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,40 +50,40 @@ public class RouteRestController extends ExceptionHandlingController {
     @RequestMapping(value = "/{routeId}")
     @ResponseBody
     public String getRoute(@PathVariable Long routeId) throws DataAccessException {
+        Authentication a = SecurityContextHolder.getContext().getAuthentication();
+        groupService.updateLastUpdated(a.getName());
 
         RouteDto routeDto = routeService.getRoute(routeId);
-
         Gson gson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeSerializer())
                 .create();
 
         return gson.toJson(routeDto);
-
     }
 
     @RequestMapping(value = "/{routeId}/stations")
     @ResponseBody
     public String getStations(@PathVariable Long routeId) throws DataAccessException {
+        Authentication a = SecurityContextHolder.getContext().getAuthentication();
+        groupService.updateLastUpdated(a.getName());
 
         List<StationDto> stationDtos = stationService.getStations(routeId);
-
         Gson gson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeSerializer())
                 .create();
 
         return gson.toJson(stationDtos);
-
     }
 
     @RequestMapping(value = "/{routeId}/groups")
     @ResponseBody
     public String getGroups(@PathVariable Long routeId) throws DataAccessException {
+        Authentication a = SecurityContextHolder.getContext().getAuthentication();
+        groupService.updateLastUpdated(a.getName());
 
         List<GroupDto> groups = groupService.getGroupsWithCurrentLocation(routeId);
-
         Gson gson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeSerializer())
                 .create();
 
         return gson.toJson(groups);
-
     }
 
 }
