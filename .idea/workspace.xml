@@ -7,14 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0980f5f7-92ed-4fde-8869-3c37b7ebaab1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cz/kubaspatny/opendayapp/dto/EventDto.class" afterPath="$PROJECT_DIR$/target/classes/cz/kubaspatny/opendayapp/dto/EventDto.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/EventBean.java" afterPath="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/EventBean.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/EventDto.java" afterPath="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/EventDto.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/RouteBean.java" afterPath="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/RouteBean.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/RouteDto.java" afterPath="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/RouteDto.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/dialogs/eventDialogs.xhtml" afterPath="$PROJECT_DIR$/src/main/webapp/dialogs/eventDialogs.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/fragments/eventView.xhtml" afterPath="$PROJECT_DIR$/src/main/webapp/fragments/eventView.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/dialogs/routeDialogs.xhtml" afterPath="$PROJECT_DIR$/src/main/webapp/dialogs/routeDialogs.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/fragments/routeView.xhtml" afterPath="$PROJECT_DIR$/src/main/webapp/fragments/routeView.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -120,9 +113,24 @@
       <file leaf-file-name="routeView.xhtml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/fragments/routeView.xhtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.659091" vertical-offset="3955" max-vertical-offset="5593">
-              <caret line="119" column="108" selection-start-line="119" selection-start-column="107" selection-end-line="119" selection-end-column="107" />
+            <state vertical-scroll-proportion="0.4848485" vertical-offset="3790" max-vertical-offset="5576">
+              <caret line="238" column="43" selection-start-line="238" selection-start-column="38" selection-end-line="238" selection-end-column="43" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RouteDto.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/RouteDto.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2515" max-vertical-offset="3179">
+              <caret line="222" column="85" selection-start-line="222" selection-start-column="85" selection-end-line="222" selection-end-column="85" />
+              <folding>
+                <element signature="e#6570#6571#0" expanded="true" />
+                <element signature="e#6615#6616#0" expanded="true" />
+                <element signature="e#6646#6647#0" expanded="true" />
+                <element signature="e#6738#6739#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -210,9 +218,9 @@
         <option value="$PROJECT_DIR$/src/main/webapp/dialogs/eventDialogs.xhtml" />
         <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/EventBean.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/fragments/eventView.xhtml" />
-        <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/RouteDto.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/dialogs/routeDialogs.xhtml" />
         <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/bb/RouteBean.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/RouteDto.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/fragments/routeView.xhtml" />
       </list>
     </option>
@@ -1375,12 +1383,12 @@
       <workItem from="1428439175157" duration="2038000" />
       <workItem from="1429040843585" duration="30882000" />
       <workItem from="1429293501777" duration="4353000" />
-      <workItem from="1429356310274" duration="11209000" />
+      <workItem from="1429356310274" duration="12695000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="987122000" />
+    <option name="totallyTimeSpent" value="988608000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1881,19 +1889,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/RouteDto.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7147651" vertical-offset="2549" max-vertical-offset="3145">
-          <caret line="218" column="38" selection-start-line="218" selection-start-column="38" selection-end-line="218" selection-end-column="38" />
-          <folding>
-            <element signature="e#6364#6536#0" expanded="true" />
-            <element signature="e#6535#6536#0" expanded="true" />
-            <element signature="e#6570#6571#0" expanded="true" />
-            <element signature="e#6615#6616#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/route.xhtml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-16.0" vertical-offset="94" max-vertical-offset="748">
@@ -1964,10 +1959,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cz/kubaspatny/opendayapp/dto/RouteDto.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2515" max-vertical-offset="3179">
+          <caret line="222" column="85" selection-start-line="222" selection-start-column="85" selection-end-line="222" selection-end-column="85" />
+          <folding>
+            <element signature="e#6570#6571#0" expanded="true" />
+            <element signature="e#6615#6616#0" expanded="true" />
+            <element signature="e#6646#6647#0" expanded="true" />
+            <element signature="e#6738#6739#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/fragments/routeView.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.659091" vertical-offset="3955" max-vertical-offset="5593">
-          <caret line="119" column="108" selection-start-line="119" selection-start-column="107" selection-end-line="119" selection-end-column="107" />
+        <state vertical-scroll-proportion="0.4848485" vertical-offset="3790" max-vertical-offset="5576">
+          <caret line="238" column="43" selection-start-line="238" selection-start-column="38" selection-end-line="238" selection-end-column="43" />
           <folding />
         </state>
       </provider>
