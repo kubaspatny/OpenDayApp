@@ -70,7 +70,7 @@
                                                                action="#{routeBean.setUpStationReorderMap}"
                                                                update=":view-reorder-station-dlg"
                                                                oncomplete="PF('view-reorder-station-dlg').show();"
-                                                               rendered="#{routeBean.route.stations.size() gt 1} AND #{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE')}">
+                                                               rendered="#{(routeBean.route.stations.size() gt 1) and acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE')}">
                                                     <f:param name="eventId" value="#{routeBean.eventId}"/>
                                                     <f:param name="routeId" value="#{routeBean.routeId}"/>
                                                     <f:param name="mode" value="view"/>
@@ -148,7 +148,7 @@
                                                                action="#{routeBean.setUpGroupReorderMap}"
                                                                update=":view-reorder-groups-dlg"
                                                                oncomplete="PF('view-reorder-groups-dlg').show();"
-                                                               rendered="#{routeBean.route.groups.size() gt 1} AND #{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE')}">
+                                                               rendered="#{(routeBean.route.groups.size() gt 1) and acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE')}">
                                                     <f:param name="eventId" value="#{routeBean.eventId}"/>
                                                     <f:param name="routeId" value="#{routeBean.routeId}"/>
                                                     <f:param name="mode" value="view"/>
