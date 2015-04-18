@@ -71,16 +71,20 @@ public class IndexBB {
     private void loadEvents(){
 
         try {
-            userDto = userService.getUser(SecurityContextHolder.getContext().getAuthentication().getName());
+            UserDto userDto = userService.getUser(SecurityContextHolder.getContext().getAuthentication().getName());
+
+            Collections.sort(userDto.getEvents(), EventDto.EventDateComparator);
+            Collections.sort(userDto.getGroups(), GroupDto.GroupDateComparator);
+            Collections.sort(userDto.getManagedRoutes(), RouteDto.RouteDateComparator);
+            events = userDto.getEvents();
+
+            this.userDto = userDto;
+
         } catch (DataAccessException e){
             eventLoadingError = true;
             return;
         }
 
-        Collections.sort(userDto.getEvents(), EventDto.EventDateComparator);
-        Collections.sort(userDto.getGroups(), GroupDto.GroupDateComparator);
-        Collections.sort(userDto.getManagedRoutes(), RouteDto.RouteDateComparator);
-        events = userDto.getEvents();
 
     }
 

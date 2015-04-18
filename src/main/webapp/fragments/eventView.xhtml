@@ -16,38 +16,24 @@
                     <ul class="nav nav-tabs side-nav" data-tabs="tabs">
                         <li class="active">
                             <a data-toggle="tab" href="#information">
-                                <h:graphicImage value="#{resource['images/edit18.png']}"/>
+                                <h:graphicImage value="#{resource['images/ic_information_grey600.png']}" styleClass="icon-text"/>
                                 <span>Information</span>
                             </a>
                         </li>
                         <li>
                             <a data-toggle="tab" href="#routes">
-                                <h:graphicImage value="#{resource['images/delete18.png']}"/>
+                                <h:graphicImage value="#{resource['images/ic_routes_grey600.png']}" styleClass="icon-text"/>
                                 <span>Routes</span>
                             </a>
                         </li>
                         <h:panelGroup layout="block" rendered="#{acl.hasPermission(eventBean.event.id, eventBean.event.ACLObjectIdentityClass, 'WRITE')}">
                             <li>
                                 <a data-toggle="tab" href="#people">
-                                    <h:graphicImage value="#{resource['images/edit18.png']}"/>
+                                    <h:graphicImage value="#{resource['images/ic_people_grey600.png']}" styleClass="icon-text"/>
                                     <span>People</span>
                                 </a>
                             </li>
                         </h:panelGroup>
-                        <h:panelGroup layout="block" rendered="#{acl.hasPermission(eventBean.event.id, eventBean.event.ACLObjectIdentityClass, 'WRITE')}">
-                            <li>
-                                <a data-toggle="tab" href="#statistics">
-                                    <h:graphicImage value="#{resource['images/delete18.png']}"/>
-                                    <span>Statistics</span>
-                                </a>
-                            </li>
-                        </h:panelGroup>
-                        <li>
-                            <a data-toggle="tab" href="#live">
-                                <h:graphicImage value="#{resource['images/edit18.png']}"/>
-                                <span>Live</span>
-                            </a>
-                        </li>
                     </ul>
 
                 </div>
@@ -61,7 +47,10 @@
 
                                     <div class="box-toolbar">
                                         <span class="left title"><h:outputText value="#{eventBean.event.name}"/></span>
-                                        <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('edit-event-dlg').show();">EDIT</h:outputLink>
+                                        <h:outputLink class="right material-button-flat no-select"
+                                                      value="javascript:void(0)"
+                                                      rendered="#{acl.hasPermission(eventBean.event.id, eventBean.event.ACLObjectIdentityClass, 'WRITE')}"
+                                                      onclick="PF('edit-event-dlg').show();">EDIT</h:outputLink>
                                     </div>
 
                                     <div class="box-content">
@@ -170,34 +159,6 @@
 
                             </div>
                         </h:panelGroup>
-                        <h:panelGroup layout="block" styleClass="tab-pane" id="statistics" rendered="#{acl.hasPermission(eventBean.event.id, eventBean.event.ACLObjectIdentityClass, 'WRITE')}">
-                            <div class="material-container">
-
-                                <div class="box-toolbar">
-                                    <span class="left title"><h:outputText value="STATS"/></span>
-                                </div>
-
-                                <div class="box-content">
-                                </div>
-                            </div>
-                        </h:panelGroup>
-                        <div class="tab-pane" id="live">
-                            <div class="material-container" style="background-color: rgba(0, 124, 10, 0.65);">
-
-                                <div class="box-toolbar">
-                                    <span class="left title"><h:outputText value="LIVE"/></span>
-                                </div>
-
-                                <div class="box-content">
-                                    <h:form id="live-form">
-                                        <h1><h:outputText value="#{demoBB.text}"/></h1>
-                                        <p:poll interval="1" listener="#{demoBB.update()}" update="@form">
-                                            <f:param name="id" value="#{eventBean.eventId}" />
-                                        </p:poll>
-                                    </h:form>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                 </div>

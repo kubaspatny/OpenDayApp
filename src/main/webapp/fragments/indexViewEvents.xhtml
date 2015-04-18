@@ -9,10 +9,8 @@
 
     <body>
         <ui:composition>
-            <div class="col-md-6">
-
+            <h:panelGroup layout="block" styleClass="col-md-6" rendered="#{request.isUserInRole('ROLE_ORGANIZER')}">
                 <div class="material-container">
-
                     <div class="box-toolbar">
                         <span class="left title">EVENTS</span>
                         <h:form>
@@ -95,7 +93,7 @@
                     </div>
 
                 </div>
-            </div>
+            </h:panelGroup>
         </ui:composition>
     </body>
 

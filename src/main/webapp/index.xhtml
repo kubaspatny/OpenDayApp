@@ -7,6 +7,10 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
+<f:metadata>
+    <f:event type="preRenderView" listener="#{indexBB.getEvents()}"/>
+</f:metadata>
+
 <h:body>
     <ui:composition template="baseLayout.xhtml">
 
