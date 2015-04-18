@@ -280,29 +280,33 @@
 
                     <h:panelGrid columns="3">
 
-                        <p:outputLabel for="edit-station-name" value="Station name" styleClass="sr-only"/>
-                        <p:inputText id="edit-station-name" value="#{routeBean.editRouteHolder.station.name}" validator="#{routeBean.validateStationNameUniqueConstraint}" placeholder="Station name" styleClass="form-control" required="true" requiredMessage="Fill in Station's name">
+                        <p:outputLabel for="edit-station-name" value="Station name"/>
+                        <p:inputText id="edit-station-name" value="#{routeBean.editRouteHolder.station.name}" validator="#{routeBean.validateStationNameUniqueConstraint}" placeholder="Station name" styleClass="form-control margin-left-10" required="true" requiredMessage="Fill in Station's name">
                             <p:ajax update="msgEditStationName" event="keyup"/>
                         </p:inputText>
                         <p:message for="edit-station-name" id="msgEditStationName" display="text"/>
 
-                        <p:outputLabel for="edit-station-location" value="Location" styleClass="sr-only"/>
-                        <p:inputText id="edit-station-location" value="#{routeBean.editRouteHolder.station.location}" placeholder="Station location" styleClass="form-control" required="true" requiredMessage="Fill in Station's location">
+                        <p:outputLabel for="edit-station-location" value="Location"/>
+                        <p:inputText id="edit-station-location" value="#{routeBean.editRouteHolder.station.location}" placeholder="Station location" styleClass="form-control margin-left-10" required="true" requiredMessage="Fill in Station's location">
                             <p:ajax update="msgEditStationLocation" event="keyup"/>
                         </p:inputText>
                         <p:message for="edit-station-location" id="msgEditStationLocation" display="text"/>
 
-                        <p:outputLabel for="edit-station-info" value="Station info" styleClass="sr-only"/>
-                        <p:inputTextarea id="edit-station-info" autoResize="false" rows="6" cols="30" value="#{routeBean.editRouteHolder.station.information}" styleClass="form-control" placeholder="Station information"/>
+                        <p:outputLabel for="edit-station-info" value="Station info"/>
+                        <p:inputTextarea id="edit-station-info" autoResize="false" rows="6" cols="30" value="#{routeBean.editRouteHolder.station.information}" styleClass="form-control margin-left-10" placeholder="Station information"/>
                         <p:message for="edit-station-info" id="msgEditStationInfo" display="text"/>
 
-                        <h:outputLabel for="edit-station-time-limit" value="Time limit" styleClass="sr-only"/>
-                        <p:spinner id="edit-station-time-limit" value="#{routeBean.editRouteHolder.station.timeLimit}" min="0" max="1000" placeholder="Time limit" styleClass="spinner"/>
+                        <h:outputLabel for="edit-station-time-limit" value="Time limit"/>
+                        <p:spinner id="edit-station-time-limit" value="#{routeBean.editRouteHolder.station.timeLimit}" min="0" max="1000" placeholder="Time limit" styleClass="spinner margin-left-10"/>
                         <p:message for="edit-station-info" id="msgEditStationTimeLimit" display="text"/>
 
-                        <h:outputLabel for="edit-station-relocation-time" value="Relocation time" styleClass="sr-only"/>
-                        <p:spinner id="edit-station-relocation-time" value="#{routeBean.editRouteHolder.station.relocationTime}" min="0" max="1000" placeholder="Relocation time" styleClass="spinner"/>
+                        <h:outputLabel for="edit-station-relocation-time" value="Relocation time"/>
+                        <p:spinner id="edit-station-relocation-time" value="#{routeBean.editRouteHolder.station.relocationTime}" min="0" max="1000" placeholder="Relocation time" styleClass="spinner margin-left-10"/>
                         <p:message for="edit-station-relocation-time" id="msgEditStationRelocationTime" display="text"/>
+
+                        <p:outputLabel for="edit-station-closed" value="Close station"/>
+                        <p:selectBooleanCheckbox id="edit-station-closed" value="#{routeBean.editRouteHolder.station.closed}" placeholder="Closed" styleClass="margin-left-10"/>
+                        <p:message for="edit-station-closed" id="msgEditStationClosed" display="text"/>
 
                     </h:panelGrid>
                     <p:commandButton value="Update station" styleClass="margin-top-10" update="@form :route-view-container" ajax="true"

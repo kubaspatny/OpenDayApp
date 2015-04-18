@@ -104,9 +104,14 @@
                                                         <h:outputText value="#{station.relocationTime} min"/>
                                                     </p:column>
 
+                                                    <p:column headerText="Opened">
+                                                        <h:graphicImage value="#{resource['images/ic_opened.png']}" styleClass="icon-text" rendered="#{not station.closed}"/>
+                                                        <h:graphicImage value="#{resource['images/ic_closed.png']}" styleClass="icon-text" rendered="#{station.closed}"/>
+                                                    </p:column>
+
                                                     <p:column headerText="Actions" rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE')}">
                                                         <div class="right">
-                                                            <p:commandButton styleClass="material-button-image image-button-edit ui-button-icon-only no-select"
+                                                            <p:commandButton styleClass="material-button-image image-button-edit ui-button-icon-only no-select margin-right-10"
                                                                              action="#{routeBean.editStation(station.id)}" value="" update=":edit-station-dlg" oncomplete="PF('edit-station-dlg').show();">
                                                                 <f:param name="eventId" value="#{routeBean.eventId}"/>
                                                                 <f:param name="routeId" value="#{routeBean.routeId}"/>
@@ -114,7 +119,7 @@
                                                             </p:commandButton>
 
                                                             <p:commandButton
-                                                                    styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
+                                                                    styleClass="material-button-image image-button-delete ui-button-icon-only no-select margin-right-10"
                                                                     actionListener="#{routeBean.removeStation(station.id)}"
                                                                     value="" update="@form :route-view-container"
                                                                     rendered="#{routeBean.route.editable}">
