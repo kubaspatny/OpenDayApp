@@ -303,7 +303,9 @@ public class EventBean implements Serializable {
 
         try {
             event.setName(editEvent.getName());
-            event.setDate(new DateTime(editEvent.getDate()));
+            if(event.isEditable()){
+                event.setDate(new DateTime(editEvent.getDate()));
+            }
             event.setInformation(editEvent.getInformation());
             eventService.updateEvent(event);
 

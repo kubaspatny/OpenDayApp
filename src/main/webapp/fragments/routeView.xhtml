@@ -59,7 +59,7 @@
                                                 <p:commandLink styleClass="right material-button-flat no-select"
                                                                value="ADD" action="#{routeBean.clearStation}"
                                                                update=":view-add-station-dlg"
-                                                               rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE')}"
+                                                               rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE') and routeBean.route.editable}"
                                                                oncomplete="PF('view-add-station-dlg').show();">
                                                     <f:param name="eventId" value="#{routeBean.eventId}"/>
                                                     <f:param name="routeId" value="#{routeBean.routeId}"/>
@@ -70,7 +70,7 @@
                                                                action="#{routeBean.setUpStationReorderMap}"
                                                                update=":view-reorder-station-dlg"
                                                                oncomplete="PF('view-reorder-station-dlg').show();"
-                                                               rendered="#{(routeBean.route.stations.size() gt 1) and acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE')}">
+                                                               rendered="#{(routeBean.route.stations.size() gt 1) and acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE') and routeBean.route.editable}">
                                                     <f:param name="eventId" value="#{routeBean.eventId}"/>
                                                     <f:param name="routeId" value="#{routeBean.routeId}"/>
                                                     <f:param name="mode" value="view"/>
@@ -113,8 +113,11 @@
                                                                 <f:param name="mode" value="view"/>
                                                             </p:commandButton>
 
-                                                            <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
-                                                                             actionListener="#{routeBean.removeStation(station.id)}" value="" update="@form :route-view-container">
+                                                            <p:commandButton
+                                                                    styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
+                                                                    actionListener="#{routeBean.removeStation(station.id)}"
+                                                                    value="" update="@form :route-view-container"
+                                                                    rendered="#{routeBean.route.editable}">
                                                                 <p:confirm header="Confirmation" message="Do you really want to delete this station?" icon="icon-empty"/>
                                                                 <f:param name="eventId" value="#{routeBean.eventId}"/>
                                                                 <f:param name="routeId" value="#{routeBean.routeId}"/>
@@ -137,7 +140,7 @@
                                                 <p:commandLink styleClass="right material-button-flat no-select"
                                                                value="ADD" action="#{routeBean.setUpEmptyRouteHolder}"
                                                                update=":view-add-group-dlg"
-                                                               rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE')}"
+                                                               rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE') and routeBean.route.editable}"
                                                                oncomplete="PF('view-add-group-dlg').show();">
                                                     <f:param name="eventId" value="#{routeBean.eventId}"/>
                                                     <f:param name="routeId" value="#{routeBean.routeId}"/>
@@ -148,7 +151,7 @@
                                                                action="#{routeBean.setUpGroupReorderMap}"
                                                                update=":view-reorder-groups-dlg"
                                                                oncomplete="PF('view-reorder-groups-dlg').show();"
-                                                               rendered="#{(routeBean.route.groups.size() gt 1) and acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE')}">
+                                                               rendered="#{(routeBean.route.groups.size() gt 1) and acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE') and routeBean.route.editable}">
                                                     <f:param name="eventId" value="#{routeBean.eventId}"/>
                                                     <f:param name="routeId" value="#{routeBean.routeId}"/>
                                                     <f:param name="mode" value="view"/>
@@ -172,7 +175,7 @@
                                                     <h:outputText value="#{group.startingPosition}"/>
                                                 </p:column>
 
-                                                <p:column rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE')}">
+                                                <p:column rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE') and routeBean.route.editable}">
                                                     <div class="right">
                                                         <h:form>
                                                             <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
@@ -197,7 +200,7 @@
                                                 <p:commandLink styleClass="right material-button-flat no-select"
                                                                value="ADD" action="#{routeBean.setUpEmptyRouteHolder}"
                                                                update=":add-stationmanager-dlg"
-                                                               rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE')}"
+                                                               rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE') and routeBean.route.editable}"
                                                                oncomplete="PF('add-stationmanager-dlg').show();">
                                                     <f:param name="eventId" value="#{routeBean.eventId}"/>
                                                     <f:param name="routeId" value="#{routeBean.routeId}"/>
@@ -211,7 +214,7 @@
                                                     <h:outputText value="#{manager.email}"/>
                                                 </p:column>
 
-                                                <p:column rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE')}">
+                                                <p:column rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE') and routeBean.route.editable}">
                                                     <div class="right">
                                                         <h:form>
                                                             <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"

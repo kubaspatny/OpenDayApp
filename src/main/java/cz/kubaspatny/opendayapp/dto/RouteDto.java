@@ -215,4 +215,8 @@ public class RouteDto extends BaseDto {
         }
     };
 
+    public boolean isEditable(){
+        return getDate().isAfterNow();
+    }
+
 }

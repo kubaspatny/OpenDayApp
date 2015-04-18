@@ -129,12 +129,13 @@
                         </p:inputText>
                         <p:message for="name" id="msgName" display="text"/>
 
-                        <p:outputLabel for="datePicker" value="DATEPICKER" styleClass="sr-only"/>
+                        <p:outputLabel for="datePicker" value="DATEPICKER" styleClass="sr-only" rendered="#{eventBean.event.editable}"/>
                         <p:calendar lang="#{localeBean.locale}" id="datePicker" value="#{eventBean.editEvent.date}" mode="popup"
                                     pattern="dd/MM/yyyy"
                                     mindate="#{eventBean.currentDate}"
+                                    rendered="#{eventBean.event.editable}"
                                     required="true" requiredMessage="PICK A DATE" placeholder="EVENT DATE"/>
-                        <p:message for="datePicker" id="msgDatePicker" display="text"/>
+                        <p:message for="datePicker" id="msgDatePicker" display="text" rendered="#{eventBean.event.editable}"/>
 
                         <p:outputLabel for="info" value="INFO" styleClass="sr-only"/>
                         <p:inputTextarea id="info" autoResize="false" rows="6" cols="30" value="#{eventBean.editEvent.information}" styleClass="form-control" placeholder="EVENT INFORMATION"/>

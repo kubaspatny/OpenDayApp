@@ -611,7 +611,7 @@ public class RouteBean implements Serializable {
 
         try {
             routeDto.setName(editRouteHolder.getName());
-            routeDto.setDate(routeDto.getDate().withTime(editRouteHolder.getNewTimeHour(), editRouteHolder.getNewTimeMinute(), 0, 0));
+            if(route.isEditable()) routeDto.setDate(routeDto.getDate().withTime(editRouteHolder.getNewTimeHour(), editRouteHolder.getNewTimeMinute(), 0, 0));
             routeDto.setInformation(editRouteHolder.getInformation());
             routeDto.setHexColor("#" + editRouteHolder.getColor());
 

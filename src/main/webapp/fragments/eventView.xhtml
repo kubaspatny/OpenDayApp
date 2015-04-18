@@ -71,7 +71,9 @@
 
                                 <div class="box-toolbar">
                                     <span class="left title"><h:outputText value="ROUTES"/></span>
-                                    <h:link styleClass="right material-button-flat no-select" value="NEW" outcome="route" rendered="#{acl.hasPermission(eventBean.event.id, eventBean.event.ACLObjectIdentityClass, 'WRITE')}">
+                                    <h:link styleClass="right material-button-flat no-select" value="NEW"
+                                            outcome="route"
+                                            rendered="#{acl.hasPermission(eventBean.event.id, eventBean.event.ACLObjectIdentityClass, 'WRITE') and eventBean.event.editable}">
                                         <f:param name="mode" value="create"/>
                                         <f:param name="eventId" value="#{eventBean.eventId}"/>
                                     </h:link>

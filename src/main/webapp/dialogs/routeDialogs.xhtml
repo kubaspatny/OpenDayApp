@@ -241,7 +241,7 @@
                             <p:message for="name" id="msgName" display="text"/>
 
                             <span/>
-                            <h:panelGrid layout="block" columns="4">
+                            <h:panelGrid layout="block" columns="4" rendered="#{routeBean.route.editable}">
                                 <h:outputText styleClass="font500" value="Hours: "/>
                                 <h:outputText styleClass="font300" id="edit-time-output-hour" value="#{routeBean.editRouteHolder.newTimeHour}"/>
                                 <h:inputHidden id="edit-hour" value="#{routeBean.editRouteHolder.newTimeHour}" />
@@ -252,6 +252,7 @@
                                 <h:inputHidden id="edit-minute" value="#{routeBean.editRouteHolder.newTimeMinute}" />
                                 <p:slider for="edit-minute" minValue="0" maxValue="59" display="edit-time-output-minute" style="width: 200px" displayTemplate="{value}" />
                             </h:panelGrid>
+                            <h:panelGroup layout="block" rendered="#{not routeBean.route.editable}"/>
                             <span/>
 
                             <p:outputLabel for="info" value="INFO" styleClass="sr-only"/>

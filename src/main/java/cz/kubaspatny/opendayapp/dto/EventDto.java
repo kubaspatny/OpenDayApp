@@ -179,4 +179,8 @@ public class EventDto extends BaseDto {
         }
     };
 
+    public boolean isEditable(){
+        return getDate().isAfterNow();
+    }
+
 }
