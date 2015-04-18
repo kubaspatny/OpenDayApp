@@ -12,39 +12,39 @@
             <h:panelGroup layout="block" styleClass="col-md-6" rendered="#{request.isUserInRole('ROLE_ORGANIZER')}">
                 <div class="material-container">
                     <div class="box-toolbar">
-                        <span class="left title">EVENTS</span>
+                        <span class="left title"><h:outputText value="#{strings['events']}"/></span>
                         <h:form>
-                            <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('dlg').show();">NEW</h:outputLink>
+                            <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('dlg').show();"><h:outputText value="#{strings['events_new_button']}"/></h:outputLink>
                         </h:form>
 
-                        <p:dialog header="New Event" widgetVar="dlg" resizable="false" draggable="false" modal="true">
+                        <p:dialog header="#{strings['dialog_new_event']}" widgetVar="dlg" resizable="false" draggable="false" modal="true">
                             <h:form styleClass="form-table">
 
                                 <h:panelGrid id="panel" columns="3">
 
-                                    <p:outputLabel for="name" value="NAME" styleClass="sr-only"/>
-                                    <p:inputText id="name" value="#{createEventBean.createEventName}" placeholder="NAME" styleClass="form-control" required="true" requiredMessage="FILL IN NAME EVENT">
+                                    <p:outputLabel for="name" value="#{strings['dialog_name']}" styleClass="sr-only"/>
+                                    <p:inputText id="name" value="#{createEventBean.createEventName}" placeholder="#{strings['dialog_name']}" styleClass="form-control" required="true" requiredMessage="#{strings['dialog_name_required']}">
                                         <p:ajax update="msgName" event="keyup"/>
                                     </p:inputText>
                                     <p:message for="name" id="msgName" display="text"/>
 
-                                    <p:outputLabel for="datePicker" value="DATEPICKER" styleClass="sr-only"/>
+                                    <p:outputLabel for="datePicker" value="#{strings['dialog_date']}" styleClass="sr-only"/>
                                     <p:calendar lang="#{localeBean.locale}" id="datePicker" value="#{createEventBean.createEventDate}" mode="popup"
                                                 pattern="dd/MM/yyyy"
                                                 mindate="#{createEventBean.currentDate}"
-                                                required="true" requiredMessage="PICK A DATE" placeholder="EVENT DATE"/>
+                                                required="true" requiredMessage="#{strings['dialog_date_required']}" placeholder="#{strings['dialog_date']}"/>
                                     <p:message for="datePicker" id="msgDatePicker" display="text"/>
 
-                                    <p:outputLabel for="info" value="INFO" styleClass="sr-only"/>
-                                    <p:inputTextarea id="info" autoResize="false" rows="6" cols="30" value="#{createEventBean.createEventInfo}" styleClass="form-control" placeholder="EVENT INFORMATION"/>
+                                    <p:outputLabel for="info" value="#{strings['dialog_info']}" styleClass="sr-only"/>
+                                    <p:inputTextarea id="info" autoResize="false" rows="6" cols="30" value="#{createEventBean.createEventInfo}" styleClass="form-control" placeholder="#{strings['dialog_info']}"/>
 
                                 </h:panelGrid>
-                                <p:commandButton value="CREATE EVENT" styleClass="margin-top-10" update="@form :events"
+                                <p:commandButton value="#{strings['dialog_createevent_button']}" styleClass="margin-top-10" update="@form :events"
                                                  actionListener="#{createEventBean.createEvent}"
                                                  oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorCreatingEvent) PF('dlg').hide()"/>
 
                                 <h:panelGroup layout="block" styleClass="alert alert-danger margin-top-10" rendered="#{createEventBean.errorCreatingEvent}">
-                                    <h:outputText value="ERROR CREATING EVENT"/>
+                                    <h:outputText value="#{strings['dialog_createevent_error']}"/>
                                 </h:panelGroup>
                             </h:form>
                         </p:dialog>
@@ -68,12 +68,12 @@
 
                                         <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
                                                          actionListener="#{indexBB.deleteEvent(event.id)}" value="" update="@form">
-                                            <p:confirm header="Confirmation" message="Do you really want to delete event?" icon="icon-empty"/>
+                                            <p:confirm header="#{strings['confirmation']}" message="#{strings['dialog_deleteevent']}" icon="icon-empty"/>
                                         </p:commandButton>
 
                                         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                            <p:commandButton value="#{strings['yes']}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:commandButton value="#{strings['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                                         </p:confirmDialog>
                                     </div>
                                 </p:column>

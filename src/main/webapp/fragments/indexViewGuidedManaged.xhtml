@@ -16,7 +16,7 @@
                         <div class="material-container">
 
                             <div class="box-toolbar">
-                                <span class="left title">GUIDED ROUTES</span>
+                                <span class="left title"><h:outputText value="#{strings['guided_routes']}"/></span>
                             </div>
 
                             <div class="box-content">
@@ -48,7 +48,7 @@
                                     </p:dataTable>
 
                                     <h:panelGroup layout="block" styleClass="alert alert-info" rendered="#{empty indexBB.userDto.groups and not indexBB.eventLoadingError}" >
-                                        <h:outputText value="You have no groups to guide."/>
+                                        <h:outputText value="#{strings['no_guided_groups']}"/>
                                     </h:panelGroup>
 
                                     <h:panelGroup layout="block" styleClass="alert alert-danger" rendered="#{indexBB.eventLoadingError}" >
@@ -68,7 +68,7 @@
                         <div class="material-container">
 
                             <div class="box-toolbar">
-                                <span class="left title">MANAGED ROUTES</span>
+                                <span class="left title"><h:outputText value="#{strings['managed_stations']}"/></span>
                             </div>
 
                             <div class="box-content">
@@ -100,7 +100,7 @@
                                     </p:dataTable>
 
                                     <h:panelGroup layout="block" styleClass="alert alert-info" rendered="#{empty indexBB.userDto.managedRoutes and not indexBB.eventLoadingError}" >
-                                        <h:outputText value="You are not managing any routes yet."/>
+                                        <h:outputText value="#{strings['no_managed_stations']}"/>
                                     </h:panelGroup>
 
                                     <h:panelGroup layout="block" styleClass="alert alert-danger" rendered="#{indexBB.eventLoadingError}" >
