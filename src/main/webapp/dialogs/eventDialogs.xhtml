@@ -10,13 +10,13 @@
     <body>
         <ui:composition>
             <!-- DIALOGS -->
-            <p:dialog header="Add person to this event" widgetVar="add-person-dlg" resizable="false" draggable="false" modal="true">
+            <p:dialog header="#{strings['dialog_add_person']}" widgetVar="add-person-dlg" resizable="false" draggable="false" modal="true">
                 <h:form id="add-person-form" styleClass="form-table">
 
                     <h:panelGrid id="panel" columns="3">
 
-                        <p:outputLabel for="email" value="NAME" styleClass="sr-only"/>
-                        <p:inputText id="email" value="#{eventBean.newPersonEmail}" placeholder="Email" styleClass="form-control" required="true" requiredMessage="FILL IN EMAIL">
+                        <p:outputLabel for="email" value="#{strings['email']}" styleClass="sr-only"/>
+                        <p:inputText id="email" value="#{eventBean.newPersonEmail}" placeholder="#{strings['email']}" styleClass="form-control" required="true" requiredMessage="#{strings['required-email']}">
                             <f:validator binding="#{emailFormatValidator}"/>
                             <p:ajax update="errorEmail @form:submit" event="keyup"/>
                         </p:inputText>
@@ -24,31 +24,35 @@
                         <h:panelGroup layout="block" id="errorEmail">
                             <h:panelGroup layout="block" styleClass="alert alert-success dialog-alert" rendered="#{eventBean.isRegistered(eventBean.newPersonEmail)}">
                                 <span class="glyphicon glyphicon-ok margin-right-10"/>
-                                <h:outputText value="User is registered"/>
+                                <h:outputText value="#{strings['dialog_user_registered']}"/>
                             </h:panelGroup>
 
                             <h:panelGroup layout="block" styleClass="alert alert-warning dialog-alert" rendered="#{not empty eventBean.newPersonEmail and not eventBean.isRegistered(eventBean.newPersonEmail)}">
                                 <span class="glyphicon glyphicon-flag margin-right-10"/>
-                                <h:outputText value="User will be registered"/>
+                                <h:outputText value="#{strings['dialog_user_toberegistered']}"/>
                             </h:panelGroup>
                             <p:message for="email" id="msgEmail" display="text"/>
 
                         </h:panelGroup>
 
                     </h:panelGrid>
-                    <p:commandButton id="submit" value="#{not empty eventBean.newPersonEmail and not eventBean.isRegistered(eventBean.newPersonEmail) ? 'Register and add user' : 'Add user'}" styleClass="margin-top-10" update="@form"
+                    <p:commandButton id="submit" value="#{strings['dialog_adduser_button']}" styleClass="margin-top-10" update="@form"
                                      action="#{eventBean.addNewPersonToEmailList}"
                                      oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorRegisteringUser) PF('add-person-dlg').hide()">
                         <f:param name="id" value="#{eventBean.eventId}" />
                     </p:commandButton>
 
                     <h:panelGroup layout="block" styleClass="alert alert-danger margin-top-10" rendered="#{eventBean.errorRegisteringUser}">
-                        <h:outputText value="ERROR REGISTERING USER"/>
+                        <h:outputText value="#{strings['dialog_adduser_error']}"/>
                     </h:panelGroup>
                 </h:form>
             </p:dialog>
 
-            <p:dialog id="file-upload-dialog" header="Upload file with emails" widgetVar="file-upload-dlg" resizable="false" draggable="false" modal="true">
+            <p:dialog id="file-upload-dialog" header="#{strings['people_upload_button']}"
+                      widgetVar="file-upload-dlg"
+                      resizable="false"
+                      draggable="false"
+                      modal="true">
                 <h:form id="file-upload-form" styleClass="form-table" enctype="multipart/form-data" rendered="#{empty CSVFileUploadBean.emails}">
                     <h:panelGrid id="file-upload-panel" columns="1">
 
@@ -66,7 +70,7 @@
 
                         <h:panelGroup layout="block" styleClass="alert alert-danger dialog-alert" rendered="#{CSVFileUploadBean.uploadedEmptyFile}">
                             <span class="glyphicon glyphicon-remove margin-right-10"/>
-                            <h:outputText value="File doesn't contain any valid emails. [do i18n!]"/>
+                            <h:outputText value="#{strings['dialog_no_valid_emails']}"/>
                         </h:panelGroup>
 
                     </h:panelGrid>
@@ -84,12 +88,12 @@
                         <p:column>
                             <h:panelGroup layout="block" styleClass="alert alert-success dialog-alert-smaller margin-left-20" rendered="#{eventBean.isRegistered(e)}">
                                 <span class="glyphicon glyphicon-ok margin-right-10"/>
-                                <h:outputText value="User is registered"/>
+                                <h:outputText value="#{strings['dialog_user_registered']}"/>
                             </h:panelGroup>
 
                             <h:panelGroup layout="block" styleClass="alert alert-warning dialog-alert-smaller margin-left-20" rendered="#{not eventBean.isRegistered(e)}">
                                 <span class="glyphicon glyphicon-flag margin-right-10"/>
-                                <h:outputText value="User will be registered"/>
+                                <h:outputText value="#{strings['dialog_user_toberegistered']}"/>
                             </h:panelGroup>
                         </p:column>
 
@@ -106,7 +110,7 @@
 
                     </h:dataTable>
 
-                    <p:commandButton id="submit-file" value="#{eventBean.areAllEmailsRegistered(CSVFileUploadBean.emails) ? 'Add emails [i18n]' : 'Register and add emails [i18n]'}" styleClass="margin-top-10" update="@form"
+                    <p:commandButton id="submit-file" value="#{strings['dialog_adduser_button']}" styleClass="margin-top-10" update="@form"
                                      oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorCreatingEvent &amp;&amp; args.uploadFinished) PF('file-upload-dlg').hide()"
                                      action="#{eventBean.addEmailsToEmailList(CSVFileUploadBean.emails)}">
                         <f:param name="id" value="#{eventBean.eventId}" />
@@ -115,40 +119,40 @@
             </p:dialog>
 
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                <p:commandButton value="#{strings['yes']}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="#{strings['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
             </p:confirmDialog>
 
-            <p:dialog header="Edit Event" widgetVar="edit-event-dlg" resizable="false" draggable="false" modal="true">
+            <p:dialog header="#{strings['dialog_edit_event']}" widgetVar="edit-event-dlg" resizable="false" draggable="false" modal="true">
                 <h:form styleClass="form-table">
                     <h:panelGrid id="edit-event-panel" columns="3">
 
-                        <p:outputLabel for="name" value="NAME" styleClass="sr-only"/>
-                        <p:inputText id="name" value="#{eventBean.editEvent.name}" placeholder="NAME" styleClass="form-control" required="true" requiredMessage="FILL IN NAME EVENT">
+                        <p:outputLabel for="name" value="#{strings['dialog_name']}" styleClass="sr-only"/>
+                        <p:inputText id="name" value="#{eventBean.editEvent.name}" placeholder="#{strings['dialog_name']}" styleClass="form-control" required="true" requiredMessage="#{strings['dialog_name_required']}">
                             <p:ajax update="msgName" event="keyup"/>
                         </p:inputText>
                         <p:message for="name" id="msgName" display="text"/>
 
-                        <p:outputLabel for="datePicker" value="DATEPICKER" styleClass="sr-only" rendered="#{eventBean.event.editable}"/>
+                        <p:outputLabel for="datePicker" value="#{strings['dialog_date']}" styleClass="sr-only" rendered="#{eventBean.event.editable}"/>
                         <p:calendar lang="#{localeBean.locale}" id="datePicker" value="#{eventBean.editEvent.date}" mode="popup"
                                     pattern="dd/MM/yyyy"
                                     mindate="#{eventBean.currentDate}"
                                     rendered="#{eventBean.event.editable}"
-                                    required="true" requiredMessage="PICK A DATE" placeholder="EVENT DATE"/>
+                                    required="true" requiredMessage="#{strings['dialog_date_required']}" placeholder="#{strings['dialog_date']}"/>
                         <p:message for="datePicker" id="msgDatePicker" display="text" rendered="#{eventBean.event.editable}"/>
 
-                        <p:outputLabel for="info" value="INFO" styleClass="sr-only"/>
-                        <p:inputTextarea id="info" autoResize="false" rows="6" cols="30" value="#{eventBean.editEvent.information}" styleClass="form-control" placeholder="EVENT INFORMATION"/>
+                        <p:outputLabel for="info" value="#{strings['dialog_info']}" styleClass="sr-only"/>
+                        <p:inputTextarea id="info" autoResize="false" rows="6" cols="30" value="#{eventBean.editEvent.information}" styleClass="form-control" placeholder="#{strings['dialog_info']}"/>
 
                     </h:panelGrid>
-                    <p:commandButton value="UPDATE EVENT" styleClass="margin-top-10" update="@form :information-form :routes-form"
+                    <p:commandButton value="#{strings['dialog_save_changes']}" styleClass="margin-top-10" update="@form :information-form :routes-form"
                                      actionListener="#{eventBean.updateEvent}"
                                      oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorUpdatingEvent) PF('edit-event-dlg').hide()">
                         <f:param name="id" value="#{eventBean.eventId}" />
                     </p:commandButton>
 
                     <h:panelGroup layout="block" styleClass="alert alert-danger margin-top-10" rendered="#{eventBean.errorUpdatingEvent}">
-                        <h:outputText value="ERROR UPDATING EVENT"/>
+                        <h:outputText value="#{strings['dialog_event_updateerror']}"/>
                     </h:panelGroup>
                 </h:form>
             </p:dialog>

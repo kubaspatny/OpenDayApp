@@ -30,10 +30,10 @@
                                 <div class="row">
                                     <div class="col-md-6 material-container">
                                         <h:panelGroup layout="block" styleClass="box-toolbar divider" style="border-color: #{routeBean.route.hexColor}">
-                                            <span class="left title"><h:outputText value="Route Information"/></span>
+                                            <span class="left title"><h:outputText value="#{strings['route_information']}"/></span>
                                             <h:form>
                                                 <p:commandLink styleClass="right material-button-flat no-select"
-                                                               value="EDIT" action="#{routeBean.editRouteInfo}"
+                                                               value="#{strings['edit']}" action="#{routeBean.editRouteInfo}"
                                                                update=":edit-route-info-dlg"
                                                                rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE')}"
                                                                oncomplete="PF('edit-route-info-dlg').show();">
@@ -44,20 +44,20 @@
                                             </h:form>
                                         </h:panelGroup>
                                         <div class="box-content">
-                                            <h:outputText styleClass="font500" value="Time:"/><br/>
+                                            <h:outputText styleClass="font500" value="#{strings['route_time']}:"/><br/>
                                             <h:outputText styleClass="font300" value="#{routeBean.route.date.toString('HH:mm')}"/><br/><br/>
 
-                                            <h:outputText styleClass="font500" value="Information:"/><br/>
+                                            <h:outputText styleClass="font500" value="#{strings['dialog_info']}:"/><br/>
                                             <h:outputText styleClass="font300" value="#{routeBean.route.information}"/><br/><br/>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6 material-container">
                                         <h:panelGroup layout="block" styleClass="box-toolbar divider" style="border-color: #{routeBean.route.hexColor}">
-                                            <span class="left title"><h:outputText value="Stations"/></span>
+                                            <span class="left title"><h:outputText value="#{strings['stations']}"/></span>
                                             <h:form>
                                                 <p:commandLink styleClass="right material-button-flat no-select"
-                                                               value="ADD" action="#{routeBean.clearStation}"
+                                                               value="#{strings['add']}" action="#{routeBean.clearStation}"
                                                                update=":view-add-station-dlg"
                                                                rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE') and routeBean.route.editable}"
                                                                oncomplete="PF('view-add-station-dlg').show();">
@@ -66,7 +66,7 @@
                                                     <f:param name="mode" value="view"/>
                                                 </p:commandLink>
                                                 <p:commandLink styleClass="right material-button-flat no-select"
-                                                               value="REORDER"
+                                                               value="#{strings['reorder']}"
                                                                action="#{routeBean.setUpStationReorderMap}"
                                                                update=":view-reorder-station-dlg"
                                                                oncomplete="PF('view-reorder-station-dlg').show();"
@@ -80,11 +80,11 @@
                                         <div class="box-content">
                                             <h:form>
                                                 <p:dataTable value="#{routeBean.route.stations}" var="station" rowIndexVar="row" style="text-align: center;">
-                                                    <p:column headerText="Sequence Position">
+                                                    <p:column headerText="#{strings['station_sequence_pos']}">
                                                         <h:outputText value="#{station.sequencePosition}"/>
                                                     </p:column>
 
-                                                    <p:column headerText="Name">
+                                                    <p:column headerText="#{strings['dialog_name']}">
                                                         <p:commandLink styleClass="material-button-flat no-select" value="#{station.name}" action="#{routeBean.showStation(row)}" update=":station-info-dlg" oncomplete="PF('station-info-dlg').show();">
                                                             <f:param name="eventId" value="#{routeBean.eventId}"/>
                                                             <f:param name="routeId" value="#{routeBean.routeId}"/>
@@ -92,24 +92,24 @@
                                                         </p:commandLink>
                                                     </p:column>
 
-                                                    <p:column headerText="Location">
+                                                    <p:column headerText="#{strings['dialog_station_location_short']}">
                                                         <h:outputText value="#{station.location}"/>
                                                     </p:column>
 
-                                                    <p:column headerText="Time limit">
+                                                    <p:column headerText="#{strings['dialog_station_timelimit_short']}">
                                                         <h:outputText value="#{station.timeLimit} min"/>
                                                     </p:column>
 
-                                                    <p:column headerText="Relocation time">
+                                                    <p:column headerText="#{strings['dialog_station_relocationtime_short']}">
                                                         <h:outputText value="#{station.relocationTime} min"/>
                                                     </p:column>
 
-                                                    <p:column headerText="Opened">
+                                                    <p:column headerText="#{strings['dialog_station_opened']}">
                                                         <h:graphicImage value="#{resource['images/ic_opened.png']}" styleClass="icon-text" rendered="#{not station.closed}"/>
                                                         <h:graphicImage value="#{resource['images/ic_closed.png']}" styleClass="icon-text" rendered="#{station.closed}"/>
                                                     </p:column>
 
-                                                    <p:column headerText="Actions" rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE')}">
+                                                    <p:column headerText="#{strings['actions']}" rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE')}">
                                                         <div class="right">
                                                             <p:commandButton styleClass="material-button-image image-button-edit ui-button-icon-only no-select margin-right-10"
                                                                              action="#{routeBean.editStation(station.id)}" value="" update=":edit-station-dlg" oncomplete="PF('edit-station-dlg').show();">
@@ -123,7 +123,7 @@
                                                                     actionListener="#{routeBean.removeStation(station.id)}"
                                                                     value="" update="@form :route-view-container"
                                                                     rendered="#{routeBean.route.editable}">
-                                                                <p:confirm header="Confirmation" message="Do you really want to delete this station?" icon="icon-empty"/>
+                                                                <p:confirm header="#{strings['confirmation']}" message="#{strings['dialog_deletestation']}" icon="icon-empty"/>
                                                                 <f:param name="eventId" value="#{routeBean.eventId}"/>
                                                                 <f:param name="routeId" value="#{routeBean.routeId}"/>
                                                                 <f:param name="mode" value="view"/>
@@ -140,10 +140,10 @@
                                 <div class="row">
                                     <div class="col-md-6 material-container">
                                         <h:panelGroup layout="block" styleClass="box-toolbar divider" style="border-color: #{routeBean.route.hexColor}">
-                                            <span class="left title"><h:outputText value="Groups"/></span>
+                                            <span class="left title"><h:outputText value="#{strings['groups']}"/></span>
                                             <h:form>
                                                 <p:commandLink styleClass="right material-button-flat no-select"
-                                                               value="ADD" action="#{routeBean.setUpEmptyRouteHolder}"
+                                                               value="#{strings['add']}" action="#{routeBean.setUpEmptyRouteHolder}"
                                                                update=":view-add-group-dlg"
                                                                rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE') and routeBean.route.editable}"
                                                                oncomplete="PF('view-add-group-dlg').show();">
@@ -152,7 +152,7 @@
                                                     <f:param name="mode" value="view"/>
                                                 </p:commandLink>
                                                 <p:commandLink styleClass="right material-button-flat no-select"
-                                                               value="REORDER"
+                                                               value="#{strings['reorder']}"
                                                                action="#{routeBean.setUpGroupReorderMap}"
                                                                update=":view-reorder-groups-dlg"
                                                                oncomplete="PF('view-reorder-groups-dlg').show();"
@@ -165,27 +165,28 @@
                                         </h:panelGroup>
                                         <div class="box-content">
                                             <p:dataTable value="#{routeBean.route.groups}" var="group" style="text-align: center;">
-                                                <p:column headerText="Group leader">
+                                                <p:column headerText="#{strings['group_guide']}">
                                                     <h:outputText value="#{group.guide.email}"/>
                                                 </p:column>
 
-                                                <p:column headerText="Starts at">
+                                                <p:column headerText="#{strings['group_start_station']}">
                                                     <h:outputText value="#{routeBean.route.stations.get(group.startingPosition - 1).name}" rendered="#{(group.startingPosition - 1) lt routeBean.route.stations.size()}"/>
                                                     <h:panelGroup layout="block" styleClass="table-alert alert-danger" rendered="#{(group.startingPosition - 1) ge routeBean.route.stations.size()}">
-                                                        <h:outputText value="NO STATION"/>
+                                                        <h:outputText value="#{strings['group_no_station']}"/>
                                                     </h:panelGroup>
                                                 </p:column>
 
-                                                <p:column headerText="Start number">
+                                                <p:column headerText="#{strings['group_order']}">
                                                     <h:outputText value="#{group.startingPosition}"/>
                                                 </p:column>
 
-                                                <p:column rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE') and routeBean.route.editable}">
+                                                <p:column headerText="#{strings['actions']}"
+                                                          rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE') and routeBean.route.editable}">
                                                     <div class="right">
                                                         <h:form>
                                                             <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
                                                                              actionListener="#{routeBean.removeGroup(group.id)}" value="" update="@form :route-view-container">
-                                                                <p:confirm header="Confirmation" message="Do you really want to delete this group?" icon="icon-empty"/>
+                                                                <p:confirm header="#{strings['confirmation']}" message="#{strings['dialog_deletegroup']}" icon="icon-empty"/>
                                                                 <f:param name="eventId" value="#{routeBean.eventId}"/>
                                                                 <f:param name="routeId" value="#{routeBean.routeId}"/>
                                                                 <f:param name="mode" value="view"/>
@@ -200,10 +201,12 @@
 
                                     <div class="col-md-6 material-container">
                                         <h:panelGroup layout="block" styleClass="box-toolbar divider" style="border-color: #{routeBean.route.hexColor}">
-                                            <span class="left title"><h:outputText value="Station Managers"/></span>
+                                            <span class="left title">
+                                                <h:outputText value="#{strings['station_managers']}"/>
+                                            </span>
                                             <h:form>
                                                 <p:commandLink styleClass="right material-button-flat no-select"
-                                                               value="ADD" action="#{routeBean.setUpEmptyRouteHolder}"
+                                                               value="#{strings['add']}" action="#{routeBean.setUpEmptyRouteHolder}"
                                                                update=":add-stationmanager-dlg"
                                                                rendered="#{acl.hasPermission(routeBean.route.id, routeBean.route.ACLObjectIdentityClass, 'WRITE') and routeBean.route.editable}"
                                                                oncomplete="PF('add-stationmanager-dlg').show();">
@@ -224,7 +227,7 @@
                                                         <h:form>
                                                             <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
                                                                              actionListener="#{routeBean.removeStationManager(manager.email)}" value="" update="@form :route-view-container">
-                                                                <p:confirm header="Confirmation" message="Do you really want to delete this station manager?" icon="icon-empty"/>
+                                                                <p:confirm header="#{strings['confirmation']}" message="#{strings['dialog_deletestationmanager']}" icon="icon-empty"/>
                                                                 <f:param name="eventId" value="#{routeBean.eventId}"/>
                                                                 <f:param name="routeId" value="#{routeBean.routeId}"/>
                                                                 <f:param name="mode" value="view"/>
@@ -246,12 +249,12 @@
                             <div class="material-container" style="background-color: rgba(0, 124, 10, 0.65);">
 
                                 <div class="box-toolbar">
-                                    <span class="left title"><h:outputText value="LIVE"/></span>
+                                    <span class="left title"><h:outputText value="#{strings['live']}"/></span>
                                 </div>
 
                                 <div class="box-content">
                                     <h:form id="live-form">
-                                        <h:outputText value="Loading..." rendered="#{empty routeBean.liveStations}"/>
+                                        <h:outputText value="#{strings['loading']}" rendered="#{empty routeBean.liveStations}"/>
 
                                         <p:poll interval="1" listener="#{routeBean.refreshRoute()}" update="@form">
                                             <f:param name="eventId" value="#{routeBean.eventId}"/>

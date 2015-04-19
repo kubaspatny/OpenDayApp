@@ -451,18 +451,15 @@ public class RouteBean implements Serializable {
 
         if(mode.equals("create")){
             if (cvo.getStationReorderMap() != null && cvo.getStationReorderMap().containsKey(value)) {
-//            FacesMessage msg = new FacesMessage(bundle.getString("alreadyregistered"));
-                FacesMessage msg = new FacesMessage("Station with such name already exists!");
+                FacesMessage msg = new FacesMessage(bundle.getString("validation_station_exists"));
                 msg.setSeverity(FacesMessage.SEVERITY_ERROR);
                 throw new ValidatorException(msg);
             }
         } else if(mode.equals("view")){
-
             for(StationDto s : route.getStations()){
                 if(s.getName().equals(value) && !s.getId().equals(editRouteHolder.getStation().getId())){
 
-//                    FacesMessage msg = new FacesMessage(bundle.getString("alreadyregistered"));
-                    FacesMessage msg = new FacesMessage("Station with such name already exists!");
+                    FacesMessage msg = new FacesMessage(bundle.getString("validation_station_exists"));
                     msg.setSeverity(FacesMessage.SEVERITY_ERROR);
                     throw new ValidatorException(msg);
 
@@ -478,8 +475,7 @@ public class RouteBean implements Serializable {
         if(route.getGroups() != null && !route.getGroups().isEmpty()){
             for(GroupDto g : route.getGroups()){
                 if(g.getGuide().getEmail().equals(value)){
-//                    FacesMessage msg = new FacesMessage(bundle.getString("alreadyregistered"));
-                    FacesMessage msg = new FacesMessage("Group with such name already exists!");
+                    FacesMessage msg = new FacesMessage(bundle.getString("validation_group_exists"));
                     msg.setSeverity(FacesMessage.SEVERITY_ERROR);
                     throw new ValidatorException(msg);
                 }
@@ -488,9 +484,10 @@ public class RouteBean implements Serializable {
     }
 
     public void validateRouteTimes(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        ResourceBundle bundle = ResourceBundle.getBundle("strings", context.getViewRoot().getLocale());
 
         if(cvo.getRouteTimes() == null || cvo.getRouteTimes().isEmpty()){
-            FacesMessage msg = new FacesMessage("You need to add at least one route time!!");
+            FacesMessage msg = new FacesMessage(bundle.getString("validation_no_routetime"));
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
         }
@@ -498,9 +495,10 @@ public class RouteBean implements Serializable {
     }
 
     public void validateGroups(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        ResourceBundle bundle = ResourceBundle.getBundle("strings", context.getViewRoot().getLocale());
 
         if((cvo.getGroups() != null && cvo.getStations() != null && cvo.getGroups().size() > cvo.getStations().size()) || (cvo.getGroups() != null && !cvo.getGroups().isEmpty() && cvo.getStations() == null)){
-            FacesMessage msg = new FacesMessage("There are more groups than stations!");
+            FacesMessage msg = new FacesMessage(bundle.getString("validation_more_groups_than_stations"));
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
         }
@@ -508,10 +506,12 @@ public class RouteBean implements Serializable {
     }
 
     public void validateStationManagerUniqueConstraint(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        ResourceBundle bundle = ResourceBundle.getBundle("strings", context.getViewRoot().getLocale());
+
         if((route.getStationManagers() != null && !route.getStationManagers().isEmpty())){
             for(UserDto m : route.getStationManagers()){
                 if(m.getEmail().equals(value)){
-                    FacesMessage msg = new FacesMessage("This station manager was already added!");
+                    FacesMessage msg = new FacesMessage(bundle.getString("validation_stationmanager_exists"));
                     msg.setSeverity(FacesMessage.SEVERITY_ERROR);
                     throw new ValidatorException(msg);
                 }

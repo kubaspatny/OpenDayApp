@@ -34,8 +34,8 @@ public class StationDto extends BaseDto {
     private String location;
     private String information;
     private boolean closed;
-    private int timeLimit;
-    private int relocationTime;
+    private int timeLimit = 1;
+    private int relocationTime = 1;
     private int sequencePosition;
 
     /**

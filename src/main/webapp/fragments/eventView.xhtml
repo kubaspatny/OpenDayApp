@@ -17,20 +17,20 @@
                         <li class="active">
                             <a data-toggle="tab" href="#information">
                                 <h:graphicImage value="#{resource['images/ic_information_grey600.png']}" styleClass="icon-text"/>
-                                <span>Information</span>
+                                <span><h:outputText value="#{strings['event_information']}"/></span>
                             </a>
                         </li>
                         <li>
                             <a data-toggle="tab" href="#routes">
                                 <h:graphicImage value="#{resource['images/ic_routes_grey600.png']}" styleClass="icon-text"/>
-                                <span>Routes</span>
+                                <span><h:outputText value="#{strings['event_routes']}"/></span>
                             </a>
                         </li>
                         <h:panelGroup layout="block" rendered="#{acl.hasPermission(eventBean.event.id, eventBean.event.ACLObjectIdentityClass, 'WRITE')}">
                             <li>
                                 <a data-toggle="tab" href="#people">
                                     <h:graphicImage value="#{resource['images/ic_people_grey600.png']}" styleClass="icon-text"/>
-                                    <span>People</span>
+                                    <span><h:outputText value="#{strings['event_people']}"/></span>
                                 </a>
                             </li>
                         </h:panelGroup>
@@ -50,16 +50,18 @@
                                         <h:outputLink class="right material-button-flat no-select"
                                                       value="javascript:void(0)"
                                                       rendered="#{acl.hasPermission(eventBean.event.id, eventBean.event.ACLObjectIdentityClass, 'WRITE')}"
-                                                      onclick="PF('edit-event-dlg').show();">EDIT</h:outputLink>
+                                                      onclick="PF('edit-event-dlg').show();">
+                                            <h:outputText value="#{strings['edit']}"/>
+                                        </h:outputLink>
                                     </div>
 
                                     <div class="box-content">
 
-                                        <h:outputText styleClass="font500" value="Information:"/><br/>
+                                        <h:outputText styleClass="font500" value="#{strings['dialog_info']}:"/><br/>
                                         <h:outputText styleClass="font300" value="#{eventBean.event.information}"/>
                                         <h:outputText styleClass="font300 italic" value="No information added yet." rendered="#{empty eventBean.event.information}"/><br/><br/>
 
-                                        <h:outputText styleClass="font500" value="Date:"/><br/>
+                                        <h:outputText styleClass="font500" value="#{strings['dialog_date']}:"/><br/>
                                         <h:outputText styleClass="font300" value="#{eventBean.event.date.toString('dd.MM.yyyy')}" /><br/><br/>
 
                                     </div>
@@ -70,10 +72,10 @@
                             <div class="material-container">
 
                                 <div class="box-toolbar">
-                                    <span class="left title"><h:outputText value="ROUTES"/></span>
-                                    <h:link styleClass="right material-button-flat no-select" value="NEW"
+                                    <span class="left title"><h:outputText value="#{strings['event_routes']}"/></span>
+                                    <h:link styleClass="right material-button-flat no-select" value="#{strings['routes_new_button']}"
                                             outcome="route"
-                                            rendered="#{acl.hasPermission(eventBean.event.id, eventBean.event.ACLObjectIdentityClass, 'WRITE') and eventBean.event.editable}">
+                                            rendered="#{acl.hasPermission(eventBean.event.id, eventBean.event.ACLObjectIdentityClass, 'WRITE') and (eventBean.event.editable or eventBean.event.today)}">
                                         <f:param name="mode" value="create"/>
                                         <f:param name="eventId" value="#{eventBean.eventId}"/>
                                     </h:link>
@@ -104,7 +106,7 @@
                                                 <div class="right">
                                                     <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
                                                                      actionListener="#{eventBean.removeRoute(route.id)}" value="" update="@form">
-                                                        <p:confirm header="Confirmation" message="Do you really want to delete this route?" icon="icon-empty"/>
+                                                        <p:confirm header="#{strings['confirmation']}" message="#{strings['dialog_deleteroute']}" icon="icon-empty"/>
                                                         <f:param name="id" value="#{eventBean.eventId}"/>
                                                     </p:commandButton>
                                                 </div>
@@ -113,7 +115,7 @@
                                         </p:dataTable>
 
                                         <h:panelGroup layout="block" styleClass="alert alert-info" rendered="#{empty eventBean.routes}" >
-                                            <h:outputText value="No routes added yet."/>
+                                            <h:outputText value="#{strings['no_routes']}"/>
                                         </h:panelGroup>
 
                                     </h:form>
@@ -124,10 +126,14 @@
                         <h:panelGroup layout="block" styleClass="tab-pane" id="people" rendered="#{acl.hasPermission(eventBean.event.id, eventBean.event.ACLObjectIdentityClass, 'WRITE')}">
                             <div class="material-container">
                                 <div class="box-toolbar">
-                                    <span class="left title"><h:outputText value="PEOPLE"/></span>
+                                    <span class="left title"><h:outputText value="#{strings['event_people']}"/></span>
                                     <h:form>
-                                        <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('add-person-dlg').show();">NEW</h:outputLink>
-                                        <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('file-upload-dlg').show();">UPLOAD</h:outputLink>
+                                        <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('add-person-dlg').show();">
+                                            <h:outputText value="#{strings['people_new_button']}"/>
+                                        </h:outputLink>
+                                        <h:outputLink class="right material-button-flat no-select" value="javascript:void(0)" onclick="PF('file-upload-dlg').show();">
+                                            <h:outputText value="#{strings['people_upload_button']}"/>
+                                        </h:outputLink>
                                     </h:form>
                                 </div>
 
@@ -143,7 +149,7 @@
                                                 <div class="right">
                                                     <p:commandButton styleClass="material-button-image image-button-delete ui-button-icon-only no-select"
                                                                      actionListener="#{eventBean.removePersonFromEmailList(person)}" value="" update="@form">
-                                                        <p:confirm header="Confirmation" message="Do you really want to delete this email?" icon="icon-empty"/>
+                                                        <p:confirm header="#{strings['confirmation']}" message="#{strings['dialog_deleteemail']}" icon="icon-empty"/>
                                                         <f:param name="id" value="#{eventBean.eventId}"/>
                                                     </p:commandButton>
                                                 </div>
@@ -152,7 +158,7 @@
                                         </p:dataTable>
 
                                         <h:panelGroup layout="block" styleClass="alert alert-info" rendered="#{empty eventBean.event.emailList}" >
-                                            <h:outputText value="No people added yet."/>
+                                            <h:outputText value="#{strings['no_people']}"/>
                                         </h:panelGroup>
 
                                     </h:form>
