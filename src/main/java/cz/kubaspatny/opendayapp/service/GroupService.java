@@ -319,6 +319,25 @@ public class GroupService extends DataAccessService implements IGroupService {
     }
 
     @Override
+    public List<GroupDto> getGroupsWithCurrentLocationAndSizes(Long routeId) throws DataAccessException {
+
+        Route r = dao.getById(routeId, Route.class);
+
+        List<String> ignore = new ArrayList<String>();
+        ignore.add("route");
+        ignore.add("locationUpdates");
+
+        List<GroupDto> groups = new ArrayList<GroupDto>();
+
+        for(Group g : r.getGroups()){
+            groups.add(GroupDto.map(g, new GroupDto(), ignore));
+        }
+
+        return groups;
+
+    }
+
+    @Override
     public void updateLastUpdated(String username) throws DataAccessException {
         long count = getGroupCount(username);
         List<GroupDto> groups = getGroups(username, 0, (int) count);

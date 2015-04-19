@@ -1,14 +1,13 @@
 package cz.kubaspatny.opendayapp.bb;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import cz.kubaspatny.opendayapp.bb.valueobject.CreateRouteValueObject;
 import cz.kubaspatny.opendayapp.bb.valueobject.EditRouteHolder;
-import cz.kubaspatny.opendayapp.bo.Group;
 import cz.kubaspatny.opendayapp.bo.LocationUpdate;
 import cz.kubaspatny.opendayapp.dto.*;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.service.*;
 import org.primefaces.context.RequestContext;
+import org.primefaces.model.chart.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -129,6 +128,8 @@ public class RouteBean implements Serializable {
             try {
                 long parsedRouteId = Long.parseLong(routeId);
                 route = routeService.getRoute(parsedRouteId);
+                route.setStations(stationService.getStations(parsedRouteId));
+                route.setGroups(groupService.getGroupsWithCurrentLocationAndSizes(route.getId()));
                 Collections.sort(route.getStations(), StationDto.StationSequencePosistionComparator);
                 Collections.sort(route.getGroups(), GroupDto.GroupStartingPosistionComparator);
             } catch (NumberFormatException e){
@@ -175,7 +176,8 @@ public class RouteBean implements Serializable {
         try {
             if(mode != null && mode.equals("view") && route != null){
                 route = routeService.getRoute(route.getId());
-                route.setGroups(groupService.getGroupsWithCurrentLocation(route.getId()));
+                route.setStations(stationService.getStations(route.getId()));
+                route.setGroups(groupService.getGroupsWithCurrentLocationAndSizes(route.getId()));
                 Collections.sort(route.getStations(), StationDto.StationSequencePosistionComparator);
                 Collections.sort(route.getGroups(), GroupDto.GroupStartingPosistionComparator);
 
@@ -221,6 +223,7 @@ public class RouteBean implements Serializable {
                 }
 
                 liveStations = stationWrappers;
+                updateStats();
 
             }
         } catch (NumberFormatException e){
@@ -750,4 +753,202 @@ public class RouteBean implements Serializable {
             return;
         }
     }
+
+    private LineChartModel statsAverageTimes;
+    private LineChartModel statsAverageSizes;
+    private BarChartModel statsAverageSize;
+
+    private void updateStatsAverageTimes(){
+        ResourceBundle bundle = ResourceBundle.getBundle("strings", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+
+        LineChartModel model = new LineChartModel();
+        ChartSeries actual = new ChartSeries();
+        actual.setLabel(bundle.getString("actual"));
+
+        ChartSeries expected = new ChartSeries();
+        expected.setLabel(bundle.getString("expected"));
+
+        double max = 0;
+
+        if(route != null){
+            if(route.getStations() != null && !route.getStations().isEmpty()){
+                for(StationDto s : route.getStations()){
+
+                    HashMap<Long, UpdatePair> updates = new HashMap<Long, UpdatePair>();
+
+                    for(LocationUpdateDto u : s.getLocationUpdates()){
+                        Long groupId = u.getGroup().getId();
+                        UpdatePair pair = updates.get(groupId);
+                        if(pair == null) pair = new UpdatePair();
+                        pair.addUpdate(u);
+
+                        updates.put(groupId, pair);
+                    }
+
+                    double averageSeconds = 0;
+                    int groups = 0;
+
+                    for(UpdatePair pair : updates.values()){
+                        long result = pair.calculate();
+                        if(result >= 0){
+                            averageSeconds += result;
+                            groups++;
+                        }
+                    }
+
+
+                    if(groups > 0){
+                        averageSeconds = averageSeconds / (60 * groups) ;
+                        if(averageSeconds > max) max = averageSeconds;
+                        if(s.getTimeLimit() > max) max = s.getTimeLimit();
+
+                        actual.set(s.getName(), averageSeconds);
+                        expected.set(s.getName(), s.getTimeLimit());
+                    }
+                }
+            }
+        }
+
+        model.addSeries(actual);
+        model.addSeries(expected);
+        model.setLegendPosition("ne");
+        model.setTitle(bundle.getString("stats_station_average_time"));
+        model.setShowPointLabels(true);
+        model.getAxes().put(AxisType.X, new CategoryAxis());
+        Axis yAxis = model.getAxis(AxisType.Y);
+        yAxis.setLabel(bundle.getString("stats_station_axisY"));
+        yAxis.setMin(0);
+        yAxis.setMax(Math.ceil(max * 1.5));
+
+        if(max <= 0) {
+            statsAverageTimes = null;
+        } else {
+            statsAverageTimes = model;
+        }
+    }
+
+    private void updateStatsAverageSizes(){
+        ResourceBundle bundle = ResourceBundle.getBundle("strings", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+
+        LineChartModel model = new LineChartModel();
+
+        int max = 0;
+        long minDate = Long.MAX_VALUE;
+        long maxDate = Long.MIN_VALUE;
+
+        double startSizes = 0;
+        int startGroups = 0;
+        double endSizes = 0;
+        int endGroups = 0;
+
+        if(route != null){
+            if(route.getGroups() != null && !route.getGroups().isEmpty()){
+                for(GroupDto g : route.getGroups()){
+
+                    if(g.getGroupSizes() == null || g.getGroupSizes().isEmpty()) continue;
+
+                    ChartSeries series = new ChartSeries();
+                    series.setLabel(g.getGuide().getUsername());
+
+                    for(GroupSizeDto size : g.getGroupSizes()){
+                        long time = size.getTimestamp().toDate().getTime();
+
+                        series.set(time, size.getSize());
+
+                        if(time > maxDate) maxDate = time;
+                        if(time < minDate) minDate = time;
+                        if(size.getSize() > max) max = size.getSize();
+                    }
+
+                    startSizes += g.getGroupSizes().get(0).getSize();
+                    startGroups++;
+                    endSizes += g.getGroupSizes().get(g.getGroupSizes().size() - 1).getSize();
+                    endGroups++;
+
+                    model.addSeries(series);
+
+                }
+            }
+        }
+
+        model.setLegendPosition("ne");
+        model.setTitle(bundle.getString("stats_group_sizes"));
+        model.setShowPointLabels(true);
+        model.getAxes().put(AxisType.X, new DateAxis());
+        model.getAxis(AxisType.X).setTickAngle(-50);
+        model.getAxis(AxisType.X).setMin(minDate);
+        model.getAxis(AxisType.X).setMax(maxDate);
+        model.getAxis(AxisType.X).setTickFormat("%H:%#M:%S");
+        Axis yAxis = model.getAxis(AxisType.Y);
+        yAxis.setLabel(bundle.getString("stats_group_axis"));
+        yAxis.setMin(0);
+        yAxis.setMax(Math.ceil(max * 1.5));
+
+        if(max <= 0) {
+            statsAverageSizes = null;
+        } else {
+            statsAverageSizes = model;
+        }
+
+        if(startGroups > 0) updateBarChart(startSizes/startGroups, endSizes/endGroups);
+    }
+
+    private void updateBarChart(double startSize, double endSize){
+        ResourceBundle bundle = ResourceBundle.getBundle("strings", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+
+        BarChartModel model = new BarChartModel();
+
+        ChartSeries series = new ChartSeries();
+        series.set(bundle.getString("start"), startSize);
+        series.set(bundle.getString("end"), endSize);
+
+        model.addSeries(series);
+
+        model.setTitle(bundle.getString("stats_average_group_size"));
+
+        Axis yAxis = model.getAxis(AxisType.Y);
+        yAxis.setLabel(bundle.getString("stats_average_number_students"));
+        yAxis.setMin(0);
+        yAxis.setMax(40);
+
+        statsAverageSize = model;
+
+    }
+
+    public void updateStats(){
+        updateStatsAverageTimes();
+        updateStatsAverageSizes();
+    }
+
+    public void updateStatsView(){
+        RequestContext.getCurrentInstance().update("stats");
+    }
+
+    public LineChartModel getStatsAverageTimes() {
+
+        if(statsAverageTimes == null){
+            updateStatsAverageTimes();
+        }
+
+        return statsAverageTimes;
+    }
+
+    public LineChartModel getStatsAverageSizes() {
+
+        if(statsAverageSizes == null){
+            updateStatsAverageSizes();
+        }
+
+        return statsAverageSizes;
+    }
+
+    public BarChartModel getStatsAverageSize() {
+
+        if(statsAverageSize == null){
+            updateStatsAverageSizes();
+        }
+
+        return statsAverageSize;
+    }
+
 }

@@ -244,84 +244,110 @@
                     </div>
                 </div>
 
-                <h:panelGroup layout="block" styleClass="row" rendered="#{routeBean.route.today}">
-                    <div class="col-md-6">
-                            <div class="material-container" style="background-color: rgba(0, 124, 10, 0.65);">
+                <h:panelGroup layout="block" styleClass="row">
 
-                                <div class="box-toolbar">
-                                    <span class="left title"><h:outputText value="#{strings['live']}"/></span>
-                                </div>
+                    <h:panelGroup layout="block" styleClass="col-md-6" rendered="#{routeBean.route.today}">
+                        <div class="material-container" style="background-color: rgba(0, 124, 10, 0.65);">
 
-                                <div class="box-content">
-                                    <h:form id="live-form">
-                                        <h:outputText value="#{strings['loading']}" rendered="#{empty routeBean.liveStations}"/>
+                            <div class="box-toolbar">
+                                <span class="left title"><h:outputText value="#{strings['live']}"/></span>
+                            </div>
 
-                                        <p:poll interval="1" listener="#{routeBean.refreshRoute()}" update="@form">
-                                            <f:param name="eventId" value="#{routeBean.eventId}"/>
-                                            <f:param name="routeId" value="#{routeBean.routeId}"/>
-                                            <f:param name="mode" value="view"/>
-                                        </p:poll>
+                            <div class="box-content">
+                                <h:form id="live-form">
+                                    <h:outputText value="#{strings['loading']}" rendered="#{empty routeBean.liveStations}"/>
 
-                                        <p:dataTable var="wrapper" value="#{routeBean.liveStations}" rendered="#{not empty routeBean.liveStations}" styleClass="no-header" style="border-color: #ffffff !important">
-                                            <p:column>
-                                                <h:panelGroup layout="block" styleClass="margin-left-10 max-width">
-                                                    <h:outputText value="#{wrapper.station.name}" style="font-size: 24px"/>
+                                    <p:poll interval="1" listener="#{routeBean.refreshRoute()}" update="@form">
+                                        <f:param name="eventId" value="#{routeBean.eventId}"/>
+                                        <f:param name="routeId" value="#{routeBean.routeId}"/>
+                                        <f:param name="mode" value="view"/>
+                                    </p:poll>
+
+                                    <p:dataTable var="wrapper" value="#{routeBean.liveStations}" rendered="#{not empty routeBean.liveStations}" styleClass="no-header" style="border-color: #ffffff !important">
+                                        <p:column>
+                                            <h:panelGroup layout="block" styleClass="margin-left-10 max-width">
+                                                <h:outputText value="#{wrapper.station.name}" style="font-size: 24px"/>
+                                            </h:panelGroup>
+
+                                            <h:panelGroup layout="block" styleClass="margin-left-10 max-width">
+                                                <h:graphicImage value="#{resource['images/ic_map_marker_grey600_18dp.png']}" styleClass="icon-text"/>
+                                                <h:outputText value="#{wrapper.station.location}" styleClass="padding-left-10"/>
+                                            </h:panelGroup>
+
+                                            <h:panelGroup layout="block" styleClass="margin-left-10 margin-bottom-10 max-width">
+                                                <h:graphicImage value="#{resource['images/ic_clock_grey600_18dp.png']}" styleClass="icon-text"/>
+                                                <h:outputText value="#{wrapper.station.timeLimit} min" styleClass="padding-left-10"/>
+                                            </h:panelGroup>
+
+                                            <ui:repeat value="#{wrapper.groupsAtStation}" var="group" rendered="#{not empty wrapper.groupsAtStation}">
+                                                <h:panelGroup layout="block">
+                                                    <h:graphicImage value="#{resource['images/ic_account_box_blue_18dp.png']}" styleClass="icon-text margin-left-10" rendered="#{group.active}"/>
+                                                    <h:graphicImage value="#{resource['images/ic_account_box_grey600_18dp.png']}" styleClass="icon-text margin-left-10" rendered="#{not group.active}"/>
+                                                    <h:outputText value="#{group.guide.username}" styleClass="padding-left-10"/>
                                                 </h:panelGroup>
 
-                                                <h:panelGroup layout="block" styleClass="margin-left-10 max-width">
-                                                    <h:graphicImage value="#{resource['images/ic_map_marker_grey600_18dp.png']}" styleClass="icon-text"/>
-                                                    <h:outputText value="#{wrapper.station.location}" styleClass="padding-left-10"/>
+                                                <h:panelGroup layout="block">
+                                                    <h:outputText value="#{group.latestLocationUpdate.elapsedDuration}" styleClass="padding-left-10"/>
                                                 </h:panelGroup>
+                                            </ui:repeat>
 
-                                                <h:panelGroup layout="block" styleClass="margin-left-10 margin-bottom-10 max-width">
-                                                    <h:graphicImage value="#{resource['images/ic_clock_grey600_18dp.png']}" styleClass="icon-text"/>
-                                                    <h:outputText value="#{wrapper.station.timeLimit} min" styleClass="padding-left-10"/>
-                                                </h:panelGroup>
+                                            <h:panelGroup layout="block" styleClass="max-width margin-top-10" style="background-color: #C2C2C2; padding: 10px; margin-bottom: -10px;">
+                                                <div style="margin: 0 auto;">
+                                                    <h:graphicImage value="#{resource['images/ic_walk_grey600_24dp.png']}" styleClass="icon-text"/>
+                                                    <h:outputText value="#{wrapper.station.relocationTime} min" styleClass="padding-left-10"/>
+                                                </div>
 
-                                                <ui:repeat value="#{wrapper.groupsAtStation}" var="group" rendered="#{not empty wrapper.groupsAtStation}">
-                                                    <h:panelGroup layout="block">
-                                                        <h:graphicImage value="#{resource['images/ic_account_box_blue_18dp.png']}" styleClass="icon-text margin-left-10" rendered="#{group.active}"/>
-                                                        <h:graphicImage value="#{resource['images/ic_account_box_grey600_18dp.png']}" styleClass="icon-text margin-left-10" rendered="#{not group.active}"/>
-                                                        <h:outputText value="#{group.guide.username}" styleClass="padding-left-10"/>
-                                                    </h:panelGroup>
+                                                <ui:repeat value="#{wrapper.groupsAfterStation}" var="group" rendered="#{not empty wrapper.groupsAfterStation}">
+                                                    <h:panelGroup layout="block" styleClass="max-width margin-top-10">
+                                                        <h:panelGroup layout="block">
+                                                            <h:graphicImage value="#{resource['images/ic_account_box_blue_18dp.png']}" styleClass="icon-text" rendered="#{group.active}"/>
+                                                            <h:graphicImage value="#{resource['images/ic_account_box_grey600_18dp.png']}" styleClass="icon-text" rendered="#{not group.active}"/>
+                                                            <h:outputText value="#{group.guide.username}" styleClass="padding-left-10"/>
+                                                        </h:panelGroup>
 
-                                                    <h:panelGroup layout="block">
-                                                        <h:outputText value="#{group.latestLocationUpdate.elapsedDuration}" styleClass="padding-left-10"/>
+                                                        <h:panelGroup layout="block">
+                                                            <h:outputText value="#{group.latestLocationUpdate.elapsedDuration}" styleClass="padding-left-10"/>
+                                                        </h:panelGroup>
                                                     </h:panelGroup>
                                                 </ui:repeat>
 
-                                                <h:panelGroup layout="block" styleClass="max-width margin-top-10" style="background-color: #C2C2C2; padding: 10px; margin-bottom: -10px;">
-                                                    <div style="margin: 0 auto;">
-                                                        <h:graphicImage value="#{resource['images/ic_walk_grey600_24dp.png']}" styleClass="icon-text"/>
-                                                        <h:outputText value="#{wrapper.station.relocationTime} min" styleClass="padding-left-10"/>
-                                                    </div>
-
-                                                    <ui:repeat value="#{wrapper.groupsAfterStation}" var="group" rendered="#{not empty wrapper.groupsAfterStation}">
-                                                        <h:panelGroup layout="block" styleClass="max-width margin-top-10">
-                                                            <h:panelGroup layout="block">
-                                                                <h:graphicImage value="#{resource['images/ic_account_box_blue_18dp.png']}" styleClass="icon-text" rendered="#{group.active}"/>
-                                                                <h:graphicImage value="#{resource['images/ic_account_box_grey600_18dp.png']}" styleClass="icon-text" rendered="#{not group.active}"/>
-                                                                <h:outputText value="#{group.guide.username}" styleClass="padding-left-10"/>
-                                                            </h:panelGroup>
-
-                                                            <h:panelGroup layout="block">
-                                                                <h:outputText value="#{group.latestLocationUpdate.elapsedDuration}" styleClass="padding-left-10"/>
-                                                            </h:panelGroup>
-                                                        </h:panelGroup>
-                                                    </ui:repeat>
-
-                                                </h:panelGroup>
+                                            </h:panelGroup>
 
 
 
-                                            </p:column>
+                                        </p:column>
 
-                                        </p:dataTable>
+                                    </p:dataTable>
 
-                                    </h:form>
-                                </div>
+                                </h:form>
+
                             </div>
-                    </div>
+                        </div>
+                    </h:panelGroup>
+
+                    <h:panelGroup id="stats" layout="block" styleClass="col-md-6" rendered="#{routeBean.route.afterNow}">
+                        <div class="material-container">
+
+                            <div class="box-toolbar">
+                                <span class="left title"><h:outputText value="#{strings['stats']}"/></span>
+                                <h:link styleClass="right material-button-flat no-select" value="#{strings['stats_update']}"
+                                        onclick="#{routeBean.updateStatsView()}">
+                                    <f:param name="eventId" value="#{routeBean.eventId}"/>
+                                    <f:param name="routeId" value="#{routeBean.routeId}"/>
+                                    <f:param name="mode" value="view"/>
+                                </h:link>
+                            </div>
+
+                            <div class="box-content">
+                                <p:chart type="line" model="#{routeBean.statsAverageTimes}" rendered="#{not empty routeBean.statsAverageTimes}" styleClass="margin-bottom-20"/>
+                                <p:chart type="line" model="#{routeBean.statsAverageSizes}" rendered="#{not empty routeBean.statsAverageSizes}" styleClass="margin-bottom-20"/>
+                                <p:chart type="bar" model="#{routeBean.statsAverageSize}" rendered="#{not empty routeBean.statsAverageSize}"/>
+
+                                <h:outputText value="#{strings['stats_no_data']}" rendered="#{empty routeBean.statsAverageTimes and empty routeBean.statsAverageSizes and empty routeBean.statsAverageSize}"/>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+
                 </h:panelGroup>
 
             </h:panelGroup>

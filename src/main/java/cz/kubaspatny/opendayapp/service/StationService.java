@@ -80,8 +80,11 @@ public class StationService extends DataAccessService implements IStationService
         Route r = dao.getById(routeId, Route.class);
         List<StationDto> stationDtos = new ArrayList<StationDto>();
 
+        List<String> stationIgnoredProperties = new ArrayList<String>();
+        stationIgnoredProperties.add("route");
+
         for(Station s : r.getStations()){
-            stationDtos.add(StationDto.map(s, new StationDto(), DtoMapperUtil.getStationIgnoredProperties()));
+            stationDtos.add(StationDto.map(s, new StationDto(), stationIgnoredProperties));
         }
 
         return stationDtos;

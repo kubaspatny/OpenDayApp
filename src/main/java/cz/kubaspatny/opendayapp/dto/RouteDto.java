@@ -219,6 +219,10 @@ public class RouteDto extends BaseDto {
         return getDate().isAfterNow();
     }
 
+    public boolean isAfterNow(){
+        return getDate().isBeforeNow();
+    }
+
     public boolean isToday(){
         return getDate().withTime(0,0,0,0).isEqual(DateTime.now().withTime(0,0,0,0));
     }
