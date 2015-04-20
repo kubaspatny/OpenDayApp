@@ -875,10 +875,11 @@ public class RouteBean implements Serializable {
         model.setTitle(bundle.getString("stats_group_sizes"));
         model.setShowPointLabels(true);
         model.getAxes().put(AxisType.X, new DateAxis());
+        model.getAxis(AxisType.X).setTickFormat("%H:%M:%S");
         model.getAxis(AxisType.X).setTickAngle(-50);
-        model.getAxis(AxisType.X).setMin(minDate);
-        model.getAxis(AxisType.X).setMax(maxDate);
-        model.getAxis(AxisType.X).setTickFormat("%H:%#M:%S");
+        model.getAxis(AxisType.X).setMin(minDate - 100);
+        model.getAxis(AxisType.X).setMax(maxDate + 100);
+
         Axis yAxis = model.getAxis(AxisType.Y);
         yAxis.setLabel(bundle.getString("stats_group_axis"));
         yAxis.setMin(0);
@@ -902,6 +903,9 @@ public class RouteBean implements Serializable {
         series.set(bundle.getString("start"), startSize);
         series.set(bundle.getString("end"), endSize);
 
+        double max = Math.max(startSize, endSize);
+        max = max + 10;
+
         model.addSeries(series);
 
         model.setTitle(bundle.getString("stats_average_group_size"));
@@ -909,7 +913,7 @@ public class RouteBean implements Serializable {
         Axis yAxis = model.getAxis(AxisType.Y);
         yAxis.setLabel(bundle.getString("stats_average_number_students"));
         yAxis.setMin(0);
-        yAxis.setMax(40);
+        yAxis.setMax(max);
 
         statsAverageSize = model;
 
