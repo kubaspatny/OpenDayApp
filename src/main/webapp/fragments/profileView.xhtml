@@ -15,7 +15,14 @@
                 <span class="left title"><h:outputText value="#{strings['profile']}"/></span>
                 <h:form>
                     <h:link outcome="password" value="#{strings['change_password']}" class="right material-button-flat no-select"/>
-                    <h:outputLink class="right material-button-flat no-select"><h:outputText value="#{strings['deactivate_profile']}"/></h:outputLink>
+                    <h:form>
+                        <p:commandLink styleClass="right material-button-flat no-select" action="#{userBB.deactivate}">
+                            <span class="glyphicon glyphicon-remove margin-right-10"/><h:outputText value="#{strings['deactivate_profile']}"/>
+                            <p:confirm header="#{strings['confirmation']}" message="#{strings['delete_account']}" icon="icon-empty"/>
+                            <f:param name="eventId" value="#{routeBean.eventId}"/>
+                            <f:param name="mode" value="create"/>
+                        </p:commandLink>
+                    </h:form>
                 </h:form>
             </div>
 

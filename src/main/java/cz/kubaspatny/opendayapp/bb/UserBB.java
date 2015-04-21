@@ -63,4 +63,17 @@ public class UserBB {
     public UserDto getUser() {
         return user;
     }
+
+    public String deactivate(){
+
+        try {
+            userService.deactivateUser(user.id);
+            SecurityContextHolder.clearContext();
+            return "login?faces-redirect=true";
+        } catch (DataAccessException e){
+            e.printStackTrace();
+        }
+
+        return "";
+    }
 }

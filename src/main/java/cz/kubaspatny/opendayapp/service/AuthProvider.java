@@ -68,7 +68,7 @@ public class AuthProvider implements AuthenticationProvider {
 
                     String password = (String) authentication.getCredentials();
 
-                    if(u == null || !u.isLoginCorrect(password)){
+                    if(u == null || !u.isLoginCorrect(password) || !u.isUserEnabled()){
                         throw new BadCredentialsException("Wrong username or password.");
                     } else {
 
