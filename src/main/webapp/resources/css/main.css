@@ -199,6 +199,10 @@ a {
     padding-left: 10px !important;
 }
 
+.padding-right-20 {
+    padding-right: 20px !important;
+}
+
 .font500 {
     font-weight: 500;
 }
@@ -370,4 +374,9 @@ table .event-date {
 
 .max-width {
     width: 100%;
+}
+
+.form-register table {
+    border-spacing: 0px 5px !important;
+    border-collapse: separate !important;
 }

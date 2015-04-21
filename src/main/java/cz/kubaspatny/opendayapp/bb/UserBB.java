@@ -1,5 +1,9 @@
 package cz.kubaspatny.opendayapp.bb;
 
+import cz.kubaspatny.opendayapp.dto.UserDto;
+import cz.kubaspatny.opendayapp.exception.DataAccessException;
+import cz.kubaspatny.opendayapp.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,7 +36,10 @@ import javax.annotation.PostConstruct;
 @Scope("session")
 public class UserBB {
 
+    @Autowired private IUserService userService;
+
     private Authentication auth;
+    private UserDto user;
 
     @PostConstruct
     public void init(){
@@ -41,10 +48,19 @@ public class UserBB {
 
     public void refresh(){
         auth = SecurityContextHolder.getContext().getAuthentication();
+        try {
+            user = userService.getUser(getName());
+        } catch (DataAccessException e){
+            //TODO: log
+            user = new UserDto();
+        }
     }
 
     public String getName(){
         return auth.getName();
     }
 
+    public UserDto getUser() {
+        return user;
+    }
 }

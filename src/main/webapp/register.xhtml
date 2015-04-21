@@ -45,11 +45,12 @@
 
         <h:form id="register-form" class="form-register" method="post">
 
-            <div class="logo-registration">
-                <h2><h:outputText styleClass="logo" value="#{strings['registration']}"/></h2>
-            </div>
-
             <h:panelGrid id="panel" columns="3">
+                <span/>
+                <div class="logo-registration">
+                    <h2><h:outputText styleClass="logo" value="#{strings['registration']}"/></h2>
+                </div>
+                <span/>
 
                 <h:panelGroup layout="block" styleClass="alert alert-danger" rendered="#{param.error != null}">
                     <h:outputText value="#{strings['registration.error']}"/>

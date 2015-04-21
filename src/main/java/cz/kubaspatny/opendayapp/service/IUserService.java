@@ -83,6 +83,12 @@ public interface IUserService {
     public void updateUser(UserDto userDto) throws DataAccessException;
 
     /**
+     * Changes user password. @id cannot be null!
+     */
+    @PreAuthorize("hasPermission(#userId, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('User'), 'WRITE')")
+    public void changePassword(Long userId, String oldPassword, String newPassword) throws DataAccessException;
+
+    /**
      * Deactivates user with @userId.
      */
     @PreAuthorize("hasPermission(#userId, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('User'), 'WRITE')")

@@ -152,6 +152,21 @@ public class UserService extends DataAccessService implements IUserService {
     }
 
     @Override
+    public void changePassword(Long userId, String oldPassword, String newPassword) throws DataAccessException {
+
+        User u = dao.getById(userId, User.class);
+        if(u == null) throw new DataAccessException("User not found!", DataAccessException.ErrorCode.INSTANCE_NOT_FOUND);
+
+        if(u.isLoginCorrect(oldPassword)){
+            u.setPassword(newPassword);
+            dao.saveOrUpdate(u);
+        } else {
+            throw new DataAccessException("Wrong password!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
+        }
+
+    }
+
+    @Override
     public void deactivateUser(Long userId) throws DataAccessException  {
 
         User u = dao.getById(userId, User.class);

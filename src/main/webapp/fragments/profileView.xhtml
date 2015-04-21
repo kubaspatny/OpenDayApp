@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<body>
+<ui:composition>
+    <h:panelGroup layout="block" styleClass="col-md-12">
+        <div class="material-container">
+            <div class="box-toolbar">
+                <span class="left title"><h:outputText value="#{strings['profile']}"/></span>
+                <h:form>
+                    <h:link outcome="password" value="#{strings['change_password']}" class="right material-button-flat no-select"/>
+                    <h:outputLink class="right material-button-flat no-select"><h:outputText value="#{strings['deactivate_profile']}"/></h:outputLink>
+                </h:form>
+            </div>
+
+            <div class="box-content">
+
+                <table>
+                    <tr>
+                        <td><h:outputText styleClass="font500 padding-right-20" value="#{strings['username']}:"/></td>
+                        <td><h:outputText styleClass="font300 margin-bottom-20" value="#{userBB.user.username}"/></td>
+                    </tr>
+
+                    <tr>
+                        <td><h:outputText styleClass="font500 padding-right-20" value="#{strings['email']}:"/></td>
+                        <td><h:outputText styleClass="font300 margin-bottom-20" value="#{userBB.user.email}"/></td>
+                    </tr>
+
+                    <tr>
+                        <td><h:outputText styleClass="font500 padding-right-20" value="#{strings['firstname']}:"/></td>
+                        <td>
+                            <span>
+                                <h:outputText styleClass="font300 margin-bottom-2" value="#{userBB.user.firstName}" rendered="#{not empty userBB.user.firstName}"/>
+                                <h:outputText styleClass="font300 margin-bottom-2" value="---" rendered="#{empty userBB.user.firstName}"/>
+                            </span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><h:outputText styleClass="font500 padding-right-20" value="#{strings['lastname']}:"/></td>
+                        <td>
+                            <span>
+                                <h:outputText styleClass="font300 margin-bottom-2" value="#{userBB.user.lastName}" rendered="#{not empty userBB.user.lastName}"/>
+                                <h:outputText styleClass="font300 margin-bottom-2" value="---" rendered="#{empty userBB.user.lastName}"/>
+                            </span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><h:outputText styleClass="font500 padding-right-20" value="#{strings['organization']}:"/></td>
+                        <td>
+                            <span>
+                                <h:outputText styleClass="font300 margin-bottom-2" value="#{userBB.user.organization}" rendered="#{not empty userBB.user.organization}"/>
+                                <h:outputText styleClass="font300 margin-bottom-2" value="---" rendered="#{empty userBB.user.organization}"/>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+    </h:panelGroup>
+</ui:composition>
+</body>
+
+</html>
