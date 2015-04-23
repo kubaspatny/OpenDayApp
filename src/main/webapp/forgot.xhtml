@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="#{localeBean.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<f:view locale="#{localeBean.locale}">
+    <h:head>
+
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+        <title>Password Recovery</title>
+
+        <f:facet name="first">
+            <h:outputScript name="js/bootstrap.js"/>
+        </f:facet>
+
+        <h:outputScript library="primefaces" name="jquery/jquery.js" target="head"/>
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet' type='text/css'/>
+
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{forgotPasswordBB.init}" />
+        </f:metadata>
+
+    </h:head>
+    <h:body>
+        <!-- You need to ensure that your CSS is loaded after the PrimeFaces one. You can achieve this by placing the
+             <h:outputStylesheet> referencing your CSS file inside <h:body> instead of <h:head>. JSF will automatically
+             relocate the stylesheet to the end of the generated HTML <head> and this will thus ensure that the stylesheet
+             is loaded after the PrimeFaces' default styles. This way the selectors in your CSS file which are exactly the
+             same as in PrimeFaces CSS file will get precedence over the PrimeFaces one. -->
+        <h:outputStylesheet name="css/bootstrap.css" />
+        <h:outputStylesheet name="css/login.css" />
+        <h:outputStylesheet name="css/logo.css" />
+
+        <div class="container container-login">
+
+            <h:form styleClass="form-signin">
+
+                <div class="forgot-title">
+                    <h:outputText value="#{strings['password_recovery_title']}"/>
+                </div>
+
+                <h:panelGroup layout="block" styleClass="alert alert-danger" rendered="#{param.error != null}">
+                    <h:outputText value="#{strings['forgot.error']}"/>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="alert alert-success" rendered="#{param.success != null}">
+                    <h:outputText value="#{strings['forgot.success']}"/>
+                </h:panelGroup>
+
+                <h:outputLabel for="email" styleClass="sr-only" value="#{strings['email']}"/>
+                <p:inputText id="email" value="#{forgotPasswordBB.email}" styleClass="form-control" placeholder="#{strings['email']}" required="true"/>
+
+                <h:commandButton action="#{forgotPasswordBB.recoverPassword}" styleClass="btn btn-lg btn-primary btn-block" value="#{strings['send_recovery']}"/>
+
+                <div class="help-signin">
+                    <div class="floatleft"><h:link value="#{strings['gotologin']}" outcome="login"/></div>
+                </div>
+
+            </h:form>
+
+        </div>
+
+    </h:body>
+</f:view>
+</html>

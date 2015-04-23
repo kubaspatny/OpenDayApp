@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="#{localeBean.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<f:view locale="#{localeBean.locale}">
+    <h:head>
+
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+        <title>Registration to Open Days</title>
+
+        <f:facet name="first">
+            <h:outputScript name="js/bootstrap.js"/>
+        </f:facet>
+
+        <h:outputScript library="primefaces" name="jquery/jquery.js"/>
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet'
+              type='text/css'/>
+
+        <f:metadata>
+            <f:viewParam name="token" value="#{recoverBB.token}"/>
+            <f:viewParam name="id" value="#{recoverBB.id}"/>
+            <f:event type="preRenderView" listener="#{recoverBB.init}"/>
+        </f:metadata>
+
+    </h:head>
+    <h:body>
+        <h:outputStylesheet name="css/bootstrap.css"/>
+        <h:outputStylesheet name="css/register.css"/>
+        <h:outputStylesheet name="css/login.css"/>
+        <h:outputStylesheet name="css/langbox.css"/>
+
+        <div class="container container-register">
+
+            <h:form id="register-form" class="form-register" method="post">
+
+                <div class="forgot-title">
+                    <h:outputText value="#{strings['password_recovery_title']}"/>
+                </div>
+
+                <h:panelGroup layout="block" styleClass="alert alert-danger" rendered="#{param.error != null}">
+                    <h:outputText value="#{strings['recovery.error']}"/>
+                </h:panelGroup>
+
+                <h:panelGrid id="panel" columns="3">
+
+                    <p:outputLabel for="password" value="#{strings['password']}" styleClass="sr-only"/>
+                    <p:password id="password" value="#{recoverBB.password}" placeholder="#{strings['password']}"
+                                styleClass="form-control" required="true"
+                                requiredMessage="#{strings['required-password']}">
+                        <f:validateLength minimum="6"/>
+                        <f:validator validatorId="passwordValidator"/>
+                        <f:attribute name="confirm" value="#{confirm}"/>
+                        <p:ajax update="msgPassword" event="keyup"/>
+                    </p:password>
+                    <p:message for="password" id="msgPassword" display="text"/>
+
+                    <p:outputLabel for="password-repeat" value="#{strings['confirm-password']}" styleClass="sr-only"/>
+                    <p:password id="password-repeat" value="#{recoverBB.password}"
+                                placeholder="#{strings['confirm-password']}" styleClass="form-control" required="true"
+                                requiredMessage="#{strings['required-confirmpassword']}" binding="#{confirm}">
+                        <f:validateLength minimum="6"/>
+                        <p:ajax update="msgPassword-repeat" event="keyup"/>
+                    </p:password>
+                    <p:message for="password-repeat" id="msgPassword-repeat" display="text"/>
+
+                </h:panelGrid>
+                <p:commandButton ajax="false" value="#{strings['change_password']}"
+                                 styleClass="btn btn-primary button-register" update="register-form"
+                                 action="#{recoverBB.changePassword}">
+                    <f:param name="token" value="#{recoverBB.token}"/>
+                    <f:param name="id" value="#{recoverBB.id}"/>
+                </p:commandButton>
+
+                <div class="help-register">
+                    <div class="floatleft"><h:link value="#{strings['gotologin']}" outcome="login"/></div>
+                </div>
+
+            </h:form>
+
+        </div>
+
+    </h:body>
+</f:view>
+
+</html>

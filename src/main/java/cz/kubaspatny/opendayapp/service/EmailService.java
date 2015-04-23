@@ -64,15 +64,48 @@ public class EmailService {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(email_username));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-            message.setSubject("Welcome to OpenDayApp!");
-            message.setContent("<h1>Welcome to OpenDayApp</h1>" +
+            message.setSubject("Welcome to Open Days!");
+            message.setContent("<h1>Welcome to Open Days</h1>" +
                                 "<p><b>Username: </b>" + username + "</p>" +
                                 "<p><b>Password: </b>" + password + "</p>" +
-                                "<br><br><p>You can change your password at www.opendayapp.com!</p>", "text/html");
+                                "<br><br><p>You can change your password at dod.felk.cvut.cz!</p>", "text/html");
             Transport.send(message);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Async
+    public void sendForgotEmail(String email, String token, Long userId){
+
+        String recoveryLink = "http://dod.felk.cvut.cz/forgot.xhtml?token=" + token + "&id=" + userId;
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", email_host);
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(email_username, email_password);
+                    }
+                });
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(email_username));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+            message.setSubject("Open Days password recovery");
+            message.setContent("<h1>Seems like you forgot your password</h1>" +
+                    "<p><a href=\"" + recoveryLink + "\">" + "Recover password</a>" +
+                    "<br><br><p>In case you didn't request password recovery, just ignore this email.</p>", "text/html");
+            Transport.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 }

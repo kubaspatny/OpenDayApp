@@ -1,10 +1,12 @@
 package cz.kubaspatny.opendayapp.service;
 
+import cz.kubaspatny.opendayapp.bo.ChangePasswordToken;
 import cz.kubaspatny.opendayapp.bo.User;
 import cz.kubaspatny.opendayapp.dto.UserDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
 import cz.kubaspatny.opendayapp.utils.PasswordGenerator;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
@@ -171,6 +173,37 @@ public class UserService extends DataAccessService implements IUserService {
 
         User u = dao.getById(userId, User.class);
         u.setUserEnabled(false);
+        dao.saveOrUpdate(u);
+
+    }
+
+    @Override
+    public void sendPasswordResetEmail(String emailAddress) throws DataAccessException {
+        if(emailAddress == null || emailAddress.isEmpty() || isEmailFree(emailAddress)) throw new DataAccessException("Empty argument(s).", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
+
+        User u = dao.getByPropertyUnique("email", emailAddress.toLowerCase(), User.class);
+        String token = PasswordGenerator.generatePassword(40);
+
+        ChangePasswordToken t = new ChangePasswordToken();
+        t.setUserId(u.getId());
+        t.setToken(token);
+        t.setExpiration(DateTime.now().plusHours(3));
+        t = dao.saveOrUpdate(t);
+
+        emailService.sendForgotEmail(emailAddress, token, u.getId());
+    }
+
+    @Override
+    public void resetPassword(Long userId, String token, String newPassword) throws DataAccessException {
+
+        if(userId == null || token == null || newPassword == null) throw new DataAccessException("Empty argument(s).", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
+        ChangePasswordToken t = dao.getByPropertyUnique("token", token, ChangePasswordToken.class);
+
+        if(t == null || t.isExpired()) throw new DataAccessException("Token expired!");
+        if(!t.getUserId().equals(userId)) throw new DataAccessException("Wrong user id.");
+
+        User u = dao.getById(userId, User.class);
+        u.setPassword(newPassword);
         dao.saveOrUpdate(u);
 
     }

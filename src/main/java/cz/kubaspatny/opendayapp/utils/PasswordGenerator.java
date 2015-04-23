@@ -28,6 +28,7 @@ public class PasswordGenerator {
 
     private static Random random = new Random();
     private static final String alphabet = "abcdefghijklmnopqrstuvxyz0123456789";
+    private static final String alphabetStrong = "abcdefghijklmnopqrstuvxyz0123456789~!@#$%^&*()";
 
     /**
      * Generates a pseudorandom string of lenght @length, which can be user as a password for generated users.
@@ -44,6 +45,15 @@ public class PasswordGenerator {
         return sb.toString();
     }
 
+    public static String generateStrongPassword(int length){
+        StringBuilder sb = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+            sb.append(alphabetStrong.charAt(random.nextInt(alphabetStrong.length())));
+        }
+
+        return sb.toString();
+    }
 
 
 }
