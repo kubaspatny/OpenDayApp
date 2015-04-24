@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<body>
+<ui:composition>
+
+    <p:dialog header="#{strings['dialog_edit_user']}" id="edit-user-dlg" widgetVar="edit-user-dlg" resizable="false" draggable="false" modal="true">
+        <h:form id="edit-user-form" styleClass="form-table">
+
+            <h:panelGrid columns="3">
+
+                <p:outputLabel for="edit-user-firstname" value="#{strings['firstname']}"/>
+                <p:inputText id="edit-user-firstname" value="#{userBB.editUser.firstName}"
+                             placeholder="#{strings['firstname']}" styleClass="form-control margin-left-10"
+                             required="true" requiredMessage="#{strings['required-firstname']}">
+                    <p:ajax update="msgEditFirstName" event="keyup"/>
+                </p:inputText>
+                <p:message for="edit-user-firstname" id="msgEditFirstName" display="text"/>
+
+                <p:outputLabel for="edit-user-lastname" value="#{strings['lastname']}"/>
+                <p:inputText id="edit-user-lastname" value="#{userBB.editUser.lastName}"
+                             placeholder="#{strings['lastname']}" styleClass="form-control margin-left-10"
+                             required="true" requiredMessage="#{strings['required-lastname']}">
+                    <p:ajax update="msgEditLastName" event="keyup"/>
+                </p:inputText>
+                <p:message for="edit-user-lastname" id="msgEditLastName" display="text"/>
+
+                <p:outputLabel for="edit-user-organization" value="#{strings['organization']}"/>
+                <p:inputText id="edit-user-organization" value="#{userBB.editUser.organization}" placeholder="#{strings['organization']}" styleClass="form-control margin-left-10">
+                    <p:ajax update="msgEditOrganization" event="keyup"/>
+                </p:inputText>
+                <p:message for="edit-user-firstname" id="msgEditOrganization" display="text"/>
+
+
+            </h:panelGrid>
+            <p:commandButton value="#{strings['dialog_save_changes']}" styleClass="margin-top-10"
+                             update="@form :profile-view-info" ajax="true"
+                             action="#{userBB.updateUserInformation}"
+                             oncomplete="if (args &amp;&amp; !args.validationFailed &amp;&amp; !args.errorUpdatingUser) PF('edit-user-dlg').hide()"/>
+
+        </h:form>
+    </p:dialog>
+
+
+</ui:composition>
+</body>
+
+</html>

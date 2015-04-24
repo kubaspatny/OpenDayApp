@@ -9,20 +9,25 @@
 
 <body>
 <ui:composition>
-    <h:panelGroup layout="block" styleClass="col-md-12">
+    <h:panelGroup id="profile-view-info" layout="block" styleClass="col-md-12">
         <div class="material-container">
             <div class="box-toolbar">
                 <span class="left title"><h:outputText value="#{strings['profile']}"/></span>
                 <h:form>
+                    <p:commandLink styleClass="right material-button-flat no-select"
+                                   value="#{strings['edit']}" action="#{userBB.getEditUser()}"
+                                   update=":edit-user-dlg"
+                                   oncomplete="PF('edit-user-dlg').show();">
+                    </p:commandLink>
+
                     <h:link outcome="password" value="#{strings['change_password']}" class="right material-button-flat no-select"/>
-                    <h:form>
-                        <p:commandLink styleClass="right material-button-flat no-select" action="#{userBB.deactivate}">
-                            <span class="glyphicon glyphicon-remove margin-right-10"/><h:outputText value="#{strings['deactivate_profile']}"/>
-                            <p:confirm header="#{strings['confirmation']}" message="#{strings['delete_account']}" icon="icon-empty"/>
-                            <f:param name="eventId" value="#{routeBean.eventId}"/>
-                            <f:param name="mode" value="create"/>
-                        </p:commandLink>
-                    </h:form>
+
+                    <p:commandLink styleClass="right material-button-flat no-select" action="#{userBB.deactivate}">
+                        <span class="glyphicon glyphicon-remove margin-right-10"/><h:outputText value="#{strings['deactivate_profile']}"/>
+                        <p:confirm header="#{strings['confirmation']}" message="#{strings['delete_account']}" icon="icon-empty"/>
+                    </p:commandLink>
+
+
                 </h:form>
             </div>
 

@@ -3,13 +3,17 @@ package cz.kubaspatny.opendayapp.bb;
 import cz.kubaspatny.opendayapp.dto.UserDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.service.IUserService;
+import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
+import java.io.IOException;
 
 /**
  * Author: Kuba Spatny
@@ -40,6 +44,7 @@ public class UserBB {
 
     private Authentication auth;
     private UserDto user;
+    private UserDto editUser;
 
     @PostConstruct
     public void init(){
@@ -75,5 +80,43 @@ public class UserBB {
         }
 
         return "";
+    }
+
+    public UserDto getEditUser() {
+        if(editUser == null){
+            editUser = new UserDto();
+            editUser.setFirstName(user.getFirstName());
+            editUser.setLastName(user.getLastName());
+            editUser.setOrganization(user.getOrganization());
+        }
+
+        return editUser;
+    }
+
+    public void setEditUser(UserDto editUser) {
+        this.editUser = editUser;
+    }
+
+    public void updateUserInformation() throws IOException {
+
+        try {
+            if(editUser != null){
+                user.setFirstName(editUser.getFirstName());
+                user.setLastName(editUser.getLastName());
+                user.setOrganization(editUser.getOrganization());
+            }
+
+            userService.updateUser(user);
+            refresh();
+        } catch (DataAccessException e){
+            RequestContext.getCurrentInstance().addCallbackParam("errorUpdatingUser", true);
+            return;
+        } catch (AccessDeniedException e){
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            facesContext.getExternalContext().responseSendError(401, "Access to route denied!");
+            facesContext.responseComplete();
+            return;
+        }
+
     }
 }
