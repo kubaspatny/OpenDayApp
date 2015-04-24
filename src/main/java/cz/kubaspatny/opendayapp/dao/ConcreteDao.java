@@ -1,6 +1,5 @@
 package cz.kubaspatny.opendayapp.dao;
 
-import cz.kubaspatny.opendayapp.bo.AbstractBusinessObject;
 import cz.kubaspatny.opendayapp.bo.Group;
 import cz.kubaspatny.opendayapp.bo.Route;
 import cz.kubaspatny.opendayapp.bo.User;
@@ -98,6 +97,12 @@ public class ConcreteDao {
                 .setFirstResult(page * pageSize)
                 .setMaxResults(pageSize)
                 .getResultList();
+    }
+
+    public int deleteExpiredRecoveryTokens(){
+        return getEntityManager().createQuery("DELETE FROM ChangePasswordToken c WHERE c.expiration <= :now")
+                .setParameter("now", DateTime.now())
+                .executeUpdate();
     }
 
     public Long countGroups(String username) throws DataAccessException {

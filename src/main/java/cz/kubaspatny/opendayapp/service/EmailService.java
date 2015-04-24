@@ -1,6 +1,5 @@
 package cz.kubaspatny.opendayapp.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -64,11 +63,12 @@ public class EmailService {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(email_username));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-            message.setSubject("Welcome to Open Days!");
-            message.setContent("<h1>Welcome to Open Days</h1>" +
-                                "<p><b>Username: </b>" + username + "</p>" +
-                                "<p><b>Password: </b>" + password + "</p>" +
-                                "<br><br><p>You can change your password at dod.felk.cvut.cz!</p>", "text/html");
+            message.setSubject("Registrace Open Days");
+            message.setContent("<h1>Váš email byl registrován do aplikace Open Days</h1>" +
+                    "<p>Přihlásit se můžete s na adrese dod.felk.cvut.cz.</p>" +
+                    "<p><b>Uživatelské jméno: </b>" + username + "</p>" +
+                    "<p><b>Heslo: </b>" + password + "</p>" +
+                    "<br><br><p>Heslo si můžete změnit po přihlášení!</p>", "text/html; charset=utf-8");
             Transport.send(message);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
@@ -78,7 +78,7 @@ public class EmailService {
     @Async
     public void sendForgotEmail(String email, String token, Long userId){
 
-        String recoveryLink = "http://dod.felk.cvut.cz/forgot.xhtml?token=" + token + "&id=" + userId;
+        String recoveryLink = "http://dod.felk.cvut.cz/recover.xhtml?token=" + token + "&id=" + userId;
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -97,10 +97,10 @@ public class EmailService {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(email_username));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-            message.setSubject("Open Days password recovery");
-            message.setContent("<h1>Seems like you forgot your password</h1>" +
-                    "<p><a href=\"" + recoveryLink + "\">" + "Recover password</a>" +
-                    "<br><br><p>In case you didn't request password recovery, just ignore this email.</p>", "text/html");
+            message.setSubject("Obnovení hesla");
+            message.setContent("<h1>Vypadá to, že jste zapomněli heslo..</h1>" +
+                    "<p>Pro obnovení hesla klikněte <a href=\"" + recoveryLink + "\">" + "zde</a>." +
+                    "<br><br><p>V případě, že jste nezažádali o obnovení hesla, tento email ignorujte.</p>", "text/html; charset=utf-8");
             Transport.send(message);
         } catch (MessagingException e) {
             throw new RuntimeException(e);

@@ -13,9 +13,6 @@ http://en.wikibooks.org/wiki/Java_Persistence/ManyToMany
 BUGS
 ===
 
-- When route/group/stationmanager is deleted, ACL Entry for event "guide 'READ'" is not deleted! It can be deleted ONLY if
- the user is not guide/stationmanager at any other route
-
 EMAILS
 ===
 

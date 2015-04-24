@@ -2,6 +2,7 @@ package cz.kubaspatny.opendayapp.service;
 
 import cz.kubaspatny.opendayapp.bo.ChangePasswordToken;
 import cz.kubaspatny.opendayapp.bo.User;
+import cz.kubaspatny.opendayapp.dao.ConcreteDao;
 import cz.kubaspatny.opendayapp.dto.UserDto;
 import cz.kubaspatny.opendayapp.exception.DataAccessException;
 import cz.kubaspatny.opendayapp.utils.DtoMapperUtil;
@@ -41,6 +42,7 @@ import java.util.List;
 public class UserService extends DataAccessService implements IUserService {
 
     @Autowired private EmailService emailService;
+    @Autowired private ConcreteDao concreteDao;
 
     @Override
     public boolean isUsernameFree(String username) throws DataAccessException {
@@ -205,6 +207,9 @@ public class UserService extends DataAccessService implements IUserService {
         User u = dao.getById(userId, User.class);
         u.setPassword(newPassword);
         dao.saveOrUpdate(u);
+
+        dao.remove(t);
+        concreteDao.deleteExpiredRecoveryTokens();
 
     }
 }
