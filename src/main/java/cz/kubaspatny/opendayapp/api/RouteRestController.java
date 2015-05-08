@@ -47,7 +47,7 @@ public class RouteRestController extends ExceptionHandlingController {
     @Autowired IRouteService routeService;
     @Autowired IGroupService groupService;
 
-    @RequestMapping(value = "/{routeId}")
+    @RequestMapping(value = "/{routeId}", produces = "application/json; charset=utf-8")
     @ResponseBody
     public String getRoute(@PathVariable Long routeId) throws DataAccessException {
         Authentication a = SecurityContextHolder.getContext().getAuthentication();
@@ -60,7 +60,7 @@ public class RouteRestController extends ExceptionHandlingController {
         return gson.toJson(routeDto);
     }
 
-    @RequestMapping(value = "/{routeId}/stations")
+    @RequestMapping(value = "/{routeId}/stations", produces = "application/json; charset=utf-8")
     @ResponseBody
     public String getStations(@PathVariable Long routeId) throws DataAccessException {
         Authentication a = SecurityContextHolder.getContext().getAuthentication();
@@ -73,7 +73,7 @@ public class RouteRestController extends ExceptionHandlingController {
         return gson.toJson(stationDtos);
     }
 
-    @RequestMapping(value = "/{routeId}/groups")
+    @RequestMapping(value = "/{routeId}/groups", produces = "application/json; charset=utf-8")
     @ResponseBody
     public String getGroups(@PathVariable Long routeId) throws DataAccessException {
         Authentication a = SecurityContextHolder.getContext().getAuthentication();

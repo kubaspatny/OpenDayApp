@@ -50,7 +50,7 @@ public class UserRestController extends ExceptionHandlingController {
     @Autowired private IGroupService groupService;
     @Autowired private IRouteService routeService;
 
-    @RequestMapping(value = "/{username}/groups")
+    @RequestMapping(value = "/{username}/groups", produces = "application/json; charset=utf-8")
     @ResponseBody
     public String getGroups(@PathVariable String username, @RequestParam("page") int page, @RequestParam("pageSize") int pageSize) throws DataAccessException {
         Authentication a = SecurityContextHolder.getContext().getAuthentication();
@@ -75,7 +75,7 @@ public class UserRestController extends ExceptionHandlingController {
         return gson.toJson(groupService.getGroupCount(username));
     }
 
-    @RequestMapping(value = "/{username}/managedroutes")
+    @RequestMapping(value = "/{username}/managedroutes", produces = "application/json; charset=utf-8")
     @ResponseBody
     public String getManagedRoutes(@PathVariable String username, @RequestParam("page") int page, @RequestParam("pageSize") int pageSize) throws DataAccessException {
         Authentication a = SecurityContextHolder.getContext().getAuthentication();
