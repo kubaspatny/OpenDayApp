@@ -21,6 +21,8 @@ import java.util.Date;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Data Transfer Object to be used when editing an event.
  */
 public class EditEventHolder {
     private String name;

@@ -23,9 +23,18 @@ import com.google.gson.annotations.Expose;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Custom exclusion strategy, which allows skipping class field
+ * when using GSON serializer.
+ *
+ * To exclude a field, add the following annotation:
+ * @Expose(serialize = false)
  */
 public class CustomExposeExclusionStrategy implements ExclusionStrategy {
 
+    /**
+     * @return true if @Expose annotation is present and its parameter serialize is false
+     */
     @Override
     public boolean shouldSkipField(FieldAttributes fieldAttributes) {
         final Expose expose = fieldAttributes.getAnnotation(Expose.class);

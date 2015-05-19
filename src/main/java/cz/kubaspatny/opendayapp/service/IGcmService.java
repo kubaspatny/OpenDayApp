@@ -33,9 +33,8 @@ import java.util.Map;
 public interface IGcmService {
 
     /**
-     * Sends a notification on a separate thread.
+     * Sends a notification.
      */
-//    @Async
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('ROLE_USER')")
     public void sendNotification(Map<String, String> data, List<String> registrationIds) throws DataAccessException;

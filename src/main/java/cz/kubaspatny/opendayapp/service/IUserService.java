@@ -94,8 +94,19 @@ public interface IUserService {
     @PreAuthorize("hasPermission(#userId, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('User'), 'WRITE')")
     public void deactivateUser(Long userId) throws DataAccessException;
 
+    /**
+     * Sends password recovery email to given email adress.
+     * @throws DataAccessException
+     */
     public void sendPasswordResetEmail(String emailAddress) throws DataAccessException;
 
+    /**
+     * Sets new user password authorized by recovery token.
+     * @param userId user's id
+     * @param token recovery token
+     * @param newPassword new password
+     * @throws DataAccessException
+     */
     public void resetPassword(Long userId, String token, String newPassword) throws DataAccessException;
 
 }

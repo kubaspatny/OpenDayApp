@@ -30,6 +30,8 @@ import javax.servlet.http.HttpServletResponse;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Custom OAuth2 Exception Renderer to be used within the Spring framework.
  */
 public class SimpleOAuth2ExceptionRenderer implements OAuth2ExceptionRenderer {
 

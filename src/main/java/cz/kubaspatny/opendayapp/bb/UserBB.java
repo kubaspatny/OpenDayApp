@@ -56,7 +56,7 @@ public class UserBB {
         try {
             user = userService.getUser(getName());
         } catch (DataAccessException e){
-            //TODO: log
+            e.printStackTrace();
             user = new UserDto();
         }
     }

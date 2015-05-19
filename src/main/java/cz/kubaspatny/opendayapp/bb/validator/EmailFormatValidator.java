@@ -32,6 +32,8 @@ import java.util.ResourceBundle;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Custom email format validator to be used in JSF pages.
  */
 @Component
 @Scope("request")

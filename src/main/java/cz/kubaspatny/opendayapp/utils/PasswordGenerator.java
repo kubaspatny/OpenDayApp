@@ -31,9 +31,8 @@ public class PasswordGenerator {
     private static final String alphabetStrong = "abcdefghijklmnopqrstuvxyz0123456789~!@#$%^&*()";
 
     /**
-     * Generates a pseudorandom string of lenght @length, which can be user as a password for generated users.
-     * @param length
-     * @return
+     * Generates a pseudorandom string of given lenght using characters from @see alphabet,
+     * which can be user as a password for generated users.
      */
     public static String generatePassword(int length){
         StringBuilder sb = new StringBuilder(length);
@@ -45,6 +44,10 @@ public class PasswordGenerator {
         return sb.toString();
     }
 
+    /**
+     * Generates a pseudorandom string of given lenght using characters from @see alphabetStrong,
+     * which can be user as a password for generated users.
+     */
     public static String generateStrongPassword(int length){
         StringBuilder sb = new StringBuilder(length);
 
@@ -54,6 +57,5 @@ public class PasswordGenerator {
 
         return sb.toString();
     }
-
 
 }

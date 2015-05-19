@@ -33,6 +33,8 @@ import java.util.List;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Custom Data Access Service for Spring Security framework.
  */
 public class DataAccessService {
 

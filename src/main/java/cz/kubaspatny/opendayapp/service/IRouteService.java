@@ -88,13 +88,25 @@ public interface IRouteService {
     @PreAuthorize("hasPermission(#id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Route'), 'WRITE')")
     public void removeStationManager(Long id, String stationManagerEmail) throws DataAccessException;
 
+    /**
+     * Returns a list of routes of an event.
+     * @throws DataAccessException
+     */
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostFilter("hasPermission(filterObject.id, filterObject.ACLObjectIdentityClass, 'READ')")
     public List<RouteDto> getRoutes(Long eventId) throws DataAccessException;
 
+    /**
+     * Returns the number of available upcoming managed routes for given username.
+     * @throws DataAccessException
+     */
     @PreAuthorize("hasRole('ROLE_USER')")
     public Long countUpcomingManagedRoutes(String username) throws DataAccessException;
 
+    /**
+     * Returns the list of available upcoming managed routes for given username.
+     * @throws DataAccessException
+     */
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostFilter("hasPermission(filterObject.id, filterObject.ACLObjectIdentityClass, 'READ')")
     public List<RouteDto> getUpcomingManagedRoutes(String username, int page, int pageSize) throws DataAccessException;

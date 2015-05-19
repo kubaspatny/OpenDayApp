@@ -54,9 +54,6 @@ public class AuthService extends AbstractUserDetailsAuthenticationProvider {
      */
     @Override
     protected UserDetails retrieveUser(final String username, final UsernamePasswordAuthenticationToken upat) throws AuthenticationException {
-
-        //TODO: Add user retrieval
-
         return null;
     }
 

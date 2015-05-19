@@ -30,6 +30,9 @@ import javax.servlet.http.HttpServletResponse;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Exception handling controller class, which returns HTTP error code in case
+ * of an exception in any of the child classes.
  */
 public class ExceptionHandlingController {
 

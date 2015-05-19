@@ -28,6 +28,8 @@ import java.util.Properties;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Email Service used for asynchronous sending of emails.
  */
 
 @Service("emailService")
@@ -75,6 +77,12 @@ public class EmailService {
         }
     }
 
+    /**
+     * Sends recovery email
+     * @param email email address
+     * @param token recovery token
+     * @param userId user's id
+     */
     @Async
     public void sendForgotEmail(String email, String token, Long userId){
 

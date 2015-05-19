@@ -46,6 +46,12 @@ public class GroupRestController extends ExceptionHandlingController {
 
     @Autowired IGroupService groupService;
 
+    /**
+     * Saves a new location udpate.
+     * @param locationJson location update
+     * @return id of the new location update
+     * @throws DataAccessException
+     */
     @RequestMapping(value = "/locationUpdate", method = RequestMethod.POST)
     @ResponseBody
     public String getRoute(@RequestBody String locationJson) throws DataAccessException {
@@ -58,6 +64,11 @@ public class GroupRestController extends ExceptionHandlingController {
         return groupService.addLocationUpdate(updateDto).toString();
     }
 
+    /**
+     * Changes starting position of a group.
+     * @param startingPositionJson new starting position
+     * @throws DataAccessException
+     */
     @RequestMapping(value = "/startingPosition", method = RequestMethod.POST)
     @ResponseBody
     public void setGroupStartingPosition(@RequestBody String startingPositionJson) throws DataAccessException {
@@ -73,6 +84,11 @@ public class GroupRestController extends ExceptionHandlingController {
         groupService.setGroupStartingPosition(position.getGroupId(), position.getStartingPosition());
     }
 
+    /**
+     * Saves new group size.
+     * @param groupSizeJson new size
+     * @throws DataAccessException
+     */
     @RequestMapping(value = "/groupSize", method = RequestMethod.POST)
     @ResponseBody
     public void addGroupSize(@RequestBody String groupSizeJson) throws DataAccessException {

@@ -35,6 +35,8 @@ import java.util.List;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Data Access Object for queries which can't be too generic.
  */
 
 @Component("concreteDao")
@@ -50,7 +52,10 @@ public class ConcreteDao {
         return EntityManagerFactoryUtils.getTransactionalEntityManager(entityManagerfactory); //entity manager with @Transactional support
     }
 
-
+    /**
+     * Returns a list of groups for given username ordered by date.
+     * @throws DataAccessException
+     */
     public List<Group> getGroups(String username) throws DataAccessException {
 
         User u = dao.getByPropertyUnique("username", username, User.class);
@@ -59,6 +64,13 @@ public class ConcreteDao {
                 .setParameter("guide", u).getResultList();
     }
 
+    /**
+     * Returns a list (page) of groups for given username ordered by date.
+     * @param username user's username
+     * @param page pagination page
+     * @param pageSize pagination page size
+     * @throws DataAccessException
+     */
     public List<Group> getGroups(String username, int page, int pageSize) throws DataAccessException {
 
         User u = dao.getByPropertyUnique("username", username, User.class);
@@ -79,6 +91,13 @@ public class ConcreteDao {
 
     }
 
+    /**
+     * Returns a list (page) of groups only in upcoming events for given username ordered by date.
+     * @param username user's username
+     * @param page pagination page
+     * @param pageSize pagination page size
+     * @throws DataAccessException
+     */
     public List<Group> getUpcomingEventsGroups(String username, int page, int pageSize) throws DataAccessException {
 
         User u = dao.getByPropertyUnique("username", username, User.class);
@@ -99,12 +118,19 @@ public class ConcreteDao {
                 .getResultList();
     }
 
+    /**
+     * Deletes expired password recovery tokens.
+     */
     public int deleteExpiredRecoveryTokens(){
         return getEntityManager().createQuery("DELETE FROM ChangePasswordToken c WHERE c.expiration <= :now")
                 .setParameter("now", DateTime.now())
                 .executeUpdate();
     }
 
+    /**
+     * Counts the number of groups for given username.
+     * @throws DataAccessException
+     */
     public Long countGroups(String username) throws DataAccessException {
         User u = dao.getByPropertyUnique("username", username, User.class);
 
@@ -119,6 +145,10 @@ public class ConcreteDao {
 
     }
 
+    /**
+     * Counts the number of groups in upcoming events for given username.
+     * @throws DataAccessException
+     */
     public Long countUpcomingEventsGroups(String username) throws DataAccessException {
         User u = dao.getByPropertyUnique("username", username, User.class);
 
@@ -134,6 +164,13 @@ public class ConcreteDao {
 
     }
 
+    /**
+     * Returns a list (page) of upcoming managed routes for given username.
+     * @param username user's username
+     * @param page pagination page
+     * @param pageSize pagination page size
+     * @throws DataAccessException
+     */
     public List<Route> getUpcomingManagedRoutes(String username, int page, int pageSize) throws DataAccessException {
 
         User u = dao.getByPropertyUnique("username", username, User.class);
@@ -158,6 +195,10 @@ public class ConcreteDao {
 
     }
 
+    /**
+     * Returns the number of upcoming managed routes for given username.
+     * @throws DataAccessException
+     */
     public Long countUpcomingManagedRoutes(String username) throws DataAccessException {
         User u = dao.getByPropertyUnique("username", username, User.class);
         List<Route> managedRoutes = u.getManagedRoutes();

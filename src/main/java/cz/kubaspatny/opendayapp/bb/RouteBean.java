@@ -49,10 +49,14 @@ import java.util.*;
 @ViewScoped
 public class RouteBean implements Serializable {
 
-    @Autowired transient IRouteService routeService;
-    @Autowired transient IStationService stationService;
-    @Autowired transient IEventService eventService;
-    @Autowired transient IGroupService groupService;
+    @Autowired
+    transient IRouteService routeService;
+    @Autowired
+    transient IStationService stationService;
+    @Autowired
+    transient IEventService eventService;
+    @Autowired
+    transient IGroupService groupService;
 
     private String eventId;
     private String routeId;
@@ -67,6 +71,10 @@ public class RouteBean implements Serializable {
 
     private boolean errorUpdatingRoute;
     private boolean errorUpdatingStation;
+    private int selectedStation;
+    private LineChartModel statsAverageTimes;
+    private LineChartModel statsAverageSizes;
+    private BarChartModel statsAverageSize;
 
     public void init() {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
@@ -75,23 +83,23 @@ public class RouteBean implements Serializable {
                 getAutowireCapableBeanFactory().
                 autowireBean(this);
 
-        if(eventId != null){
+        if (eventId != null) {
             try {
                 loadEvent();
-            } catch (IOException e){
-                // TODO: log message (couldn't redirect to error code)
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         } else {
             try {
                 FacesContext facesContext = FacesContext.getCurrentInstance();
                 facesContext.getExternalContext().responseSendError(404, "ID parameter missing!");
                 facesContext.responseComplete();
-            } catch (IOException e){
-                // TODO: log message (couldn't redirect to error code)
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
-        if(cvo == null){
+        if (cvo == null) {
             cvo = new CreateRouteValueObject();
         }
 
@@ -104,7 +112,7 @@ public class RouteBean implements Serializable {
 
     public void loadEvent() throws IOException {
 
-        if(mode == null || !(mode.equals("view") || mode.equals("create") || mode.equals("edit"))){
+        if (mode == null || !(mode.equals("view") || mode.equals("create") || mode.equals("edit"))) {
             redirectToError(404, "Wrong mode selected!");
             return;
         }
@@ -113,18 +121,18 @@ public class RouteBean implements Serializable {
         try {
             long parsedEventId = Long.parseLong(eventId);
             event = eventService.getEvent(parsedEventId);
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             redirectToError(404, "Number format exception!");
             return;
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             redirectToError(404, "Event not found!");
             return;
-        } catch (AccessDeniedException e){
+        } catch (AccessDeniedException e) {
             redirectToError(401, "Access to event denied!");
             return;
         }
 
-        if(mode.equals("view") || mode.equals("edit")){
+        if (mode.equals("view") || mode.equals("edit")) {
             try {
                 long parsedRouteId = Long.parseLong(routeId);
                 route = routeService.getRoute(parsedRouteId);
@@ -132,13 +140,13 @@ public class RouteBean implements Serializable {
                 route.setGroups(groupService.getGroupsWithCurrentLocationAndSizes(route.getId()));
                 Collections.sort(route.getStations(), StationDto.StationSequencePosistionComparator);
                 Collections.sort(route.getGroups(), GroupDto.GroupStartingPosistionComparator);
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 redirectToError(404, "Number format exception!");
                 return;
-            } catch (DataAccessException e){
+            } catch (DataAccessException e) {
                 redirectToError(404, "Route not found!");
                 return;
-            } catch (AccessDeniedException e){
+            } catch (AccessDeniedException e) {
                 redirectToError(401, "Access to route denied!");
                 return;
             }
@@ -146,19 +154,23 @@ public class RouteBean implements Serializable {
 
     }
 
-    private HashMap<Long, List<GroupDto>> processGroups(List<GroupDto> groups){
+    /**
+     * Processes groups to create hashmap where stations' ids are the key,
+     * for groups currently located at that particular station.
+     */
+    private HashMap<Long, List<GroupDto>> processGroups(List<GroupDto> groups) {
 
         HashMap<Long, List<GroupDto>> groupMap = new HashMap<Long, List<GroupDto>>();
 
-        for(GroupDto g : groups){
+        for (GroupDto g : groups) {
 
-            if(g.getLatestLocationUpdate() == null){ // Group hasn't sent any location updates yet..
+            if (g.getLatestLocationUpdate() == null) { // Group hasn't sent any location updates yet..
                 continue;
             }
 
             Long stationId = g.getLatestLocationUpdate().getStation().getId();
 
-            if(groupMap.containsKey(stationId)){
+            if (groupMap.containsKey(stationId)) {
                 groupMap.get(stationId).add(g);
             } else {
                 List<GroupDto> groupsAtStation = new ArrayList<GroupDto>();
@@ -174,7 +186,7 @@ public class RouteBean implements Serializable {
     public void refreshRoute() throws IOException {
 
         try {
-            if(mode != null && mode.equals("view") && route != null){
+            if (mode != null && mode.equals("view") && route != null) {
                 route = routeService.getRoute(route.getId());
                 route.setStations(stationService.getStations(route.getId()));
                 route.setGroups(groupService.getGroupsWithCurrentLocationAndSizes(route.getId()));
@@ -186,7 +198,7 @@ public class RouteBean implements Serializable {
                 List<StationWrapper> stationWrappers = new ArrayList<StationWrapper>();
 
                 StationWrapper stationWrapper;
-                for(StationDto s : route.getStations()){
+                for (StationDto s : route.getStations()) {
 
                     stationWrapper = new StationWrapper();
                     stationWrapper.station = s;
@@ -194,17 +206,17 @@ public class RouteBean implements Serializable {
                     List<GroupDto> groupsAtStation;
                     List<GroupDto> groupsAfterStation;
 
-                    if(groups.containsKey(s.getId())){
+                    if (groups.containsKey(s.getId())) {
 
                         groupsAtStation = new ArrayList<GroupDto>();
                         groupsAfterStation = new ArrayList<GroupDto>();
 
                         Iterator<GroupDto> groupIterator = groups.get(s.getId()).iterator();
-                        while(groupIterator.hasNext()){
+                        while (groupIterator.hasNext()) {
                             GroupDto g = groupIterator.next();
                             g.computeLastStation(route.getStations().size());
-                            if(!g.isAfterLast(s.getSequencePosition())){
-                                if(g.getLatestLocationUpdate().getType() == LocationUpdate.Type.CHECKIN){
+                            if (!g.isAfterLast(s.getSequencePosition())) {
+                                if (g.getLatestLocationUpdate().getType() == LocationUpdate.Type.CHECKIN) {
                                     groupsAtStation.add(g);
                                 } else {
                                     groupsAfterStation.add(g);
@@ -226,13 +238,13 @@ public class RouteBean implements Serializable {
                 updateStats();
 
             }
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             redirectToError(404, "Number format exception!");
             return;
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             redirectToError(404, "Route not found!");
             return;
-        } catch (AccessDeniedException e){
+        } catch (AccessDeniedException e) {
             redirectToError(401, "Access to route denied!");
             return;
         }
@@ -305,9 +317,12 @@ public class RouteBean implements Serializable {
         this.liveStations = liveStations;
     }
 
-    public String addNewTime(){
+    /**
+     * Adds new time for given route.
+     */
+    public String addNewTime() {
 
-        if(cvo.getRouteTimes() != null && cvo.getRouteTimes().contains(event.getDate().withHourOfDay(cvo.getNewTimeHour()).withMinuteOfHour(cvo.getNewTimeMinute()))){
+        if (cvo.getRouteTimes() != null && cvo.getRouteTimes().contains(event.getDate().withHourOfDay(cvo.getNewTimeHour()).withMinuteOfHour(cvo.getNewTimeMinute()))) {
             RequestContext.getCurrentInstance().addCallbackParam("errorDuplicateTime", true);
             cvo.setErrorDuplicateTime(true);
             return "";
@@ -323,14 +338,14 @@ public class RouteBean implements Serializable {
 
     }
 
-    public String formatTime(String number){
+    public String formatTime(String number) {
         System.out.println("formatTime:" + number);
-        return number.length() == 1  ? "0" + number : "" + number;
+        return number.length() == 1 ? "0" + number : "" + number;
     }
 
-    public String addNewGroup(){
+    public String addNewGroup() {
 
-        if(cvo.getGroups() != null && cvo.getGroups().contains(cvo.getNewGroupEmail())){
+        if (cvo.getGroups() != null && cvo.getGroups().contains(cvo.getNewGroupEmail())) {
             RequestContext.getCurrentInstance().addCallbackParam("errorDuplicateGroup", true);
             cvo.setErrorDuplicateGroup(true);
             return "";
@@ -346,7 +361,7 @@ public class RouteBean implements Serializable {
 
     }
 
-    public String reorderGroups(){
+    public String reorderGroups() {
 
         cvo.setGroups(cvo.getReorderGroups());
 
@@ -355,7 +370,7 @@ public class RouteBean implements Serializable {
 
     }
 
-    public String addNewStation(){
+    public String addNewStation() {
 
         cvo.addStation(cvo.getNewStation());
         cvo.reloadStationReorderObjects();
@@ -368,7 +383,7 @@ public class RouteBean implements Serializable {
 
     }
 
-    public void clearStation(){
+    public void clearStation() {
         editRouteHolder = new EditRouteHolder(new StationDto());
     }
 
@@ -377,11 +392,11 @@ public class RouteBean implements Serializable {
         try {
             stationService.updateStation(editRouteHolder.getStation());
             loadEvent();
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             RequestContext.getCurrentInstance().addCallbackParam("errorUpdatingStation", true);
             errorUpdatingStation = true;
             return;
-        } catch (AccessDeniedException e){
+        } catch (AccessDeniedException e) {
             redirectToError(401, "Access to route denied!");
             return;
         }
@@ -390,30 +405,30 @@ public class RouteBean implements Serializable {
 
     }
 
-    public void removeStation(Long id){
+    public void removeStation(Long id) {
 
         try {
             stationService.removeStation(id);
 
             List<StationDto> stationDtos = routeService.getRoute(route.id).getStations();
-            if(stationDtos != null && !stationDtos.isEmpty()){
+            if (stationDtos != null && !stationDtos.isEmpty()) {
                 Collections.sort(stationDtos, StationDto.StationSequencePosistionComparator);
 
-                for(int i = 0; i < stationDtos.size(); i++){
+                for (int i = 0; i < stationDtos.size(); i++) {
                     stationDtos.get(i).setSequencePosition(i + 1);
                     stationService.updateStation(stationDtos.get(i));
                 }
 
             }
 
-        } catch (DataAccessException e){
-            // TODO display error
+        } catch (DataAccessException e) {
+            e.printStackTrace();
         }
 
         try {
             loadEvent();
-        } catch (IOException e){
-            // TODO: log message (couldn't redirect to error code)
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
@@ -422,9 +437,8 @@ public class RouteBean implements Serializable {
         try {
             routeService.removeStationManager(route.id, email);
             loadEvent();
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             e.printStackTrace();
-            // TODO display error
         }
     }
 
@@ -433,18 +447,17 @@ public class RouteBean implements Serializable {
             groupService.removeGroup(groupId);
 
             List<GroupDto> groupDtos = routeService.getRoute(route.id).getGroups();
-            if(groupDtos != null && !groupDtos.isEmpty()){
+            if (groupDtos != null && !groupDtos.isEmpty()) {
                 Collections.sort(groupDtos, GroupDto.GroupStartingPosistionComparator);
 
-                for(int i = 0; i < groupDtos.size(); i++){
+                for (int i = 0; i < groupDtos.size(); i++) {
                     groupService.setGroupStartingPosition(groupDtos.get(i).id, i + 1);
                 }
             }
 
             loadEvent();
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             e.printStackTrace();
-            // TODO display error
         }
     }
 
@@ -452,15 +465,15 @@ public class RouteBean implements Serializable {
 
         ResourceBundle bundle = ResourceBundle.getBundle("strings", context.getViewRoot().getLocale());
 
-        if(mode.equals("create")){
+        if (mode.equals("create")) {
             if (cvo.getStationReorderMap() != null && cvo.getStationReorderMap().containsKey(value)) {
                 FacesMessage msg = new FacesMessage(bundle.getString("validation_station_exists"));
                 msg.setSeverity(FacesMessage.SEVERITY_ERROR);
                 throw new ValidatorException(msg);
             }
-        } else if(mode.equals("view")){
-            for(StationDto s : route.getStations()){
-                if(s.getName().equals(value) && !s.getId().equals(editRouteHolder.getStation().getId())){
+        } else if (mode.equals("view")) {
+            for (StationDto s : route.getStations()) {
+                if (s.getName().equals(value) && !s.getId().equals(editRouteHolder.getStation().getId())) {
 
                     FacesMessage msg = new FacesMessage(bundle.getString("validation_station_exists"));
                     msg.setSeverity(FacesMessage.SEVERITY_ERROR);
@@ -475,9 +488,9 @@ public class RouteBean implements Serializable {
     public void validateGroupUniqueConstraint(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         ResourceBundle bundle = ResourceBundle.getBundle("strings", context.getViewRoot().getLocale());
 
-        if(route.getGroups() != null && !route.getGroups().isEmpty()){
-            for(GroupDto g : route.getGroups()){
-                if(g.getGuide().getEmail().equals(value)){
+        if (route.getGroups() != null && !route.getGroups().isEmpty()) {
+            for (GroupDto g : route.getGroups()) {
+                if (g.getGuide().getEmail().equals(value)) {
                     FacesMessage msg = new FacesMessage(bundle.getString("validation_group_exists"));
                     msg.setSeverity(FacesMessage.SEVERITY_ERROR);
                     throw new ValidatorException(msg);
@@ -489,7 +502,7 @@ public class RouteBean implements Serializable {
     public void validateRouteTimes(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         ResourceBundle bundle = ResourceBundle.getBundle("strings", context.getViewRoot().getLocale());
 
-        if(cvo.getRouteTimes() == null || cvo.getRouteTimes().isEmpty()){
+        if (cvo.getRouteTimes() == null || cvo.getRouteTimes().isEmpty()) {
             FacesMessage msg = new FacesMessage(bundle.getString("validation_no_routetime"));
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
@@ -500,7 +513,7 @@ public class RouteBean implements Serializable {
     public void validateGroups(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         ResourceBundle bundle = ResourceBundle.getBundle("strings", context.getViewRoot().getLocale());
 
-        if((cvo.getGroups() != null && cvo.getStations() != null && cvo.getGroups().size() > cvo.getStations().size()) || (cvo.getGroups() != null && !cvo.getGroups().isEmpty() && cvo.getStations() == null)){
+        if ((cvo.getGroups() != null && cvo.getStations() != null && cvo.getGroups().size() > cvo.getStations().size()) || (cvo.getGroups() != null && !cvo.getGroups().isEmpty() && cvo.getStations() == null)) {
             FacesMessage msg = new FacesMessage(bundle.getString("validation_more_groups_than_stations"));
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
@@ -511,9 +524,9 @@ public class RouteBean implements Serializable {
     public void validateStationManagerUniqueConstraint(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         ResourceBundle bundle = ResourceBundle.getBundle("strings", context.getViewRoot().getLocale());
 
-        if((route.getStationManagers() != null && !route.getStationManagers().isEmpty())){
-            for(UserDto m : route.getStationManagers()){
-                if(m.getEmail().equals(value)){
+        if ((route.getStationManagers() != null && !route.getStationManagers().isEmpty())) {
+            for (UserDto m : route.getStationManagers()) {
+                if (m.getEmail().equals(value)) {
                     FacesMessage msg = new FacesMessage(bundle.getString("validation_stationmanager_exists"));
                     msg.setSeverity(FacesMessage.SEVERITY_ERROR);
                     throw new ValidatorException(msg);
@@ -522,10 +535,10 @@ public class RouteBean implements Serializable {
         }
     }
 
-    public String changeStationsOrder(){
+    public String changeStationsOrder() {
 
         List<StationDto> newOrder = new ArrayList<StationDto>();
-        for(String key : cvo.getReorderStations()){
+        for (String key : cvo.getReorderStations()) {
             newOrder.add(cvo.getStationReorderMap().get(key));
         }
 
@@ -538,31 +551,29 @@ public class RouteBean implements Serializable {
 
     }
 
-    public String createRoute(){
+    public String createRoute() {
 
         HashMap<Integer, String> guideMap = new HashMap<Integer, String>();
-        if(cvo.getGroups() != null){
-            for(int i = 0; i < cvo.getGroups().size(); i++){
-                guideMap.put(i+1, cvo.getGroups().get(i));
+        if (cvo.getGroups() != null) {
+            for (int i = 0; i < cvo.getGroups().size(); i++) {
+                guideMap.put(i + 1, cvo.getGroups().get(i));
             }
         }
 
-        if(cvo.getStations() != null){
-            for(int i = 0; i < cvo.getStations().size(); i++){
-                cvo.getStations().get(i).setSequencePosition(i+1);
+        if (cvo.getStations() != null) {
+            for (int i = 0; i < cvo.getStations().size(); i++) {
+                cvo.getStations().get(i).setSequencePosition(i + 1);
             }
         }
 
         try {
             routeService.saveRoute(event.getId(), cvo.getRouteName(), "#" + cvo.getRouteColor(), cvo.getRouteInfo(), cvo.getRouteTimes(), cvo.getStations(), guideMap, cvo.getStationManagers());
-        } catch (DataAccessException e){
-            // TODO: show error
+        } catch (DataAccessException e) {
+            e.printStackTrace();
         }
 
         return "event?faces-redirect=true&id=" + eventId;
     }
-
-    private int selectedStation;
 
     public int getSelectedStation() {
         return selectedStation;
@@ -572,28 +583,28 @@ public class RouteBean implements Serializable {
         this.selectedStation = selectedStation;
     }
 
-    public void showStation(int selectedStation){
+    public void showStation(int selectedStation) {
         setSelectedStation(selectedStation);
     }
 
     public void editStation(Long id) throws IOException {
         try {
             editRouteHolder = new EditRouteHolder(stationService.getStation(id));
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             redirectToError(404, "Route not found!");
             return;
-        } catch (AccessDeniedException e){
+        } catch (AccessDeniedException e) {
             redirectToError(401, "Access to route denied!");
             return;
         }
     }
 
-    public void editRouteInfo(){
+    public void editRouteInfo() {
         editRouteHolder = new EditRouteHolder(route.getName(),
                 route.getDate().getHourOfDay(),
                 route.getDate().getMinuteOfHour(),
                 route.getInformation(),
-                route.getHexColor().replace("#",""));
+                route.getHexColor().replace("#", ""));
     }
 
     public void updateRouteInfo() throws IOException {
@@ -601,30 +612,31 @@ public class RouteBean implements Serializable {
 
         try {
             routeDto = routeService.getRoute(route.getId());
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             redirectToError(404, "Number format exception!");
             return;
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             redirectToError(404, "Route not found!");
             return;
-        } catch (AccessDeniedException e){
+        } catch (AccessDeniedException e) {
             redirectToError(401, "Access to route denied!");
             return;
         }
 
         try {
             routeDto.setName(editRouteHolder.getName());
-            if(route.isEditable()) routeDto.setDate(routeDto.getDate().withTime(editRouteHolder.getNewTimeHour(), editRouteHolder.getNewTimeMinute(), 0, 0));
+            if (route.isEditable())
+                routeDto.setDate(routeDto.getDate().withTime(editRouteHolder.getNewTimeHour(), editRouteHolder.getNewTimeMinute(), 0, 0));
             routeDto.setInformation(editRouteHolder.getInformation());
             routeDto.setHexColor("#" + editRouteHolder.getColor());
 
             routeService.updateRoute(routeDto);
             loadEvent();
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             RequestContext.getCurrentInstance().addCallbackParam("errorUpdatingRoute", true);
             errorUpdatingRoute = true;
             return;
-        } catch (AccessDeniedException e){
+        } catch (AccessDeniedException e) {
             redirectToError(401, "Access to route denied!");
             return;
         }
@@ -639,10 +651,10 @@ public class RouteBean implements Serializable {
             editRouteHolder.getStation().setSequencePosition(route.getStations().size() + 1);
             stationService.addStation(route.id, editRouteHolder.getStation());
             loadEvent();
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             RequestContext.getCurrentInstance().addCallbackParam("errorAddingStation", true);
             return;
-        } catch (AccessDeniedException e){
+        } catch (AccessDeniedException e) {
             redirectToError(401, "Access to route denied!");
             return;
         }
@@ -654,10 +666,10 @@ public class RouteBean implements Serializable {
         try {
             groupService.addGroup(route.getId(), route.getGroups().size() + 1, editRouteHolder.getNewGroupEmail());
             loadEvent();
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             RequestContext.getCurrentInstance().addCallbackParam("errorAddingGroup", true);
             return;
-        } catch (AccessDeniedException e){
+        } catch (AccessDeniedException e) {
             redirectToError(401, "Access to route denied!");
             return;
         }
@@ -669,17 +681,17 @@ public class RouteBean implements Serializable {
         StationDto station;
 
         try {
-            for(int i = 0; i < editRouteHolder.getReorderStations().size(); i++){
+            for (int i = 0; i < editRouteHolder.getReorderStations().size(); i++) {
                 key = editRouteHolder.getReorderStations().get(i);
                 station = editRouteHolder.getStationReorderMap().get(key);
                 station.setSequencePosition(i + 1);
                 stationService.updateStation(station);
             }
             loadEvent();
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             RequestContext.getCurrentInstance().addCallbackParam("errorUpdatingStationOrder", true);
             return;
-        } catch (AccessDeniedException e){
+        } catch (AccessDeniedException e) {
             redirectToError(401, "Access to route denied!");
             return;
         }
@@ -690,29 +702,32 @@ public class RouteBean implements Serializable {
         GroupDto group;
 
         try {
-            for(int i = 0; i < editRouteHolder.getReorderGroups().size(); i++){
+            for (int i = 0; i < editRouteHolder.getReorderGroups().size(); i++) {
                 key = editRouteHolder.getReorderGroups().get(i);
                 group = editRouteHolder.getGroupReorderMap().get(key);
                 groupService.setGroupStartingPosition(group.id, i + 1);
             }
             loadEvent();
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             RequestContext.getCurrentInstance().addCallbackParam("errorUpdateGroupOrder", true);
             return;
-        } catch (AccessDeniedException e){
+        } catch (AccessDeniedException e) {
             redirectToError(401, "Access to route denied!");
             return;
         }
     }
 
-    public void setUpStationReorderMap(){
+    /**
+     * Prepares a map used for reordering stations.
+     */
+    public void setUpStationReorderMap() {
         editRouteHolder = new EditRouteHolder();
         editRouteHolder.setStations(route.getStations());
 
         List<String> reorderStations = new ArrayList<String>();
         HashMap<String, StationDto> reorderStationMap = new HashMap<String, StationDto>();
 
-        for(StationDto s : route.getStations()){
+        for (StationDto s : route.getStations()) {
             reorderStations.add(s.getName());
             reorderStationMap.put(s.getName(), s);
         }
@@ -721,14 +736,17 @@ public class RouteBean implements Serializable {
         editRouteHolder.setStationReorderMap(reorderStationMap);
     }
 
-    public void setUpGroupReorderMap(){
+    /**
+     * Sets up a map used for reordering groups.
+     */
+    public void setUpGroupReorderMap() {
         editRouteHolder = new EditRouteHolder();
         editRouteHolder.setGroups(route.getGroups());
 
         List<String> reorderGroups = new ArrayList<String>();
         HashMap<String, GroupDto> reorderGroupMap = new HashMap<String, GroupDto>();
 
-        for(GroupDto g : route.getGroups()){
+        for (GroupDto g : route.getGroups()) {
             reorderGroups.add(g.getGuide().getEmail());
             reorderGroupMap.put(g.getGuide().getEmail(), g);
         }
@@ -737,7 +755,7 @@ public class RouteBean implements Serializable {
         editRouteHolder.setGroupReorderMap(reorderGroupMap);
     }
 
-    public void setUpEmptyRouteHolder(){
+    public void setUpEmptyRouteHolder() {
         editRouteHolder = new EditRouteHolder();
     }
 
@@ -745,20 +763,16 @@ public class RouteBean implements Serializable {
         try {
             routeService.addStationManager(route.id, editRouteHolder.getNewStationManager());
             loadEvent();
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             RequestContext.getCurrentInstance().addCallbackParam("errorAddingStationManager", true);
             return;
-        } catch (AccessDeniedException e){
+        } catch (AccessDeniedException e) {
             redirectToError(401, "Access to route denied!");
             return;
         }
     }
 
-    private LineChartModel statsAverageTimes;
-    private LineChartModel statsAverageSizes;
-    private BarChartModel statsAverageSize;
-
-    private void updateStatsAverageTimes(){
+    private void updateStatsAverageTimes() {
         ResourceBundle bundle = ResourceBundle.getBundle("strings", FacesContext.getCurrentInstance().getViewRoot().getLocale());
 
         LineChartModel model = new LineChartModel();
@@ -770,16 +784,16 @@ public class RouteBean implements Serializable {
 
         double max = 0;
 
-        if(route != null){
-            if(route.getStations() != null && !route.getStations().isEmpty()){
-                for(StationDto s : route.getStations()){
+        if (route != null) {
+            if (route.getStations() != null && !route.getStations().isEmpty()) {
+                for (StationDto s : route.getStations()) {
 
                     HashMap<Long, UpdatePair> updates = new HashMap<Long, UpdatePair>();
 
-                    for(LocationUpdateDto u : s.getLocationUpdates()){
+                    for (LocationUpdateDto u : s.getLocationUpdates()) {
                         Long groupId = u.getGroup().getId();
                         UpdatePair pair = updates.get(groupId);
-                        if(pair == null) pair = new UpdatePair();
+                        if (pair == null) pair = new UpdatePair();
                         pair.addUpdate(u);
 
                         updates.put(groupId, pair);
@@ -788,19 +802,19 @@ public class RouteBean implements Serializable {
                     double averageSeconds = 0;
                     int groups = 0;
 
-                    for(UpdatePair pair : updates.values()){
+                    for (UpdatePair pair : updates.values()) {
                         long result = pair.calculate();
-                        if(result >= 0){
+                        if (result >= 0) {
                             averageSeconds += result;
                             groups++;
                         }
                     }
 
 
-                    if(groups > 0){
-                        averageSeconds = averageSeconds / (60 * groups) ;
-                        if(averageSeconds > max) max = averageSeconds;
-                        if(s.getTimeLimit() > max) max = s.getTimeLimit();
+                    if (groups > 0) {
+                        averageSeconds = averageSeconds / (60 * groups);
+                        if (averageSeconds > max) max = averageSeconds;
+                        if (s.getTimeLimit() > max) max = s.getTimeLimit();
 
                         actual.set(s.getName(), averageSeconds);
                         expected.set(s.getName(), s.getTimeLimit());
@@ -820,14 +834,14 @@ public class RouteBean implements Serializable {
         yAxis.setMin(0);
         yAxis.setMax(Math.ceil(max * 1.5));
 
-        if(max <= 0) {
+        if (max <= 0) {
             statsAverageTimes = null;
         } else {
             statsAverageTimes = model;
         }
     }
 
-    private void updateStatsAverageSizes(){
+    private void updateStatsAverageSizes() {
         ResourceBundle bundle = ResourceBundle.getBundle("strings", FacesContext.getCurrentInstance().getViewRoot().getLocale());
 
         LineChartModel model = new LineChartModel();
@@ -841,23 +855,23 @@ public class RouteBean implements Serializable {
         double endSizes = 0;
         int endGroups = 0;
 
-        if(route != null){
-            if(route.getGroups() != null && !route.getGroups().isEmpty()){
-                for(GroupDto g : route.getGroups()){
+        if (route != null) {
+            if (route.getGroups() != null && !route.getGroups().isEmpty()) {
+                for (GroupDto g : route.getGroups()) {
 
-                    if(g.getGroupSizes() == null || g.getGroupSizes().isEmpty()) continue;
+                    if (g.getGroupSizes() == null || g.getGroupSizes().isEmpty()) continue;
 
                     ChartSeries series = new ChartSeries();
                     series.setLabel(g.getGuide().getUsername());
 
-                    for(GroupSizeDto size : g.getGroupSizes()){
+                    for (GroupSizeDto size : g.getGroupSizes()) {
                         long time = size.getTimestamp().toDate().getTime();
 
                         series.set(time, size.getSize());
 
-                        if(time > maxDate) maxDate = time;
-                        if(time < minDate) minDate = time;
-                        if(size.getSize() > max) max = size.getSize();
+                        if (time > maxDate) maxDate = time;
+                        if (time < minDate) minDate = time;
+                        if (size.getSize() > max) max = size.getSize();
                     }
 
                     startSizes += g.getGroupSizes().get(0).getSize();
@@ -885,16 +899,16 @@ public class RouteBean implements Serializable {
         yAxis.setMin(0);
         yAxis.setMax(Math.ceil(max * 1.5));
 
-        if(max <= 0) {
+        if (max <= 0) {
             statsAverageSizes = null;
         } else {
             statsAverageSizes = model;
         }
 
-        if(startGroups > 0) updateBarChart(startSizes/startGroups, endSizes/endGroups);
+        if (startGroups > 0) updateBarChart(startSizes / startGroups, endSizes / endGroups);
     }
 
-    private void updateBarChart(double startSize, double endSize){
+    private void updateBarChart(double startSize, double endSize) {
         ResourceBundle bundle = ResourceBundle.getBundle("strings", FacesContext.getCurrentInstance().getViewRoot().getLocale());
 
         BarChartModel model = new BarChartModel();
@@ -919,18 +933,18 @@ public class RouteBean implements Serializable {
 
     }
 
-    public void updateStats(){
+    public void updateStats() {
         updateStatsAverageTimes();
         updateStatsAverageSizes();
     }
 
-    public void updateStatsView(){
+    public void updateStatsView() {
         RequestContext.getCurrentInstance().update("stats");
     }
 
     public LineChartModel getStatsAverageTimes() {
 
-        if(statsAverageTimes == null){
+        if (statsAverageTimes == null) {
             updateStatsAverageTimes();
         }
 
@@ -939,7 +953,7 @@ public class RouteBean implements Serializable {
 
     public LineChartModel getStatsAverageSizes() {
 
-        if(statsAverageSizes == null){
+        if (statsAverageSizes == null) {
             updateStatsAverageSizes();
         }
 
@@ -948,7 +962,7 @@ public class RouteBean implements Serializable {
 
     public BarChartModel getStatsAverageSize() {
 
-        if(statsAverageSize == null){
+        if (statsAverageSize == null) {
             updateStatsAverageSizes();
         }
 

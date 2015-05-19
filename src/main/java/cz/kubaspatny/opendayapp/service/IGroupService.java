@@ -95,16 +95,32 @@ public interface IGroupService {
     @PreAuthorize("hasRole('ROLE_USER')")
     public Long getGroupCount(String username) throws DataAccessException;
 
+    /**
+     * Returns a list (page) of groups.
+     * @throws DataAccessException
+     */
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostFilter("hasPermission(filterObject.id, filterObject.ACLObjectIdentityClass, 'READ')")
     public List<GroupDto> getGroups(String username, int page, int pageSize) throws DataAccessException;
 
+    /**
+     * Returns a route's groups with the information about their current location.
+     * @throws DataAccessException
+     */
     @PreAuthorize("hasPermission(#routeId, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Route'), 'READ')")
     public List<GroupDto> getGroupsWithCurrentLocation(Long routeId) throws DataAccessException;
 
+    /**
+     * Returns a route's groups with the information about their current location and size.
+     * @throws DataAccessException
+     */
     @PreAuthorize("hasPermission(#routeId, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Route'), 'READ')")
     public List<GroupDto> getGroupsWithCurrentLocationAndSizes(Long routeId) throws DataAccessException;
 
+    /**
+     * Updates the last updated time for all groups of given user to current time.
+     * @throws DataAccessException
+     */
     @PreAuthorize("hasRole('ROLE_USER')")
     public void updateLastUpdated(String username) throws DataAccessException;
 

@@ -127,6 +127,9 @@ public class Group extends AbstractBusinessObject {
         return lastUpdated;
     }
 
+    /**
+     * Sets the time when the group last connected to the server.
+     */
     public void setLastUpdated(DateTime lastUpdated) {
         this.lastUpdated = lastUpdated;
     }

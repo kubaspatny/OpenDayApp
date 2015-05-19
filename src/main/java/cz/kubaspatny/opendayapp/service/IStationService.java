@@ -57,6 +57,11 @@ public interface IStationService {
     @PreAuthorize("hasPermission(#id, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Station'), 'WRITE')")
     public void removeStation(Long id) throws DataAccessException;
 
+    /**
+     * Returns a list of route's stations.
+     * @param routeId route id
+     * @throws DataAccessException
+     */
     @PreAuthorize("hasPermission(#routeId, T(cz.kubaspatny.opendayapp.utils.SpelUtil).getACLObjectIdentityClass('Route'), 'READ')")
     public List<StationDto> getStations(Long routeId) throws DataAccessException;
 

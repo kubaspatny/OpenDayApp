@@ -38,23 +38,23 @@
     <!--<context:property-placeholder location="classpath:db.properties" />-->
 
      <!--Connection pool-->
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${jdbc.driverClassName}"/>
-        <property name="url" value="${jdbc.url}"/>
-        <property name="username" value="${jdbc.username}"/>
-        <property name="password" value="${jdbc.password}"/>
-        <property name="initialSize" value="2" />
-        <property name="minIdle" value="2" />
-    </bean>
-
     <!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">-->
         <!--<property name="driverClassName" value="${jdbc.driverClassName}"/>-->
-        <!--<property name="url" value="jdbc:postgresql://localhost:5432/opendays"/>-->
-        <!--<property name="username" value="opendays"/>-->
-        <!--<property name="password" value="fedreDr4"/>-->
+        <!--<property name="url" value="${jdbc.url}"/>-->
+        <!--<property name="username" value="${jdbc.username}"/>-->
+        <!--<property name="password" value="${jdbc.password}"/>-->
         <!--<property name="initialSize" value="2" />-->
         <!--<property name="minIdle" value="2" />-->
     <!--</bean>-->
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="jdbc:postgresql://localhost:5432/opendays"/>
+        <property name="username" value="opendays"/>
+        <property name="password" value="fedreDr4"/>
+        <property name="initialSize" value="2" />
+        <property name="minIdle" value="2" />
+    </bean>
     <!--LOCAL TESTING END -->
 
     <!-- OPEN SHIFT -->

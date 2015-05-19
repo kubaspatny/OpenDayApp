@@ -29,6 +29,8 @@ import java.io.IOException;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Custom OAuth2 Rest Entry Point to be used within the Spring framework.
  */
 public class OAuth2RestEntryPoint extends OAuth2AuthenticationEntryPoint {
 

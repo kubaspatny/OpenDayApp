@@ -77,6 +77,11 @@ public class CSVFileUploadBean implements Serializable {
         }
     }
 
+    /**
+     * Parses upload CSV file and add its emails using @see addEmail method..
+     * @param event
+     * @return
+     */
     public String upload(FileUploadEvent event) {
 
         setFile(event.getFile());

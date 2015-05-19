@@ -32,6 +32,11 @@ public class GcmRestController extends ExceptionHandlingController {
     @Autowired
     IGcmService gcmService;
 
+    /**
+     * Stores GCM registration ID, which can be used to send GCM messages.
+     * @param registrationId ID obtained from the GCM framework
+     * @throws DataAccessException
+     */
     @RequestMapping(value = "/android-device", method = RequestMethod.POST)
     @ResponseBody
     public void registerDevice(@RequestBody String registrationId) throws DataAccessException {

@@ -50,6 +50,13 @@ public class UserRestController extends ExceptionHandlingController {
     @Autowired private IGroupService groupService;
     @Autowired private IRouteService routeService;
 
+    /**
+     * Returns groups for given username.
+     * @param username user's username
+     * @param page  pagination page
+     * @param pageSize  pagination page size
+     * @throws DataAccessException
+     */
     @RequestMapping(value = "/{username}/groups", produces = "application/json; charset=utf-8")
     @ResponseBody
     public String getGroups(@PathVariable String username, @RequestParam("page") int page, @RequestParam("pageSize") int pageSize) throws DataAccessException {
@@ -65,6 +72,11 @@ public class UserRestController extends ExceptionHandlingController {
 
     }
 
+    /**
+     * Returns the number of available groups for given username.
+     * @param username user's username
+     * @throws DataAccessException
+     */
     @RequestMapping(value = "/{username}/groups/count")
     @ResponseBody
     public String getGroupCount(@PathVariable String username) throws DataAccessException {
@@ -75,6 +87,13 @@ public class UserRestController extends ExceptionHandlingController {
         return gson.toJson(groupService.getGroupCount(username));
     }
 
+    /**
+     * Returns managed routes for given username.
+     * @param username user's username
+     * @param page  pagination page
+     * @param pageSize  pagination page size
+     * @throws DataAccessException
+     */
     @RequestMapping(value = "/{username}/managedroutes", produces = "application/json; charset=utf-8")
     @ResponseBody
     public String getManagedRoutes(@PathVariable String username, @RequestParam("page") int page, @RequestParam("pageSize") int pageSize) throws DataAccessException {
@@ -90,6 +109,11 @@ public class UserRestController extends ExceptionHandlingController {
 
     }
 
+    /**
+     * Returns the number of available managed routes for given username.
+     * @param username user's username
+     * @throws DataAccessException
+     */
     @RequestMapping(value = "/{username}/managedroutes/count")
     @ResponseBody
     public String getManagedRoutesCount(@PathVariable String username) throws DataAccessException {

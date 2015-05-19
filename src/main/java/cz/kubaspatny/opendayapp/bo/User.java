@@ -80,8 +80,6 @@ public class User extends AbstractBusinessObject {
     @ElementCollection
     private Set<UserRole> userRoles;
 
-    // ------------------- GETTER AND SETTERS -------------------
-
     public String getUsername() {
         return username;
     }
@@ -352,6 +350,9 @@ public class User extends AbstractBusinessObject {
         throw new RuntimeException("Users cannot be deleted from the database! Use User#setEnabled(false) instead!");
     }
 
+    /**
+     * Builder class for user class.
+     */
     public static class Builder {
 
         private String username;

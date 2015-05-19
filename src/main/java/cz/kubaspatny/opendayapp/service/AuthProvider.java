@@ -47,6 +47,10 @@ public class AuthProvider implements AuthenticationProvider {
     private GenericDao genericDao;
     private TransactionTemplate transactionTemplate;
 
+    /**
+     * Authentication passed authentication request.
+     * @throws AuthenticationException
+     */
     @Override
     public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
 

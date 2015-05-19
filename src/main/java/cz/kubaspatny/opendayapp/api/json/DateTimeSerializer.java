@@ -26,6 +26,9 @@ import java.lang.reflect.Type;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Custom JSON serializer for JodaTime's DateTime to be used
+ * with the GSON serializer.
  */
 public final class DateTimeSerializer implements JsonDeserializer<DateTime>, JsonSerializer<DateTime>
 {

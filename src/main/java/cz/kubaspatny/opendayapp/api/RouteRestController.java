@@ -47,6 +47,11 @@ public class RouteRestController extends ExceptionHandlingController {
     @Autowired IRouteService routeService;
     @Autowired IGroupService groupService;
 
+    /**
+     * Returns a route based on the id.
+     * @param routeId route's id
+     * @throws DataAccessException
+     */
     @RequestMapping(value = "/{routeId}", produces = "application/json; charset=utf-8")
     @ResponseBody
     public String getRoute(@PathVariable Long routeId) throws DataAccessException {
@@ -60,6 +65,11 @@ public class RouteRestController extends ExceptionHandlingController {
         return gson.toJson(routeDto);
     }
 
+    /**
+     * Returns the stations of a route.
+     * @param routeId route's id
+     * @throws DataAccessException
+     */
     @RequestMapping(value = "/{routeId}/stations", produces = "application/json; charset=utf-8")
     @ResponseBody
     public String getStations(@PathVariable Long routeId) throws DataAccessException {
@@ -73,6 +83,11 @@ public class RouteRestController extends ExceptionHandlingController {
         return gson.toJson(stationDtos);
     }
 
+    /**
+     * Returns the groups of a route.
+     * @param routeId route's id.
+     * @throws DataAccessException
+     */
     @RequestMapping(value = "/{routeId}/groups", produces = "application/json; charset=utf-8")
     @ResponseBody
     public String getGroups(@PathVariable Long routeId) throws DataAccessException {

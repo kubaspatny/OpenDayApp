@@ -35,6 +35,8 @@ import java.io.Serializable;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Custom security bean, which can be used to check ACL permissions.
  */
 @ManagedBean(name = "acl")
 @SessionScoped
@@ -57,6 +59,13 @@ public class AclPermissionEvaluatorBean implements Serializable {
         init();
     }
 
+    /**
+     * Checks ACL permission for given object.
+     * @param targetId id of an object we want to know permission for
+     * @param targetType full package name of an object we want to know permission for
+     * @param permission type of permission (f.e. READ, WRITE)
+     * @return true if user has permission, false otherwise
+     */
     public boolean hasPermission(Serializable targetId, String targetType, Object permission){
         return permissionEvaluator.hasPermission(SecurityContextHolder.getContext().getAuthentication(), targetId, targetType, permission);
     }

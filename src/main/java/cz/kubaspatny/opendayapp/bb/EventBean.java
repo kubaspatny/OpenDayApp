@@ -68,7 +68,7 @@ public class EventBean implements Serializable {
             try {
                 loadEvent();
             } catch (IOException e){
-                // TODO: log message (couldn't redirect to error code)
+                e.printStackTrace();
             }
         } else {
             try {
@@ -76,7 +76,7 @@ public class EventBean implements Serializable {
                 facesContext.getExternalContext().responseSendError(404, "ID parameter missing!");
                 facesContext.responseComplete();
             } catch (IOException e){
-                // TODO: log message (couldn't redirect to error code)
+                e.printStackTrace();
             }
         }
     }
@@ -198,7 +198,7 @@ public class EventBean implements Serializable {
             loadEvent();
             FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("people-form");
         } catch (IOException e){
-            // TODO: log message (couldn't redirect to error code)
+            e.printStackTrace();
         }
 
         newPersonEmail = null;
@@ -227,7 +227,7 @@ public class EventBean implements Serializable {
             RequestContext.getCurrentInstance().addCallbackParam("uploadFinished", true);
             FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("people-form");
         } catch (IOException e){
-            // TODO: log message (couldn't redirect to error code)
+            e.printStackTrace();
         }
 
         return "";
@@ -239,13 +239,13 @@ public class EventBean implements Serializable {
         try {
             eventService.removeEmailFromList(event.getId(), email);
         } catch (DataAccessException e){
-            // TODO display error
+            e.printStackTrace();
         }
 
         try {
             loadEvent();
         } catch (IOException e){
-            // TODO: log message (couldn't redirect to error code)
+            e.printStackTrace();
         }
 
     }
@@ -255,13 +255,13 @@ public class EventBean implements Serializable {
         try {
             routeService.removeRoute(id);
         } catch (DataAccessException e){
-            // TODO display error
+            e.printStackTrace();
         }
 
         try {
             loadEvent();
         } catch (IOException e){
-            // TODO: log message (couldn't redirect to error code)
+            e.printStackTrace();
         }
 
     }
