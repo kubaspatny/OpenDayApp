@@ -98,7 +98,7 @@ public class UserService extends DataAccessService implements IUserService {
     @Override
     public Long createGeneratedUser(String emailAddress) throws DataAccessException  {
 
-        if(emailAddress == null || !emailAddress.contains("@")){ // TODO validate using EmailFormatValidator
+        if(emailAddress == null || !emailAddress.contains("@")){
             throw new DataAccessException("Invalid email address: " + emailAddress, DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
         }
 

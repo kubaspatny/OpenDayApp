@@ -4,7 +4,7 @@
     <groupId>OpenDayApp</groupId>
     <artifactId>OpenDayApp</artifactId>
     <packaging>war</packaging>
-    <version>0.0.2</version>
+    <version>1.0.0</version>
     <name>OpenDayApp Maven Webapp</name>
     <url>http://maven.apache.org</url>
 

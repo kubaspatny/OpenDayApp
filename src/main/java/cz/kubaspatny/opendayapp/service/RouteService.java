@@ -69,7 +69,7 @@ public class RouteService extends DataAccessService implements IRouteService {
         if(name == null || name.isEmpty() || hexColor == null || hexColor.isEmpty() || routeStartingTimes == null || routeStartingTimes.size() == 0) throw new DataAccessException("Paramaters name, hexColor and routeStartingTimes cannot be null or empty!", DataAccessException.ErrorCode.ILLEGAL_ARGUMENT);
 
         List<Long> routeIds = new ArrayList<Long>(routeStartingTimes.size());
-        Set<String> guideUsernames = new HashSet<String>();//TODO
+        Set<String> guideUsernames = new HashSet<String>();
 
         Event e = dao.getById(eventId, Event.class);
 
@@ -122,7 +122,7 @@ public class RouteService extends DataAccessService implements IRouteService {
 
                     User guide = dao.getByPropertyUnique("email", entry.getValue(), User.class);
 
-                    guideUsernames.add(guide.getUsername()); // TODO
+                    guideUsernames.add(guide.getUsername());
 
                     Group g = new Group();
                     g.setStartingPosition(entry.getKey());
@@ -148,7 +148,7 @@ public class RouteService extends DataAccessService implements IRouteService {
                     User stationManager = dao.getByPropertyUnique("email", email, User.class);
                     r.addStationManager(stationManager);
 
-                    guideUsernames.add(stationManager.getUsername()); // TODO
+                    guideUsernames.add(stationManager.getUsername());
 
                     Sid sid = new PrincipalSid(stationManager.getUsername());
                     addPermission(new ObjectIdentityImpl(Route.class, r.getId()), sid, BasePermission.READ);    // Route                                // Route
@@ -160,7 +160,6 @@ public class RouteService extends DataAccessService implements IRouteService {
 
         }
 
-        //TODO
         List<String> regIds = new ArrayList<String>();
         for(String username : guideUsernames.toArray(new String[guideUsernames.size()])){
             regIds.addAll(gcmService.getRegisteredDevices(username));
@@ -235,7 +234,7 @@ public class RouteService extends DataAccessService implements IRouteService {
     }
 
     @Override
-    public List<RouteDto> getRoutes(Long eventId) throws DataAccessException {   // TODO: add a method to DAO -> searchByProperty with sortBy attribute
+    public List<RouteDto> getRoutes(Long eventId) throws DataAccessException {
 
         Event event = new Event();
         event.setId(eventId);

@@ -25,27 +25,7 @@
     <!-- Annotation @Configurable -->
     <context:spring-configured></context:spring-configured>
 
-    <!--&lt;!&ndash; async support &ndash;&gt;-->
-    <!--<task:annotation-driven executor="myExecutorService" scheduler="mySchedulerService"></task:annotation-driven>-->
-    <!--&lt;!&ndash;<task:executor eventId="myExecutorService" pool-size="5-10" queue-capacity="10"></task:executor>&ndash;&gt;-->
-    <!--&lt;!&ndash;<task:scheduler eventId="mySchedulerService" pool-size="10"></task:scheduler>&ndash;&gt;-->
-
-    <!--<task:executor id="myExecutorService" pool-size="10" queue-capacity="100"></task:executor>-->
-    <!--<task:scheduler id="mySchedulerService" pool-size="10"></task:scheduler>-->
-
-    <!--LOCAL TESTING -->
     <context:property-placeholder location="classpath:credentials_localhost.properties" />
-    <!--<context:property-placeholder location="classpath:db.properties" />-->
-
-     <!--Connection pool-->
-    <!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">-->
-        <!--<property name="driverClassName" value="${jdbc.driverClassName}"/>-->
-        <!--<property name="url" value="${jdbc.url}"/>-->
-        <!--<property name="username" value="${jdbc.username}"/>-->
-        <!--<property name="password" value="${jdbc.password}"/>-->
-        <!--<property name="initialSize" value="2" />-->
-        <!--<property name="minIdle" value="2" />-->
-    <!--</bean>-->
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${jdbc.driverClassName}"/>
@@ -55,19 +35,6 @@
         <property name="initialSize" value="2" />
         <property name="minIdle" value="2" />
     </bean>
-    <!--LOCAL TESTING END -->
-
-    <!-- OPEN SHIFT -->
-    <!--<context:property-placeholder location="classpath:db.properties" />-->
-    <!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">-->
-        <!--<property name="driverClassName" value="org.postgresql.Driver"/>-->
-        <!--<property name="url" value="jdbc:postgresql://${OPENSHIFT_POSTGRESQL_DB_HOST}:${OPENSHIFT_POSTGRESQL_DB_PORT}/resttime"/>-->
-        <!--<property name="username" value="${OPENSHIFT_POSTGRESQL_DB_USERNAME}"/>-->
-        <!--<property name="password" value="${OPENSHIFT_POSTGRESQL_DB_PASSWORD}"/>-->
-        <!--<property name="initialSize" value="2" />-->
-        <!--<property name="minIdle" value="2" />-->
-    <!--</bean>-->
-    <!-- OPEN SHIFT END -->
 
     <jdbc:initialize-database data-source="dataSource">
         <jdbc:script location="classpath*:initializeACLSchema.sql"/>

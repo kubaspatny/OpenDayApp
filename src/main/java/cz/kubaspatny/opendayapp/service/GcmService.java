@@ -69,7 +69,6 @@ public class GcmService extends DataAccessService implements IGcmService {
             MulticastResult result = sender.send(message, registrationIds, 3);
         } catch (IOException e){
             e.printStackTrace();
-            // TODO: log message
         }
 
     }

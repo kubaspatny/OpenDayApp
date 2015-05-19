@@ -12,11 +12,6 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
-    <!-- TODO:
-         Use Spring dispatcher-servlet for the rest api package
-         Look into the use of Spring MVC
-    -->
-    <!--<context:component-scan base-package="cz.kubaspatny.opendayapp" />-->
     <mvc:annotation-driven />
 
     <!-- async support -->
